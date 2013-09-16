@@ -98,14 +98,14 @@ public class ActividadEmpleado implements Serializable {
     @Column(name = "FMODIFICACION", nullable = false)
     private Date fmodificacion;
     /**
-     * Propiedad empleado representa una relaci�n de muchos a uno con la Entidad
+     * Propiedad empleado representa una relación de muchos a uno con la Entidad
      * Empleado.
      */
     @JoinColumn(name = "RESPONSABLE", referencedColumnName = "CEDULA", insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.EAGER)
     private Empleado empleado;
     /**
-     * Propiedad actividad representa una relaci�n de muchos a uno con la
+     * Propiedad actividad representa una relación de muchos a uno con la
      * Entidad Actividad.
      */
     @JoinColumn(name = "ACTIVIDAD", referencedColumnName = "COD_ACTIVIDAD", insertable = false, updatable = false)

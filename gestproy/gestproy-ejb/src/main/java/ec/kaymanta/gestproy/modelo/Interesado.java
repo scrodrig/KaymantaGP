@@ -99,7 +99,7 @@ public class Interesado implements Serializable {
     @Column(name = "FMODIFICACION", nullable = false)
     private Date fmodificacion;
     /**
-     * Propiedad empresa representa una relaci�n de muchos a uno con la Entidad Empresa.
+     * Propiedad empresa representa una relación de muchos a uno con la Entidad Empresa.
      */
     @JoinColumn(name = "EMPRESA", referencedColumnName = "RUC", insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.EAGER)
@@ -122,20 +122,20 @@ public class Interesado implements Serializable {
     }
 
     /**
-     * Obtiene el c�digo de la entidad Interesado, se relaciona con la columna
+     * Obtiene el código de la entidad Interesado, se relaciona con la columna
      * COD_INTERESADO.
      *
-     * @return el c�digo de la entidad Interesado
+     * @return el código de la entidad Interesado
      */
     public Long getCodigo() {
         return codigo;
     }
 
     /**
-     * Asigna el c�digo de la entidad Interesado, se relaciona con la columna
+     * Asigna el código de la entidad Interesado, se relaciona con la columna
      * COD_INTERESADO.
      *
-     * @param codigo el valor a ser asignado al c�digo de la entidad Interesado
+     * @param codigo el valor a ser asignado al código de la entidad Interesado
      */
     public void setCodigo(Long codigo) {
         this.codigo = codigo;

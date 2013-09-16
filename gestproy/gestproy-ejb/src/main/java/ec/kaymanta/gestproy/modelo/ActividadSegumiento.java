@@ -88,13 +88,13 @@ public class ActividadSegumiento implements Serializable {
     @Column(name = "FMODIFICACION", nullable = false)
     private Date fmodificacion;
     /**
-     * Propiedad empleado representa una relaci�n de muchos a uno con la Entidad Empleado.
+     * Propiedad empleado representa una relación de muchos a uno con la Entidad Empleado.
      */
     @JoinColumn(name = "SUPERVISOR", referencedColumnName = "CEDULA", insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.EAGER)
     private Empleado empleado;
     /**
-     * Propiedad actividad representa una relaci�n de muchos a uno con la
+     * Propiedad actividad representa una relación de muchos a uno con la
      * Entidad Actividad.
      */
     @JoinColumn(name = "ACTIVIDAD", referencedColumnName = "COD_ACTIVIDAD", insertable = false, updatable = false)

@@ -52,13 +52,13 @@ public class UsuarioRol implements Serializable {
     @Column(name = "FECHA", nullable = false)
     private Date fecha;
     /**
-     * Propiedad usuario representa una relaci�n de muchos a uno con la Entidad Usuario.
+     * Propiedad usuario representa una relación de muchos a uno con la Entidad Usuario.
      */
     @JoinColumn(name = "USUARIO", referencedColumnName = "CEDULA", insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.EAGER)
     private Usuario usuario;
     /**
-     * Propiedad rol representa una relaci�n de muchos a uno con la Entidad Rol.
+     * Propiedad rol representa una relación de muchos a uno con la Entidad Rol.
      */
     @JoinColumn(name = "ROL", referencedColumnName = "COD_ROL", insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.EAGER)

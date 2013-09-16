@@ -54,13 +54,13 @@ public class RolFuncionalidad implements Serializable {
     @Column(name = "FECHA", nullable = false)
     private Date fecha;
     /**
-     * Propiedad rol representa una relaci�n de muchos a uno con la Entidad Rol.
+     * Propiedad rol representa una relación de muchos a uno con la Entidad Rol.
      */
     @JoinColumn(name = "ROL", referencedColumnName = "COD_ROL", insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.EAGER)
     private Rol rol;
     /**
-     * Propiedad funcionalidad representa una relaci�n de muchos a uno con la
+     * Propiedad funcionalidad representa una relación de muchos a uno con la
      * Entidad Funcionalidad.
      */
     @JoinColumn(name = "FUNCIONALIDAD", referencedColumnName = "COD_FUNCIONALIDAD", insertable = false, updatable = false)

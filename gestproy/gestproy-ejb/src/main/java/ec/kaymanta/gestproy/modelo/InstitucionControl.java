@@ -115,20 +115,20 @@ public class InstitucionControl implements Serializable {
     }
 
     /**
-     * Obtiene el c�digo de la entidad InstitucionControl, se relaciona con la
+     * Obtiene el ccódigodigo de la entidad InstitucionControl, se relaciona con la
      * columna COD_INSTITUCION_CONTROL.
      *
-     * @return el c�digo de la entidad InstitucionControl
+     * @return el ccódigodigo de la entidad InstitucionControl
      */
     public Long getCodigo() {
         return codigo;
     }
 
     /**
-     * Asigna el c�digo de la entidad InstitucionControl, se relaciona con la
+     * Asigna el ccódigodigo de la entidad InstitucionControl, se relaciona con la
      * columna COD_INSTITUCION_CONTROL.
      *
-     * @param codigo el valor a ser asignado al c�digo de la entidad
+     * @param codigo el valor a ser asignado al ccódigodigo de la entidad
      * InstitucionControl
      */
     public void setCodigo(Long codigo) {

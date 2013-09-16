@@ -68,20 +68,20 @@ public class TipoEntregable implements Serializable {
     }
 
     /**
-     * Obtiene el c�digo de la entidad TipoEntregable, se relaciona con la
+     * Obtiene el código de la entidad TipoEntregable, se relaciona con la
      * columna COD_TIPO_DOCUMENTO.
      *
-     * @return el c�digo de la entidad TipoEntregable
+     * @return el código de la entidad TipoEntregable
      */
     public Long getCodigo() {
         return codigo;
     }
 
     /**
-     * Asigna el c�digo de la entidad TipoEntregable, se relaciona con la
+     * Asigna el código de la entidad TipoEntregable, se relaciona con la
      * columna COD_TIPO_DOCUMENTO.
      *
-     * @param codigo el valor a ser asignado al c�digo de la entidad
+     * @param codigo el valor a ser asignado al código de la entidad
      * TipoEntregable
      */
     public void setCodigo(Long codigo) {

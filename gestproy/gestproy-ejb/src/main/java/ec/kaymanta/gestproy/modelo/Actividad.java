@@ -97,14 +97,14 @@ public class Actividad implements Serializable {
     @Column(name = "FMODIFICACION", nullable = false)
     private Date fmodificacion;
     /**
-     * Propiedad proyecto representa una relaci�n de muchos a uno con la Entidad
+     * Propiedad proyecto representa una relación de muchos a uno con la Entidad
      * Proyecto.
      */
     @JoinColumn(name = "PROYECTO", referencedColumnName = "COD_PROYECTO", insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.EAGER)
     private Proyecto proyecto;
     /**
-     * Propiedad actividad representa una relaci�n de muchos a uno con la
+     * Propiedad actividad representa una relación de muchos a uno con la
      * Entidad Actividad.
      */
     @JoinColumn(name = "SUBACTIVIDAD", referencedColumnName = "COD_ACTIVIDAD", insertable = false, updatable = false)
@@ -128,20 +128,20 @@ public class Actividad implements Serializable {
     }
 
     /**
-     * Obtiene el c�digo de la entidad Actividad, se relaciona con la columna
+     * Obtiene el código de la entidad Actividad, se relaciona con la columna
      * COD_ACTIVIDAD.
      *
-     * @return el c�digo de la entidad Actividad
+     * @return el código de la entidad Actividad
      */
     public Long getCodigo() {
         return codigo;
     }
 
     /**
-     * Asigna el c�digo de la entidad Actividad, se relaciona con la columna
+     * Asigna el código de la entidad Actividad, se relaciona con la columna
      * COD_ACTIVIDAD.
      *
-     * @param codigo el valor a ser asignado al c�digo de la entidad Actividad
+     * @param codigo el valor a ser asignado al código de la entidad Actividad
      */
     public void setCodigo(Long codigo) {
         this.codigo = codigo;

@@ -77,7 +77,7 @@ public class FechasActividad implements Serializable {
     @Column(name = "FCREACION", nullable = false)
     private Date fcreacion;
     /**
-     * Propiedad actividad representa una relaci�n de muchos a uno con la
+     * Propiedad actividad representa una relación de muchos a uno con la
      * Entidad Actividad.
      */
     @JoinColumn(name = "ACTIVIDAD", referencedColumnName = "COD_ACTIVIDAD", insertable = false, updatable = false)

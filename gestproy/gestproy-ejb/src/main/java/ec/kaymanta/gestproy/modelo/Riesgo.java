@@ -98,7 +98,7 @@ public class Riesgo implements Serializable {
     @Column(name = "FMODIFICACION", nullable = false)
     private Date fmodificacion;
     /**
-     * Propiedad proyecto representa una relaci�n de muchos a uno con la Entidad Proyecto.
+     * Propiedad proyecto representa una relación de muchos a uno con la Entidad Proyecto.
      */
     @JoinColumn(name = "PROYECTO", referencedColumnName = "COD_PROYECTO", insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.EAGER)

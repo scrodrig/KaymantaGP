@@ -60,7 +60,7 @@ public class Funcionalidad implements Serializable {
     @Column(name = "DESCRIPCION", nullable = false, length = 500)
     private String descripcion;
     /**
-     * Propiedad modulo representa una relaci�n de muchos a uno con la Entidad Modulo.
+     * Propiedad modulo representa una relación de muchos a uno con la Entidad Modulo.
      */
     @JoinColumn(name = "MODULO", referencedColumnName = "COD_MODULO", insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.EAGER)
@@ -83,20 +83,20 @@ public class Funcionalidad implements Serializable {
     }
 
     /**
-     * Obtiene el c�digo de la entidad Funcionalidad, se relaciona con la
+     * Obtiene el código de la entidad Funcionalidad, se relaciona con la
      * columna COD_FUNCIONALIDAD.
      *
-     * @return el c�digo de la entidad Funcionalidad
+     * @return el código de la entidad Funcionalidad
      */
     public Long getCodigo() {
         return codigo;
     }
 
     /**
-     * Asigna el c�digo de la entidad Funcionalidad, se relaciona con la columna
+     * Asigna el código de la entidad Funcionalidad, se relaciona con la columna
      * COD_FUNCIONALIDAD.
      *
-     * @param codigo el valor a ser asignado al c�digo de la entidad
+     * @param codigo el valor a ser asignado al código de la entidad
      * Funcionalidad
      */
     public void setCodigo(Long codigo) {

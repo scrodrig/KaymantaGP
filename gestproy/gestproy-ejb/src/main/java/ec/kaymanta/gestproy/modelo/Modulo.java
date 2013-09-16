@@ -63,20 +63,20 @@ public class Modulo implements Serializable {
     }
 
     /**
-     * Obtiene el c�digo de la entidad Modulo, se relaciona con la columna
+     * Obtiene el código de la entidad Modulo, se relaciona con la columna
      * COD_MODULO.
      *
-     * @return el c�digo de la entidad Modulo
+     * @return el código de la entidad Modulo
      */
     public Long getCodigo() {
         return codigo;
     }
 
     /**
-     * Asigna el c�digo de la entidad Modulo, se relaciona con la columna
+     * Asigna el código de la entidad Modulo, se relaciona con la columna
      * COD_MODULO.
      *
-     * @param codigo el valor a ser asignado al c�digo de la entidad Modulo
+     * @param codigo el valor a ser asignado al código de la entidad Modulo
      */
     public void setCodigo(Long codigo) {
         this.codigo = codigo;

@@ -106,18 +106,18 @@ public class Empresa implements Serializable {
     }
 
     /**
-     * Obtiene el c�digo de la entidad Empresa, se relaciona con la columna RUC.
+     * Obtiene el código de la entidad Empresa, se relaciona con la columna RUC.
      *
-     * @return el c�digo de la entidad Empresa
+     * @return el código de la entidad Empresa
      */
     public String getCodigo() {
         return codigo;
     }
 
     /**
-     * Asigna el c�digo de la entidad Empresa, se relaciona con la columna RUC.
+     * Asigna el código de la entidad Empresa, se relaciona con la columna RUC.
      *
-     * @param codigo el valor a ser asignado al c�digo de la entidad Empresa
+     * @param codigo el valor a ser asignado al código de la entidad Empresa
      */
     public void setCodigo(String codigo) {
         this.codigo = codigo;

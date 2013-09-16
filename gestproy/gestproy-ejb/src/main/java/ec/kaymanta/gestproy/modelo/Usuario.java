@@ -105,20 +105,20 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Obtiene el c�digo de la entidad Usuario, se relaciona con la columna
+     * Obtiene el código de la entidad Usuario, se relaciona con la columna
      * CEDULA.
      *
-     * @return el c�digo de la entidad Usuario
+     * @return el código de la entidad Usuario
      */
     public String getCodigo() {
         return codigo;
     }
 
     /**
-     * Asigna el c�digo de la entidad Usuario, se relaciona con la columna
+     * Asigna el código de la entidad Usuario, se relaciona con la columna
      * CEDULA.
      *
-     * @param codigo el valor a ser asignado al c�digo de la entidad Usuario
+     * @param codigo el valor a ser asignado al código de la entidad Usuario
      */
     public void setCodigo(String codigo) {
         this.codigo = codigo;

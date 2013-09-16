@@ -47,7 +47,7 @@ public class Canton implements Serializable {
     @Column(name = "NOMBRE", nullable = false, length = 20)
     private String nombre;
     /**
-     * Propiedad provincia representa una relaci�n de muchos a uno con la
+     * Propiedad provincia representa una relación de muchos a uno con la
      * Entidad Provincia.
      */
     @JoinColumn(name = "PROVINCIA", referencedColumnName = "COD_PROVINCIA", insertable = false, updatable = false)

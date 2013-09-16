@@ -68,20 +68,20 @@ public class TipoGasto implements Serializable {
     }
 
     /**
-     * Obtiene el c�digo de la entidad TipoGasto, se relaciona con la columna
+     * Obtiene el código de la entidad TipoGasto, se relaciona con la columna
      * COD_TIPO_GASTO.
      *
-     * @return el c�digo de la entidad TipoGasto
+     * @return el código de la entidad TipoGasto
      */
     public Long getCodigo() {
         return codigo;
     }
 
     /**
-     * Asigna el c�digo de la entidad TipoGasto, se relaciona con la columna
+     * Asigna el código de la entidad TipoGasto, se relaciona con la columna
      * COD_TIPO_GASTO.
      *
-     * @param codigo el valor a ser asignado al c�digo de la entidad TipoGasto
+     * @param codigo el valor a ser asignado al código de la entidad TipoGasto
      */
     public void setCodigo(Long codigo) {
         this.codigo = codigo;

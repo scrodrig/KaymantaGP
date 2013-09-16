@@ -78,13 +78,13 @@ public class DocumentosProyecto implements Serializable {
     @Column(name = "FMODIFICACION", nullable = false)
     private Date fmodificacion;
     /**
-     * Propiedad proyecto representa una relaci�n de muchos a uno con la Entidad Proyecto.
+     * Propiedad proyecto representa una relación de muchos a uno con la Entidad Proyecto.
      */
     @JoinColumn(name = "PROYECTO", referencedColumnName = "COD_PROYECTO", insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.EAGER)
     private Proyecto proyecto;
     /**
-     * Propiedad documento representa una relaci�n de muchos a uno con la
+     * Propiedad documento representa una relación de muchos a uno con la
      * Entidad Documento.
      */
     @JoinColumn(name = "DOCUMENTO", referencedColumnName = "COD_DOCUMENTO", insertable = false, updatable = false)

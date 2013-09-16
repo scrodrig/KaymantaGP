@@ -79,14 +79,14 @@ public class EntregableDocumento implements Serializable {
     @Column(name = "FMODIFICACION", nullable = false)
     private Date fmodificacion;
     /**
-     * Propiedad documento representa una relaci�n de muchos a uno con la
+     * Propiedad documento representa una relación de muchos a uno con la
      * Entidad Documento.
      */
     @JoinColumn(name = "DOCUMENTO", referencedColumnName = "COD_DOCUMENTO", insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.EAGER)
     private Documento documento;
     /**
-     * Propiedad actividadEntregable representa una relaci�n de muchos a uno con
+     * Propiedad actividadEntregable representa una relación de muchos a uno con
      * la Entidad ActividadEntregable.
      */
     @JoinColumns({

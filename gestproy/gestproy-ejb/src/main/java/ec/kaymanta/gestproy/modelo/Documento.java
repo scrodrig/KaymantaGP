@@ -96,14 +96,14 @@ public class Documento implements Serializable {
     @Column(name = "FMODIFICACION", nullable = false)
     private Date fmodificacion;
     /**
-     * Propiedad tipoDocumento representa una relaci�n de muchos a uno con la
+     * Propiedad tipoDocumento representa una relación de muchos a uno con la
      * Entidad TipoDocumento.
      */
     @JoinColumn(name = "TIPO_DOCUMENTO", referencedColumnName = "COD_TIPO_DOCUMENTO", insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.EAGER)
     private TipoDocumento tipoDocumento;
     /**
-     * Propiedad institucionControl representa una relaci�n de muchos a uno con
+     * Propiedad institucionControl representa una relación de muchos a uno con
      * la Entidad InstitucionControl.
      */
     @JoinColumn(name = "INSTITUCION_CONTROL", referencedColumnName = "COD_INSTITUCION_CONTROL", insertable = false, updatable = false)
@@ -127,20 +127,20 @@ public class Documento implements Serializable {
     }
 
     /**
-     * Obtiene el c�digo de la entidad Documento, se relaciona con la columna
+     * Obtiene el código de la entidad Documento, se relaciona con la columna
      * COD_DOCUMENTO.
      *
-     * @return el c�digo de la entidad Documento
+     * @return el código de la entidad Documento
      */
     public Long getCodigo() {
         return codigo;
     }
 
     /**
-     * Asigna el c�digo de la entidad Documento, se relaciona con la columna
+     * Asigna el código de la entidad Documento, se relaciona con la columna
      * COD_DOCUMENTO.
      *
-     * @param codigo el valor a ser asignado al c�digo de la entidad Documento
+     * @param codigo el valor a ser asignado al código de la entidad Documento
      */
     public void setCodigo(Long codigo) {
         this.codigo = codigo;

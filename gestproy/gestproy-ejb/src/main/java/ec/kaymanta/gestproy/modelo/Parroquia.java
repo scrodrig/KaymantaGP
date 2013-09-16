@@ -48,7 +48,7 @@ public class Parroquia implements Serializable {
    	@Column(name = "NOMBRE", nullable = false , length = 20)
  	private String nombre;
  
-	/** Propiedad  canton representa una relaci�n de muchos a uno con la Entidad Canton.*/
+	/** Propiedad  canton representa una relación de muchos a uno con la Entidad Canton.*/
 	@JoinColumns({
 	@JoinColumn(name = "CANTON", referencedColumnName = "COD_CANTON", insertable = false, updatable = false) ,
 	@JoinColumn(name = "PROVINCIA", referencedColumnName = "PROVINCIA", insertable = false, updatable = false) 

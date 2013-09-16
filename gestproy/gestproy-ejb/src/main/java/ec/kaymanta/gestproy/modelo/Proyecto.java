@@ -134,21 +134,21 @@ public class Proyecto implements Serializable {
     @Column(name = "FMODIFICACION", nullable = false)
     private Date fmodificacion;
     /**
-     * Propiedad empresa representa una relaci�n de muchos a uno con la Entidad
+     * Propiedad empresa representa una relación de muchos a uno con la Entidad
      * Empresa.
      */
     @JoinColumn(name = "EMPRESA", referencedColumnName = "RUC", insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.EAGER)
     private Empresa empresa;
     /**
-     * Propiedad empleado representa una relaci�n de muchos a uno con la Entidad
+     * Propiedad empleado representa una relación de muchos a uno con la Entidad
      * Empleado.
      */
     @JoinColumn(name = "RESPONSABLE", referencedColumnName = "CEDULA", insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.EAGER)
     private Empleado empleado;
     /**
-     * Propiedad parroquia representa una relaci�n de muchos a uno con la
+     * Propiedad parroquia representa una relación de muchos a uno con la
      * Entidad Parroquia.
      */
     @JoinColumns({

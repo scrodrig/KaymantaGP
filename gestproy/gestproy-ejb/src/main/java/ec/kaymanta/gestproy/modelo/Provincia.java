@@ -63,20 +63,20 @@ public class Provincia implements Serializable {
     }
 
     /**
-     * Obtiene el c�digo de la entidad Provincia, se relaciona con la columna
+     * Obtiene el código de la entidad Provincia, se relaciona con la columna
      * COD_PROVINCIA.
      *
-     * @return el c�digo de la entidad Provincia
+     * @return el código de la entidad Provincia
      */
     public Long getCodigo() {
         return codigo;
     }
 
     /**
-     * Asigna el c�digo de la entidad Provincia, se relaciona con la columna
+     * Asigna el código de la entidad Provincia, se relaciona con la columna
      * COD_PROVINCIA.
      *
-     * @param codigo el valor a ser asignado al c�digo de la entidad Provincia
+     * @param codigo el valor a ser asignado al código de la entidad Provincia
      */
     public void setCodigo(Long codigo) {
         this.codigo = codigo;
