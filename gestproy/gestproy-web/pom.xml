@@ -2,10 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-    <artifactId>gestproy</artifactId>
-    <groupId>ec.kaymanta.gestproy</groupId>
-    <version>1</version>
-  </parent>
+        <artifactId>gestproy</artifactId>
+        <groupId>ec.kaymanta.gestproy</groupId>
+        <version>1</version>
+    </parent>
 
     <groupId>ec.kaymanta.gestproy</groupId>
     <artifactId>gestproy-web</artifactId>
@@ -16,8 +16,17 @@
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
     </properties>
+
+    <repositories>
+        <repository>  
+            <id>prime-repo</id>  
+            <name>PrimeFaces Maven Repository</name>  
+            <url>http://repository.primefaces.org</url>  
+            <layout>default</layout>  
+        </repository> 
+    </repositories>
 
     <dependencies>
         <dependency>
@@ -32,6 +41,31 @@
             <version>6.0</version>
             <scope>provided</scope>
         </dependency>
+        
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-api</artifactId>
+            <version>2.1.7</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.primefaces.themes</groupId>
+            <artifactId>dark-hive</artifactId>
+            <version>1.0.10</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>3.5</version> 
+        </dependency>
+        
+         <dependency>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils</artifactId>
+                <version>1.8.0</version>
+        </dependency>
+        
     </dependencies>
 
     <build>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form>
+
+        <p:megaMenu>  
+
+            <p:menuitem value="Inicio" url="menuAdmin.jsf" icon="ui-icon-home" />                    
+
+            <p:submenu label="Mantenimiento" icon="ui-icon-pencil">  
+
+                <p:column>  
+                    <p:submenu label="USUARIOS">  
+                        <p:menuitem value="Usuarios" url="usuarios.jsf" />   
+                    </p:submenu>  
+                    <p:submenu label="JUGADORES">  
+                        <p:menuitem value="Jugadores" url="jugadores.jsf" />  
+                    </p:submenu>  
+                    <p:submenu label="AUSPICIANTES">  
+                        <p:menuitem value="Auspiciantes" url="auspiciantes.jsf" />  
+                    </p:submenu>  
+                </p:column>
+                <p:column>  
+                    <p:submenu label="DIRECTORES TECNICOS">  
+                        <p:menuitem value="D. T�cnicos" url="dts.jsf" />   
+                    </p:submenu>  
+                    <p:submenu label="JUECES">  
+                        <p:menuitem value="Jueces" url="jueces.jsf" />  
+                    </p:submenu>  
+                    <p:submenu label="EQUIPOS">  
+                        <p:menuitem value="Equipos" url="equipos.jsf" />  
+                    </p:submenu>  
+                </p:column>
+                <p:column>  
+                    <p:submenu label="TORNEOS">  
+                        <p:menuitem value="Torneos" url="torneos.jsf" />   
+                    </p:submenu>  
+                    <p:submenu label="REGLAS">  
+                        <p:menuitem value="Reglas" url="reglas.jsf" />  
+                    </p:submenu>  
+                    <p:submenu label="REVESTIMIENTOS">  
+                        <p:menuitem value="Revestimientos" url="revestimientos.jsf" />  
+                    </p:submenu>  
+                </p:column>
+                <p:column>  
+                    <p:submenu label="REGIONES">  
+                        <p:menuitem value="Regiones" url="regiones.jsf" />   
+                    </p:submenu>  
+                    <p:submenu label="CANCHAS">  
+                        <p:menuitem value="Canchas" url="canchas.jsf" />  
+                    </p:submenu>                       
+                </p:column>
+
+            </p:submenu>  
+
+            <p:menuitem value="Inscripci�n de Jugadores" url="inscripcionesJugador.jsf" icon="ui-icon-document" />  
+
+            <p:menuitem value="Inscripci�n de Equipos" url="inscripcionesTorneo.jsf" icon="ui-icon-document" />  
+
+            <p:menuitem value="Generaci�n Calendarios" url="generarCalendario.jsf" icon="ui-icon-contact" />
+
+
+            <p:submenu label="Detalles" icon="ui-icon-pencil">  
+
+                <p:column>  
+                    <p:submenu label="REDEFINIR ENCUENTRO">  
+                        <p:menuitem value="Detallar Encuentro" url="actualizarEncuentro.jsf" icon="ui-icon-pencil" />
+                    </p:submenu>  
+                    <p:submenu label="INGRESAR NOVEDAD">  
+                        <p:menuitem value="Ingresar" url="detalles.jsf" icon="ui-icon-document"/>  
+                    </p:submenu>  
+                </p:column>
+            </p:submenu> 
+
+            <p:submenu label="Reportes" icon="ui-icon-pencil">  
+
+                <p:column>  
+                    <p:submenu label="REPORTE ANOTACIONES">  
+                        <p:menuitem value="Reporte Anotaciones" url="reportesMaximoPartido.jsf" />   
+                    </p:submenu>  
+                    <p:submenu label="REPORTE DETALLADO POR JUGADOR">  
+                        <p:menuitem value="Reporte de Novedades" url="reportesNovedades.jsf" />  
+                    </p:submenu>  
+                </p:column>
+            </p:submenu> 
+
+            <p:menuitem value="Cerrar Sesión" url="inicio.jsf" icon="ui-icon-close" />  
+        </p:megaMenu>
+
+
+    </h:form>
+</ui:composition>
+

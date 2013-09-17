@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
+        <link rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/styles/styles.css" type="text/css" media="all"/>
+        <title>SIGPA <ui:insert name="titulo">Sin Título</ui:insert></title>
+    </h:head>
+    <h:body>
+        <f:view>
+            <div id="global" style="width: 1024px">
+
+                <br/>
+                <img src="#{facesContext.externalContext.requestContextPath}/images/header.jpg" style="display:block;"/>
+                <br/>
+                <br/>
+                <div id="cuerpo1" style="width: 995px">
+                    <div id="menu" align="left" style="width: 610px">
+                        <p:graphicImage value="/images/home.jpg" width="595" height="405"/>                           
+                        <br/>
+                        <br/> 
+                        <br/>
+                    </div>
+                    <div id="contenido" align="right" style="width: 385px">
+                        <h:form>
+                            <ui:insert name="contenido"/>
+                            <p:messages id="messages" showDetail="true" autoUpdate="true" severity="info,error,warn,fatal" globalOnly="true" escape="false" />
+
+                        </h:form>
+                    </div>
+                </div>
+
+                <div id="cuerpo" align="center" style="width: 700px">
+
+                    <h:form>
+                        <ui:insert name="cuerpo"/>
+                        <p:messages id="messages" showDetail="true" autoUpdate="true" severity="info,error,warn,fatal" globalOnly="true" escape="false" />
+
+                    </h:form>
+
+                </div>
+
+                <div id="pie1"><p:graphicImage value="/images/footer.png"/>                    
+                </div>
+
+            </div>
+        </f:view>
+    </h:body>
+</html>    

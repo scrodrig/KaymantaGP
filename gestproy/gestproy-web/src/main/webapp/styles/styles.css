@@ -1,0 +1,95 @@
+/*HTML*/
+* {margin:0px; padding:0px; border:0px;}
+body {background-color: #FFFFFF;text-align:center; font: 100%/1.4 Verdana, Arial, Helvetica, sans-serif;}
+h1{	color: #222; font-size: 20pt; font-weight: bold;}
+h2{	color: #222; font-size: 18pt; font-weight: bold;}
+h3{	color: #222; font-size: 16pt; font-weight: bold;}
+h4{	color: #222; font-size: 14pt; font-weight: bold;}
+h5{	color: #222; font-size: 12pt; font-weight: bold;}
+h6{	color: #222; font-size: 10pt; font-weight: bold;}
+p{ font-size: 10pt; font-weight: normal;}
+
+/* PROPIOS*/
+#cabecera {text-align: right; font-size: 12px;}
+#cuerpo {width:100%; min-width: 780px; max-width: 1000px; min-height: 400px; float:left;}
+#cuerpo1 {width:100%; min-width: 780px; max-width: 1000px; min-height: 200px; float:left;}
+#pie {height:20px;}
+#referencia {color: #222; font-size: 8pt; font-style: italic; text-align: right}
+#global {width:1000px; margin:0px auto;}
+#menu {width:195px; float:left; text-align:left;}
+#funcionalidad {height: 40px; width:800px; float:right; text-align:left;}
+#contenido {width:80%; width:800px; float:left; text-align:left;}
+#contenido1 {width:80%; width:800px; float:left; text-align:center;}
+.navegacion {height:18px; width:100%; background-color:#000 ; text-align: center; font-size: 12px; font-weight: bold;}
+#modulos {width:100%; padding:0px;}
+#modulos ul{min-width: 780px; max-width: 1000px; list-style:none; float:left; color:#FFF; font-size:10pt; position:absolute;}
+#modulos li{float:left;}
+#modulos li a{padding-left:15px; padding-right:15px;	text-decoration:none; color:#FFF; border-left: 1px solid rgba(255,255,255,0.1); border-right: 1px solid rgba(0,0,0,0.1);}
+#modulos li a:link{}
+#modulos li a:visited{}
+#modulos li a:hover{ text-decoration:none; color:#fff; background-color:#000;}
+#modulos li a:active{}
+#modulos .active{ text-decoration:none;	color:#fff;	background-color:#000;}
+
+/* Componentes PrimeFaces */
+.ui-widget{
+    font-family: Verdana, Arial, Helvetica, sans-serif !important;
+    font-size: 80% !important;
+}
+
+.ui-widget .ui-menuitem  .ui-menuitem-text {
+    font-size: 110% !important;
+}
+
+
+/*Colores:
+	AZUL: #2e6e9e
+	AZUL BAJO: #5c9ccc
+	CELESTE: #c5dbec
+	CELESTE BAJO: #dfeffc
+	BLANCO: #ffffff
+	NARANJA: #e17009
+	
+	En caso de querer usarse0 textos pequeños, se usaran por defecto el del tema de primefaces RED-MONTH
+*/
+
+.franjaGrisMedio {
+	BACKGROUND-COLOR: #e3eaf0
+}
+.franjaCeleste {
+	BACKGROUND-COLOR: #bbcad9
+}
+/************************************* TITULOS ********************************************************************/
+
+/*TEXTO BLANCO MEDIANO*/
+.textoBlancoMedio{
+	font: BOLD 14px Arial, Helvetica, sans-serif;
+	color: #ffffff;
+	letter-spacing:.21em;
+}
+/*TITULOS AZUL MEDIANO*/
+.textoAzulMedio {
+	font: bold 14px  Arial, Helvetica, sans-serif;
+	color: #2e6e9e;
+	letter-spacing:.21em;
+}
+/*TEXTO NEGRO MEDIANO*/
+.textoNegroMedio {
+	font: 14px  Arial, Helvetica, sans-serif;
+	color: #000000;
+	letter-spacing:.21em;
+}
+
+
+/*TEXTO BLANCO GRANDE*/
+.textoBlancoGrande{
+	font: bold 50px Arial, Helvetica, sans-serif;
+	color: #ffffff;
+	letter-spacing:.21em;
+}
+/*TITULOS AZUL GRANDE*/
+.textoAzulGrande{
+	font: bold 20px Arial, Helvetica, sans-serif;
+	color: #2e6e9e;
+	letter-spacing:.21em;
+}
