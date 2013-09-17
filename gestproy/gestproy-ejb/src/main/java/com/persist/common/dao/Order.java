@@ -37,9 +37,9 @@ public final class Order {
 	
 	/**
 	 * Retorna un objeto que especifica que la propiedad recibida como 
-	 * par�metro ser� tomada para ordenamiento ascendente.
+	 * parámetro será tomada para ordenamiento ascendente.
 	 * 
-	 * @param propiedad Propiedad de la entidad que ser� utilizada para el ordenamiento.
+	 * @param propiedad Propiedad de la entidad que será utilizada para el ordenamiento.
 	 * @return Cadena que especifica el ordenamiento.
 	 */
 	public static String ascendente(String propiedad) {
@@ -48,9 +48,9 @@ public final class Order {
 	
 	/**
 	 * Retorna un objeto que especifica que la propiedad recibida como 
-	 * par�metro ser� tomada para ordenamiento descendente.
+	 * parámetro será tomada para ordenamiento descendente.
 	 * 
-	 * @param propiedad Propiedad de la entidad que ser� utilizada para el ordenamiento.
+	 * @param propiedad Propiedad de la entidad que será utilizada para el ordenamiento.
 	 * @return Cadena que especifica el ordenamiento.
 	 */
 	public static String descendente(String propiedad) {

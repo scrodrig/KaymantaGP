@@ -97,7 +97,7 @@ public class ListOperationsDB<T, ID extends Serializable> {
                 actualizar = true;
             }
             if (actualizar) {
-                // se realiza un refresh para sincronizar la versi�n
+                // se realiza un refresh para sincronizar la versión
                 T object = this.dao.update(newL[i]);
                 this.dao.flush();
                 try {

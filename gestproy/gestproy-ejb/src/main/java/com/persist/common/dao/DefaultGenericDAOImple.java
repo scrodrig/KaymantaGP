@@ -1,4 +1,4 @@
-/*
+    /*
  * KAYMANTA CIA. LTDA.
  * 
  * Los contenidos de este archivo son propiedad intelectual de KAYMANTA CIA. LTDA.
@@ -48,13 +48,13 @@ public class DefaultGenericDAOImple<T, ID extends Serializable> implements
         GenericDAO<T, ID> { 
 
     /**
-     * Creación del log de auditor�a.
+     * Creación del log de auditoría.
      */
     private static final Logger LOGGER = Logger.getLogger(DefaultGenericDAOImple.class);
     
     /**
      * La constante MENSAJE_ERROR_AUDITORIA con el mensaje de error para el
-     * LOGGER cuando no se puede asignar la información de auditor�a.
+     * LOGGER cuando no se puede asignar la información de auditoría.
      */
     public static final String MENSAJE_ERROR_AUDITORIA =
             "Error al asignar el objeto de auditoria: ";
@@ -180,7 +180,7 @@ public class DefaultGenericDAOImple<T, ID extends Serializable> implements
     }
 
     /**
-     * Ejecuta la operaci�n flush definida en JPA.
+     * Ejecuta la operaciín flush definida en JPA.
      */
     @Override
     public void flush() {
@@ -188,7 +188,7 @@ public class DefaultGenericDAOImple<T, ID extends Serializable> implements
     }
     
     /**
-     * Ejecuta la operaci�n clear definida en JPA.
+     * Ejecuta la operaciín clear definida en JPA.
      */
     public void clear() {
         getEntityManager().clear();
