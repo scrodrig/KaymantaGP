@@ -51,14 +51,14 @@ public class Documento implements Serializable {
      * Llave foránea que referencia a la temática de un documento.. Representa a
      * la columna TIPO_DOCUMENTO.
      */
-//    @Column(name = "TIPO_DOCUMENTO", nullable = false)
-//    private Long tipoDocumento;
+    @Column(name = "TIPO_DOCUMENTO", nullable = false)
+    private Long codTipoDocumento;
     /**
      * Llave foránea que referencia a la institución de control del documento..
      * Representa a la columna INSTITUCION_CONTROL.
      */
-//    @Column(name = "INSTITUCION_CONTROL", nullable = false)
-//    private Long institucionControl;
+    @Column(name = "INSTITUCION_CONTROL", nullable = false)
+    private Long codInstitucionControl;
     /**
      * Nombre del documento.. Representa a la columna NOMBRE_DOCUMENTO.
      */
@@ -152,9 +152,9 @@ public class Documento implements Serializable {
      *
      * @return el valor asignado a la propiedad tipoDocumento
      */
-//    public Long getTipoDocumento() {
-//        return tipoDocumento;
-//    }
+    public Long getCodTipoDocumento() {
+        return codTipoDocumento;
+    }
 
     /**
      * Asigna un valor a la propiedad tipoDocumento, relacionado con la columna
@@ -162,9 +162,9 @@ public class Documento implements Serializable {
      *
      * @param tipoDocumento el valor a ser asignado a la propiedad tipoDocumento
      */
-//    public void setTipoDocumento(Long tipoDocumento) {
-//        this.tipoDocumento = tipoDocumento;
-//    }
+    public void setCodTipoDocumento(Long codTipoDocumento) {
+        this.codTipoDocumento = codTipoDocumento;
+    }
 
     /**
      * Obtiene el valor de la propiedad institucionControl relacionado con la
@@ -172,9 +172,9 @@ public class Documento implements Serializable {
      *
      * @return el valor asignado a la propiedad institucionControl
      */
-//    public Long getInstitucionControl() {
-//        return institucionControl;
-//    }
+    public Long getCodInstitucionControl() {
+        return codInstitucionControl;
+    }
 
     /**
      * Asigna un valor a la propiedad institucionControl, relacionado con la
@@ -183,9 +183,9 @@ public class Documento implements Serializable {
      * @param institucionControl el valor a ser asignado a la propiedad
      * institucionControl
      */
-//    public void setInstitucionControl(Long institucionControl) {
-//        this.institucionControl = institucionControl;
-//    }
+    public void setCodInstitucionControl(Long codInstitucionControl) {
+        this.codInstitucionControl = codInstitucionControl;
+    }
 
     /**
      * Obtiene el valor de la propiedad nombreDocumento relacionado con la

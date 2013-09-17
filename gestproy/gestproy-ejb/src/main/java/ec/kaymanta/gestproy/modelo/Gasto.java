@@ -49,8 +49,8 @@ public class Gasto implements Serializable {
      * Llave foránea que referencia a que categoría de gasto corresponde..
      * Representa a la columna TIPO_GASTO.
      */
-//    @Column(name = "TIPO_GASTO", nullable = false)
-//    private Long tipoGasto;
+    @Column(name = "TIPO_GASTO", nullable = false)
+    private Long codTipoGasto;
     /**
      * Valor monetario del gasto.. Representa a la columna VALOR_PLAN.
      */
@@ -141,9 +141,9 @@ public class Gasto implements Serializable {
      *
      * @return el valor asignado a la propiedad tipoGasto
      */
-//    public Long getTipoGasto() {
-//        return tipoGasto;
-//    }
+    public Long getCodTipoGasto() {
+        return codTipoGasto;
+    }
 
     /**
      * Asigna un valor a la propiedad tipoGasto, relacionado con la columna
@@ -151,9 +151,9 @@ public class Gasto implements Serializable {
      *
      * @param tipoGasto el valor a ser asignado a la propiedad tipoGasto
      */
-//    public void setTipoGasto(Long tipoGasto) {
-//        this.tipoGasto = tipoGasto;
-//    }
+    public void setCodTipoGasto(Long codTipoGasto) {
+        this.codTipoGasto = codTipoGasto;
+    }
 
     /**
      * Obtiene el valor de la propiedad valorPlan relacionado con la columna

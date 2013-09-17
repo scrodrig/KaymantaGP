@@ -50,8 +50,8 @@ public class Interesado implements Serializable {
      * Empresa que realiza la contratación del proyecto.. Representa a la
      * columna EMPRESA.
      */
-//    @Column(name = "EMPRESA", nullable = false, length = 13)
-//    private String empresa;
+    @Column(name = "EMPRESA", nullable = false, length = 13)
+    private String codEmpresa;
     /**
      * Nombre de la persona de interés para un proyecto.. Representa a la
      * columna NOMBRE.
@@ -99,7 +99,8 @@ public class Interesado implements Serializable {
     @Column(name = "FMODIFICACION", nullable = false)
     private Date fmodificacion;
     /**
-     * Propiedad empresa representa una relación de muchos a uno con la Entidad Empresa.
+     * Propiedad empresa representa una relación de muchos a uno con la Entidad
+     * Empresa.
      */
     @JoinColumn(name = "EMPRESA", referencedColumnName = "RUC", insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.EAGER)
@@ -147,9 +148,9 @@ public class Interesado implements Serializable {
      *
      * @return el valor asignado a la propiedad empresa
      */
-//    public String getEmpresa() {
-//        return empresa;
-//    }
+    public String getCodEmpresa() {
+        return codEmpresa;
+    }
 
     /**
      * Asigna un valor a la propiedad empresa, relacionado con la columna
@@ -157,9 +158,9 @@ public class Interesado implements Serializable {
      *
      * @param empresa el valor a ser asignado a la propiedad empresa
      */
-//    public void setEmpresa(String empresa) {
-//        this.empresa = empresa;
-//    }
+    public void setCodEmpresa(String codEmpresa) {
+        this.codEmpresa = codEmpresa;
+    }
 
     /**
      * Obtiene el valor de la propiedad nombre relacionado con la columna

@@ -58,26 +58,26 @@ public class Proyecto implements Serializable {
      * Llave foránea que referencia a la empresa contratante del proyecto..
      * Representa a la columna EMPRESA.
      */
-//    @Column(name = "EMPRESA", nullable = false, length = 13)
-//    private String empresa;
+    @Column(name = "EMPRESA", nullable = false, length = 13)
+    private String codEmpresa;
     /**
      * Llave foránea que referencia a una provincia.. Representa a la columna
      * PROVINCIA.
      */
-//    @Column(name = "PROVINCIA", nullable = false)
-//    private Long provincia;
+    @Column(name = "PROVINCIA", nullable = false)
+    private Long codProvincia;
     /**
      * Llave foránea que referencia a un cantón.. Representa a la columna
      * CANTON.
      */
-//    @Column(name = "CANTON", nullable = false)
-//    private Long canton;
+    @Column(name = "CANTON", nullable = false)
+    private Long codCanton;
     /**
      * llave foránea que referencia a una parroquia. Representa a la columna
      * PARROQUIA.
      */
-//    @Column(name = "PARROQUIA", nullable = false)
-//    private Long parroquia;
+    @Column(name = "PARROQUIA", nullable = false)
+    private Long codParroquia;
     /**
      * Nombre del proyecto.. Representa a la columna NOMBRE_PROYECTO.
      */
@@ -229,71 +229,79 @@ public class Proyecto implements Serializable {
      *
      * @return el valor asignado a la propiedad empresa
      */
-//    public String getEmpresa() {
-//        return empresa;
-//    }
+    public String getCodEmpresa() {
+        return codEmpresa;
+    }
+
     /**
      * Asigna un valor a la propiedad empresa, relacionado con la columna
      * EMPRESA.
      *
      * @param empresa el valor a ser asignado a la propiedad empresa
      */
-//    public void setEmpresa(String empresa) {
-//        this.empresa = empresa;
-//    }
+    public void setCodEmpresa(String codEmpresa) {
+        this.codEmpresa = codEmpresa;
+    }
+
     /**
      * Obtiene el valor de la propiedad provincia relacionado con la columna
      * PROVINCIA.
      *
      * @return el valor asignado a la propiedad provincia
      */
-//    public Long getProvincia() {
-//        return provincia;
-//    }
+    public Long getCodProvincia() {
+        return codProvincia;
+    }
+
     /**
      * Asigna un valor a la propiedad provincia, relacionado con la columna
      * PROVINCIA.
      *
      * @param provincia el valor a ser asignado a la propiedad provincia
      */
-//    public void setProvincia(Long provincia) {
-//        this.provincia = provincia;
-//    }
+    public void setCodProvincia(Long codProvincia) {
+        this.codProvincia = codProvincia;
+    }
+
     /**
      * Obtiene el valor de la propiedad canton relacionado con la columna
      * CANTON.
      *
      * @return el valor asignado a la propiedad canton
      */
-//    public Long getCanton() {
-//        return canton;
-//    }
+    public Long getCodCanton() {
+        return codCanton;
+    }
+
     /**
      * Asigna un valor a la propiedad canton, relacionado con la columna CANTON.
      *
      * @param canton el valor a ser asignado a la propiedad canton
      */
-//    public void setCanton(Long canton) {
-//        this.canton = canton;
-//    }
+    public void setCodCanton(Long codCanton) {
+        this.codCanton = codCanton;
+    }
+
     /**
      * Obtiene el valor de la propiedad parroquia relacionado con la columna
      * PARROQUIA.
      *
      * @return el valor asignado a la propiedad parroquia
      */
-//    public Long getParroquia() {
-//        return parroquia;
-//    }
+    public Long getCodParroquia() {
+        return codParroquia;
+    }
+
     /**
      * Asigna un valor a la propiedad parroquia, relacionado con la columna
      * PARROQUIA.
      *
      * @param parroquia el valor a ser asignado a la propiedad parroquia
      */
-//    public void setParroquia(Long parroquia) {
-//        this.parroquia = parroquia;
-//    }
+    public void setCodParroquia(Long codParroquia) {
+        this.codParroquia = codParroquia;
+    }
+
     /**
      * Obtiene el valor de la propiedad nombreProyecto relacionado con la
      * columna NOMBRE_PROYECTO.

@@ -47,8 +47,8 @@ public class Funcionalidad implements Serializable {
      * Llave foránea que referencia al modulo sobre el cual existe la
      * funcionalidad.. Representa a la columna MODULO.
      */
-//    @Column(name = "MODULO", nullable = false)
-//    private Long modulo;
+    @Column(name = "MODULO", nullable = false)
+    private Long codModulo;
     /**
      * Nombre de la funcionalidad.. Representa a la columna NOMBRE.
      */
@@ -60,7 +60,8 @@ public class Funcionalidad implements Serializable {
     @Column(name = "DESCRIPCION", nullable = false, length = 500)
     private String descripcion;
     /**
-     * Propiedad modulo representa una relación de muchos a uno con la Entidad Modulo.
+     * Propiedad modulo representa una relación de muchos a uno con la Entidad
+     * Modulo.
      */
     @JoinColumn(name = "MODULO", referencedColumnName = "COD_MODULO", insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.EAGER)
@@ -109,18 +110,18 @@ public class Funcionalidad implements Serializable {
      *
      * @return el valor asignado a la propiedad modulo
      */
-//    public Long getModulo() {
-//        return modulo;
-//    }
+    public Long getCodModulo() {
+        return codModulo;
+    }
 
     /**
      * Asigna un valor a la propiedad modulo, relacionado con la columna MODULO.
      *
      * @param modulo el valor a ser asignado a la propiedad modulo
      */
-//    public void setModulo(Long modulo) {
-//        this.modulo = modulo;
-//    }
+    public void setCodModulo(Long codModulo) {
+        this.codModulo = codModulo;
+    }
 
     /**
      * Obtiene el valor de la propiedad nombre relacionado con la columna

@@ -51,8 +51,8 @@ public class Actividad implements Serializable {
      * Llave foránea que referencia a un proyecto.. Representa a la columna
      * PROYECTO.
      */
-//    @Column(name = "PROYECTO", nullable = false)
-//    private Long proyecto;
+    @Column(name = "PROYECTO", nullable = false)
+    private Long codProyecto;
     /**
      * Llave foránea que referencia a una actividad padre.. Representa a la
      * columna SUBACTIVIDAD.
@@ -153,19 +153,20 @@ public class Actividad implements Serializable {
      *
      * @return el valor asignado a la propiedad proyecto
      */
-//    public Long getProyecto() {
-//        return proyecto;
-//    }
-//
-//    /**
-//     * Asigna un valor a la propiedad proyecto, relacionado con la columna
-//     * PROYECTO.
-//     *
-//     * @param proyecto el valor a ser asignado a la propiedad proyecto
-//     */
-//    public void setProyecto(Long proyecto) {
-//        this.proyecto = proyecto;
-//    }
+    public Long getCodProyecto() {
+        return codProyecto;
+    }
+
+    /**
+     * Asigna un valor a la propiedad proyecto, relacionado con la columna
+     * PROYECTO.
+     *
+     * @param proyecto el valor a ser asignado a la propiedad proyecto
+     */
+    public void setCodProyecto(Long codProyecto) {
+        this.codProyecto = codProyecto;
+    }
+
     /**
      * Obtiene el valor de la propiedad subactividad relacionado con la columna
      * SUBACTIVIDAD.

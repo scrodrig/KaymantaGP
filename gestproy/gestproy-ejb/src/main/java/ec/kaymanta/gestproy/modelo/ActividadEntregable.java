@@ -46,16 +46,18 @@ public class ActividadEntregable implements Serializable {
      */
     @EmbeddedId
     private ActividadEntregablePK pk = new ActividadEntregablePK();
-//	/** Llave foránea que referencia a la temática de un entregable.. 
-//	 * Representa a la columna TIPO_ENTREGABLE. 	 */
-//   	@Column(name = "TIPO_ENTREGABLE", nullable = false )
-// 	private Long tipoEntregable;
-// 
-//	/** Llave foránea que referencia a la institución de control del entregable.. 
-//	 * Representa a la columna INSTITUCION_CONTROL. 	 */
-//   	@Column(name = "INSTITUCION_CONTROL", nullable = false )
-// 	private Long institucionControl;
-// 
+    /**
+     * Llave foránea que referencia a la temática de un entregable.. Representa
+     * a la columna TIPO_ENTREGABLE.
+     */
+    @Column(name = "TIPO_ENTREGABLE", nullable = false)
+    private Long codTipoEntregable;
+    /**
+     * Llave foránea que referencia a la institución de control del entregable..
+     * Representa a la columna INSTITUCION_CONTROL.
+     */
+    @Column(name = "INSTITUCION_CONTROL", nullable = false)
+    private Long codInstitucionControl;
     /**
      * Nombre del entregable.. Representa a la columna NOMBRE_ENTREGABLE.
      */
@@ -154,10 +156,10 @@ public class ActividadEntregable implements Serializable {
      *
      * @return el valor asignado a la propiedad tipoEntregable
      */
-//	public Long getTipoEntregable() {
-//		return tipoEntregable;
-//	}
-//	
+    public Long getCodTipoEntregable() {
+        return codTipoEntregable;
+    }
+
     /**
      * Asigna un valor a la propiedad tipoEntregable, relacionado con la columna
      * TIPO_ENTREGABLE.
@@ -165,18 +167,20 @@ public class ActividadEntregable implements Serializable {
      * @param tipoEntregable el valor a ser asignado a la propiedad
      * tipoEntregable
      */
-//	public void setTipoEntregable(Long tipoEntregable) {
-//		this.tipoEntregable = tipoEntregable;
-//	}
+    public void setCodTipoEntregable(Long codTipoEntregable) {
+        this.codTipoEntregable = codTipoEntregable;
+    }
+
     /**
      * Obtiene el valor de la propiedad institucionControl relacionado con la
      * columna INSTITUCION_CONTROL.
      *
      * @return el valor asignado a la propiedad institucionControl
      */
-//	public Long getInstitucionControl() {
-//		return institucionControl;
-//	}
+    public Long getCodInstitucionControl() {
+        return codInstitucionControl;
+    }
+
     /**
      * Asigna un valor a la propiedad institucionControl, relacionado con la
      * columna INSTITUCION_CONTROL.
@@ -184,9 +188,10 @@ public class ActividadEntregable implements Serializable {
      * @param institucionControl el valor a ser asignado a la propiedad
      * institucionControl
      */
-//	public void setInstitucionControl(Long institucionControl) {
-//		this.institucionControl = institucionControl;
-//	}
+    public void setCodInstitucionControl(Long codInstitucionControl) {
+        this.codInstitucionControl = codInstitucionControl;
+    }
+
     /**
      * Obtiene el valor de la propiedad nombreEntregable relacionado con la
      * columna NOMBRE_ENTREGABLE.
