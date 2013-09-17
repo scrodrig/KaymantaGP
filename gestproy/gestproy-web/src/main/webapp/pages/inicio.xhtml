@@ -9,13 +9,13 @@
 
     <ui:define name="titulo">Inicio</ui:define>
     <ui:define name="contenido">
-        <p:panel id="loginPanel" header="Inicio de SesiÃ³n" style="width: 250px;" >
+        <p:panel id="loginPanel" header="Inicio de Sesión" style="width: 250px;" >
             <h:panelGrid columns="3" >
                 <p:outputLabel for="usuario" value="Usuario:" />
-                <p:inputText id="usuario" maxlength="15" value="#{inicioBean.codUsuario}" required="true" label="Usuario"/>
+                <p:inputText id="usuario" maxlength="20" value="#{inicioBean.codUsuario}" required="true" label="Usuario"/>
                 <p:message for="usuario" />
                 <p:outputLabel for="clave" value="Clave:" />
-                <p:password id="clave" maxlength="15" value="#{inicioBean.clave}" required="true" label="Clave"/>
+                <p:password id="clave" maxlength="20" value="#{inicioBean.clave}" required="true" label="Clave"/>
                 <p:message for="clave" />
             </h:panelGrid>
             <f:facet name="footer" >

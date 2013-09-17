@@ -4,6 +4,7 @@
  */
 package ec.kaymanta.gestproy.beans;
 
+import ec.kaymanta.gestproy.modelo.Empleado;
 import ec.kaymanta.gestproy.modelo.Usuario;
 import ec.kaymanta.gestproy.servicio.AutentificacionServicio;
 import java.io.Serializable;
@@ -28,12 +29,15 @@ public class InicioBean implements Serializable {
     private String clave;
     @EJB
     private AutentificacionServicio autentificacionServicio;
+    //@EJB
+    //pri
 
     public String validarUsuario() {
         Usuario usuario = this.autentificacionServicio.UsuarioAutentificar(codUsuario, clave);
+        Empleado empleado;
         System.out.println("En el BB " + usuario);
         if (usuario != null) {
-//            if ("J".equals(usuario.getTipoUsuario())) {
+            //if (usuario.getCodigo()) {
 //                return "menu";
 //            } else {
 //                return "menuAdmin";
