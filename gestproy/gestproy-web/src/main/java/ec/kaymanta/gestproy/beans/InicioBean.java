@@ -34,9 +34,8 @@ public class InicioBean implements Serializable {
     private EmpleadoServicio empleadoServicio;
 
     public String validarUsuario() {
-        //Usuario usuario = this.autentificacionServicio.usuarioAutentificar(nombreUsuario, clave);
-        
-        Usuario usuario=null;
+        Usuario usuario = this.autentificacionServicio.usuarioAutentificar(nombreUsuario, clave);
+        //Usuario usuario=null;
         System.out.println("ESTOY EN validarUsuario");
         if (usuario != null) {
             Empleado empleado = this.empleadoServicio.findByID(usuario.getCodigo());
@@ -67,11 +66,13 @@ public class InicioBean implements Serializable {
         this.clave = clave;
     }
 
-    public String getCodUsuario() {
+    public String getNombreUsuario() {
         return nombreUsuario;
     }
 
-    public void setCodUsuario(String codUsuario) {
-        this.nombreUsuario = codUsuario;
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
     }
+
+  
 }
