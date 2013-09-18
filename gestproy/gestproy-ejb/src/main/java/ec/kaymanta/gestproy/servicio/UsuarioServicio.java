@@ -33,7 +33,14 @@ public class UsuarioServicio {
         return this.usuarioDAO.findAll();
     }
     
-    
+    /**
+     *Función para obtener un registro segun el nombre del usuario
+     * @param nombre
+     * @return
+     */
+    public Usuario findByNombre(String nombre) {
+        return this.usuarioDAO.findByName(nombre);
+    }
     
     /**
      * Función para crear nuevos registros

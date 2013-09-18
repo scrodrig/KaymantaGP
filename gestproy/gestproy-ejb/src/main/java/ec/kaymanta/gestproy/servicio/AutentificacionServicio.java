@@ -4,7 +4,6 @@
  */
 package ec.kaymanta.gestproy.servicio;
 
-
 import ec.kaymanta.gestproy.dao.UsuarioDAO;
 import ec.kaymanta.gestproy.modelo.Usuario;
 import javax.ejb.*;
@@ -17,17 +16,18 @@ import javax.ejb.*;
 @LocalBean
 public class AutentificacionServicio {
 
-     @EJB
+    @EJB
     private UsuarioDAO usuarioDAO;
-    
-   
-     public Usuario UsuarioAutentificar(String codigoUsuario, String clave)
-    {
-        
-        Usuario usuario =this.usuarioDAO.findById(codigoUsuario,true);
-        if(usuario!=null && usuario.getClave().equals(clave))
-            return usuario;
+
+    public Usuario UsuarioAutentificar(String nombreUsuario, String clave) {
+
+        Usuario usuario = this.usuarioDAO.findById(nombreUsuario, true);
+        System.out.println("ESTOY EN AutentificacionServicio");
+        if (usuario != null) {
+            if (usuario.getClave().equals(clave)) {
+                return usuario;
+            }
+        }
         return null;
     }
-    
 }

@@ -16,6 +16,8 @@ import com.persist.common.dao.DefaultGenericDAOImple;
 import ec.kaymanta.gestproy.modelo.Usuario;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 /**
  * La Clase UsuarioDAO especifica e implementa las operaciones de 
@@ -28,4 +30,15 @@ import javax.ejb.Stateless;
 @LocalBean
 public class UsuarioDAO extends DefaultGenericDAOImple<Usuario, String> {
 
+    private EntityManager em;
+    
+    public Usuario findByName(String nombre)
+    {
+        String sql="SELECT obj FROM Usuario obj WHERE obj.usuario=?1";
+        Query qry=this.em.createQuery(sql);
+        qry.setParameter(1, nombre);
+        
+        return (Usuario) qry.getSingleResult();
+    }
+    
 }

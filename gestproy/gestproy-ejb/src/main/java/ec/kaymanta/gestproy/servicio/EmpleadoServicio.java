@@ -33,15 +33,22 @@ public class EmpleadoServicio {
         return this.empleadoDAO.findAll();
     }
     
-    
+     /**
+     *Función para obtener el registro de un empleado
+     * @param codigo
+     * @return
+     */
+    public Empleado findByID(String codigo) {
+        return this.empleadoDAO.findById(codigo, true);
+    }
     
     /**
      * Función para crear nuevos registros
      * @param empleado
      */
     public void crear(Empleado empleado) {
-        System.out.println("En crear "+empleado.getUsuario());
-        empleado.setFechaUltAcceso(new Date());
+        System.out.println("En crear "+empleado.getNombre());
+        //empleado.getFechaUltAcceso(new Date());
         this.empleadoDAO.insert(empleado);
     }
        
@@ -50,7 +57,7 @@ public class EmpleadoServicio {
      * @param empleado
      */
     public void actualizar(Empleado empleado) {
-        System.out.println("En actualizar "+empleado.getUsuario());
+        System.out.println("En actualizar "+empleado.getNombre());
         //empleado.setFechaUltAcceso(new Date());
         this.empleadoDAO.update(empleado);
     }
@@ -60,7 +67,7 @@ public class EmpleadoServicio {
      * @param empleado
      */
     public void eliminar(Empleado empleado) {
-        System.out.println("En eliminar "+empleado.getUsuario());
+        System.out.println("En eliminar "+empleado.getNombre());
         this.empleadoDAO.remove(empleado);
     }
 
