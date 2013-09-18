@@ -19,9 +19,9 @@ public class AutentificacionServicio {
     @EJB
     private UsuarioDAO usuarioDAO;
 
-    public Usuario UsuarioAutentificar(String nombreUsuario, String clave) {
+    public Usuario usuarioAutentificar(String nombreUsuario, String clave) {
 
-        Usuario usuario = this.usuarioDAO.findById(nombreUsuario, true);
+        Usuario usuario = this.usuarioDAO.findByName(nombreUsuario);
         System.out.println("ESTOY EN AutentificacionServicio");
         if (usuario != null) {
             if (usuario.getClave().equals(clave)) {

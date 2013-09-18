@@ -30,11 +30,13 @@ public class InicioBean implements Serializable {
     private String clave;
     @EJB
     private AutentificacionServicio autentificacionServicio;
-    //@EJB
+    @EJB
     private EmpleadoServicio empleadoServicio;
 
     public String validarUsuario() {
-        Usuario usuario = this.autentificacionServicio.UsuarioAutentificar(nombreUsuario, clave);
+        //Usuario usuario = this.autentificacionServicio.usuarioAutentificar(nombreUsuario, clave);
+        
+        Usuario usuario=null;
         System.out.println("ESTOY EN validarUsuario");
         if (usuario != null) {
             Empleado empleado = this.empleadoServicio.findByID(usuario.getCodigo());
