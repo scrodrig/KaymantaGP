@@ -33,7 +33,7 @@ public class UsuarioDAO extends DefaultGenericDAOImple<Usuario, String> {
     
     public Usuario findByName(String nombre)
     {
-        String sql="SELECT obj FROM Usuario obj WHERE obj.codigo=?1";
+        String sql="SELECT obj FROM Usuario obj WHERE obj.usuario=?1";
         Query qry=super.getEntityManager().createQuery(sql);
         qry.setParameter(1, nombre);        
         return (Usuario) qry.getSingleResult();
