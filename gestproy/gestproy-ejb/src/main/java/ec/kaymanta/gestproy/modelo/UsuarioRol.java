@@ -32,7 +32,7 @@ import javax.persistence.TemporalType;
  * @version 1.0
  */
 @Entity
-@Table(name = "gpk_usuario_rol", catalog = "kaymantaGP", schema = "")
+@Table(name = "GPK_USUARIO_ROL", catalog = "kaymantaGP", schema = "")
 public class UsuarioRol implements Serializable {
 
     /**

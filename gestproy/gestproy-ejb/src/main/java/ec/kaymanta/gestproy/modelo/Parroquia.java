@@ -32,7 +32,7 @@ import javax.persistence.Table;
  * @version 1.0
  */
 @Entity
-@Table(name = "gpk_parroquia", catalog = "kaymantaGP", schema = "")
+@Table(name = "GPK_PARROQUIA", catalog = "kaymantaGP", schema = "")
 public class Parroquia implements Serializable {
 
 	/** Constante autogenerada serialVersionUID. */

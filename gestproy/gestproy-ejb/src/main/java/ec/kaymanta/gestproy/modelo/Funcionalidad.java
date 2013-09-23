@@ -29,7 +29,7 @@ import javax.persistence.Table;
  * @version 1.0
  */
 @Entity
-@Table(name = "gpk_funcionalidad", catalog = "kaymantaGP", schema = "")
+@Table(name = "GPK_FUNCIONALIDAD", catalog = "kaymantaGP", schema = "")
 public class Funcionalidad implements Serializable {
 
     /**

@@ -29,7 +29,7 @@ import javax.persistence.Table;
  * @version 1.0
  */
 @Entity
-@Table(name = "gpk_canton", catalog = "kaymantaGP", schema = "")
+@Table(name = "GPK_CANTON", catalog = "kaymantaGP", schema = "")
 public class Canton implements Serializable {
 
     /**

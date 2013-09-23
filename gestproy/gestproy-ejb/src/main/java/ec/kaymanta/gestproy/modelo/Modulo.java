@@ -26,7 +26,7 @@ import javax.persistence.Table;
  * @version 1.0
  */
 @Entity
-@Table(name = "gpk_modulo", catalog = "kaymantaGP", schema = "")
+@Table(name = "GPK_MODULO", catalog = "kaymantaGP", schema = "")
 public class Modulo implements Serializable {
 
     /**

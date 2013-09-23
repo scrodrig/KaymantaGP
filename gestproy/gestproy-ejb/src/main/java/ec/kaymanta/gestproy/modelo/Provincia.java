@@ -26,7 +26,7 @@ import javax.persistence.Table;
  * @version 1.0
  */
 @Entity
-@Table(name = "gpk_provincia", catalog = "kaymantaGP", schema = "")
+@Table(name = "GPK_PROVINCIA", catalog = "kaymantaGP", schema = "")
 public class Provincia implements Serializable {
 
     /**

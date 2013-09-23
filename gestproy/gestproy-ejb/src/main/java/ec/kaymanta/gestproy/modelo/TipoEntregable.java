@@ -26,7 +26,7 @@ import javax.persistence.Table;
  * @version 1.0
  */
 @Entity
-@Table(name = "gpk_tipo_entregable", catalog = "kaymantaGP", schema = "")
+@Table(name = "GPK_TIPO_ENTREGABLE", catalog = "kaymantaGP", schema = "")
 public class TipoEntregable implements Serializable {
 
     /**

@@ -26,7 +26,7 @@ import javax.persistence.Table;
  * @version 1.0
  */
 @Entity
-@Table(name = "gpk_rol", catalog = "kaymantaGP", schema = "")
+@Table(name = "GPK_ROL", catalog = "kaymantaGP", schema = "")
 public class Rol implements Serializable {
 
     /**
