@@ -39,7 +39,7 @@ public class EmpleadoServicio {
      * @return
      */
     public Empleado findByID(String codigo) {
-        return this.empleadoDAO.findById(codigo, true);
+        return this.empleadoDAO.findById(codigo,false);
     }
     
     /**

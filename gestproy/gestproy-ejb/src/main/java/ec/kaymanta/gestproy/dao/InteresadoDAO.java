@@ -28,4 +28,10 @@ import javax.ejb.Stateless;
 @LocalBean
 public class InteresadoDAO extends DefaultGenericDAOImple<Interesado, Long> {
 
+      public InteresadoDAO()
+    {
+        super(Interesado.class);
+    
+    }
+    
 }

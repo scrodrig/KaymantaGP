@@ -17,6 +17,7 @@ import ec.kaymanta.gestproy.modelo.Usuario;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 /**
@@ -31,12 +32,25 @@ import javax.persistence.Query;
 public class UsuarioDAO extends DefaultGenericDAOImple<Usuario, String> {
 
     
-    public Usuario findByName(String nombre)
+    public UsuarioDAO()
     {
-        String sql="SELECT obj FROM Usuario obj WHERE obj.usuario=?1";
-        Query qry=super.getEntityManager().createQuery(sql);
-        qry.setParameter(1, nombre);        
-        return (Usuario) qry.getSingleResult();
+        super(Usuario.class);
+    
+    }
+    
+    public Usuario findByName(String nombreUsuario)
+    {
+        try {
+            System.out.println(nombreUsuario);
+            String sql = "SELECT obj FROM Usuario obj WHERE obj.usuario=?1";
+            Query qry = this.getEntityManager().createQuery(sql);
+            qry.setParameter(1, nombreUsuario);
+            System.out.println(qry.toString());
+            return (Usuario) qry.getSingleResult();
+        }catch(NoResultException e)
+        {
+            return null;
+        }
     }
     
 }

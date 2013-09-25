@@ -29,4 +29,9 @@ import javax.ejb.Stateless;
 @LocalBean
 public class DocumentosProyectoDAO extends DefaultGenericDAOImple<DocumentosProyecto, DocumentosProyectoPK> {
 
+      public DocumentosProyectoDAO()
+    {
+        super(DocumentosProyecto.class);
+    
+    }
 }

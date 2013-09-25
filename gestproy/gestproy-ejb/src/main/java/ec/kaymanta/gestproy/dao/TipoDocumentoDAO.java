@@ -28,4 +28,9 @@ import javax.ejb.Stateless;
 @LocalBean
 public class TipoDocumentoDAO extends DefaultGenericDAOImple<TipoDocumento, Long> {
 
+     public TipoDocumentoDAO()
+    {
+        super(TipoDocumento.class);
+    
+    }
 }

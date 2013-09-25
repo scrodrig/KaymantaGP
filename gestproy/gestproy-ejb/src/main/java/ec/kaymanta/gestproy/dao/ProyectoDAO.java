@@ -28,4 +28,9 @@ import javax.ejb.Stateless;
 @LocalBean
 public class ProyectoDAO extends DefaultGenericDAOImple<Proyecto, Long> {
 
+      public ProyectoDAO()
+    {
+        super(Proyecto.class);
+    
+    }
 }

@@ -29,4 +29,9 @@ import javax.ejb.Stateless;
 @LocalBean
 public class GastoDAO extends DefaultGenericDAOImple<Gasto, GastoPK> {
 
+      public GastoDAO()
+    {
+        super(Gasto.class);
+    
+    }
 }

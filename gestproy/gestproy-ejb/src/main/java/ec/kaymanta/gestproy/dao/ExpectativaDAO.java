@@ -29,4 +29,9 @@ import javax.ejb.Stateless;
 @LocalBean
 public class ExpectativaDAO extends DefaultGenericDAOImple<Expectativa, ExpectativaPK> {
 
+      public ExpectativaDAO()
+    {
+        super(Expectativa.class);
+    
+    }
 }

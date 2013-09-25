@@ -28,4 +28,9 @@ import javax.ejb.Stateless;
 @LocalBean
 public class FuncionalidadDAO extends DefaultGenericDAOImple<Funcionalidad, Long> {
 
+      public FuncionalidadDAO()
+    {
+        super(Funcionalidad.class);
+    
+    }
 }

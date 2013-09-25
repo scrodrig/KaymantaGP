@@ -29,4 +29,10 @@ import javax.ejb.Stateless;
 @LocalBean
 public class HistorialDocumentoDAO extends DefaultGenericDAOImple<HistorialDocumento, HistorialDocumentoPK> {
 
+      public HistorialDocumentoDAO()
+    {
+        super(HistorialDocumento.class);
+    
+    }
+    
 }

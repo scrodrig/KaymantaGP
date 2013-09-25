@@ -19,9 +19,9 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 /**
- * La Clase ActividadEmpleadoDAO especifica e implementa las operaciones de 
+ * La Clase ActividadEmpleadoDAO especifica e implementa las operaciones de
  * acceso a datos relacionadas con la entidad ActividadEmpleado.
- * 
+ *
  * @author JPA Generator
  * @version 1.0
  */
@@ -29,4 +29,8 @@ import javax.ejb.Stateless;
 @LocalBean
 public class ActividadEmpleadoDAO extends DefaultGenericDAOImple<ActividadEmpleado, ActividadEmpleadoPK> {
 
+    public ActividadEmpleadoDAO() {
+        super(ActividadEmpleado.class);
+
+    }
 }

@@ -19,9 +19,9 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 /**
- * La Clase ActividadEntregableDAO especifica e implementa las operaciones de 
+ * La Clase ActividadEntregableDAO especifica e implementa las operaciones de
  * acceso a datos relacionadas con la entidad ActividadEntregable.
- * 
+ *
  * @author JPA Generator
  * @version 1.0
  */
@@ -29,4 +29,8 @@ import javax.ejb.Stateless;
 @LocalBean
 public class ActividadEntregableDAO extends DefaultGenericDAOImple<ActividadEntregable, ActividadEntregablePK> {
 
+    public ActividadEntregableDAO() {
+        super(ActividadEntregable.class);
+
+    }
 }

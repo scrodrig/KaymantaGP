@@ -28,5 +28,11 @@ import javax.ejb.Stateless;
 @Stateless
 @LocalBean
 public class RolFuncionalidadDAO extends DefaultGenericDAOImple<RolFuncionalidad, RolFuncionalidadPK> {
-
+  
+    public RolFuncionalidadDAO()
+    {
+        super(RolFuncionalidad.class);
+    
+    }
+    
 }

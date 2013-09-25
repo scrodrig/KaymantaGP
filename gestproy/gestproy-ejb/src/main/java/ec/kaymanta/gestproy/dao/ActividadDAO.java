@@ -28,4 +28,9 @@ import javax.ejb.Stateless;
 @LocalBean
 public class ActividadDAO extends DefaultGenericDAOImple<Actividad, Long> {
 
+      public ActividadDAO()
+    {
+        super(Actividad.class);
+    
+    }
 }

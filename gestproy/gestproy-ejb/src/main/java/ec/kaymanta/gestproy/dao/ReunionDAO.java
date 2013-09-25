@@ -19,9 +19,9 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 /**
- * La Clase ReunionDAO especifica e implementa las operaciones de 
- * acceso a datos relacionadas con la entidad Reunion.
- * 
+ * La Clase ReunionDAO especifica e implementa las operaciones de acceso a datos
+ * relacionadas con la entidad Reunion.
+ *
  * @author JPA Generator
  * @version 1.0
  */
@@ -29,4 +29,8 @@ import javax.ejb.Stateless;
 @LocalBean
 public class ReunionDAO extends DefaultGenericDAOImple<Reunion, ReunionPK> {
 
+    public ReunionDAO() {
+        super(Reunion.class);
+
+    }
 }

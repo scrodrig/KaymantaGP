@@ -18,9 +18,9 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 /**
- * La Clase InstitucionControlDAO especifica e implementa las operaciones de 
+ * La Clase InstitucionControlDAO especifica e implementa las operaciones de
  * acceso a datos relacionadas con la entidad InstitucionControl.
- * 
+ *
  * @author JPA Generator
  * @version 1.0
  */
@@ -28,4 +28,8 @@ import javax.ejb.Stateless;
 @LocalBean
 public class InstitucionControlDAO extends DefaultGenericDAOImple<InstitucionControl, Long> {
 
+    public InstitucionControlDAO() {
+        super(InstitucionControl.class);
+
+    }
 }

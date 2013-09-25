@@ -27,5 +27,11 @@ import javax.ejb.Stateless;
 @Stateless
 @LocalBean
 public class ModuloDAO extends DefaultGenericDAOImple<Modulo, Long> {
+    
+      public ModuloDAO()
+    {
+        super(Modulo.class);
+    
+    }
 
 }

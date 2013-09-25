@@ -29,4 +29,9 @@ import javax.ejb.Stateless;
 @LocalBean
 public class EntregableDocumentoDAO extends DefaultGenericDAOImple<EntregableDocumento, EntregableDocumentoPK> {
 
+      public EntregableDocumentoDAO()
+    {
+        super(EntregableDocumento.class);
+    
+    }
 }

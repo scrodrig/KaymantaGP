@@ -29,4 +29,9 @@ import javax.ejb.Stateless;
 @LocalBean
 public class ActividadSegumientoDAO extends DefaultGenericDAOImple<ActividadSegumiento, ActividadSegumientoPK> {
 
+      public ActividadSegumientoDAO()
+    {
+        super(ActividadSegumiento.class);
+    
+    }
 }

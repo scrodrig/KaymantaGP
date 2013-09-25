@@ -29,4 +29,9 @@ import javax.ejb.Stateless;
 @LocalBean
 public class UsuarioRolDAO extends DefaultGenericDAOImple<UsuarioRol, UsuarioRolPK> {
 
+    public UsuarioRolDAO()
+    {
+        super(UsuarioRol.class);
+    
+    }
 }

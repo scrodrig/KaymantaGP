@@ -19,9 +19,9 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 /**
- * La Clase FechasActividadDAO especifica e implementa las operaciones de 
- * acceso a datos relacionadas con la entidad FechasActividad.
- * 
+ * La Clase FechasActividadDAO especifica e implementa las operaciones de acceso
+ * a datos relacionadas con la entidad FechasActividad.
+ *
  * @author JPA Generator
  * @version 1.0
  */
@@ -29,4 +29,8 @@ import javax.ejb.Stateless;
 @LocalBean
 public class FechasActividadDAO extends DefaultGenericDAOImple<FechasActividad, FechasActividadPK> {
 
+    public FechasActividadDAO() {
+        super(FechasActividad.class);
+
+    }
 }

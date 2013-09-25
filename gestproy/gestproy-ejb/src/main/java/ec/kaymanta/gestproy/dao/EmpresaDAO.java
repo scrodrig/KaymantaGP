@@ -18,9 +18,9 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 /**
- * La Clase EmpresaDAO especifica e implementa las operaciones de 
- * acceso a datos relacionadas con la entidad Empresa.
- * 
+ * La Clase EmpresaDAO especifica e implementa las operaciones de acceso a datos
+ * relacionadas con la entidad Empresa.
+ *
  * @author JPA Generator
  * @version 1.0
  */
@@ -28,4 +28,8 @@ import javax.ejb.Stateless;
 @LocalBean
 public class EmpresaDAO extends DefaultGenericDAOImple<Empresa, String> {
 
+    public EmpresaDAO() {
+        super(Empresa.class);
+
+    }
 }

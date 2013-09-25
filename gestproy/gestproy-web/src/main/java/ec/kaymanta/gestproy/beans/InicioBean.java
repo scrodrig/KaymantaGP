@@ -35,17 +35,18 @@ public class InicioBean implements Serializable {
 
     public String validarUsuario() {
         Usuario usuario = this.autentificacionServicio.usuarioAutentificar(nombreUsuario, clave);
-        //Usuario usuario=null;
         System.out.println("ESTOY EN validarUsuario");
+        System.out.println("En el BB " + usuario);
         if (usuario != null) {
             Empleado empleado = this.empleadoServicio.findByID(usuario.getCodigo());
+            System.out.println("En el BB " + empleado);
             if (empleado != null) {
                 System.out.println("En el BB " + usuario);
-                if (empleado.getCodigo().equals(usuario.getCodigo())) {
-                    return "menu";
-                } else {
-                    return "menuAdmin";
-                }
+                 if (empleado.getCodigo().equals(usuario.getCodigo())) {
+                   return "menu";
+               } else {
+                   return "menuAdmin";
+               }
             } else {
                 FacesContext.getCurrentInstance().addMessage(
                         null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Login Incorrecto", "No coincide la información!"));

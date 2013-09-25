@@ -28,4 +28,10 @@ import javax.ejb.Stateless;
 @LocalBean
 public class RolDAO extends DefaultGenericDAOImple<Rol, Long> {
 
+      public RolDAO()
+    {
+        super(Rol.class);
+    
+    }
+    
 }

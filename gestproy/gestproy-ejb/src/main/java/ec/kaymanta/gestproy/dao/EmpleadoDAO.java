@@ -16,6 +16,8 @@ import com.persist.common.dao.DefaultGenericDAOImple;
 import ec.kaymanta.gestproy.modelo.Empleado;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
 
 /**
  * La Clase EmpleadoDAO especifica e implementa las operaciones de 
@@ -28,4 +30,28 @@ import javax.ejb.Stateless;
 @LocalBean
 public class EmpleadoDAO extends DefaultGenericDAOImple<Empleado, String> {
 
+    public EmpleadoDAO()
+    {
+        super(Empleado.class);
+    
+    }
+    
+    public Empleado findById(String cedula)
+    {
+        {
+        try {
+            System.out.println(cedula);
+            String sql = "SELECT obj FROM Empleado obj WHERE obj.codigo=?1";
+            Query qry = this.getEntityManager().createQuery(sql);
+            qry.setParameter(1, cedula);
+            System.out.println(qry.toString());
+            return (Empleado) qry.getSingleResult();
+        }catch(NoResultException e)
+        {
+            return null;
+        }
+    }
+    }
+    
+    
 }

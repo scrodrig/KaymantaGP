@@ -28,4 +28,9 @@ import javax.ejb.Stateless;
 @LocalBean
 public class TipoEntregableDAO extends DefaultGenericDAOImple<TipoEntregable, Long> {
 
+ public TipoEntregableDAO()
+    {
+        super(TipoEntregable.class);
+    
+    }    
 }

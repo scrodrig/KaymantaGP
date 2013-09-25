@@ -29,4 +29,9 @@ import javax.ejb.Stateless;
 @LocalBean
 public class LeccionesAprendidasDAO extends DefaultGenericDAOImple<LeccionesAprendidas, LeccionesAprendidasPK> {
 
+      public LeccionesAprendidasDAO()
+    {
+        super(LeccionesAprendidas.class);
+    
+    }
 }

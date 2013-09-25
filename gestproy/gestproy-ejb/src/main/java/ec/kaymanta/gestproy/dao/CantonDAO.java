@@ -29,4 +29,9 @@ import javax.ejb.Stateless;
 @LocalBean
 public class CantonDAO extends DefaultGenericDAOImple<Canton, CantonPK> {
 
+      public CantonDAO()
+    {
+        super(Canton.class);
+    
+    }
 }

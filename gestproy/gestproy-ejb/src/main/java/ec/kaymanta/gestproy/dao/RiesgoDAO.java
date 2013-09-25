@@ -29,4 +29,9 @@ import javax.ejb.Stateless;
 @LocalBean
 public class RiesgoDAO extends DefaultGenericDAOImple<Riesgo, RiesgoPK> {
 
+      public RiesgoDAO()
+    {
+        super(Riesgo.class);
+    
+    }
 }

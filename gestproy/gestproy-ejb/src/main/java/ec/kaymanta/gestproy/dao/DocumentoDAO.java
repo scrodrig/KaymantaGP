@@ -28,4 +28,9 @@ import javax.ejb.Stateless;
 @LocalBean
 public class DocumentoDAO extends DefaultGenericDAOImple<Documento, Long> {
 
+      public DocumentoDAO()
+    {
+        super(Documento.class);
+    
+    }
 }

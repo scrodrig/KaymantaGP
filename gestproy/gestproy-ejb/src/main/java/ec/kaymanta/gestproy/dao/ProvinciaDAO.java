@@ -28,4 +28,10 @@ import javax.ejb.Stateless;
 @LocalBean
 public class ProvinciaDAO extends DefaultGenericDAOImple<Provincia, Long> {
 
+      public ProvinciaDAO()
+    {
+        super(Provincia.class);
+    
+    }
+    
 }

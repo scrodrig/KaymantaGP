@@ -28,4 +28,10 @@ import javax.ejb.Stateless;
 @LocalBean
 public class TipoGastoDAO extends DefaultGenericDAOImple<TipoGasto, Long> {
 
+    public TipoGastoDAO()
+    {
+        super(TipoGasto.class);
+    
+    }
+    
 }
