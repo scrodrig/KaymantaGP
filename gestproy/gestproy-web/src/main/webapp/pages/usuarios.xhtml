@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/templateMantenimiento.xhtml">
+
+    <ui:define name="titulo">Usuarios</ui:define> 
+
+    <ui:define name="cuerpo">
+        <p:dataTable id="usuarios"  value="#{usuariosBean.usuarios}" var="usuario" selection="#{usuariosBean.usuarioSeleccionado}" selectionMode="single" scrollable="true" 
+                     rowKey="#{usuario.codigo}" style="width: 1000px" 
+                     paginator="true" rows="10"  
+                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     rowsPerPageTemplate="5,10,15" emptyMessage="No se ha registrado ningún Usuario" rendered="#{not (usuariosBean.enRegistro or usuariosBean.enEdicion)}" >
+
+            <p:ajax event="rowSelect" listener="#{usuariosBean.filaSeleccionada(evento)}" update="usuarios"/>
+            <p:ajax event="rowUnselect" listener="#{usuariosBean.filaSeleccionada(evento)}" update="usuarios"/>
+
+            <f:facet name="header">
+                Usuarios Empleados
+            </f:facet>
+            <p:column headerText="Código Usuario" style="width: 300px">
+                #{usuario.codigo}
+            </p:column>
+             <p:column headerText="Nombre Usuario" style="width: 300px">
+                #{usuario.usuario}
+            </p:column>
+            <p:column headerText="Ultimo Ingreso" style="width: 400px">
+                #{usuario.fechaUltAcceso}
+            </p:column>
+
+
+            <f:facet name="footer">  
+                <p:commandButton  value="Nuevo" update="@form" actionListener="#{usuariosBean.nuevo(evento)}" disabled="#{usuariosBean.disabledNuevo}" icon="ui-icon-document"/>  
+                <p:commandButton value="Modificar" update="@form" actionListener="#{usuariosBean.modificar(evento)}" disabled="#{usuariosBean.disabledModificar}" icon="ui-icon-pencil"/>
+                <p:commandButton value="Eliminar" onclick="confirmation.show();" disabled="#{usuariosBean.disabledEliminar}" icon="ui-icon-close"/>
+            </f:facet>
+
+        </p:dataTable>
+
+
+        <p:growl id="mensajeEliminar" />
+        <p:confirmDialog id="confirmDialog" message="¿Seguro desea eliminar?"  
+                         header="Eliminación" severity="alert" widgetVar="confirmation">  
+            <p:commandButton id="confirm" value="Si, seguro" update="@form " oncomplete="confirmation.hide()"  
+                             actionListener="#{usuariosBean.eliminar(evento)}"  />  
+            <p:commandButton id="decline" value="No" onclick="confirmation.hide();" type="button" />   
+
+        </p:confirmDialog> 
+
+
+
+
+        <p:panel id="nuevoUsr" header="Creación de Usuario" rendered="#{usuariosBean.enRegistro}" style="width: 1000px">
+            <p:panelGrid columns="3">
+                <p:outputLabel for="codigo" value="Cédula"/>
+                <p:inputText id="codigo" value="#{usuariosBean.usuario.codigo}" label="Cédula" required="true">
+                    <f:validateLength minimum="10" maximum="10" />                  
+                </p:inputText> 
+                <p:message for="codigo" />
+
+                <p:outputLabel for="usuario" value="Nombre Usuario:"/>                
+                <p:inputText id="usuario" value="#{usuariosBean.usuario.usuario}" label="NombreUsuario" required="true">
+                </p:inputText>
+                <p:message for="usuario" />
+                
+                <p:outputLabel for="clave" value="Clave:" />
+                <p:inputText type="password" id="clave" value="#{usuariosBean.usuario.clave}" label="Clave" required="true">
+                </p:inputText> 
+                <p:message for="clave" />
+
+                
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{usuariosBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{usuariosBean.cancelar(evento)}" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>
+
+
+
+
+        <p:panel id="modificarUsr" header="Modificación de Usuario" rendered="#{usuariosBean.enEdicion}" style="width: 1000px">
+            <p:panelGrid columns="3">
+                
+                <p:outputLabel for="m_codigo" value="Código:"/>
+                <p:inputText id="m_codigo" value="#{usuariosBean.usuario.codigo}" label="Código" required="true" readonly="true"/>
+                <p:column/>
+                
+                <p:outputLabel for="m_usuario" value="Nombre Usuario:"/>                
+                <p:inputText id="m_usuario" value="#{usuariosBean.usuario.usuario}" label="Nombre Usuario" required="true"/>              
+                <p:message for="m_usuario" />
+                
+                <p:outputLabel for="m_clave" value="Clave:"/>
+                <p:inputText id="m_clave" value="#{usuariosBean.usuario.clave}" label="Clave" required="true" />
+                <p:message for="m_clave" />
+
+                 
+
+            </p:panelGrid>
+
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{usuariosBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{usuariosBean.cancelar(evento)}" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+
+        </p:panel>
+
+    </ui:define>
+
+</ui:composition>

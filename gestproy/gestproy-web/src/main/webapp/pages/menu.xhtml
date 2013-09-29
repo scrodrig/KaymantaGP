@@ -8,17 +8,21 @@
                 template="/templates/templateMantenimiento.xhtml">
     <ui:define name="titulo">Bienvenido</ui:define>
     <ui:define name="cuerpo">
-        
+
         <h5> Bienvenido Schubert David Rodríguez</h5> 
         <br/>
         <p:panel header="Sistema de Gestión de Proyectos Ambientales (SIGPA)"  style="width: 1000px">  
             <h:outputText value="La empresa se crea junto con la tendencia de manejo ambiental sustentable y basada en principios simultáneos de conservación del medio ambiente y desarrollo." />  
         </p:panel> 
         <br/>  
+        <img src="#{facesContext.externalContext.requestContextPath}/images/home.jpg" style="width: 1000px"/>
+        <br/>
         <br/>
         <p:panel header="KAYMANTA" footer="Actualmente KAYMANTA se encuentre ubicado en Quito, en Pasaje el Jardín N168 y Av. 6 de Diciembre, Edificio Century Plaza." style="width: 1000px">  
             <h:outputText value="KAYMANTA, cuenta con un equipo técnico de profesionales con alta formación académica y amplia experiencia en proyectos de desarrollo, infraestructura y ambiente, capaces de coordinar y proponer soluciones de gran solidez técnica. Posee un equipo de profesionales en diferentes ramas y especialistas de gran trayectoria en áreas relacionadas con la gestión ambiental." />  
         </p:panel> 
+        <br/>
+        <br/>
     </ui:define>
 </ui:composition>
 

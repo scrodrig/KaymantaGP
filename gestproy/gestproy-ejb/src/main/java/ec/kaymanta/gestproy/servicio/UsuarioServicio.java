@@ -66,9 +66,11 @@ public class UsuarioServicio {
      *Función para eliminar registros
      * @param usuario
      */
+    
     public void eliminar(Usuario usuario) {
         System.out.println("En eliminar "+usuario.getUsuario());
-        this.usuarioDAO.remove(usuario);
+        Usuario usuarioTmp = this.usuarioDAO.findById(usuario.getCodigo(), false);
+        this.usuarioDAO.remove(usuarioTmp);
     }
     
     

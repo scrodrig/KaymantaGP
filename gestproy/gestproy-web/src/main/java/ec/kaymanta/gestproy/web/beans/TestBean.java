@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ec.kaymanta.gestproy.beans;
+package ec.kaymanta.gestproy.web.beans;
 
 import ec.kaymanta.gestproy.servicio.UsuarioServicio;
 import javax.ejb.EJB;
