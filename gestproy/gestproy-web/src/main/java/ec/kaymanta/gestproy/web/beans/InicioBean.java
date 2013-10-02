@@ -42,11 +42,13 @@ public class InicioBean implements Serializable {
             System.out.println("En el BB " + empleado);
             if (empleado != null) {
                 System.out.println("En el BB " + usuario);
-                 if (empleado.getCodigo().equals(usuario.getCodigo())) {
-                   return "menu";
-               } else {
-                   return "menuAdmin";
-               }
+                if (empleado.getCodigo().equals(usuario.getCodigo())) {
+                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Usuario", usuario);
+                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Empleado", empleado);
+                    return "menu";
+                } else {
+                    return "inicio";
+                }
             } else {
                 FacesContext.getCurrentInstance().addMessage(
                         null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Login Incorrecto", "No coincide la información!"));
@@ -74,6 +76,4 @@ public class InicioBean implements Serializable {
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
     }
-
-  
 }

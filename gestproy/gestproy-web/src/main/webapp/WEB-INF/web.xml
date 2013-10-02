@@ -20,7 +20,7 @@
     </context-param>
     <context-param>
         <param-name>primefaces.THEME</param-name>
-        <param-value>dark-hive</param-value>
+        <param-value>redmond</param-value>
     </context-param>
     <context-param>
         <param-name>javax.faces.DEFAULT_SUFFIX</param-name>

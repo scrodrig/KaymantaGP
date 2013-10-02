@@ -14,7 +14,7 @@
                      rowKey="#{usuario.codigo}" style="width: 1000px" 
                      paginator="true" rows="10"  
                      paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                     rowsPerPageTemplate="5,10,15" emptyMessage="No se ha registrado ningún Usuario" rendered="#{not (usuariosBean.enRegistro or usuariosBean.enEdicion)}" >
+                     rowsPerPageTemplate="5,10,15" emptyMessage="No se ha registrado ningún Usuario" rendered="#{not (usuariosBean.enRegistro or usuariosBean.enEdicion or usuariosBean.enAuditoria)}" >
 
             <p:ajax event="rowSelect" listener="#{usuariosBean.filaSeleccionada(evento)}" update="usuarios"/>
             <p:ajax event="rowUnselect" listener="#{usuariosBean.filaSeleccionada(evento)}" update="usuarios"/>
@@ -25,7 +25,7 @@
             <p:column headerText="Código Usuario" style="width: 300px">
                 #{usuario.codigo}
             </p:column>
-             <p:column headerText="Nombre Usuario" style="width: 300px">
+            <p:column headerText="Nombre Usuario" style="width: 300px">
                 #{usuario.usuario}
             </p:column>
             <p:column headerText="Ultimo Ingreso" style="width: 400px">
@@ -37,6 +37,8 @@
                 <p:commandButton  value="Nuevo" update="@form" actionListener="#{usuariosBean.nuevo(evento)}" disabled="#{usuariosBean.disabledNuevo}" icon="ui-icon-document"/>  
                 <p:commandButton value="Modificar" update="@form" actionListener="#{usuariosBean.modificar(evento)}" disabled="#{usuariosBean.disabledModificar}" icon="ui-icon-pencil"/>
                 <p:commandButton value="Eliminar" onclick="confirmation.show();" disabled="#{usuariosBean.disabledEliminar}" icon="ui-icon-close"/>
+                <p:commandButton  value="Auditoría" update="@form" actionListener="#{usuariosBean.verAuditoria(evento)}" disabled="#{usuariosBean.disableAuditoria}" icon="ui-icon-document"/>  
+
             </f:facet>
 
         </p:dataTable>
@@ -54,6 +56,11 @@
 
 
 
+
+
+
+
+
         <p:panel id="nuevoUsr" header="Creación de Usuario" rendered="#{usuariosBean.enRegistro}" style="width: 1000px">
             <p:panelGrid columns="3">
                 <p:outputLabel for="codigo" value="Cédula"/>
@@ -66,39 +73,43 @@
                 <p:inputText id="usuario" value="#{usuariosBean.usuario.usuario}" label="NombreUsuario" required="true">
                 </p:inputText>
                 <p:message for="usuario" />
-                
-                <p:outputLabel for="clave" value="Clave:" />
-                <p:inputText type="password" id="clave" value="#{usuariosBean.usuario.clave}" label="Clave" required="true">
-                </p:inputText> 
-                <p:message for="clave" />
 
+                <p:outputLabel for="clave" value="Clave:" />
+                <p:password id="clave" value="#{usuariosBean.usuario.clave}" match="pwd2" label="Clave" feedback="true" required="true"/> 
+                <p:message for="clave" />
                 
+                <p:outputLabel for="pwd2" value="Repetir clave:" />
+                <p:password id="pwd2" value="#{usuariosBean.usuario.clave}" label="Clave" feedback="true" required="true"/> 
+                <p:message for="pwd2" />
+
+
             </p:panelGrid>
             <f:facet name="footer"> 
                 <p:commandButton actionListener="#{usuariosBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
                 <p:commandButton actionListener="#{usuariosBean.cancelar(evento)}" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
             </f:facet>
         </p:panel>
+
+
 
 
 
 
         <p:panel id="modificarUsr" header="Modificación de Usuario" rendered="#{usuariosBean.enEdicion}" style="width: 1000px">
             <p:panelGrid columns="3">
-                
+
                 <p:outputLabel for="m_codigo" value="Código:"/>
                 <p:inputText id="m_codigo" value="#{usuariosBean.usuario.codigo}" label="Código" required="true" readonly="true"/>
                 <p:column/>
-                
+
                 <p:outputLabel for="m_usuario" value="Nombre Usuario:"/>                
                 <p:inputText id="m_usuario" value="#{usuariosBean.usuario.usuario}" label="Nombre Usuario" required="true"/>              
                 <p:message for="m_usuario" />
-                
-                <p:outputLabel for="m_clave" value="Clave:"/>
-                <p:inputText id="m_clave" value="#{usuariosBean.usuario.clave}" label="Clave" required="true" />
-                <p:message for="m_clave" />
 
-                 
+                <p:outputLabel for="m_clave" value="Clave:" />
+                <p:inputText type="password" id="m_clave" value="#{usuariosBean.usuario.clave}" label="Clave" readonly="true"/> 
+                <p:message for="m_clave" />
+                
 
             </p:panelGrid>
 
@@ -108,6 +119,40 @@
             </f:facet>
 
         </p:panel>
+
+
+
+        <p:panel id="verAuditoria" header="Auditoría de Usuario" rendered="#{usuariosBean.enAuditoria}" style="width: 1000px">
+            <p:panelGrid columns="2">
+
+                <p:outputLabel for="a_codigo" value="Código:"/>
+                <p:inputText id="a_codigo" value="#{usuariosBean.usuario.codigo}" label="Código" required="true" readonly="true"/>
+
+                <p:outputLabel for="a_usuario" value="Nombre de Usuario:"/>                
+                <p:inputText id="a_usuario" value="#{usuariosBean.usuario.usuario}" label="Nombre de Usuario" required="true" readonly="true"/>              
+
+                <p:outputLabel for="usrcre" value="Usuario creación"/>                
+                <p:inputText id="usrcre" value="#{usuariosBean.getUsrAuditoria(usuariosBean.usuario.usrCreacion)}" label="Usuario creación" required="true" readonly="true"/>              
+
+                <p:outputLabel for="usrcref" value="Fecha creación:"/>                
+                <p:inputText id="usrcref" value="#{usuariosBean.usuario.fcreacion}" label="Fecha creación" required="true" readonly="true"/>              
+
+                <p:outputLabel for="usrmod" value="Usuario modificación:"/>                
+                <p:inputText id="usrmod" value="#{usuariosBean.getUsrAuditoria(usuariosBean.usuario.usrModificacion)}" label="Usuario modificación" required="true" readonly="true"/>              
+
+                <p:outputLabel for="usrmodf" value="Fecha modificación:"/>                
+                <p:inputText id="usrmodf" value="#{usuariosBean.usuario.fmodificacion}" label="Fecha modificación" required="true" readonly="true"/>              
+ 
+            </p:panelGrid>
+
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{usuariosBean.cancelar(evento)}" value="Volver" update="@form" icon="ui-icon-back"/>
+            </f:facet>
+
+        </p:panel>
+
+
+
 
     </ui:define>
 

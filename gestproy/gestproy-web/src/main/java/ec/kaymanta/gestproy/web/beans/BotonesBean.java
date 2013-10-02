@@ -8,7 +8,6 @@ package ec.kaymanta.gestproy.web.beans;
  *
  * @author schubert_david
  */
-
 import javax.annotation.PostConstruct;
 
 public class BotonesBean {
@@ -16,12 +15,14 @@ public class BotonesBean {
     private Boolean disabledNuevo;
     private Boolean disabledModificar;
     private Boolean disabledEliminar;
+    private Boolean disableAuditoria;
     private Boolean uno;
     private Boolean varios;
     private Boolean noSeleccionados;
     private Boolean enEdicion;
     private Boolean enRegistro;
     private Boolean soloLectura;
+    private Boolean enAuditoria;
 
     @PostConstruct
     public void postConstructor() {
@@ -33,6 +34,7 @@ public class BotonesBean {
         this.disabledModificar = Boolean.TRUE;
         this.disabledEliminar = Boolean.TRUE;
         this.noSeleccionados = Boolean.TRUE;
+        this.disableAuditoria = Boolean.TRUE;
     }
 
     public void seleccionadoUno() {
@@ -51,6 +53,7 @@ public class BotonesBean {
         this.disabledNuevo = Boolean.TRUE;
         this.disabledModificar = Boolean.TRUE;
         this.disabledEliminar = Boolean.TRUE;
+        this.disableAuditoria = Boolean.TRUE;
         this.enRegistro = Boolean.TRUE;
     }
 
@@ -59,15 +62,29 @@ public class BotonesBean {
         this.disabledNuevo = Boolean.TRUE;
         this.disabledModificar = Boolean.TRUE;
         this.disabledEliminar = Boolean.TRUE;
+        this.disableAuditoria = Boolean.TRUE;
         this.enEdicion = Boolean.TRUE;
     }
-    
-    public void cancelar()
-    {
-        this.reset();   
+
+    public void cancelar() {
+        this.reset();
         this.disabledModificar = Boolean.TRUE;
         this.disabledEliminar = Boolean.TRUE;
-        
+        this.disableAuditoria = Boolean.TRUE;
+        this.enAuditoria = Boolean.FALSE;
+        this.soloLectura = Boolean.FALSE;
+
+
+    }
+
+    public void verAuditoria() {
+        this.reset();
+        this.disabledNuevo = Boolean.TRUE;
+        this.disabledModificar = Boolean.TRUE;
+        this.disabledEliminar = Boolean.TRUE;
+        this.disableAuditoria = Boolean.TRUE;
+        this.enAuditoria=Boolean.TRUE;
+        this.soloLectura = Boolean.TRUE;
     }
 
     public void verDetalles() {
@@ -75,6 +92,7 @@ public class BotonesBean {
         this.disabledNuevo = Boolean.TRUE;
         this.disabledModificar = Boolean.TRUE;
         this.disabledEliminar = Boolean.TRUE;
+        this.disableAuditoria = Boolean.TRUE;
         this.soloLectura = Boolean.TRUE;
     }
 
@@ -82,11 +100,13 @@ public class BotonesBean {
         this.disabledNuevo = Boolean.FALSE;
         this.disabledModificar = Boolean.FALSE;
         this.disabledEliminar = Boolean.FALSE;
+        this.disableAuditoria = Boolean.FALSE;
         this.uno = Boolean.FALSE;
         this.varios = Boolean.FALSE;
         this.noSeleccionados = Boolean.FALSE;
         this.enEdicion = Boolean.FALSE;
         this.enRegistro = Boolean.FALSE;
+        this.enAuditoria=Boolean.FALSE;
         this.soloLectura = Boolean.FALSE;
     }
 
@@ -152,5 +172,21 @@ public class BotonesBean {
 
     public void setVarios(Boolean varios) {
         this.varios = varios;
+    }
+
+    public Boolean getDisableAuditoria() {
+        return disableAuditoria;
+    }
+
+    public void setDisableAuditoria(Boolean disableAuditoria) {
+        this.disableAuditoria = disableAuditoria;
+    }
+
+    public Boolean getEnAuditoria() {
+        return enAuditoria;
+    }
+
+    public void setEnAuditoria(Boolean enAuditoria) {
+        this.enAuditoria = enAuditoria;
     }
 }

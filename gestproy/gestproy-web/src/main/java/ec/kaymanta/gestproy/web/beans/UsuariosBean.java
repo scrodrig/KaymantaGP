@@ -8,11 +8,13 @@ import ec.kaymanta.gestproy.modelo.Usuario;
 import ec.kaymanta.gestproy.servicio.UsuarioServicio;
 import ec.kaymanta.gestproy.web.util.MensajesGenericos;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import org.apache.commons.beanutils.BeanUtils;
 
@@ -33,6 +35,9 @@ public class UsuariosBean extends BotonesBean implements Serializable {
     private Usuario usuario;
     private Usuario usuarioSeleccionado;
     private Usuario respaldo;
+    private Usuario usrSesion;
+    
+    private Usuario usrAuditoria;
 
     /**
      * PostConstructor of the function, it launchs after the constructor
@@ -43,6 +48,8 @@ public class UsuariosBean extends BotonesBean implements Serializable {
 
         super.sinSeleccion();
         this.usuarios = this.usuarioServicio.obtenerUsuarios();
+        this.usrSesion = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario");
+
     }
 
     public void nuevo(ActionEvent evento) {
@@ -56,12 +63,36 @@ public class UsuariosBean extends BotonesBean implements Serializable {
         } else {
             super.seleccionadoUno();
         }
+        usuario = new Usuario();
         MensajesGenericos.infoCancelar();
+    }
+
+    public void verAuditoria(ActionEvent evento) throws IllegalAccessException {
+        try {
+            this.usuario=new Usuario();
+            this.usuario = (Usuario) BeanUtils.cloneBean(this.usuarioSeleccionado);
+            super.verAuditoria();
+        } catch (Exception ex) {
+            MensajesGenericos.errorCopyProperties();
+        }
+
+    }
+
+    public String getUsrAuditoria(String usr) {
+        if (usr == null || "".equals(usr)) {
+            return "";
+        } else {
+            System.out.println(usr);
+            System.out.println(usuarioServicio.findByID(usr));
+            return usuarioServicio.findByID(usr).getUsuario();
+        }
     }
 
     public void guardar(ActionEvent evento) {
         try {
             if (super.getEnRegistro()) {
+                this.usuario.setUsrCreacion(usrSesion.getCodigo());
+                this.usuario.setFcreacion(new Date());
                 this.usuarioServicio.crear(this.usuario);
                 this.usuarios.add(this.usuario);
                 MensajesGenericos.infoCrear("Usuario", this.usuario.getCodigo().toString().concat(" - ").concat(this.usuario.getUsuario()), Boolean.TRUE);
@@ -83,6 +114,8 @@ public class UsuariosBean extends BotonesBean implements Serializable {
         this.usuario = new Usuario();
         try {
             this.usuario = (Usuario) BeanUtils.cloneBean(this.usuarioSeleccionado);
+            this.usuario.setUsrModificacion(usrSesion.getCodigo());
+            this.usuario.setFmodificacion(new Date());
             super.modificar();
         } catch (Exception ex) {
             MensajesGenericos.errorCopyProperties();
@@ -136,4 +169,22 @@ public class UsuariosBean extends BotonesBean implements Serializable {
     public void setRespaldo(Usuario respaldo) {
         this.respaldo = respaldo;
     }
+
+    public Usuario getUsrSesion() {
+        return usrSesion;
+    }
+
+    public void setUsrSesion(Usuario usrSesion) {
+        this.usrSesion = usrSesion;
+    }
+
+    public Usuario getUsrAuditoria() {
+        return usrAuditoria;
+    }
+
+    public void setUsrAuditoria(Usuario usrAuditoria) {
+        this.usrAuditoria = usrAuditoria;
+    }
+
+    
 }
