@@ -8,7 +8,9 @@ import ec.kaymanta.gestproy.modelo.Empleado;
 import ec.kaymanta.gestproy.modelo.Usuario;
 import ec.kaymanta.gestproy.servicio.AutentificacionServicio;
 import ec.kaymanta.gestproy.servicio.EmpleadoServicio;
+import ec.kaymanta.gestproy.servicio.UsuarioServicio;
 import java.io.Serializable;
+import java.util.Date;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -32,6 +34,8 @@ public class InicioBean implements Serializable {
     private AutentificacionServicio autentificacionServicio;
     @EJB
     private EmpleadoServicio empleadoServicio;
+    @EJB
+    private UsuarioServicio usuarioServicio;
 
     public String validarUsuario() {
         Usuario usuario = this.autentificacionServicio.usuarioAutentificar(nombreUsuario, clave);
@@ -43,8 +47,10 @@ public class InicioBean implements Serializable {
             if (empleado != null) {
                 System.out.println("En el BB " + usuario);
                 if (empleado.getCodigo().equals(usuario.getCodigo())) {
+                    usuario.setFechaUltAcceso(new Date());
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Usuario", usuario);
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Empleado", empleado);
+                    usuarioServicio.actualizar(usuario);                   
                     return "menu";
                 } else {
                     return "inicio";

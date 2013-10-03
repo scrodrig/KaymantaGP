@@ -66,6 +66,15 @@ public class UsuariosBean extends BotonesBean implements Serializable {
         usuario = new Usuario();
         MensajesGenericos.infoCancelar();
     }
+    
+     public void volver(ActionEvent evento) {
+        if (super.getEnRegistro()) {
+            super.sinSeleccion();
+        } else {
+            super.seleccionadoUno();
+        }
+        usuario = new Usuario();
+    }
 
     public void verAuditoria(ActionEvent evento) throws IllegalAccessException {
         try {
