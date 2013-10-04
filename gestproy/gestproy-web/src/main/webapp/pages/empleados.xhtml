@@ -22,8 +22,8 @@
             <f:facet name="header">
                 Empleados
             </f:facet>
-            <p:column headerText="Código Empleado" style="width: 100px">
-                #{empleado.codigo}
+            <p:column headerText="Usuario" style="width: 100px">
+                #{empleadosBean.getUsrAuditoria(empleado.codigo)}
             </p:column>
             <p:column headerText="Nombre Empleado" style="width: 200px">
                 #{empleado.nombre}
@@ -34,7 +34,7 @@
             <p:column headerText="Email" style="width: 250px">
                 #{empleado.email}
             </p:column>
-            <p:column headerText="Fecha Nacimiento" style="width: 100px">
+            <p:column headerText="Teléfono" style="width: 100px">
                 #{empleado.telefono}
             </p:column>
             <p:column headerText="Estado" style="width: 100px">
@@ -73,13 +73,13 @@
                     <p:outputLabel for="a_empleado" value="Nombre de Empleado:"/>                
                     <p:inputText id="a_empleado" value="#{empleadosBean.empleado.nombre}" label="Nombre de Empleado" required="true" readonly="true"/>              
 
-                    <p:outputLabel for="usrcre" value="Empleado creación"/>                
+                    <p:outputLabel for="usrcre" value="Usuario creación"/>                
                     <p:inputText id="usrcre" value="#{empleadosBean.getUsrAuditoria(empleadosBean.empleado.usrCreacion)}" label="Empleado creación" required="true" readonly="true"/>              
 
                     <p:outputLabel for="usrcref" value="Fecha creación:"/>                
                     <p:inputText id="usrcref" value="#{empleadosBean.empleado.fcreacion}" label="Fecha creación" required="true" readonly="true"/>              
 
-                    <p:outputLabel for="usrmod" value="Empleado modificación:"/>                
+                    <p:outputLabel for="usrmod" value="Usuario modificación:"/>                
                     <p:inputText id="usrmod" value="#{empleadosBean.getUsrAuditoria(empleadosBean.empleado.usrModificacion)}" label="Empleado modificación" required="true" readonly="true"/>              
 
                     <p:outputLabel for="usrmodf" value="Fecha modificación:"/>                
@@ -102,24 +102,30 @@
 
         <p:panel id="nuevoUsr" header="Creación de Empleado" rendered="#{empleadosBean.enRegistro}" style="width: 1000px">
             <p:panelGrid columns="3">
-                <p:outputLabel for="codigo" value="Cédula"/>
-                <p:inputText id="codigo" value="#{empleadosBean.empleado.codigo}" label="Cédula" required="true">
-                    <f:validateLength minimum="10" maximum="10" />                  
-                </p:inputText> 
+                <p:outputLabel for="codigo" value="Usuario"/>
+                <p:selectOneMenu id="codigo" value="#{empleadosBean.codigoUsuario}" label="Usuario" required="true">
+                    <f:selectItem itemLabel="Seleccione..." itemValue="" /> 
+                    <f:selectItems value="#{empleadosBean.usuarios}" var="usuario" itemLabel="#{usuario.usuario}" itemValue="#{usuario.codigo}"/>
+                </p:selectOneMenu>
                 <p:message for="codigo" />
 
                 <p:outputLabel for="empleado" value="Nombre Empleado:"/>                
-                <p:inputText id="empleado" value="#{empleadosBean.empleado.empleado}" label="NombreEmpleado" required="true">
+                <p:inputText id="empleado" value="#{empleadosBean.empleado.nombre}" label="NombreEmpleado" required="true">
                 </p:inputText>
                 <p:message for="empleado" />
 
-                <p:outputLabel for="clave" value="Clave:" />
-                <p:password id="clave" value="#{empleadosBean.empleado.clave}" match="pwd2" label="Clave" feedback="true" required="true"/> 
-                <p:message for="clave" />
-
-                <p:outputLabel for="pwd2" value="Repetir clave:" />
-                <p:password id="pwd2" value="#{empleadosBean.empleado.clave}" label="Clave" feedback="true" required="true"/> 
-                <p:message for="pwd2" />
+                <p:outputLabel for="fnacimiento" value="Fecha de Nacimiento" />
+                <p:calendar id="fnacimiento" value="#{empleadosBean.empleado.fnacimiento}" effect="explode" label="Fecha de Nacimiento" required="true"/> 
+                <p:message for="fnacimiento" />
+                                
+                <p:outputLabel for="telef" value="Telefono" />
+                <p:inputMask id="telef" mask="9999999999" value="#{empleadosBean.empleado.telefono}" label="Telefono" required="true"/> 
+                <p:message for="telef" />
+                
+                <p:outputLabel for="email" value="Email" />
+                <p:inputText id="email" value="#{empleadosBean.empleado.email}" label="Email" required="true"/> 
+                <p:message for="email" />
+    
 
 
             </p:panelGrid>
@@ -136,19 +142,35 @@
 
         <p:panel id="modificarUsr" header="Modificación de Empleado" rendered="#{empleadosBean.enEdicion}" style="width: 1000px">
             <p:panelGrid columns="3">
-
-                <p:outputLabel for="m_codigo" value="Código:"/>
-                <p:inputText id="m_codigo" value="#{empleadosBean.empleado.codigo}" label="Código" required="true" readonly="true"/>
-                <p:column/>
+                <p:outputLabel for="m_codigo" value="Usuario"/>
+                <p:inputText id="m_codigo" value="#{empleadosBean.empleado.codigo}" readonly="true" label="NombreEmpleado" required="true">
+                </p:inputText>
+                <p:message for="m_codigo" />
 
                 <p:outputLabel for="m_empleado" value="Nombre Empleado:"/>                
-                <p:inputText id="m_empleado" value="#{empleadosBean.empleado.empleado}" label="Nombre Empleado" required="true"/>              
+                <p:inputText id="m_empleado" value="#{empleadosBean.empleado.nombre}" label="NombreEmpleado" required="true">
+                </p:inputText>
                 <p:message for="m_empleado" />
 
-                <p:outputLabel for="m_clave" value="Clave:" />
-                <p:inputText type="password" id="m_clave" value="#{empleadosBean.empleado.clave}" label="Clave" readonly="true"/> 
-                <p:message for="m_clave" />
+                <p:outputLabel for="m_fnacimiento" value="Fecha de Nacimiento" />
+                <p:calendar id="m_fnacimiento" value="#{empleadosBean.empleado.fnacimiento}" effect="explode" label="Fecha de Nacimiento" required="true"/> 
+                <p:message for="m_fnacimiento" />
+                                
+                <p:outputLabel for="m_telef" value="Telefono" />
+                <p:inputMask id="m_telef" mask="9999999999" value="#{empleadosBean.empleado.telefono}" label="Telefono" required="true"/> 
+                <p:message for="m_telef" />
+                
+                <p:outputLabel for="m_email" value="Email" />
+                <p:inputText id="m_email" value="#{empleadosBean.empleado.email}" label="Email" required="true"/> 
+                <p:message for="m_email" />
 
+                                
+                <p:outputLabel for="m_estado" value="Tipo:"/>                
+                <p:selectOneMenu id="m_estado" value="#{empleadosBean.empleado.estado}" label="Estado" required="true">
+                    <f:selectItem itemLabel="Activo" itemValue="A"/>
+                    <f:selectItem itemLabel="Inactivo" itemValue="I"/>
+                </p:selectOneMenu>
+                <p:message for="m_estado" />
 
             </p:panelGrid>
 

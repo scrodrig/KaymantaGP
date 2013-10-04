@@ -4,8 +4,8 @@
  */
 package ec.kaymanta.gestproy.servicio;
 
-import ec.kaymanta.gestproy.dao.EmpleadoDAO;
-import ec.kaymanta.gestproy.modelo.Empleado;
+import ec.kaymanta.gestproy.dao.EmpresaDAO;
+import ec.kaymanta.gestproy.modelo.Empresa;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -17,20 +17,21 @@ import javax.ejb.LocalBean;
  */
 @Stateless
 @LocalBean
-public class EmpleadoServicio {
+public class EmpresaServicio {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+    
     @EJB
-    private EmpleadoDAO empleadoDAO;
+    private EmpresaDAO empresaDAO;
 
     /**
      * Función para obtener todos los registros existentes
      *
      * @return
      */
-    public List<Empleado> obtener() {
-        return this.empleadoDAO.findAll();
+    public List<Empresa> obtener() {
+        return this.empresaDAO.findAll();
     }
 
     /**
@@ -39,40 +40,41 @@ public class EmpleadoServicio {
      * @param codigo
      * @return
      */
-    public Empleado findByID(String codigo) {
-        return this.empleadoDAO.findById(codigo, false);
+    public Empresa findByID(String codigo) {
+        return this.empresaDAO.findById(codigo, false);
     }
 
     /**
      * Función para crear nuevos registros
      *
-     * @param empleado
+     * @param empresa
      */
-    public void crear(Empleado empleado) {
-        System.out.println("En crear " + empleado.getNombre());
+    public void crear(Empresa empresa) {
+        System.out.println("En crear " + empresa.getRazonSocial());
         //empleado.getFechaUltAcceso(new Date());
-        this.empleadoDAO.insert(empleado);
+        this.empresaDAO.insert(empresa);
     }
 
     /**
      * Función para modificar registros existentes
      *
-     * @param empleado
+     * @param empresa
      */
-    public void actualizar(Empleado empleado) {
-        System.out.println("En actualizar " + empleado.getNombre());
+    public void actualizar(Empresa empresa) {
+        System.out.println("En actualizar " + empresa.getRazonSocial());
         //empleado.setFechaUltAcceso(new Date());
-        this.empleadoDAO.update(empleado);
+        this.empresaDAO.update(empresa);
     }
 
     /**
      * Función para eliminar registros
      *
-     * @param empleado
+     * @param empresa
      */
-    public void eliminar(Empleado empleado) {
-        System.out.println("En eliminar " + empleado.getNombre());
-        Empleado empleadoTmp = this.empleadoDAO.findById(empleado.getCodigo(), false);
-        this.empleadoDAO.remove(empleadoTmp);
+    public void eliminar(Empresa empresa) {
+        System.out.println("En eliminar " + empresa.getRazonSocial());
+        Empresa empresaTmp = this.empresaDAO.findById(empresa.getCodigo(), false);
+        this.empresaDAO.remove(empresaTmp);
     }
+
 }

@@ -4,8 +4,8 @@
  */
 package ec.kaymanta.gestproy.servicio;
 
-import ec.kaymanta.gestproy.dao.EmpleadoDAO;
-import ec.kaymanta.gestproy.modelo.Empleado;
+import ec.kaymanta.gestproy.dao.ModuloDAO;
+import ec.kaymanta.gestproy.modelo.Modulo;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -17,20 +17,21 @@ import javax.ejb.LocalBean;
  */
 @Stateless
 @LocalBean
-public class EmpleadoServicio {
+public class ModuloServicio {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+    
     @EJB
-    private EmpleadoDAO empleadoDAO;
+    private ModuloDAO moduloDAO;
 
     /**
      * Función para obtener todos los registros existentes
      *
      * @return
      */
-    public List<Empleado> obtener() {
-        return this.empleadoDAO.findAll();
+    public List<Modulo> obtener() {
+        return this.moduloDAO.findAll();
     }
 
     /**
@@ -39,40 +40,42 @@ public class EmpleadoServicio {
      * @param codigo
      * @return
      */
-    public Empleado findByID(String codigo) {
-        return this.empleadoDAO.findById(codigo, false);
+    public Modulo findByID(Long codigo) {
+        return this.moduloDAO.findById(codigo, false);
     }
 
     /**
      * Función para crear nuevos registros
      *
-     * @param empleado
+     * @param modulo
      */
-    public void crear(Empleado empleado) {
-        System.out.println("En crear " + empleado.getNombre());
+    public void crear(Modulo modulo) {
+        System.out.println("En crear " + modulo.getNombre());
         //empleado.getFechaUltAcceso(new Date());
-        this.empleadoDAO.insert(empleado);
+        this.moduloDAO.insert(modulo);
     }
 
     /**
      * Función para modificar registros existentes
      *
-     * @param empleado
+     * @param modulo
      */
-    public void actualizar(Empleado empleado) {
-        System.out.println("En actualizar " + empleado.getNombre());
+    public void actualizar(Modulo modulo) {
+        System.out.println("En actualizar " + modulo.getNombre());
         //empleado.setFechaUltAcceso(new Date());
-        this.empleadoDAO.update(empleado);
+        this.moduloDAO.update(modulo);
     }
 
     /**
      * Función para eliminar registros
      *
-     * @param empleado
+     * @param modulo
      */
-    public void eliminar(Empleado empleado) {
-        System.out.println("En eliminar " + empleado.getNombre());
-        Empleado empleadoTmp = this.empleadoDAO.findById(empleado.getCodigo(), false);
-        this.empleadoDAO.remove(empleadoTmp);
+    public void eliminar(Modulo modulo) {
+        System.out.println("En eliminar " + modulo.getNombre());
+        Modulo moduloTmp = this.moduloDAO.findById(modulo.getCodigo(), false);
+        this.moduloDAO.remove(moduloTmp);
     }
+
+
 }

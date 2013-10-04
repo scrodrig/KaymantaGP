@@ -93,9 +93,14 @@ public class UsuariosBean extends BotonesBean implements Serializable {
         } else {
             System.out.println(usr);
             System.out.println(usuarioServicio.findByID(usr));
-            return usuarioServicio.findByID(usr).getUsuario();
+            try {
+                 usuarioServicio.findByID(usr);
+                 return usuarioServicio.findByID(usr).getUsuario();
+            } catch (NullPointerException e) {
+                return "";
+            }
         }
-    }
+    } 
 
     public void guardar(ActionEvent evento) {
         try {

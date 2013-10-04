@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/templateMantenimiento.xhtml">
+
+    <ui:define name="titulo">Empresas</ui:define> 
+
+    <ui:define name="cuerpo">
+        <p:dataTable id="empresas"  value="#{empresasBean.empresas}" var="empresa" selection="#{empresasBean.empresaSeleccionado}" selectionMode="single" scrollable="true" 
+                     rowKey="#{empresa.codigo}" style="width: 1000px" 
+                     paginator="true" rows="10"  
+                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     rowsPerPageTemplate="5,10,15" emptyMessage="No se ha registrado ninguna Empresa" rendered="#{not (empresasBean.enRegistro or empresasBean.enEdicion or empresasBean.enAuditoria)}" >
+
+            <p:ajax event="rowSelect" listener="#{empresasBean.filaSeleccionada(evento)}" update="empresas"/>
+            <p:ajax event="rowUnselect" listener="#{empresasBean.filaSeleccionada(evento)}" update="empresas"/>
+
+            <f:facet name="header">
+                Empresas
+            </f:facet>
+            <p:column headerText="Ruc" style="width: 100px">
+                #{empresa.codigo}
+            </p:column>
+            <p:column headerText="Nombre Empleado" style="width: 200px">
+                #{empresa.razonSocial}
+            </p:column>
+            <p:column headerText="Teléfono" style="width: 200px">
+                #{empresa.telefono}
+            </p:column>
+            <p:column headerText="WebSite" style="width: 250px">
+                #{empresa.website}
+            </p:column>
+            <p:column headerText="Email" style="width: 250px">
+                #{empresa.email}
+            </p:column>
+
+            <f:facet name="footer">  
+                <p:commandButton  value="Nuevo" update="@form" actionListener="#{empresasBean.nuevo(evento)}" disabled="#{empresasBean.disabledNuevo}" icon="ui-icon-document"/>  
+                <p:commandButton value="Modificar" update="@form" actionListener="#{empresasBean.modificar(evento)}" disabled="#{empresasBean.disabledModificar}" icon="ui-icon-pencil"/>
+                <p:commandButton value="Eliminar" onclick="confirmation.show();" disabled="#{empresasBean.disabledEliminar}" icon="ui-icon-close"/>
+                <p:commandButton  value="Auditoría" update=":form:mensaje" onsuccess="dlg.show()" actionListener="#{empresasBean.verAuditoria(evento)}" disabled="#{empresasBean.disableAuditoria}" icon="ui-icon-document"/>  
+            </f:facet>
+        </p:dataTable>
+
+
+
+        <p:growl id="mensajeEliminar" />
+        <p:confirmDialog id="confirmDialog" message="¿Seguro desea eliminar?"  
+                         header="Eliminación" severity="alert" widgetVar="confirmation">  
+            <p:commandButton id="confirm" value="Si, seguro" update="@form " oncomplete="confirmation.hide()"  
+                             actionListener="#{empresasBean.eliminar(evento)}"  />  
+            <p:commandButton id="decline" value="No" onclick="confirmation.hide();" type="button" />   
+
+        </p:confirmDialog> 
+
+
+
+        <p:dialog id="picture" widgetVar="dlg"  
+                  resizable="false" header="Auditoría de Empresa" modal="true" closable="false" showEffect="clip" hideEffect="clip" style="width: 600px">  
+            <p:panelGrid id="mensaje"  columns="2">  
+                <p:graphicImage value="/images/footer.png"/>                    
+                <p:panelGrid columns="2" rendered="#{empresasBean.enAuditoria}">
+
+                    <p:outputLabel for="a_codigo" value="Código:"/>
+                    <p:inputText id="a_codigo" value="#{empresasBean.empresa.codigo}" label="Código" required="true" readonly="true"/>
+
+                    <p:outputLabel for="a_empresa" value="Nombre de Empresa"/>                
+                    <p:inputText id="a_empresa" value="#{empresasBean.empresa.razonSocial}" label="Nombre de Empleado" required="true" readonly="true"/>              
+
+                    <p:outputLabel for="usrcre" value="Usuario creación"/>                
+                    <p:inputText id="usrcre" value="#{empresasBean.getUsrAuditoria(empresasBean.empresa.usrCreacion)}" label="Empleado creación" required="true" readonly="true"/>              
+
+                    <p:outputLabel for="usrcref" value="Fecha creación:"/>                
+                    <p:inputText id="usrcref" value="#{empresasBean.empresa.fcreacion}" label="Fecha creación" required="true" readonly="true"/>              
+
+                    <p:outputLabel for="usrmod" value="Usuario modificación:"/>                
+                    <p:inputText id="usrmod" value="#{empresasBean.getUsrAuditoria(empresasBean.empresa.usrModificacion)}" label="Empleado modificación" required="true" readonly="true"/>              
+
+                    <p:outputLabel for="usrmodf" value="Fecha modificación:"/>                
+                    <p:inputText id="usrmodf" value="#{empresasBean.empresa.fmodificacion}" label="Fecha modificación" required="true" readonly="true"/>              
+
+                </p:panelGrid> 
+            </p:panelGrid>
+            <p:separator/>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{empresasBean.volver(evento)}" value="Volver" update="@form" icon="ui-icon-back"/>
+            </f:facet>
+        </p:dialog>
+
+
+
+
+
+
+
+
+        <p:panel id="nuevoUsr" header="Creación de Empresa" rendered="#{empresasBean.enRegistro}" style="width: 1000px">
+            <p:panelGrid columns="3">
+                <p:outputLabel for="codigo" value="Ruc:"/>
+                <p:inputText id="codigo" value="#{empresasBean.empresa.codigo}" label="Ruc:" required="true">
+                    <f:validateLength minimum="10" maximum="13" />                  
+                </p:inputText>
+                <p:message for="codigo" />
+
+                <p:outputLabel for="empresa" value="Razón Social"/>                
+                <p:inputText id="empresa" value="#{empresasBean.empresa.razonSocial}" label="NombreEmpleado" required="true">
+                </p:inputText>
+                <p:message for="empresa" />
+
+                <p:outputLabel for="telef" value="Telefono" />
+                <p:inputMask  id="telef" value="#{empresasBean.empresa.telefono}" mask="9999999999" label="Telefono" required="true"/> 
+                <p:message for="telef" />
+                               
+                <p:outputLabel for="ws" value="WebSite" />
+                <p:inputText id="ws" value="#{empresasBean.empresa.website}"  label="WebSite"/> 
+                <p:message for="ws" />
+
+                <p:outputLabel for="email" value="Email" />
+                <p:inputText id="email" value="#{empresasBean.empresa.email}" label="Email" required="true"/> 
+                <p:message for="email" />
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{empresasBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{empresasBean.cancelar(evento)}" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>
+
+
+
+
+
+
+        <p:panel id="modificarUsr" header="Modificación de Empresa" rendered="#{empresasBean.enEdicion}" style="width: 1000px">
+            <p:panelGrid columns="3">
+                <p:outputLabel for="m_codigo" value="Ruc:"/>
+                <p:inputText id="m_codigo" value="#{empresasBean.empresa.codigo}" label="Ruc:" required="true">
+                    <f:validateLength minimum="10" maximum="13" />                  
+                </p:inputText>
+                <p:message for="m_codigo" />
+
+                <p:outputLabel for="m_empresa" value="Razón Social"/>                
+                <p:inputText id="m_empresa" value="#{empresasBean.empresa.razonSocial}" label="NombreEmpresa" required="true">
+                </p:inputText>
+                <p:message for="m_empresa" />
+
+                <p:outputLabel for="m_telef" value="Telefono" />
+                <p:inputMask id="m_telef" value="#{empresasBean.empresa.telefono}" mask="9999999999" label="Telefono" required="true"/> 
+                <p:message for="m_telef" />
+                               
+                <p:outputLabel for="m_ws" value="WebSite" />
+                <p:inputText id="m_ws" value="#{empresasBean.empresa.website}"  label="WebSite"/> 
+                <p:message for="m_ws" />
+
+                <p:outputLabel for="m_email" value="Email" />
+                <p:inputText id="m_email" value="#{empresasBean.empresa.email}" label="Email" required="true"/> 
+                <p:message for="m_email" />
+
+            </p:panelGrid>
+
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{empresasBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{empresasBean.cancelar(evento)}" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>
+    </ui:define>
+
+</ui:composition>

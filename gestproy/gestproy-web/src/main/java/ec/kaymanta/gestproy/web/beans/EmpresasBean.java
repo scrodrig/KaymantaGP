@@ -4,9 +4,9 @@
  */
 package ec.kaymanta.gestproy.web.beans;
 
-import ec.kaymanta.gestproy.modelo.Empleado;
+import ec.kaymanta.gestproy.modelo.Empresa;
 import ec.kaymanta.gestproy.modelo.Usuario;
-import ec.kaymanta.gestproy.servicio.EmpleadoServicio;
+import ec.kaymanta.gestproy.servicio.EmpresaServicio;
 import ec.kaymanta.gestproy.servicio.UsuarioServicio;
 import ec.kaymanta.gestproy.web.util.MensajesGenericos;
 import java.io.Serializable;
@@ -26,19 +26,22 @@ import org.apache.commons.beanutils.BeanUtils;
  */
 @ManagedBean
 @ViewScoped
-public class EmpleadosBean extends BotonesBean implements Serializable {
+public class EmpresasBean extends BotonesBean implements Serializable{
 
     /**
+     * Creates a new instance of EmpresaBean
+     */
+   /**
      * Creates a new instance of UsuariosBean
      */
     @EJB
-    private EmpleadoServicio empleadoServicio;
+    private EmpresaServicio empresaServicio;
     @EJB
     private UsuarioServicio usuarioServicio;
-    private List<Empleado> empleados;
-    private Empleado empleado;
-    private Empleado empleadoSeleccionado;
-    private Empleado respaldo;
+    private List<Empresa> empresas;
+    private Empresa empresa;
+    private Empresa empresaSeleccionado;
+    private Empresa respaldo;
     private List<Usuario> usuarios;
     private Usuario usrSesion;
     private Usuario usrAuditoria;
@@ -53,14 +56,14 @@ public class EmpleadosBean extends BotonesBean implements Serializable {
 
         super.sinSeleccion();
         this.usuarios = this.usuarioServicio.obtenerUsuarios();
-        this.empleados = this.empleadoServicio.obtener();
+        this.empresas = this.empresaServicio.obtener();
         this.usrSesion = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario");
 
     }
 
     public void nuevo(ActionEvent evento) {
         super.crear();
-        this.empleado = new Empleado();
+        this.empresa = new Empresa();
     }
 
     public void cancelar(ActionEvent evento) {
@@ -69,7 +72,7 @@ public class EmpleadosBean extends BotonesBean implements Serializable {
         } else {
             super.seleccionadoUno();
         }
-        empleado = new Empleado();
+        empresa = new Empresa();
         MensajesGenericos.infoCancelar();
     }
 
@@ -79,13 +82,13 @@ public class EmpleadosBean extends BotonesBean implements Serializable {
         } else {
             super.seleccionadoUno();
         }
-        empleado = new Empleado();
+        empresa = new Empresa();
     }
 
     public void verAuditoria(ActionEvent evento) throws IllegalAccessException {
         try {
-            this.empleado = new Empleado();
-            this.empleado = (Empleado) BeanUtils.cloneBean(this.empleadoSeleccionado);
+            this.empresa = new Empresa();
+            this.empresa = (Empresa) BeanUtils.cloneBean(this.empresaSeleccionado);
             super.verAuditoria();
         } catch (Exception ex) {
             MensajesGenericos.errorCopyProperties();
@@ -111,19 +114,17 @@ public class EmpleadosBean extends BotonesBean implements Serializable {
     public void guardar(ActionEvent evento) {
         try {
             if (super.getEnRegistro()) {
-                this.empleado.setCodigo(codigoUsuario);
-                this.empleado.setEstado("A");
-                this.empleado.setUsrCreacion(usrSesion.getCodigo());
-                this.empleado.setFcreacion(new Date());
-                this.empleadoServicio.crear(this.empleado);
-                this.empleados.add(this.empleado);
-                MensajesGenericos.infoCrear("Empleado", this.empleado.getCodigo().toString().concat(" - ").concat(this.empleado.getNombre()), Boolean.TRUE);
+                this.empresa.setUsrCreacion(usrSesion.getCodigo());
+                this.empresa.setFcreacion(new Date());
+                this.empresaServicio.crear(this.empresa);
+                this.empresas.add(this.empresa);
+                MensajesGenericos.infoCrear("Empresa", this.empresa.getCodigo().toString().concat(" - ").concat(this.empresa.getRazonSocial()), Boolean.TRUE);
                 super.sinSeleccion();
             } else if (super.getEnEdicion()) {
-                int i = this.empleados.indexOf(this.empleado);
-                this.empleadoServicio.actualizar(this.empleado);
-                empleados.set(i, this.empleado);
-                MensajesGenericos.infoModificar("Usuario", this.empleado.getCodigo().toString().concat(" - ").concat(this.empleado.getNombre()), Boolean.TRUE);
+                int i = this.empresas.indexOf(this.empresa);
+                this.empresaServicio.actualizar(this.empresa);
+                empresas.set(i, this.empresa);
+                MensajesGenericos.infoModificar("Usuario", this.empresa.getCodigo().toString().concat(" - ").concat(this.empresa.getRazonSocial()), Boolean.TRUE);
                 super.sinSeleccion();
             }
         } catch (Exception e) {
@@ -133,12 +134,12 @@ public class EmpleadosBean extends BotonesBean implements Serializable {
     }
 
     public void modificar(ActionEvent evento) {
-        this.empleado = new Empleado();
+        this.empresa = new Empresa();
         try {
-            this.empleado = (Empleado) BeanUtils.cloneBean(this.empleadoSeleccionado);
+            this.empresa = (Empresa) BeanUtils.cloneBean(this.empresaSeleccionado);
             //Invariable Objetos de Auditoria            
-            this.empleado.setUsrModificacion(usrSesion.getCodigo());
-            this.empleado.setFmodificacion(new Date());
+            this.empresa.setUsrModificacion(usrSesion.getCodigo());
+            this.empresa.setFmodificacion(new Date());
             super.modificar();
         } catch (Exception ex) {
             MensajesGenericos.errorCopyProperties();
@@ -146,52 +147,52 @@ public class EmpleadosBean extends BotonesBean implements Serializable {
     }
 
     public void eliminar(ActionEvent evento) {
-        System.out.println(this.empleadoSeleccionado);
-        //this.empleadoServicio.eliminar(this.empleadoSeleccionado);
-        this.empleadoSeleccionado.setEstado("I");
-        this.empleadoServicio.actualizar(empleadoSeleccionado);
-        //this.empleados.remove(this.empleadoSeleccionado);
-        MensajesGenericos.infoEliminar("Empleado", this.empleado.getCodigo().toString().concat(" - ").concat(this.empleado.getNombre()), Boolean.TRUE);
+        System.out.println(this.empresaSeleccionado);
+        this.empresaServicio.eliminar(this.empresaSeleccionado);        
+        //this.empresaServicio.actualizar(empresaSeleccionado);
+        this.empresas.remove(this.empresaSeleccionado);
+        MensajesGenericos.infoEliminar("Empresa", this.empresa.getCodigo().toString().concat(" - ").concat(this.empresa.getRazonSocial()), Boolean.TRUE);
         super.sinSeleccion();
     }
 
     public void filaSeleccionada(ActionEvent evento) {
-        if (empleadoSeleccionado instanceof Empleado) {
+        if (empresaSeleccionado instanceof Empresa) {
             super.seleccionadoUno();
         } else {
             super.sinSeleccion();
         }
     }
-
-    public List<Empleado> getEmpleados() {
-        return empleados;
+    
+    //Getters And Setters
+    public List<Empresa> getEmpresas() {
+        return empresas;
     }
 
-    public void setEmpleados(List<Empleado> empleados) {
-        this.empleados = empleados;
+    public void setEmpresas(List<Empresa> empresas) {
+        this.empresas = empresas;
     }
 
-    public Empleado getEmpleado() {
-        return empleado;
+    public Empresa getEmpresa() {
+        return empresa;
     }
 
-    public void setEmpleado(Empleado empleado) {
-        this.empleado = empleado;
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
     }
 
-    public Empleado getEmpleadoSeleccionado() {
-        return empleadoSeleccionado;
+    public Empresa getEmpresaSeleccionado() {
+        return empresaSeleccionado;
     }
 
-    public void setEmpleadoSeleccionado(Empleado empleadoSeleccionado) {
-        this.empleadoSeleccionado = empleadoSeleccionado;
+    public void setEmpresaSeleccionado(Empresa empresaSeleccionado) {
+        this.empresaSeleccionado = empresaSeleccionado;
     }
 
-    public Empleado getRespaldo() {
+    public Empresa getRespaldo() {
         return respaldo;
     }
 
-    public void setRespaldo(Empleado respaldo) {
+    public void setRespaldo(Empresa respaldo) {
         this.respaldo = respaldo;
     }
 
@@ -226,4 +227,6 @@ public class EmpleadosBean extends BotonesBean implements Serializable {
     public void setCodigoUsuario(String codigoUsuario) {
         this.codigoUsuario = codigoUsuario;
     }
+    
+    
 }
