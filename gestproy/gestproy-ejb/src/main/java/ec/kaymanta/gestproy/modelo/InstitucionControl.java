@@ -16,6 +16,8 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -42,6 +44,7 @@ public class InstitucionControl implements Serializable {
      * InstitucionControl, se relaciona con la columna COD_INSTITUCION_CONTROL.
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "COD_INSTITUCION_CONTROL", nullable = false, length = 10)
     private Long codigo;
     /**
@@ -115,8 +118,8 @@ public class InstitucionControl implements Serializable {
     }
 
     /**
-     * Obtiene el ccódigodigo de la entidad InstitucionControl, se relaciona con la
-     * columna COD_INSTITUCION_CONTROL.
+     * Obtiene el ccódigodigo de la entidad InstitucionControl, se relaciona con
+     * la columna COD_INSTITUCION_CONTROL.
      *
      * @return el ccódigodigo de la entidad InstitucionControl
      */
@@ -125,8 +128,8 @@ public class InstitucionControl implements Serializable {
     }
 
     /**
-     * Asigna el ccódigodigo de la entidad InstitucionControl, se relaciona con la
-     * columna COD_INSTITUCION_CONTROL.
+     * Asigna el ccódigodigo de la entidad InstitucionControl, se relaciona con
+     * la columna COD_INSTITUCION_CONTROL.
      *
      * @param codigo el valor a ser asignado al ccódigodigo de la entidad
      * InstitucionControl

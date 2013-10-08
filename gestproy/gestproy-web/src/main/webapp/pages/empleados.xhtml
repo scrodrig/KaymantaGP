@@ -12,7 +12,7 @@
     <ui:define name="cuerpo">
         <p:dataTable id="empleados"  value="#{empleadosBean.empleados}" var="empleado" selection="#{empleadosBean.empleadoSeleccionado}" selectionMode="single" scrollable="true" 
                      rowKey="#{empleado.codigo}" style="width: 1000px" 
-                     paginator="true" rows="10"  
+                     paginator="true" rows="10"  scrollWidth="false"
                      paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                      rowsPerPageTemplate="5,10,15" emptyMessage="No se ha registrado ningún Empleado" rendered="#{not (empleadosBean.enRegistro or empleadosBean.enEdicion or empleadosBean.enAuditoria)}" >
 
@@ -22,22 +22,22 @@
             <f:facet name="header">
                 Empleados
             </f:facet>
-            <p:column headerText="Usuario" style="width: 100px">
+            <p:column headerText="Usuario" style="width: 50px">
                 #{empleadosBean.getUsrAuditoria(empleado.codigo)}
             </p:column>
-            <p:column headerText="Nombre Empleado" style="width: 200px">
+            <p:column headerText="Nombre Empleado" style="width: 120px">
                 #{empleado.nombre}
             </p:column>
-            <p:column headerText="Fecha Nacimiento" style="width: 250px">
+            <p:column headerText="Fecha Nacimiento" style="width: 100px">
                 #{empleado.fnacimiento}
             </p:column>
-            <p:column headerText="Email" style="width: 250px">
+            <p:column headerText="Email" style="width: 150px">
                 #{empleado.email}
             </p:column>
-            <p:column headerText="Teléfono" style="width: 100px">
+            <p:column headerText="Teléfono" style="width: 75px">
                 #{empleado.telefono}
             </p:column>
-            <p:column headerText="Estado" style="width: 100px">
+            <p:column headerText="Estado" style="width: 40px">
                 #{empleado.estado}
             </p:column>
             <f:facet name="footer">  

@@ -13,6 +13,7 @@
 package ec.kaymanta.gestproy.dao;
 
 import com.persist.common.dao.DefaultGenericDAOImple;
+import com.persist.common.dao.ResultadoBusqueda;
 import ec.kaymanta.gestproy.modelo.Canton;
 import ec.kaymanta.gestproy.modelo.CantonPK;
 import javax.ejb.LocalBean;
@@ -33,5 +34,9 @@ public class CantonDAO extends DefaultGenericDAOImple<Canton, CantonPK> {
     {
         super(Canton.class);
     
+    }
+
+    public ResultadoBusqueda<Canton> find(Canton canton, ResultadoBusqueda<Canton> resultado, String[] order) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -11,7 +11,7 @@
 
     <ui:define name="cuerpo">
         <p:dataTable id="usuarios"  value="#{usuariosBean.usuarios}" var="usuario" selection="#{usuariosBean.usuarioSeleccionado}" selectionMode="single" scrollable="true" 
-                     rowKey="#{usuario.codigo}" style="width: 1000px" 
+                     rowKey="#{usuario.codigo}" style="width: 1000px"  scrollWidth="false"
                      paginator="true" rows="10"  
                      paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                      rowsPerPageTemplate="5,10,15" emptyMessage="No se ha registrado ningún Usuario" rendered="#{not (usuariosBean.enRegistro or usuariosBean.enEdicion or usuariosBean.enAuditoria)}" >
@@ -22,13 +22,13 @@
             <f:facet name="header">
                 Usuarios Empleados
             </f:facet>
-            <p:column headerText="Código Usuario" style="width: 300px">
+            <p:column headerText="Código Usuario" style="width: 80px">
                 #{usuario.codigo}
             </p:column>
-            <p:column headerText="Nombre Usuario" style="width: 300px">
+            <p:column headerText="Nombre Usuario" style="width: 100px">
                 #{usuario.usuario}
             </p:column>
-            <p:column headerText="Ultimo Ingreso" style="width: 400px">
+            <p:column headerText="Ultimo Ingreso" style="width: 100px">
                 #{usuario.fechaUltAcceso}
             </p:column>
             <f:facet name="footer">  

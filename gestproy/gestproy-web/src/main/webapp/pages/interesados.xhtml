@@ -11,7 +11,7 @@
 
     <ui:define name="cuerpo">
         <p:dataTable id="interesados"  value="#{interesadosBean.interesados}" var="interesado" selection="#{interesadosBean.interesadoSeleccionado}" selectionMode="single" scrollable="true" 
-                     rowKey="#{interesado.codigo}" style="width: 1000px" 
+                     rowKey="#{interesado.codigo}" style="width: 1000px" scrollWidth="false"
                      paginator="true" rows="10"  
                      paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                      rowsPerPageTemplate="5,10,15" emptyMessage="No se ha registrado ninguna Empresa" rendered="#{not (interesadosBean.enRegistro or interesadosBean.enEdicion or interesadosBean.enAuditoria)}" >
@@ -22,22 +22,18 @@
             <f:facet name="header">
                 Interesados
             </f:facet>
-            <p:column headerText="Empresa" style="width: 100px">
+            <p:column headerText="Empresa" style="width: 50px">
                 #{interesado.empresa.razonSocial}
             </p:column>
-            <p:column headerText="Nombre Empleado" style="width: 200px">
+            <p:column headerText="Nombre Empleado" style="width: 80px">
                 #{interesado.nombre}
             </p:column>
-            <p:column headerText="Teléfono" style="width: 200px">
+            <p:column headerText="Teléfono" style="width: 50px">
                 #{interesado.telefono}
             </p:column>
-            <p:column headerText="Email" style="width: 250px">
+            <p:column headerText="Email" style="width: 120px">
                 #{interesado.email}
             </p:column>
-            <p:column headerText="Notas" style="width: 250px">
-                <p:inputTextarea value="#{interesado.notas}" rows="15" cols="45" readonly="true" counterTemplate="true"  label="Notas"/> 
-            </p:column>
-
             <f:facet name="footer">  
                 <p:commandButton  value="Nuevo" update="@form" actionListener="#{interesadosBean.nuevo(evento)}" disabled="#{interesadosBean.disabledNuevo}" icon="ui-icon-document"/>  
                 <p:commandButton value="Modificar" update="@form" actionListener="#{interesadosBean.modificar(evento)}" disabled="#{interesadosBean.disabledModificar}" icon="ui-icon-pencil"/>
@@ -68,11 +64,11 @@
                     <p:outputLabel for="a_codigo" value="Código:"/>
                     <p:inputText id="a_codigo" value="#{interesadosBean.interesado.codigo}" label="Código" required="true" readonly="true"/>
 
-                    <p:outputLabel for="a_empresa" value="Código:"/>
+                    <p:outputLabel for="a_empresa" value="Nombre de Empresa:"/>
                     <p:inputText id="a_empresa" value="#{interesadosBean.interesado.empresa.razonSocial}" label="Código" required="true" readonly="true"/>
 
-                    <p:outputLabel for="a_interesado" value="Nombre de Empresa"/>                
-                    <p:inputText id="a_interesado" value="#{interesadosBean.interesado.nombre}" label="Nombre de Empleado" required="true" readonly="true"/>              
+                    <p:outputLabel for="a_interesado" value="Nombre de Interesado:"/>                
+                    <p:inputText id="a_interesado" value="#{interesadosBean.interesado.nombre}" label="Nombre de Interesado:" required="true" readonly="true"/>              
 
                     <p:outputLabel for="usrcre" value="Usuario creación"/>                
                     <p:inputText id="usrcre" value="#{interesadosBean.getUsrAuditoria(interesadosBean.interesado.usrCreacion)}" label="Empleado creación" required="true" readonly="true"/>              

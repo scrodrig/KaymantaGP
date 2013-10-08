@@ -12,7 +12,7 @@
     <ui:define name="cuerpo">
         <p:dataTable id="empresas"  value="#{empresasBean.empresas}" var="empresa" selection="#{empresasBean.empresaSeleccionado}" selectionMode="single" scrollable="true" 
                      rowKey="#{empresa.codigo}" style="width: 1000px" 
-                     paginator="true" rows="10"  
+                     paginator="true" rows="10"  scrollWidth="false"
                      paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                      rowsPerPageTemplate="5,10,15" emptyMessage="No se ha registrado ninguna Empresa" rendered="#{not (empresasBean.enRegistro or empresasBean.enEdicion or empresasBean.enAuditoria)}" >
 
@@ -22,19 +22,19 @@
             <f:facet name="header">
                 Empresas
             </f:facet>
-            <p:column headerText="Ruc" style="width: 100px">
+            <p:column headerText="Ruc" style="width: 80px">
                 #{empresa.codigo}
             </p:column>
-            <p:column headerText="Nombre Empleado" style="width: 200px">
+            <p:column headerText="Nombre Empleado" style="width: 120px">
                 #{empresa.razonSocial}
             </p:column>
-            <p:column headerText="Teléfono" style="width: 200px">
+            <p:column headerText="Teléfono" style="width: 80px">
                 #{empresa.telefono}
             </p:column>
-            <p:column headerText="WebSite" style="width: 250px">
+            <p:column headerText="WebSite" style="width: 100px">
                 #{empresa.website}
             </p:column>
-            <p:column headerText="Email" style="width: 250px">
+            <p:column headerText="Email" style="width: 150px">
                 #{empresa.email}
             </p:column>
 
