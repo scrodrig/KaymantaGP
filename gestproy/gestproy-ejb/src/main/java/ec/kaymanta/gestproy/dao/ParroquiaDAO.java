@@ -13,6 +13,7 @@
 package ec.kaymanta.gestproy.dao;
 
 import com.persist.common.dao.DefaultGenericDAOImple;
+import com.persist.common.dao.ResultadoBusqueda;
 import ec.kaymanta.gestproy.modelo.Parroquia;
 import ec.kaymanta.gestproy.modelo.ParroquiaPK;
 import javax.ejb.LocalBean;
@@ -31,6 +32,11 @@ public class ParroquiaDAO extends DefaultGenericDAOImple<Parroquia, ParroquiaPK>
 
     public ParroquiaDAO() {
         super(Parroquia.class);
+
+    }
+
+    public ResultadoBusqueda<Parroquia> find(Parroquia parroquia, ResultadoBusqueda<Parroquia> resultado, String[] order) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
     }
 }

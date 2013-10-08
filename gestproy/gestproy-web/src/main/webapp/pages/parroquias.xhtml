@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/templateMantenimiento.xhtml">
+
+    <ui:define name="titulo">Administración de Parroquias</ui:define>
+    <ui:define name="cuerpo">
+        <p:panel id="panelSeleccion" header="Buscar" style="width: 600px"
+                 rendered="#{not(parroquiaBean.enRegistro or parroquiaBean.enEdicion)}"> 
+        <p:focus context="panelSeleccion"/> 
+        <h:panelGrid columns="5" >
+            <h:outputLabel for="provinciaB" value="Provincia: " />  
+            <p:selectOneMenu id="provinciaB" value="#{parroquiaBean.provincia}" label="Provincia" >
+                <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                <f:selectItems value="#{parroquiaBean.provinciasB}" var="i" itemValue="#{i.codigo}" itemLabel="#{i.nombre}" />
+                <p:ajax update="cantonB"  listener="#{parroquiaBean.actualizaCantonesB(evento)}" />  
+            </p:selectOneMenu>
+            <h:outputLabel for="cantonB" value="Cantón: " />  
+            <p:selectOneMenu id="cantonB" value="#{parroquiaBean.canton}" label="Cantón" >
+                <f:selectItem itemValue="0" itemLabel="Seleccione uno."/>
+                <f:selectItems value="#{parroquiaBean.cantonesB}" var="i" itemValue="#{i.pk.codigoCanton}" itemLabel="#{i.nombre}" />
+            </p:selectOneMenu>
+            <p:commandButton  value="Buscar" update="@form" actionListener="#{parroquiaBean.cargarTabla(evento)}" />  
+        </h:panelGrid>
+        </p:panel>    
+        <p:spacer height="10"/>
+        <p:dataTable id="tabla" var="parroquia" value="#{parroquiaBean.parroquias}" rowKey="#{parroquia.pk}"  
+                     selection="#{parroquiaBean.parroquiaSeleccionado}" selectionMode="single" scrollWidth="false" 
+                     scrollable="true" scrollHeight="250" style="width: 600px" emptyMessage="No se ha registrado ningún Parroquias"
+                     rendered="#{not(parroquiaBean.enRegistro or parroquiaBean.enEdicion)}" >
+            <p:ajax event="rowSelect" listener="#{parroquiaBean.filaSeleccionada(evento)}" update="tabla"/>
+            <p:ajax event="rowUnselect" listener="#{parroquiaBean.filaSeleccionada(evento)}" update="tabla"/>
+            <f:facet name="header">  
+                Administración de Parroquias  
+            </f:facet>
+            <p:column headerText="Código" width="80">  
+                #{parroquia.pk.codigoParroquia}  
+            </p:column>
+            <p:column headerText="Nombre" width="300">  
+                #{parroquia.nombre}  
+            </p:column>  
+            <f:facet name="footer">  
+                <p:commandButton  value="Nuevo" update="@form" actionListener="#{parroquiaBean.nuevo(evento)}" disabled="#{parroquiaBean.disabledNuevo}"/>  
+                <p:commandButton  value="Modificar" update="@form" actionListener="#{parroquiaBean.modificar(evento)}" disabled="#{parroquiaBean.disabledModificar}"/>  
+                <p:commandButton  value="Eliminar" update="@form" actionListener="#{parroquiaBean.eliminar(evento)}" disabled="#{parroquiaBean.disabledEliminar}"/>  
+            </f:facet>
+        </p:dataTable>  
+        <p:spacer height="10"/>
+        <p:panel id="panelEdicion" header="Edición de Parroquias" style="width: 800px"
+                 rendered="#{parroquiaBean.enRegistro or parroquiaBean.enEdicion}"> 
+            <p:focus context="panelEdicion"/> 
+            <h:panelGrid columns="3" >
+                <h:outputLabel for="provincia" value="Provincia: *" />  
+                <p:inputText id="provincia" value="#{parroquiaBean.parroquia.canton.provincia.nombre}" label="Provincia" required="false"
+                             style="width: 200px" readonly="true">  
+                </p:inputText>  
+                <p:message for="provincia" />
+                <h:outputLabel for="canton" value="Canton: *" />  
+                <p:inputText id="canton" value="#{parroquiaBean.parroquia.canton.nombre}" label="Canton" required="false"
+                             style="width: 200px" readonly="true">  
+                </p:inputText>  
+                <p:message for="canton" />
+                
+                <h:outputLabel for="codigo" value="Código: *" />  
+                <p:inputText id="codigo" value="#{parroquiaBean.parroquia.pk.codigoParroquia}" label="Código" required="true"
+                             style="width: 100px" disabled="#{parroquiaBean.enEdicion}"> 
+                    <f:convertNumber integerOnly="true" maxIntegerDigits="2"/>
+                </p:inputText>  
+                <p:message for="codigo" />
+
+                <h:outputLabel for="nombre" value="Nombre: *" />  
+                <p:inputText id="nombre" value="#{parroquiaBean.parroquia.nombre}" label="Nombre" required="true"
+                             style="width: 200px" maxlength="50" />
+                <p:message for="nombre" />  
+
+            </h:panelGrid>
+            <h:panelGrid columns="2" cellspacing="5px">
+                <p:commandButton value="Guardar" update="@form"   
+                                 actionListener="#{parroquiaBean.guardar(evento)}" />
+                <p:commandButton value="Cancelar" update="@form"   
+                                 actionListener="#{parroquiaBean.cancelar(evento)}" immediate="true"/>
+            </h:panelGrid>  
+        </p:panel>
+
+    </ui:define>
+</ui:composition>
+
+
