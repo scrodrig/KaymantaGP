@@ -15,6 +15,7 @@ package ec.kaymanta.gestproy.web.beans;
 import ec.kaymanta.gestproy.modelo.Canton;
 import ec.kaymanta.gestproy.modelo.CantonPK;
 import ec.kaymanta.gestproy.modelo.Parroquia;
+import ec.kaymanta.gestproy.modelo.ParroquiaPK;
 import ec.kaymanta.gestproy.modelo.Provincia;
 import ec.kaymanta.gestproy.servicio.CantonServicio;
 import ec.kaymanta.gestproy.servicio.ParroquiaServicio;
@@ -46,15 +47,12 @@ public class ParroquiaBean extends BotonesBean implements Serializable {
     private ProvinciaServicio provinciaServicio;
     @EJB
     private CantonServicio cantonServicio;
-    
     private List<Parroquia> parroquias;
     private Parroquia parroquiaSeleccionado;
     private Parroquia respaldo;
     private Parroquia parroquia;
-    
     private String provincia;
     private String canton;
-    
     private List<Provincia> provinciasB;
     private List<Canton> cantonesB;
 
@@ -69,11 +67,11 @@ public class ParroquiaBean extends BotonesBean implements Serializable {
         super.sinSeleccion();
         this.provinciasB = this.provinciaServicio.obtener();
     }
-    
+
     public void actualizaCantonesB(ActionEvent evento) {
         this.cantonesB = this.cantonServicio.obtenerPorProvincia(this.provincia);
     }
-    
+
     public void cargarTabla(ActionEvent evento) {
         this.parroquias = this.parroquiaServicio.obtenerPorProvinciaCanton(this.provincia, this.canton);
     }
@@ -97,15 +95,26 @@ public class ParroquiaBean extends BotonesBean implements Serializable {
      * @param evento Evento relacionado con el botón nuevo.
      */
     public void nuevo(ActionEvent evento) {
-        this.parroquia = new Parroquia();
-        CantonPK cantonPK = new CantonPK(Long.parseLong(this.provincia), Long.parseLong(this.canton));
+//        this.parroquia = new Parroquia();
+        CantonPK cantonPK = new CantonPK(Long.parseLong(this.canton), Long.parseLong(this.provincia));
+        System.out.println(cantonPK.getCodigoCanton() + "  " + cantonPK.getProvincia());
         Canton cantonTmp = this.cantonServicio.obtenerPorId(cantonPK);
-        if (cantonTmp.getProvincia()==null) {
-            Provincia provinciaTmp = this.provinciaServicio.findByID(Long.parseLong(this.provincia));
-            cantonTmp.setProvincia(provinciaTmp);
-        }
+        System.out.println(cantonTmp.toString());
+//        if (cantonTmp.getProvincia()==null) {
+//        Provincia provinciaTmp = this.provinciaServicio.findByID(Long.parseLong(this.provincia));
+//            cantonTmp.setProvincia(provinciaTmp);
+//        }
+//        this.parroquia.setCanton(cantonTmp);
+//        super.crear();
+        this.parroquia = new Parroquia();
+        ParroquiaPK parroquiaPK = new ParroquiaPK();
+        parroquiaPK.setCanton(Long.parseLong(this.canton));
+        parroquiaPK.setProvincia(Long.parseLong(this.provincia));
+        System.out.println(parroquia.getPk().getCodigoParroquia());
+        this.parroquia.setPk(parroquiaPK);
         this.parroquia.setCanton(cantonTmp);
         super.crear();
+
     }
 
     /**
@@ -148,11 +157,15 @@ public class ParroquiaBean extends BotonesBean implements Serializable {
                 this.parroquias.add(this.parroquia);
                 MensajesGenericos.infoCrear(ENTIDAD, this.parroquia.getPk().toString().concat(" - ").concat(this.parroquia.getNombre()), Boolean.TRUE);
                 super.sinSeleccion();
+                this.canton = new String();
+                this.provincia = new String();
             } else {
                 this.parroquiaServicio.actualizar(this.parroquia);
                 BeanUtils.copyProperties(this.respaldo, this.parroquia);
                 MensajesGenericos.infoModificar(ENTIDAD, this.parroquia.getPk().toString().concat(" - ").concat(this.parroquia.getNombre()), Boolean.TRUE);
                 super.seleccionadoUno();
+                this.canton = new String();
+                this.provincia = new String();
             }
         } catch (Exception e) {
             MensajesGenericos.errorGuardar();
@@ -170,6 +183,8 @@ public class ParroquiaBean extends BotonesBean implements Serializable {
         } else {
             super.seleccionadoUno();
         }
+        this.canton = new String();
+        this.provincia = new String();
         MensajesGenericos.infoCancelar();
     }
 
@@ -241,6 +256,4 @@ public class ParroquiaBean extends BotonesBean implements Serializable {
     public List<Provincia> getProvinciasB() {
         return provinciasB;
     }
-    
-    
 }

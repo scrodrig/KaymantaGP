@@ -15,6 +15,8 @@ package ec.kaymanta.gestproy.modelo;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -38,6 +40,7 @@ public class TipoDocumento implements Serializable {
      * se relaciona con la columna COD_TIPO_DOCUMENTO.
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "COD_TIPO_DOCUMENTO", nullable = false, length = 10)
     private Long codigo;
     /**

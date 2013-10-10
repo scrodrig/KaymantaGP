@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/templateMantenimiento.xhtml">
+
+    <ui:define name="titulo">Roles</ui:define> 
+
+    <ui:define name="cuerpo">
+        <p:dataTable id="roles"  value="#{rolesBean.roles}" var="rol" selection="#{rolesBean.rolSeleccionado}" selectionMode="single" scrollable="true" 
+                     rowKey="#{rol.codigo}" style="width: 1000px" scrollWidth="false"
+                     paginator="true" rows="10"  
+                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     rowsPerPageTemplate="5,10,15" emptyMessage="No se ha registrado ninguna Región" rendered="#{not (rolesBean.enRegistro or rolesBean.enEdicion)}" >
+
+            <p:ajax event="rowSelect" listener="#{rolesBean.filaSeleccionada(evento)}" update="roles"/>
+            <p:ajax event="rowUnselect" listener="#{rolesBean.filaSeleccionada(evento)}" update="roles"/>
+
+            <f:facet name="header">
+                Roles
+            </f:facet>
+            <p:column headerText="Código" style="width: 100px">
+                #{rol.codigo}
+            </p:column>
+            <p:column headerText="Nombre" style="width: 300px">
+                #{rol.nombre}                     
+            </p:column>
+
+
+
+            <f:facet name="footer">  
+                <p:commandButton  value="Nuevo" update="@form" actionListener="#{rolesBean.nuevo(evento)}" disabled="#{rolesBean.disabledNuevo}" icon="ui-icon-document"/>  
+                <p:commandButton value="Modificar" update="@form" actionListener="#{rolesBean.modificar(evento)}" disabled="#{rolesBean.disabledModificar}" icon="ui-icon-pencil"/>
+                <p:commandButton value="Eliminar" onclick="confirmation.show();" disabled="#{rolesBean.disabledEliminar}" icon="ui-icon-close"/>
+            </f:facet>
+
+        </p:dataTable>
+
+
+        <p:growl id="mensajeEliminar" />
+        <p:confirmDialog id="confirmDialog" message="¿Seguro desea eliminar?"  
+                         header="Eliminación" severity="alert" widgetVar="confirmation">  
+            <p:commandButton id="confirm" value="Si, seguro" update="@form " oncomplete="confirmation.hide()"  
+                             actionListener="#{rolesBean.eliminar(evento)}"  />  
+            <p:commandButton id="decline" value="No" onclick="confirmation.hide();" type="button" />   
+
+        </p:confirmDialog> 
+
+        <p:panel id="nuevoRevestimiento" header="Creación de Roles" rendered="#{rolesBean.enRegistro}" style="width: 1000px">
+            <p:panelGrid columns="3">                
+
+                <p:outputLabel for="nombre" value="Nombre:"/>
+                <p:inputText id="nombre" value="#{rolesBean.rol.nombre}" label="Nombre:" required="true" />
+                <p:message for="nombre" />
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{rolesBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{rolesBean.cancelar(evento)}" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>
+
+
+        <p:panel id="modificarRevestimiento" header="Modificación de Roles" rendered="#{rolesBean.enEdicion}" style="width: 1000px">
+            <p:panelGrid columns="3">              
+
+                <p:outputLabel for="m_codigo" value="Código Revestimiento:"/>
+                <p:inputText id="m_codigo" value="#{rolesBean.rol.codigo}" label="Código Revestimiento:" required="true" readonly="true"/>
+                <p:message for="m_codigo" />
+
+                <p:outputLabel for="m_nombre" value="Nombre:"/>
+                <p:inputText id="m_nombre" value="#{rolesBean.rol.nombre}" label="Nombre:" required="true"/>
+                <p:message for="m_nombre" />
+
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{rolesBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{rolesBean.cancelar(evento)}" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+
+        </p:panel>
+
+
+
+
+    </ui:define>
+
+</ui:composition>
+
+

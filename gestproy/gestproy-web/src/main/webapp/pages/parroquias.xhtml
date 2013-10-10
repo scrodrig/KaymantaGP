@@ -46,9 +46,20 @@
             <f:facet name="footer">  
                 <p:commandButton  value="Nuevo" update="@form" actionListener="#{parroquiaBean.nuevo(evento)}" disabled="#{parroquiaBean.disabledNuevo}"/>  
                 <p:commandButton  value="Modificar" update="@form" actionListener="#{parroquiaBean.modificar(evento)}" disabled="#{parroquiaBean.disabledModificar}"/>  
-                <p:commandButton  value="Eliminar" update="@form" actionListener="#{parroquiaBean.eliminar(evento)}" disabled="#{parroquiaBean.disabledEliminar}"/>  
+                <p:commandButton  value="Eliminar" onclick="confirmation.show();" actionListener="#{parroquiaBean.eliminar(evento)}" disabled="#{parroquiaBean.disabledEliminar}"/>  
             </f:facet>
-        </p:dataTable>  
+        </p:dataTable>
+        
+        <p:growl id="mensajeEliminar" />
+        <p:confirmDialog id="confirmDialog" message="¿Seguro desea eliminar?"  
+                         header="Eliminación" severity="alert" widgetVar="confirmation">  
+            <p:commandButton id="confirm" value="Si, seguro" update="@form " oncomplete="confirmation.hide()"  
+                             actionListener="#{parroquiaBean.eliminar(evento)}"  />  
+            <p:commandButton id="decline" value="No" onclick="confirmation.hide();" type="button" />   
+
+        </p:confirmDialog> 
+        
+        
         <p:spacer height="10"/>
         <p:panel id="panelEdicion" header="Edición de Parroquias" style="width: 800px"
                  rendered="#{parroquiaBean.enRegistro or parroquiaBean.enEdicion}"> 
