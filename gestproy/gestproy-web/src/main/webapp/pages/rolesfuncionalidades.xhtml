@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/templateMantenimiento.xhtml">
+
+    <ui:define name="titulo">Roles Funcionalidades</ui:define> 
+
+    <ui:define name="cuerpo">
+        <p:dataTable id="rolesFuncionalidad"  value="#{rolesFuncionalidadBean.rolesFuncionalidad}" var="rlfun" selection="#{rolesFuncionalidadBean.rolFuncionalidadSeleccionado}" selectionMode="single" scrollable="true" 
+                     rowKey="#{rlfun.pk.funcionalidad}" style="width: 1000px" 
+                     paginator="true" rows="10"  scrollWidth="false"
+                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     rowsPerPageTemplate="5,10,15" emptyMessage="No se ha registrado ningún Roles-Funcionalidades" rendered="#{not (rolesFuncionalidadBean.enRegistro or rolesFuncionalidadBean.enEdicion or rolesFuncionalidadBean.enAuditoria)}" >
+
+            <p:ajax event="rowSelect" listener="#{rolesFuncionalidadBean.filaSeleccionada(evento)}" update="rolesFuncionalidad"/>
+            <p:ajax event="rowUnselect" listener="#{rolesFuncionalidadBean.filaSeleccionada(evento)}" update="rolesFuncionalidad"/>
+
+            <f:facet name="header">
+                Roles Funcionalidades
+            </f:facet>
+            <p:column headerText="Rol" style="width: 50px">
+                #{rlfun.rol.nombre}
+            </p:column>
+            <p:column headerText="Funcionalidad" style="width: 120px">
+                #{rlfun.funcionalidad.nombre}
+            </p:column>
+            <p:column headerText="Módulo" style="width: 120px">
+                #{rlfun.funcionalidad.modulo.nombre}
+            </p:column>
+            <p:column headerText="Fecha" style="width: 100px">
+                #{rlfun.fecha}
+            </p:column>
+            <f:facet name="footer">  
+                <p:commandButton  value="Nuevo" update="@form" actionListener="#{rolesFuncionalidadBean.nuevo(evento)}" disabled="#{rolesFuncionalidadBean.disabledNuevo}" icon="ui-icon-document"/>  
+                <p:commandButton value="Modificar" update="@form" actionListener="#{rolesFuncionalidadBean.modificar(evento)}" disabled="#{rolesFuncionalidadBean.disabledModificar}" icon="ui-icon-pencil"/>
+                <p:commandButton value="Eliminar" onclick="confirmation.show();" disabled="#{rolesFuncionalidadBean.disabledEliminar}" icon="ui-icon-close"/>
+            </f:facet>
+        </p:dataTable>
+
+
+
+        <p:growl id="mensajeEliminar" />
+        <p:confirmDialog id="confirmDialog" message="¿Seguro desea eliminar?"  
+                         header="Eliminación" severity="alert" widgetVar="confirmation">  
+            <p:commandButton id="confirm" value="Si, seguro" update="@form " oncomplete="confirmation.hide()"  
+                             actionListener="#{rolesFuncionalidadBean.eliminar(evento)}"  />  
+            <p:commandButton id="decline" value="No" onclick="confirmation.hide();" type="button" />   
+
+        </p:confirmDialog> 
+
+
+        <p:panel id="nuevoUsr" header="Creación de Roles-Funcionalidades" rendered="#{rolesFuncionalidadBean.enRegistro or rolesFuncionalidadBean.enEdicion}" style="width: 1000px">
+            <p:panelGrid columns="3">
+                <p:outputLabel for="codigo" value="Funcionalidad"/>
+                <p:selectOneMenu id="codigo" value="#{rolesFuncionalidadBean.funcionalidad}" label="Funcionalidad" required="true">
+                    <f:selectItem itemLabel="Seleccione..." itemValue="" /> 
+                    <f:selectItems value="#{rolesFuncionalidadBean.funcionalidades}" var="funcionalidad" itemLabel="#{funcionalidad.nombre}" itemValue="#{funcionalidad.codigo}"/>
+                </p:selectOneMenu>
+                <p:message for="codigo" />
+
+                <p:outputLabel for="rol" value="Roles"/>
+                <p:selectOneMenu id="rol" value="#{rolesFuncionalidadBean.rol}" label="Roles" required="true">
+                    <f:selectItem itemLabel="Seleccione..." itemValue="" /> 
+                    <f:selectItems value="#{rolesFuncionalidadBean.roles}" var="rol" itemLabel="#{rol.nombre}" itemValue="#{rol.codigo}"/>
+                </p:selectOneMenu>
+                <p:message for="rol" />
+
+                <p:outputLabel for="fecha" value="Fecha:" />
+                <p:calendar id="fecha" value="#{rolesFuncionalidadBean.rolFuncionalidad.fecha}" effect="explode" label="Fecha" required="true"/> 
+                <p:message for="fecha" />
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{rolesFuncionalidadBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{rolesFuncionalidadBean.cancelar(evento)}" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>
+
+
+
+
+
+    </ui:define>
+
+</ui:composition>

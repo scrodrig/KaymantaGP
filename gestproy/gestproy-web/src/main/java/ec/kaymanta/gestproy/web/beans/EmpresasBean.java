@@ -124,7 +124,7 @@ public class EmpresasBean extends BotonesBean implements Serializable{
                 int i = this.empresas.indexOf(this.empresa);
                 this.empresaServicio.actualizar(this.empresa);
                 empresas.set(i, this.empresa);
-                MensajesGenericos.infoModificar("Usuario", this.empresa.getCodigo().toString().concat(" - ").concat(this.empresa.getRazonSocial()), Boolean.TRUE);
+                MensajesGenericos.infoModificar("Empresa", this.empresa.getCodigo().toString().concat(" - ").concat(this.empresa.getRazonSocial()), Boolean.TRUE);
                 super.sinSeleccion();
             }
         } catch (Exception e) {

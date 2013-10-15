@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/templateMantenimiento.xhtml">
+
+    <ui:define name="titulo">Usuarios Roles</ui:define> 
+
+    <ui:define name="cuerpo">
+        <p:dataTable id="usuarioRoles"  value="#{usuariosRolBean.usuarioRoles}" var="usrRol" selection="#{usuariosRolBean.usuarioRolSeleccionado}" selectionMode="single" scrollable="true" 
+                     rowKey="#{usrRol.pk.usuario}" style="width: 1000px" 
+                     paginator="true" rows="10"  scrollWidth="false"
+                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     rowsPerPageTemplate="5,10,15" emptyMessage="No se ha registrado ningún Usuarios-Roles" rendered="#{not (usuariosRolBean.enRegistro or usuariosRolBean.enEdicion or usuariosRolBean.enAuditoria)}" >
+
+            <p:ajax event="rowSelect" listener="#{usuariosRolBean.filaSeleccionada(evento)}" update="usuarioRoles"/>
+            <p:ajax event="rowUnselect" listener="#{usuariosRolBean.filaSeleccionada(evento)}" update="usuarioRoles"/>
+
+            <f:facet name="header">
+                Usuarios Roles
+            </f:facet>
+            <p:column headerText="Rol" style="width: 50px">
+                #{usrRol.rol.nombre}
+            </p:column>
+            <p:column headerText="Usuario" style="width: 120px">
+                #{usrRol.usuario.usuario}
+            </p:column>
+            <p:column headerText="Fecha" style="width: 100px">
+                #{usrRol.fecha}
+            </p:column>
+            <f:facet name="footer">  
+                <p:commandButton  value="Nuevo" update="@form" actionListener="#{usuariosRolBean.nuevo(evento)}" disabled="#{usuariosRolBean.disabledNuevo}" icon="ui-icon-document"/>  
+                <p:commandButton value="Modificar" update="@form" actionListener="#{usuariosRolBean.modificar(evento)}" disabled="#{usuariosRolBean.disabledModificar}" icon="ui-icon-pencil"/>
+                <p:commandButton value="Eliminar" onclick="confirmation.show();" disabled="#{usuariosRolBean.disabledEliminar}" icon="ui-icon-close"/>
+            </f:facet>
+        </p:dataTable>
+
+        
+
+        <p:growl id="mensajeEliminar" />
+        <p:confirmDialog id="confirmDialog" message="¿Seguro desea eliminar?"  
+                         header="Eliminación" severity="alert" widgetVar="confirmation">  
+            <p:commandButton id="confirm" value="Si, seguro" update="@form " oncomplete="confirmation.hide()"  
+                             actionListener="#{usuariosRolBean.eliminar(evento)}"  />  
+            <p:commandButton id="decline" value="No" onclick="confirmation.hide();" type="button" />   
+
+        </p:confirmDialog> 
+
+     
+        <p:panel id="nuevoUsr" header="Administración de Usuarios-Roles" rendered="#{usuariosRolBean.enRegistro or usuariosRolBean.enEdicion}" style="width: 1000px">
+            <p:panelGrid columns="3">
+                <p:outputLabel for="codigo" value="Usuario"/>
+                <p:selectOneMenu id="codigo" value="#{usuariosRolBean.usuario}" label="Usuario" required="true">
+                    <f:selectItem itemLabel="Seleccione..." itemValue="" /> 
+                    <f:selectItems value="#{usuariosRolBean.usuarios}" var="usuario" itemLabel="#{usuario.usuario}" itemValue="#{usuario.codigo}"/>
+                </p:selectOneMenu>
+                <p:message for="codigo" />
+
+                <p:outputLabel for="rol" value="Roles"/>
+                <p:selectOneMenu id="rol" value="#{usuariosRolBean.rol}" label="Roles" required="true">
+                    <f:selectItem itemLabel="Seleccione..." itemValue="" /> 
+                    <f:selectItems value="#{usuariosRolBean.roles}" var="rol" itemLabel="#{rol.nombre}" itemValue="#{rol.codigo}"/>
+                </p:selectOneMenu>
+                <p:message for="rol" />
+
+                <p:outputLabel for="fecha" value="Fecha:" />
+                <p:calendar id="fecha" value="#{usuariosRolBean.usuarioRol.fecha}" effect="explode" label="Fecha" required="true"/> 
+                <p:message for="fecha" />
+                
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{usuariosRolBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{usuariosRolBean.cancelar(evento)}" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>
+        
+        
+        
+        
+        
+    </ui:define>
+
+</ui:composition>
