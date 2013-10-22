@@ -12,9 +12,9 @@
     <ui:define name="cuerpo">
         <p:dataTable id="empresas"  value="#{empresasBean.empresas}" var="empresa" selection="#{empresasBean.empresaSeleccionado}" selectionMode="single" scrollable="true" 
                      rowKey="#{empresa.codigo}" style="width: 1000px" 
-                     paginator="true" rows="10"  scrollWidth="false"
-                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                     rowsPerPageTemplate="5,10,15" emptyMessage="No se ha registrado ninguna Empresa" rendered="#{not (empresasBean.enRegistro or empresasBean.enEdicion or empresasBean.enAuditoria)}" >
+                     paginator="true" rows="10"  scrollWidth="false" paginatorPosition="bottom"
+                     paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                      emptyMessage="No se ha registrado ninguna Empresa" rendered="#{not (empresasBean.enRegistro or empresasBean.enEdicion or empresasBean.enAuditoria)}" >
 
             <p:ajax event="rowSelect" listener="#{empresasBean.filaSeleccionada(evento)}" update="empresas"/>
             <p:ajax event="rowUnselect" listener="#{empresasBean.filaSeleccionada(evento)}" update="empresas"/>
@@ -48,7 +48,6 @@
 
 
 
-        <p:growl id="mensajeEliminar" />
         <p:confirmDialog id="confirmDialog" message="¿Seguro desea eliminar?"  
                          header="Eliminación" severity="alert" widgetVar="confirmation">  
             <p:commandButton id="confirm" value="Si, seguro" update="@form " oncomplete="confirmation.hide()"  
@@ -66,22 +65,22 @@
                 <p:panelGrid columns="2" rendered="#{empresasBean.enAuditoria}">
 
                     <p:outputLabel for="a_codigo" value="Código:"/>
-                    <p:inputText id="a_codigo" value="#{empresasBean.empresa.codigo}" label="Código" required="true" readonly="true"/>
+                    <p:outputLabel id="a_codigo" value="#{empresasBean.empresa.codigo}"/>
 
                     <p:outputLabel for="a_empresa" value="Nombre de Empresa"/>                
-                    <p:inputText id="a_empresa" value="#{empresasBean.empresa.razonSocial}" label="Nombre de Empleado" required="true" readonly="true"/>              
+                    <p:outputLabel id="a_empresa" value="#{empresasBean.empresa.razonSocial}"/>              
 
                     <p:outputLabel for="usrcre" value="Usuario creación"/>                
-                    <p:inputText id="usrcre" value="#{empresasBean.getUsrAuditoria(empresasBean.empresa.usrCreacion)}" label="Empleado creación" required="true" readonly="true"/>              
+                    <p:outputLabel id="usrcre" value="#{empresasBean.getUsrAuditoria(empresasBean.empresa.usrCreacion)}"/>              
 
                     <p:outputLabel for="usrcref" value="Fecha creación:"/>                
-                    <p:inputText id="usrcref" value="#{empresasBean.empresa.fcreacion}" label="Fecha creación" required="true" readonly="true"/>              
+                    <p:outputLabel id="usrcref" value="#{empresasBean.empresa.fcreacion}"/>              
 
                     <p:outputLabel for="usrmod" value="Usuario modificación:"/>                
-                    <p:inputText id="usrmod" value="#{empresasBean.getUsrAuditoria(empresasBean.empresa.usrModificacion)}" label="Empleado modificación" required="true" readonly="true"/>              
+                    <p:outputLabel id="usrmod" value="#{empresasBean.getUsrAuditoria(empresasBean.empresa.usrModificacion)}"/>              
 
                     <p:outputLabel for="usrmodf" value="Fecha modificación:"/>                
-                    <p:inputText id="usrmodf" value="#{empresasBean.empresa.fmodificacion}" label="Fecha modificación" required="true" readonly="true"/>              
+                    <p:outputLabel id="usrmodf" value="#{empresasBean.empresa.fmodificacion}" />              
 
                 </p:panelGrid> 
             </p:panelGrid>
@@ -126,7 +125,7 @@
             </p:panelGrid>
             <f:facet name="footer"> 
                 <p:commandButton actionListener="#{empresasBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
-                <p:commandButton actionListener="#{empresasBean.cancelar(evento)}" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+                <p:commandButton actionListener="#{empresasBean.cancelar(evento)}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
             </f:facet>
         </p:panel>
 
@@ -138,7 +137,7 @@
         <p:panel id="modificarUsr" header="Modificación de Empresa" rendered="#{empresasBean.enEdicion}" style="width: 1000px">
             <p:panelGrid columns="3">
                 <p:outputLabel for="m_codigo" value="Ruc:"/>
-                <p:inputText id="m_codigo" value="#{empresasBean.empresa.codigo}" label="Ruc:" required="true">
+                <p:inputText id="m_codigo" value="#{empresasBean.empresa.codigo}" label="Ruc:" required="true" readonly="true">
                     <f:validateLength minimum="10" maximum="13" />                  
                 </p:inputText>
                 <p:message for="m_codigo" />
@@ -164,7 +163,7 @@
 
             <f:facet name="footer"> 
                 <p:commandButton actionListener="#{empresasBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
-                <p:commandButton actionListener="#{empresasBean.cancelar(evento)}" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+                <p:commandButton actionListener="#{empresasBean.cancelar(evento)}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
             </f:facet>
         </p:panel>
     </ui:define>

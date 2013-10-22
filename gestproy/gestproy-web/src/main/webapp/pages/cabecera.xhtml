@@ -12,18 +12,13 @@
 
             <p:menuitem value="Inicio" url="menu.jsf" icon="ui-icon-home" />                    
 
-            <p:submenu label="Mantenimiento" icon="ui-icon-pencil">  
+            <p:submenu label="Administración" icon="ui-icon-pencil">  
 
                 <p:column>  
-                    <p:submenu label="USUARIOS">  
-                        <p:menuitem value="Usuarios" url="usuarios.jsf" />   
-                    </p:submenu>  
+                    
                     <p:submenu label="EMPLEADOS">  
                         <p:menuitem value="Empleados" url="empleados.jsf" />  
-                    </p:submenu>  
-                    <p:submenu label="INTERESADOS">  
-                        <p:menuitem value="Interesados" url="interesados.jsf" />  
-                    </p:submenu>  
+                    </p:submenu>   
                 </p:column>
                 <p:column>  
                     <p:submenu label="EMPRESAS">  
@@ -35,6 +30,7 @@
                 </p:column>
                 <p:column>  
                     <p:submenu label="SEGURIDADES">  
+                        <p:menuitem value="Usuarios" url="usuarios.jsf" />    
                         <p:menuitem value="Módulos" url="modulos.jsf" />   
                         <p:menuitem value="Funcionalidades" url="funcionalidades.jsf" />  
                         <p:menuitem value="Roles" url="roles.jsf" /> 

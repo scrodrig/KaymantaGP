@@ -35,6 +35,7 @@ public class BotonesBean {
         this.disabledEliminar = Boolean.TRUE;
         this.noSeleccionados = Boolean.TRUE;
         this.disableAuditoria = Boolean.TRUE;
+        this.uno=Boolean.FALSE;
     }
 
     public void seleccionadoUno() {

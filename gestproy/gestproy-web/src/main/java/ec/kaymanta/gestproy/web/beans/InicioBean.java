@@ -38,12 +38,14 @@ public class InicioBean implements Serializable {
     private UsuarioServicio usuarioServicio;
 
     public String validarUsuario() {
+        nombreUsuario=nombreUsuario.toLowerCase();
+        System.out.println("Minusculas: "+nombreUsuario);
         Usuario usuario = this.autentificacionServicio.usuarioAutentificar(nombreUsuario, clave);
         System.out.println("ESTOY EN validarUsuario");
         System.out.println("En el BB " + usuario);
         if (usuario != null) {
             Empleado empleado = this.empleadoServicio.findByID(usuario.getCodigo());
-            System.out.println("En el BB " + empleado);
+            System.out.println("En el BB " + empleado);            
             if (empleado != null) {
                 System.out.println("En el BB " + usuario);
                 if (empleado.getCodigo().equals(usuario.getCodigo())) {

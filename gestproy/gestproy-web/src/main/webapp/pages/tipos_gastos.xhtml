@@ -11,10 +11,10 @@
 
     <ui:define name="cuerpo">
         <p:dataTable id="tipos"  value="#{tiposGastoBean.tipos}" var="tipoGasto" selection="#{tiposGastoBean.tipoGastoSeleccionado}" selectionMode="single" scrollable="true" 
-                     rowKey="#{tipoGasto.codigo}" style="width: 1000px" scrollWidth="false"
-                     paginator="true" rows="10"  
-                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                     rowsPerPageTemplate="5,10,15" emptyMessage="No se ha registrado ninguna Región" rendered="#{not (tiposGastoBean.enRegistro or tiposGastoBean.enEdicion)}" >
+                     rowKey="#{tipoGasto.codigo}" style="width: 700px" scrollWidth="false"
+                     paginator="true" rows="10"   paginatorPosition="bottom"
+                     paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                      emptyMessage="No se ha registrado ninguna Región" rendered="#{not (tiposGastoBean.enRegistro or tiposGastoBean.enEdicion)}" >
 
             <p:ajax event="rowSelect" listener="#{tiposGastoBean.filaSeleccionada(evento)}" update="tipos"/>
             <p:ajax event="rowUnselect" listener="#{tiposGastoBean.filaSeleccionada(evento)}" update="tipos"/>
@@ -40,7 +40,6 @@
         </p:dataTable>
 
         
-        <p:growl id="mensajeEliminar" />
         <p:confirmDialog id="confirmDialog" message="¿Seguro desea eliminar?"  
                          header="Eliminación" severity="alert" widgetVar="confirmation">  
             <p:commandButton id="confirm" value="Si, seguro" update="@form " oncomplete="confirmation.hide()"  
@@ -49,7 +48,7 @@
 
         </p:confirmDialog> 
 
-        <p:panel id="nuevoRevestimiento" header="Creación de Tipos Gasto" rendered="#{tiposGastoBean.enRegistro}" style="width: 1000px">
+        <p:panel id="nuevoRevestimiento" header="Creación de Tipos Gasto" rendered="#{tiposGastoBean.enRegistro}" style="width: 700px">
             <p:panelGrid columns="3">                
 
                 <p:outputLabel for="nombre" value="Nombre:"/>
@@ -63,12 +62,12 @@
             </p:panelGrid>
             <f:facet name="footer"> 
                 <p:commandButton actionListener="#{tiposGastoBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
-                <p:commandButton actionListener="#{tiposGastoBean.cancelar(evento)}" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+                <p:commandButton actionListener="#{tiposGastoBean.cancelar(evento)}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
             </f:facet>
         </p:panel>
 
 
-        <p:panel id="modificarRevestimiento" header="Modificación de Tipos Gasto" rendered="#{tiposGastoBean.enEdicion}" style="width: 1000px">
+        <p:panel id="modificarRevestimiento" header="Modificación de Tipos Gasto" rendered="#{tiposGastoBean.enEdicion}" style="width: 700px">
             <p:panelGrid columns="3">              
 
                 <p:outputLabel for="m_codigo" value="Código Revestimiento:"/>
@@ -87,7 +86,7 @@
             </p:panelGrid>
             <f:facet name="footer"> 
                 <p:commandButton actionListener="#{tiposGastoBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
-                <p:commandButton actionListener="#{tiposGastoBean.cancelar(evento)}" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+                <p:commandButton actionListener="#{tiposGastoBean.cancelar(evento)}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
             </f:facet>
 
         </p:panel>

@@ -12,9 +12,9 @@
     <ui:define name="cuerpo">
         <p:dataTable id="empleados"  value="#{empleadosBean.empleados}" var="empleado" selection="#{empleadosBean.empleadoSeleccionado}" selectionMode="single" scrollable="true" 
                      rowKey="#{empleado.codigo}" style="width: 1000px" 
-                     paginator="true" rows="10"  scrollWidth="false"
-                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                     rowsPerPageTemplate="5,10,15" emptyMessage="No se ha registrado ningún Empleado" rendered="#{not (empleadosBean.enRegistro or empleadosBean.enEdicion or empleadosBean.enAuditoria)}" >
+                     paginator="true" rows="10"  scrollWidth="false" paginatorPosition="bottom"
+                     paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                      emptyMessage="No se ha registrado ningún Empleado" rendered="#{not (empleadosBean.enRegistro or empleadosBean.enEdicion or empleadosBean.enAuditoria)}" >
 
             <p:ajax event="rowSelect" listener="#{empleadosBean.filaSeleccionada(evento)}" update="empleados"/>
             <p:ajax event="rowUnselect" listener="#{empleadosBean.filaSeleccionada(evento)}" update="empleados"/>
@@ -50,7 +50,7 @@
 
         
 
-        <p:growl id="mensajeEliminar" />
+
         <p:confirmDialog id="confirmDialog" message="¿Seguro desea eliminar?"  
                          header="Eliminación" severity="alert" widgetVar="confirmation">  
             <p:commandButton id="confirm" value="Si, seguro" update="@form " oncomplete="confirmation.hide()"  
@@ -68,22 +68,22 @@
                 <p:panelGrid columns="2" rendered="#{empleadosBean.enAuditoria}">
 
                     <p:outputLabel for="a_codigo" value="Código:"/>
-                    <p:inputText id="a_codigo" value="#{empleadosBean.empleado.codigo}" label="Código" required="true" readonly="true"/>
+                    <p:outputLabel id="a_codigo" value="#{empleadosBean.empleado.codigo}"/>
 
                     <p:outputLabel for="a_empleado" value="Nombre de Empleado:"/>                
-                    <p:inputText id="a_empleado" value="#{empleadosBean.empleado.nombre}" label="Nombre de Empleado" required="true" readonly="true"/>              
+                    <p:outputLabel id="a_empleado" value="#{empleadosBean.empleado.nombre}"/>              
 
                     <p:outputLabel for="usrcre" value="Usuario creación"/>                
-                    <p:inputText id="usrcre" value="#{empleadosBean.getUsrAuditoria(empleadosBean.empleado.usrCreacion)}" label="Empleado creación" required="true" readonly="true"/>              
+                    <p:outputLabel id="usrcre" value="#{empleadosBean.getUsrAuditoria(empleadosBean.empleado.usrCreacion)}"/>              
 
                     <p:outputLabel for="usrcref" value="Fecha creación:"/>                
-                    <p:inputText id="usrcref" value="#{empleadosBean.empleado.fcreacion}" label="Fecha creación" required="true" readonly="true"/>              
+                    <p:outputLabel id="usrcref" value="#{empleadosBean.empleado.fcreacion}"/>              
 
                     <p:outputLabel for="usrmod" value="Usuario modificación:"/>                
-                    <p:inputText id="usrmod" value="#{empleadosBean.getUsrAuditoria(empleadosBean.empleado.usrModificacion)}" label="Empleado modificación" required="true" readonly="true"/>              
+                    <p:outputLabel id="usrmod" value="#{empleadosBean.getUsrAuditoria(empleadosBean.empleado.usrModificacion)}"/>              
 
                     <p:outputLabel for="usrmodf" value="Fecha modificación:"/>                
-                    <p:inputText id="usrmodf" value="#{empleadosBean.empleado.fmodificacion}" label="Fecha modificación" required="true" readonly="true"/>              
+                    <p:outputLabel id="usrmodf" value="#{empleadosBean.empleado.fmodificacion}"/>              
 
                 </p:panelGrid> 
             </p:panelGrid>
@@ -115,7 +115,7 @@
                 <p:message for="empleado" />
 
                 <p:outputLabel for="fnacimiento" value="Fecha de Nacimiento" />
-                <p:calendar id="fnacimiento" value="#{empleadosBean.empleado.fnacimiento}" effect="explode" label="Fecha de Nacimiento" required="true"/> 
+                <p:calendar id="fnacimiento" showButtonPanel="true" pattern="dd/MM/yyyy" value="#{empleadosBean.empleado.fnacimiento}" effect="explode" label="Fecha de Nacimiento" required="true"/> 
                 <p:message for="fnacimiento" />
                                 
                 <p:outputLabel for="telef" value="Telefono" />
@@ -131,7 +131,7 @@
             </p:panelGrid>
             <f:facet name="footer"> 
                 <p:commandButton actionListener="#{empleadosBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
-                <p:commandButton actionListener="#{empleadosBean.cancelar(evento)}" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+                <p:commandButton actionListener="#{empleadosBean.cancelar(evento)}" immediate="true" value="Cancelar" immediate="true" update="@form" icon="ui-icon-cancel"/>
             </f:facet>
         </p:panel>
 
@@ -176,7 +176,7 @@
 
             <f:facet name="footer"> 
                 <p:commandButton actionListener="#{empleadosBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
-                <p:commandButton actionListener="#{empleadosBean.cancelar(evento)}" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+                <p:commandButton actionListener="#{empleadosBean.cancelar(evento)}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
             </f:facet>
         </p:panel>
     </ui:define>

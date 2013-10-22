@@ -12,9 +12,9 @@
     <ui:define name="cuerpo">
         <p:dataTable id="instituciones"  value="#{institucionesControlBean.instituciones}" var="institucionControl" selection="#{institucionesControlBean.institucionSeleccionado}" selectionMode="single" scrollable="true" 
                      rowKey="#{institucionControl.codigo}" style="width: 1000px" scrollWidth="false" 
-                     paginator="true" rows="10"  
-                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                     rowsPerPageTemplate="5,10,15" emptyMessage="No se ha registrado ninguna Empresa" rendered="#{not (institucionesControlBean.enRegistro or institucionesControlBean.enEdicion or institucionesControlBean.enAuditoria)}" >
+                     paginator="true" rows="10"  paginatorPosition="bottom" 
+                     paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                      emptyMessage="No se ha registrado ninguna Empresa" rendered="#{not (institucionesControlBean.enRegistro or institucionesControlBean.enEdicion or institucionesControlBean.enAuditoria)}" >
 
             <p:ajax event="rowSelect" listener="#{institucionesControlBean.filaSeleccionada(evento)}" update="instituciones"/>
             <p:ajax event="rowUnselect" listener="#{institucionesControlBean.filaSeleccionada(evento)}" update="instituciones"/>
@@ -49,7 +49,7 @@
 
 
 
-        <p:growl id="mensajeEliminar" />
+
         <p:confirmDialog id="confirmDialog" message="¿Seguro desea eliminar?"  
                          header="Eliminación" severity="alert" widgetVar="confirmation">  
             <p:commandButton id="confirm" value="Si, seguro" update="@form " oncomplete="confirmation.hide()"  
@@ -67,22 +67,22 @@
                 <p:panelGrid columns="2" rendered="#{institucionesControlBean.enAuditoria}">
 
                     <p:outputLabel for="a_codigo" value="Código:"/>
-                    <p:inputText id="a_codigo" value="#{institucionesControlBean.institucionControl.codigo}" label="Código" required="true" readonly="true"/>
+                    <p:outputLabel id="a_codigo" value="#{institucionesControlBean.institucionControl.codigo}" />
 
                     <p:outputLabel for="a_institucionControl" value="Nombre de Empresa"/>                
-                    <p:inputText id="a_institucionControl" value="#{institucionesControlBean.institucionControl.nombre}" label="Nombre de Empleado" required="true" readonly="true"/>              
+                    <p:outputLabel id="a_institucionControl" value="#{institucionesControlBean.institucionControl.nombre}"/>              
 
                     <p:outputLabel for="usrcre" value="Usuario creación"/>                
-                    <p:inputText id="usrcre" value="#{institucionesControlBean.getUsrAuditoria(institucionesControlBean.institucionControl.usrCreacion)}" label="Empleado creación" required="true" readonly="true"/>              
+                    <p:outputLabel id="usrcre" value="#{institucionesControlBean.getUsrAuditoria(institucionesControlBean.institucionControl.usrCreacion)}"/>              
 
                     <p:outputLabel for="usrcref" value="Fecha creación:"/>                
-                    <p:inputText id="usrcref" value="#{institucionesControlBean.institucionControl.fcreacion}" label="Fecha creación" required="true" readonly="true"/>              
+                    <p:outputLabel id="usrcref" value="#{institucionesControlBean.institucionControl.fcreacion}"/>              
 
                     <p:outputLabel for="usrmod" value="Usuario modificación:"/>                
-                    <p:inputText id="usrmod" value="#{institucionesControlBean.getUsrAuditoria(institucionesControlBean.institucionControl.usrModificacion)}" label="Empleado modificación" required="true" readonly="true"/>              
+                    <p:outputLabel id="usrmod" value="#{institucionesControlBean.getUsrAuditoria(institucionesControlBean.institucionControl.usrModificacion)}"/>              
 
                     <p:outputLabel for="usrmodf" value="Fecha modificación:"/>                
-                    <p:inputText id="usrmodf" value="#{institucionesControlBean.institucionControl.fmodificacion}" label="Fecha modificación" required="true" readonly="true"/>              
+                    <p:outputLabel id="usrmodf" value="#{institucionesControlBean.institucionControl.fmodificacion}"/>              
 
                 </p:panelGrid> 
             </p:panelGrid>
@@ -126,7 +126,7 @@
             </p:panelGrid>
             <f:facet name="footer"> 
                 <p:commandButton actionListener="#{institucionesControlBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
-                <p:commandButton actionListener="#{institucionesControlBean.cancelar(evento)}" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+                <p:commandButton actionListener="#{institucionesControlBean.cancelar(evento)}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
             </f:facet>
         </p:panel>
 
@@ -139,7 +139,7 @@
             <p:panelGrid columns="3">
 
                 <p:outputLabel for="m_institucionControl" value="Nombre:"/>                
-                <p:inputText id="m_institucionControl" value="#{institucionesControlBean.institucionControl.nombre}" label="institucionControl" required="true">
+                <p:inputText id="m_institucionControl" value="#{institucionesControlBean.institucionControl.nombre}" label="institucionControl" required="true" readonly="true">
                 </p:inputText>
                 <p:message for="m_institucionControl" />
 
@@ -163,7 +163,7 @@
 
             <f:facet name="footer"> 
                 <p:commandButton actionListener="#{institucionesControlBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
-                <p:commandButton actionListener="#{institucionesControlBean.cancelar(evento)}" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+                <p:commandButton actionListener="#{institucionesControlBean.cancelar(evento)}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
             </f:facet>
         </p:panel>
     </ui:define>

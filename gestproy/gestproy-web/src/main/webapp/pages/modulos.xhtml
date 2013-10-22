@@ -11,10 +11,10 @@
 
     <ui:define name="cuerpo">
         <p:dataTable id="modulos"  value="#{modulosBean.modulos}" var="modulo" selection="#{modulosBean.moduloSeleccionado}" selectionMode="single" scrollable="true" 
-                     rowKey="#{modulo.codigo}" style="width: 1000px" scrollWidth="false"
-                     paginator="true" rows="10"  
-                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                     rowsPerPageTemplate="5,10,15" emptyMessage="No se ha registrado ninguna Región" rendered="#{not (modulosBean.enRegistro or modulosBean.enEdicion)}" >
+                     rowKey="#{modulo.codigo}" style="width: 700px" scrollWidth="false"
+                     paginator="true" rows="10"   paginatorPosition="bottom"
+                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     emptyMessage="No se ha registrado ninguna Región" rendered="#{not (modulosBean.enRegistro or modulosBean.enEdicion)}" >
 
             <p:ajax event="rowSelect" listener="#{modulosBean.filaSeleccionada(evento)}" update="modulos"/>
             <p:ajax event="rowUnselect" listener="#{modulosBean.filaSeleccionada(evento)}" update="modulos"/>
@@ -59,7 +59,7 @@
             </p:panelGrid>
             <f:facet name="footer"> 
                 <p:commandButton actionListener="#{modulosBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
-                <p:commandButton actionListener="#{modulosBean.cancelar(evento)}" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+                <p:commandButton actionListener="#{modulosBean.cancelar(evento)}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
             </f:facet>
         </p:panel>
 
@@ -79,7 +79,7 @@
             </p:panelGrid>
             <f:facet name="footer"> 
                 <p:commandButton actionListener="#{modulosBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
-                <p:commandButton actionListener="#{modulosBean.cancelar(evento)}" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+                <p:commandButton actionListener="#{modulosBean.cancelar(evento)}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
             </f:facet>
 
         </p:panel>

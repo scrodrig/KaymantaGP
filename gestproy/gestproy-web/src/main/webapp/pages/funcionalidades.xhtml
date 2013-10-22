@@ -11,10 +11,10 @@
 
     <ui:define name="cuerpo">
         <p:dataTable id="funcionalidades"  value="#{funcionalidadBean.funcionalidades}" var="funcionalidad" selection="#{funcionalidadBean.funcionalidadSeleccionado}" selectionMode="single" scrollable="true" 
-                     rowKey="#{funcionalidad.codigo}" style="width: 1000px" scrollWidth="false"
-                     paginator="true" rows="10"  
-                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                     rowsPerPageTemplate="5,10,15" emptyMessage="No se ha registrado ninguna Funcionalidad" rendered="#{not (funcionalidadBean.enRegistro or funcionalidadBean.enEdicion)}" >
+                     rowKey="#{funcionalidad.codigo}" style="width: 700px" scrollWidth="false"
+                     paginator="true" rows="10" paginatorPosition="bottom"  
+                     paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     emptyMessage="No se ha registrado ninguna Funcionalidad" rendered="#{not (funcionalidadBean.enRegistro or funcionalidadBean.enEdicion)}" >
 
             <p:ajax event="rowSelect" listener="#{funcionalidadBean.filaSeleccionada(evento)}" update="funcionalidades"/>
             <p:ajax event="rowUnselect" listener="#{funcionalidadBean.filaSeleccionada(evento)}" update="funcionalidades"/>
@@ -25,10 +25,10 @@
             <p:column headerText="Código" style="width: 100px">
                 #{funcionalidad.codigo}
             </p:column>
-            <p:column headerText="Nombre" style="width: 300px">
+            <p:column headerText="Nombre" style="width: 150px">
                 #{funcionalidad.nombre}                     
             </p:column>
-            <p:column headerText="Módulo" style="width: 300px">
+            <p:column headerText="Módulo" style="width: 150px">
                 #{funcionalidad.modulo.nombre}                     
             </p:column>
 
@@ -74,7 +74,7 @@
             </p:panelGrid>
             <f:facet name="footer"> 
                 <p:commandButton actionListener="#{funcionalidadBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
-                <p:commandButton actionListener="#{funcionalidadBean.cancelar(evento)}" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+                <p:commandButton actionListener="#{funcionalidadBean.cancelar(evento)}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
             </f:facet>
         </p:panel>
 
@@ -105,7 +105,7 @@
             </p:panelGrid>
             <f:facet name="footer"> 
                 <p:commandButton actionListener="#{funcionalidadBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
-                <p:commandButton actionListener="#{funcionalidadBean.cancelar(evento)}" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+                <p:commandButton actionListener="#{funcionalidadBean.cancelar(evento)}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
             </f:facet>
 
         </p:panel>

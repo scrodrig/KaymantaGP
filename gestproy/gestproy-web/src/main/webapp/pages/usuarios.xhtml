@@ -12,9 +12,9 @@
     <ui:define name="cuerpo">
         <p:dataTable id="usuarios"  value="#{usuariosBean.usuarios}" var="usuario" selection="#{usuariosBean.usuarioSeleccionado}" selectionMode="single" scrollable="true" 
                      rowKey="#{usuario.codigo}" style="width: 1000px"  scrollWidth="false"
-                     paginator="true" rows="10"  
-                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                     rowsPerPageTemplate="5,10,15" emptyMessage="No se ha registrado ningún Usuario" rendered="#{not (usuariosBean.enRegistro or usuariosBean.enEdicion or usuariosBean.enAuditoria)}" >
+                     paginator="true" rows="10" paginatorPosition="bottom"
+                     paginatorTemplate=" {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     emptyMessage="No se ha registrado ningún Usuario" rendered="#{not (usuariosBean.enRegistro or usuariosBean.enEdicion or usuariosBean.enAuditoria)}" >
 
             <p:ajax event="rowSelect" listener="#{usuariosBean.filaSeleccionada(evento)}" update="usuarios"/>
             <p:ajax event="rowUnselect" listener="#{usuariosBean.filaSeleccionada(evento)}" update="usuarios"/>
@@ -28,7 +28,7 @@
             <p:column headerText="Nombre Usuario" style="width: 100px">
                 #{usuario.usuario}
             </p:column>
-            <p:column headerText="Ultimo Ingreso" style="width: 100px">
+            <p:column headerText="Ultimo Ingreso"  style="width: 100px">
                 #{usuario.fechaUltAcceso}
             </p:column>
             <f:facet name="footer">  
@@ -40,7 +40,7 @@
         </p:dataTable>
 
 
-        <p:growl id="mensajeEliminar" />
+
         <p:confirmDialog id="confirmDialog" message="¿Seguro desea eliminar?"  
                          header="Eliminación" severity="alert" widgetVar="confirmation">  
             <p:commandButton id="confirm" value="Si, seguro" update="@form " oncomplete="confirmation.hide()"  
@@ -58,23 +58,26 @@
                 <p:panelGrid columns="2" rendered="#{usuariosBean.enAuditoria}">
 
                     <p:outputLabel for="a_codigo" value="Código:"/>
-                    <p:inputText id="a_codigo" value="#{usuariosBean.usuario.codigo}" label="Código" required="true" readonly="true"/>
+                    <p:outputLabel id="a_codigo" value="#{usuariosBean.usuario.codigo}"/>
 
                     <p:outputLabel for="a_usuario" value="Nombre de Usuario:"/>                
-                    <p:inputText id="a_usuario" value="#{usuariosBean.usuario.usuario}" label="Nombre de Usuario" required="true" readonly="true"/>              
+                    <p:outputLabel id="a_usuario" value="#{usuariosBean.usuario.usuario}"/>              
 
                     <p:outputLabel for="usrcre" value="Usuario creación"/>                
-                    <p:inputText id="usrcre" value="#{usuariosBean.getUsrAuditoria(usuariosBean.usuario.usrCreacion)}" label="Usuario creación" required="true" readonly="true"/>              
+                    <p:outputLabel id="usrcre" value="#{usuariosBean.getUsrAuditoria(usuariosBean.usuario.usrCreacion)}"/>              
 
                     <p:outputLabel for="usrcref" value="Fecha creación:"/>                
-                    <p:inputText id="usrcref" value="#{usuariosBean.usuario.fcreacion}" label="Fecha creación" required="true" readonly="true"/>              
+                    <p:outputLabel id="usrcref" value="#{usuariosBean.usuario.fcreacion}">
+                        <f:convertDateTime pattern="yyyy-MM-dd" />
+                    </p:outputLabel>              
 
                     <p:outputLabel for="usrmod" value="Usuario modificación:"/>                
-                    <p:inputText id="usrmod" value="#{usuariosBean.getUsrAuditoria(usuariosBean.usuario.usrModificacion)}" label="Usuario modificación" required="true" readonly="true"/>              
+                    <p:outputLabel id="usrmod" value="#{usuariosBean.getUsrAuditoria(usuariosBean.usuario.usrModificacion)}"/>              
 
                     <p:outputLabel for="usrmodf" value="Fecha modificación:"/>                
-                    <p:inputText id="usrmodf" value="#{usuariosBean.usuario.fmodificacion}" label="Fecha modificación" required="true" readonly="true"/>              
-
+                    <p:outputLabel id="usrmodf" value="#{usuariosBean.usuario.fmodificacion}">
+                        <f:convertDateTime pattern="yyyy-MM-dd" />
+                    </p:outputLabel>                               
                 </p:panelGrid> 
             </p:panelGrid>
             <p:separator/>
@@ -103,6 +106,11 @@
                 </p:inputText>
                 <p:message for="usuario" />
 
+                <p:outputLabel for="pickList" value="Rol:"/>                
+                <p:pickList id="pickList" value="#{usuariosBean.roles}" var="rol"   
+                            itemLabel="#{rol}" itemValue="#{rol}" />
+                <p:message for="pickList" />
+
                 <p:outputLabel for="clave" value="Clave:" />
                 <p:password id="clave" value="#{usuariosBean.usuario.clave}" match="pwd2" label="Clave" feedback="true" required="true"/> 
                 <p:message for="clave" />
@@ -115,7 +123,7 @@
             </p:panelGrid>
             <f:facet name="footer"> 
                 <p:commandButton actionListener="#{usuariosBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
-                <p:commandButton actionListener="#{usuariosBean.cancelar(evento)}" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+                <p:commandButton actionListener="#{usuariosBean.cancelar(evento)}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
             </f:facet>
         </p:panel>
 
@@ -144,7 +152,7 @@
 
             <f:facet name="footer"> 
                 <p:commandButton actionListener="#{usuariosBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
-                <p:commandButton actionListener="#{usuariosBean.cancelar(evento)}" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+                <p:commandButton actionListener="#{usuariosBean.cancelar(evento)}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
             </f:facet>
         </p:panel>
     </ui:define>

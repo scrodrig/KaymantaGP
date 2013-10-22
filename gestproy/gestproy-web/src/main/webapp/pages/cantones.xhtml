@@ -24,7 +24,7 @@
         <p:spacer height="10"/>
         <p:dataTable id="tabla" var="canton" value="#{cantonBean.cantons}" rowKey="#{canton.pk}"  
                      selection="#{cantonBean.cantonSeleccionado}" selectionMode="single" scrollWidth="false" 
-                     scrollable="true" scrollHeight="200" style="width: 800px" emptyMessage="No se ha registrado ningún Cantón"
+                     scrollable="true" scrollHeight="200" paginatorPosition="bottom" style="width: 800px" emptyMessage="No se ha registrado ningún Cantón"
                      rendered="#{not(cantonBean.enRegistro or cantonBean.enEdicion)}" >
             <p:ajax event="rowSelect" listener="#{cantonBean.filaSeleccionada(evento)}" update="tabla"/>
             <p:ajax event="rowUnselect" listener="#{cantonBean.filaSeleccionada(evento)}" update="tabla"/>

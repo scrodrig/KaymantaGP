@@ -11,10 +11,10 @@
 
     <ui:define name="cuerpo">
         <p:dataTable id="roles"  value="#{rolesBean.roles}" var="rol" selection="#{rolesBean.rolSeleccionado}" selectionMode="single" scrollable="true" 
-                     rowKey="#{rol.codigo}" style="width: 1000px" scrollWidth="false"
-                     paginator="true" rows="10"  
-                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                     rowsPerPageTemplate="5,10,15" emptyMessage="No se ha registrado ninguna Región" rendered="#{not (rolesBean.enRegistro or rolesBean.enEdicion)}" >
+                     rowKey="#{rol.codigo}" style="width: 700px" scrollWidth="false"
+                     paginator="true" rows="10"   paginatorPosition="bottom"
+                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"  
+                     emptyMessage="No se ha registrado ninguna Región" rendered="#{not (rolesBean.enRegistro or rolesBean.enEdicion)}" >
 
             <p:ajax event="rowSelect" listener="#{rolesBean.filaSeleccionada(evento)}" update="roles"/>
             <p:ajax event="rowUnselect" listener="#{rolesBean.filaSeleccionada(evento)}" update="roles"/>
@@ -40,7 +40,6 @@
         </p:dataTable>
 
 
-        <p:growl id="mensajeEliminar" />
         <p:confirmDialog id="confirmDialog" message="¿Seguro desea eliminar?"  
                          header="Eliminación" severity="alert" widgetVar="confirmation">  
             <p:commandButton id="confirm" value="Si, seguro" update="@form " oncomplete="confirmation.hide()"  
@@ -49,7 +48,7 @@
 
         </p:confirmDialog> 
 
-        <p:panel id="nuevoRevestimiento" header="Creación de Roles" rendered="#{rolesBean.enRegistro}" style="width: 1000px">
+        <p:panel id="nuevoRevestimiento" header="Creación de Roles" rendered="#{rolesBean.enRegistro}" style="width: 700px">
             <p:panelGrid columns="3">                
 
                 <p:outputLabel for="nombre" value="Nombre:"/>
@@ -59,7 +58,7 @@
             </p:panelGrid>
             <f:facet name="footer"> 
                 <p:commandButton actionListener="#{rolesBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
-                <p:commandButton actionListener="#{rolesBean.cancelar(evento)}" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+                <p:commandButton actionListener="#{rolesBean.cancelar(evento)}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
             </f:facet>
         </p:panel>
 
@@ -79,7 +78,7 @@
             </p:panelGrid>
             <f:facet name="footer"> 
                 <p:commandButton actionListener="#{rolesBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
-                <p:commandButton actionListener="#{rolesBean.cancelar(evento)}" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+                <p:commandButton actionListener="#{rolesBean.cancelar(evento)}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
             </f:facet>
 
         </p:panel>
