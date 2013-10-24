@@ -2,11 +2,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" 
                 xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ui="http://java.sun.com/jsf/facelets" 
                 xmlns:p="http://primefaces.org/ui"
                 template="/templates/templateMantenimiento.xhtml"
-                xmlns:h="http://xmlns.jcp.org/jsf/html">
-
+                >
     <ui:define name="titulo">Roles Funcionalidades</ui:define> 
 
     <ui:define name="cuerpo">
@@ -33,7 +33,7 @@
             </p:column>
             <p:column headerText="Fecha" style="width: 100px">
                 <h:outputLabel value="#{rlfun.fecha}">
-                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-05:00"/>
                 </h:outputLabel>
             </p:column>
             <f:facet name="footer">  

@@ -19,7 +19,7 @@ p{ font-size: 10pt; font-weight: normal;}
 #menu {width:195px; float:left; text-align:left;}
 #funcionalidad {height: 40px; width:800px; float:right; text-align:left;}
 #contenido {width:80%; width:800px; float:left; text-align:left;}
-#contenido1 {width:80%; width:800px; float:left; text-align:center;}
+#contenido1 {width:80%; width:800px; float:left; text-align:left;}
 .navegacion {height:18px; width:100%; background-color:#000 ; text-align: center; font-size: 12px; font-weight: bold;}
 #modulos {width:100%; padding:0px;}
 #modulos ul{min-width: 780px; max-width: 1000px; list-style:none; float:left; color:#FFF; font-size:10pt; position:absolute;}
@@ -30,6 +30,13 @@ p{ font-size: 10pt; font-weight: normal;}
 #modulos li a:hover{ text-decoration:none; color:#fff; background-color:#000;}
 #modulos li a:active{}
 #modulos .active{ text-decoration:none;	color:#fff;	background-color:#000;}
+
+#centrado{
+  display:block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 
 /* Componentes PrimeFaces */
 .ui-widget{

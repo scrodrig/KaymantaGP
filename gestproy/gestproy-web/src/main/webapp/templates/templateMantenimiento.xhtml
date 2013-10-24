@@ -5,7 +5,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
-    
+
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
         <link rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/styles/styles.css" type="text/css" media="all" />
@@ -14,23 +14,31 @@
     <h:body>
         <f:view locale="es_ES">
             <div id="global">
-                
+
                 <div>
                     <img src="#{facesContext.externalContext.requestContextPath}/images/footer.png"/>
                 </div>
                 <br/>
                 <br/>
                 <ui:include src="/pages/cabecera.xhtml"/>
+
                 <div id="cuerpo">
                     <div id="funcionalidad"><h5></h5></div>
-                    <div id="contenido" >
-                        <h:form id="form" prependId="false">
-                            <ui:insert name="cuerpo"/>
+                    <div id="contenido">
+                        <h:form id="form" prependId="false">                            
+                            <table align="center" border="0" width="1000px">
+                                <tr align="center">
+                                    <td align="center">    
+                                        <ui:insert name="cuerpo"/>
+                                    </td>
+                                </tr>
+                            </table>
                             <p:messages id="messages" showDetail="true"  autoUpdate="true"  severity="info,error" globalOnly="true"/>
                         </h:form>
                     </div>
                 </div>
-               
+
+
                 <div id="pie">
                     <br/>
                     <img src="#{facesContext.externalContext.requestContextPath}/images/footer.png"/>

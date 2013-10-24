@@ -11,7 +11,7 @@
 
     <ui:define name="cuerpo">
         <p:dataTable id="roles"  value="#{rolesBean.roles}" var="rol" selection="#{rolesBean.rolSeleccionado}" selectionMode="single" scrollable="true" 
-                     rowKey="#{rol.codigo}" style="width: 700px" scrollWidth="false"
+                     rowKey="#{rol.codigo}" style="width: 700px;" scrollWidth="false"
                      paginator="true" rows="10"   paginatorPosition="bottom"
                      paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"  
                      emptyMessage="No se ha registrado ninguna Región" rendered="#{not (rolesBean.enRegistro or rolesBean.enEdicion)}" >
@@ -39,7 +39,6 @@
 
         </p:dataTable>
 
-
         <p:confirmDialog id="confirmDialog" message="¿Seguro desea eliminar?"  
                          header="Eliminación" severity="alert" widgetVar="confirmation">  
             <p:commandButton id="confirm" value="Si, seguro" update="@form " oncomplete="confirmation.hide()"  
@@ -63,7 +62,7 @@
         </p:panel>
 
 
-        <p:panel id="modificarRevestimiento" header="Modificación de Roles" rendered="#{rolesBean.enEdicion}" style="width: 1000px">
+        <p:panel id="modificarRevestimiento" header="Modificación de Roles" rendered="#{rolesBean.enEdicion}" style="width: 700px">
             <p:panelGrid columns="3">              
 
                 <p:outputLabel for="m_codigo" value="Código Revestimiento:"/>
@@ -82,10 +81,6 @@
             </f:facet>
 
         </p:panel>
-
-
-
-
     </ui:define>
 
 </ui:composition>

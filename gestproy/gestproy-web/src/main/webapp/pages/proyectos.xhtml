@@ -124,7 +124,14 @@
                 <p:selectOneMenu id="cantonB" value="#{proyectosBean.canton}" label="Cantón" >
                     <f:selectItem itemValue="0" itemLabel="Seleccione uno."/>
                     <f:selectItems value="#{proyectosBean.cantonesB}" var="i" itemValue="#{i.pk.codigoCanton}" itemLabel="#{i.nombre}" />
+                    <p:ajax update="parroquiaB"  listener="#{proyectosBean.actualizaParroquiasB(evento)}" />
+                </p:selectOneMenu>                
+                 <h:outputLabel for="parroquiaB" value="Parroquia: " />  
+                <p:selectOneMenu id="parroquiaB" value="#{proyectosBean.canton}" label="Parroquia" >
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItems value="#{proyectosBean.parroquiasB}" var="i" itemValue="#{i.pk.codigoParroquia}" itemLabel="#{i.nombre}" />
                 </p:selectOneMenu>
+                
                 <p:commandButton  value="Buscar" update="@form" actionListener="#{proyectosBean.cargarTabla(evento)}" />  
             </h:panelGrid>
             <f:facet name="footer"> 

@@ -61,7 +61,7 @@ public class ProyectosBean extends BotonesBean implements Serializable {
     private List<Empresa> empresas;
     private List<Proyecto> proyectos;
     private List<Empleado> empleados;
-    private List<Parroquia> parroquias;
+    private List<Parroquia> parroquiasB;
     private List<Provincia> provinciasB;
     private List<Canton> cantonesB;
     //Variables de funcionalidad lógica de la página
@@ -103,9 +103,13 @@ public class ProyectosBean extends BotonesBean implements Serializable {
     public void actualizaCantonesB(ActionEvent evento) {
         this.cantonesB = this.cantonServicio.obtenerPorProvincia(this.provincia);
     }
+    
+    public void actualizaParroquiasB(ActionEvent evento) {
+        this.parroquiasB = this.parroquiaServicio.obtenerPorProvinciaCanton(this.provincia,this.canton);
+    }
 
     public void cargarTabla(ActionEvent evento) {
-        this.parroquias = this.parroquiaServicio.obtenerPorProvinciaCanton(this.provincia, this.canton);
+        this.parroquiasB = this.parroquiaServicio.obtenerPorProvinciaCanton(this.provincia, this.canton);
     }
 
     public void cancelar(ActionEvent evento) {
@@ -241,12 +245,12 @@ public class ProyectosBean extends BotonesBean implements Serializable {
         this.empleados = empleados;
     }
 
-    public List<Parroquia> getParroquias() {
-        return parroquias;
+    public List<Parroquia> getParroquiasB() {
+        return parroquiasB;
     }
 
-    public void setParroquias(List<Parroquia> parroquias) {
-        this.parroquias = parroquias;
+    public void setParroquiasB(List<Parroquia> parroquiasB) {
+        this.parroquiasB = parroquiasB;
     }
 
     public List<Provincia> getProvinciasB() {

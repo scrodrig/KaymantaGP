@@ -8,56 +8,37 @@
 
     <h:form>
 
-        <p:megaMenu>  
+        <p:menubar>  
 
             <p:menuitem value="Inicio" url="menu.jsf" icon="ui-icon-home" />                    
 
             <p:submenu label="Administración" icon="ui-icon-pencil">  
-
-                <p:column>  
-                    
-                    <p:submenu label="EMPLEADOS">  
-                        <p:menuitem value="Empleados" url="empleados.jsf" />  
-                    </p:submenu>   
-                </p:column>
-                <p:column>  
-                    <p:submenu label="EMPRESAS">  
-                        <p:menuitem value="Empresas" url="empresas.jsf" />   
-                    </p:submenu>  
-                    <p:submenu label="INSTITUCIONES CONTROL">  
-                        <p:menuitem value="Instituciones Control" url="instituciones_control.jsf" />  
-                    </p:submenu>  
-                </p:column>
-                <p:column>  
-                    <p:submenu label="SEGURIDADES">  
-                        <p:menuitem value="Usuarios" url="usuarios.jsf" />    
-                        <p:menuitem value="Módulos" url="modulos.jsf" />   
-                        <p:menuitem value="Funcionalidades" url="funcionalidades.jsf" />  
-                        <p:menuitem value="Roles" url="roles.jsf" /> 
-                        <p:menuitem value="Usuario Roles" url="usuariosroles.jsf" />
-                        <p:menuitem value="Roles Funcionalidades" url="rolesfuncionalidades.jsf" />
-                    </p:submenu>                      
-                </p:column>
-                <p:column>  
-                    <p:submenu label="PROVINCIAS">  
-                        <p:menuitem value="Provincias" url="provincias.jsf" />   
-                    </p:submenu>  
-                    <p:submenu label="CANTONES">  
-                        <p:menuitem value="Cantones" url="cantones.jsf" />  
-                    </p:submenu>  
-                    <p:submenu label="PARROQUIAS">  
-                        <p:menuitem value="Parroquias" url="parroquias.jsf" />  
-                    </p:submenu>  
-                </p:column>
-                <p:column>  
-                    <p:submenu label="TIPOS">  
-                        <p:menuitem value="Tipos de Gastos" url="tipos_gastos.jsf" /> 
-                        <p:menuitem value="Tipos de Documentos" url="tipos_documentos.jsf" /> 
-                        <p:menuitem value="Tipos de Entregables" url="tipos_entregables.jsf" /> 
-                    </p:submenu>  
-                </p:column>
-
+                <p:submenu label="Personas">  
+                    <p:menuitem value="Empleados" url="empleados.jsf" />  
+                </p:submenu>   
+                <p:submenu label="Instituciones">  
+                    <p:menuitem value="Empresas" url="empresas.jsf" />
+                    <p:menuitem value="Instituciones Control" url="instituciones_control.jsf" />  
+                </p:submenu>                       
+                <p:submenu label="Geográfico">  
+                    <p:menuitem value="Provincias" url="provincias.jsf" />
+                    <p:menuitem value="Cantones" url="cantones.jsf" />  
+                    <p:menuitem value="Parroquias" url="parroquias.jsf" />  
+                </p:submenu>   
+                <p:submenu label="Tipos">  
+                    <p:menuitem value="Tipos de Gastos" url="tipos_gastos.jsf" /> 
+                    <p:menuitem value="Tipos de Documentos" url="tipos_documentos.jsf" /> 
+                    <p:menuitem value="Tipos de Entregables" url="tipos_entregables.jsf" /> 
+                </p:submenu>  
             </p:submenu>  
+
+            <p:submenu label="Seguridades">  
+                <p:menuitem value="Usuarios" url="usuarios.jsf" />    
+                <p:menuitem value="Módulos" url="modulos.jsf" />   
+                <p:menuitem value="Funcionalidades" url="funcionalidades.jsf" />  
+                <p:menuitem value="Roles" url="roles.jsf" /> 
+                <p:menuitem value="Roles Funcionalidades" url="rolesfuncionalidades.jsf" />
+            </p:submenu> 
 
             <p:menuitem value="Proyectos" url="proyectos.jsf" icon="ui-icon-document" />  
 
@@ -89,9 +70,8 @@
                     </p:submenu>  
                 </p:column>
             </p:submenu> 
-
-            <p:menuitem value="Cerrar Sesión" url="inicio.jsf" icon="ui-icon-close" />  
-        </p:megaMenu>
+            <p:menuitem value="Cerrar Sesión" url="inicio.jsf" icon="ui-icon-extlink" />  
+        </p:menubar>
 
 
     </h:form>
