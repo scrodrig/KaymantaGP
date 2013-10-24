@@ -68,7 +68,6 @@ public class UsuarioServicio {
      */
     public void actualizar(Usuario usuario) {
         System.out.println("En actualizar "+usuario.getUsuario());
-        usuario.setFechaUltAcceso(new Date());
         this.usuarioDAO.update(usuario);
     }
             

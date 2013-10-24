@@ -13,10 +13,14 @@
 package ec.kaymanta.gestproy.dao;
 
 import com.persist.common.dao.DefaultGenericDAOImple;
+import ec.kaymanta.gestproy.modelo.Usuario;
 import ec.kaymanta.gestproy.modelo.UsuarioRol;
 import ec.kaymanta.gestproy.modelo.UsuarioRolPK;
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
 
 /**
  * La Clase UsuarioRolDAO especifica e implementa las operaciones de 
@@ -34,4 +38,18 @@ public class UsuarioRolDAO extends DefaultGenericDAOImple<UsuarioRol, UsuarioRol
         super(UsuarioRol.class);
     
     }
+    
+    public List<UsuarioRol> findByUser(Usuario usuario)
+    {
+        try {
+            System.out.println(usuario.getUsuario());
+            String sql = "SELECT obj FROM UsuarioRol obj WHERE obj.usuario=?1";
+            Query qry = this.getEntityManager().createQuery(sql);
+            qry.setParameter(1, usuario);
+            System.out.println(qry.toString());
+            return qry.getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }        
 }

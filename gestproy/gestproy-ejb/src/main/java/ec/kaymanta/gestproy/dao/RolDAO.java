@@ -14,13 +14,17 @@ package ec.kaymanta.gestproy.dao;
 
 import com.persist.common.dao.DefaultGenericDAOImple;
 import ec.kaymanta.gestproy.modelo.Rol;
+import ec.kaymanta.gestproy.modelo.Usuario;
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
 
 /**
- * La Clase RolDAO especifica e implementa las operaciones de 
- * acceso a datos relacionadas con la entidad Rol.
- * 
+ * La Clase RolDAO especifica e implementa las operaciones de acceso a datos
+ * relacionadas con la entidad Rol.
+ *
  * @author JPA Generator
  * @version 1.0
  */
@@ -28,10 +32,23 @@ import javax.ejb.Stateless;
 @LocalBean
 public class RolDAO extends DefaultGenericDAOImple<Rol, Long> {
 
-      public RolDAO()
-    {
+    public RolDAO() {
         super(Rol.class);
-    
+
     }
+
+    public Rol findByName(String nombreUsuario) {
+        try {
+            System.out.println(nombreUsuario);
+            String sql = "SELECT obj FROM Rol obj WHERE obj.nombre=?1";
+            Query qry = this.getEntityManager().createQuery(sql);
+            qry.setParameter(1, nombreUsuario);
+            System.out.println(qry.toString());
+            return (Rol) qry.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    } 
+    
     
 }

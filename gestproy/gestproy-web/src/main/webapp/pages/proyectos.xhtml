@@ -14,7 +14,7 @@
                      rowKey="#{proyecto.codigo}" style="width: 1000px" 
                      paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                      emptyMessage="No se ha registrado ninguna Empresa" rendered="#{not (proyectosBean.enRegistro or proyectosBean.enEdicion or proyectosBean.enAuditoria)}" >
+                     emptyMessage="No se ha registrado ninguna Empresa" rendered="#{not (proyectosBean.enRegistro or proyectosBean.enEdicion or proyectosBean.enAuditoria)}" >
 
             <p:ajax event="rowSelect" listener="#{proyectosBean.filaSeleccionada(evento)}" update="proyectos"/>
             <p:ajax event="rowUnselect" listener="#{proyectosBean.filaSeleccionada(evento)}" update="proyectos"/>
@@ -35,10 +35,16 @@
                 #{proyecto.parroquia.nombre}
             </p:column>            
             <p:column headerText="Fecha Inicio" style="width: 80px">
-                #{proyecto.finicio}
+                <h:outputLabel value="
+                               #{proyecto.finicio}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputLabel>
             </p:column>
             <p:column headerText="Fecha Fin" style="width: 80px">
-                #{proyecto.ffin}
+                <h:outputLabel value="
+                               #{proyecto.ffin}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputLabel>
             </p:column>
 
             <f:facet name="footer">  
@@ -68,22 +74,26 @@
                 <p:panelGrid columns="2" rendered="#{proyectosBean.enAuditoria}">
 
                     <p:outputLabel for="a_codigo" value="Código:"/>
-                    <p:inputText id="a_codigo" value="#{proyectosBean.proyecto.codigo}" label="Código" required="true" readonly="true"/>
+                    <p:outputLabel id="a_codigo" value="#{proyectosBean.proyecto.codigo}" />
 
                     <p:outputLabel for="a_empresa" value="Nombre de Empresa"/>                
-                    <p:inputText id="a_empresa" value="#{proyectosBean.proyecto.nombreProyecto}" label="Nombre de Empleado" required="true" readonly="true"/>              
+                    <p:outputLabel id="a_empresa" value="#{proyectosBean.proyecto.nombreProyecto}"/>              
 
                     <p:outputLabel for="usrcre" value="Usuario creación"/>                
-                    <p:inputText id="usrcre" value="#{proyectosBean.getUsrAuditoria(proyectosBean.proyecto.usrCreacion)}" label="Empleado creación" required="true" readonly="true"/>              
+                    <p:outputLabel id="usrcre" value="#{proyectosBean.getUsrAuditoria(proyectosBean.proyecto.usrCreacion)}" />              
 
                     <p:outputLabel for="usrcref" value="Fecha creación:"/>                
-                    <p:inputText id="usrcref" value="#{proyectosBean.proyecto.fcreacion}" label="Fecha creación" required="true" readonly="true"/>              
+                    <h:outputLabel id="usrcref" value="#{proyectosBean.proyecto.fcreacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
 
                     <p:outputLabel for="usrmod" value="Usuario modificación:"/>                
-                    <p:inputText id="usrmod" value="#{proyectosBean.getUsrAuditoria(proyectosBean.proyecto.usrModificacion)}" label="Empleado modificación" required="true" readonly="true"/>              
+                    <p:outputLabel id="usrmod" value="#{proyectosBean.getUsrAuditoria(proyectosBean.proyecto.usrModificacion)}"/>              
 
                     <p:outputLabel for="usrmodf" value="Fecha modificación:"/>                
-                    <p:inputText id="usrmodf" value="#{proyectosBean.proyecto.fmodificacion}" label="Fecha modificación" required="true" readonly="true"/>              
+                    <h:outputLabel id="usrmodf" value="#{proyectosBean.proyecto.fmodificacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
 
                 </p:panelGrid> 
             </p:panelGrid>

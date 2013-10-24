@@ -28,8 +28,10 @@
             <p:column headerText="Nombre Usuario" style="width: 100px">
                 #{usuario.usuario}
             </p:column>
-            <p:column headerText="Ultimo Ingreso"  style="width: 100px">
-                #{usuario.fechaUltAcceso}
+            <p:column headerText="Último Ingreso"  style="width: 100px">
+                <h:outputLabel value="#{usuario.fechaUltAcceso}">
+                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-05:00"/>
+                </h:outputLabel>
             </p:column>
             <f:facet name="footer">  
                 <p:commandButton  value="Nuevo" update="@form" actionListener="#{usuariosBean.nuevo(evento)}" disabled="#{usuariosBean.disabledNuevo}" icon="ui-icon-document"/>  
@@ -67,17 +69,17 @@
                     <p:outputLabel id="usrcre" value="#{usuariosBean.getUsrAuditoria(usuariosBean.usuario.usrCreacion)}"/>              
 
                     <p:outputLabel for="usrcref" value="Fecha creación:"/>                
-                    <p:outputLabel id="usrcref" value="#{usuariosBean.usuario.fcreacion}">
-                        <f:convertDateTime pattern="yyyy-MM-dd" />
-                    </p:outputLabel>              
+                    <h:outputLabel id="usrcref" value="#{usuariosBean.usuario.fcreacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>              
 
                     <p:outputLabel for="usrmod" value="Usuario modificación:"/>                
                     <p:outputLabel id="usrmod" value="#{usuariosBean.getUsrAuditoria(usuariosBean.usuario.usrModificacion)}"/>              
 
                     <p:outputLabel for="usrmodf" value="Fecha modificación:"/>                
-                    <p:outputLabel id="usrmodf" value="#{usuariosBean.usuario.fmodificacion}">
-                        <f:convertDateTime pattern="yyyy-MM-dd" />
-                    </p:outputLabel>                               
+                    <h:outputLabel id="usrmodf" value="#{usuariosBean.usuario.fmodificacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>                               
                 </p:panelGrid> 
             </p:panelGrid>
             <p:separator/>
@@ -108,7 +110,9 @@
 
                 <p:outputLabel for="pickList" value="Rol:"/>                
                 <p:pickList id="pickList" value="#{usuariosBean.roles}" var="rol"   
-                            itemLabel="#{rol}" itemValue="#{rol}" />
+                            itemLabel="#{rol}" itemValue="#{rol}" >
+                    <p:ajax event="transfer" listener="#{usuariosBean.onTransfer}" update=":form:pickList" />  
+                </p:pickList>
                 <p:message for="pickList" />
 
                 <p:outputLabel for="clave" value="Clave:" />
@@ -142,6 +146,13 @@
                 <p:outputLabel for="m_usuario" value="Nombre Usuario:"/>                
                 <p:inputText id="m_usuario" value="#{usuariosBean.usuario.usuario}" label="Nombre Usuario" required="true"/>              
                 <p:message for="m_usuario" />
+
+                <p:outputLabel for="m_pickList" value="Rol:"/>                
+                <p:pickList id="m_pickList" value="#{usuariosBean.roles}" var="rol"   
+                            itemLabel="#{rol}" itemValue="#{rol}" >
+                    <p:ajax event="transfer" listener="#{usuariosBean.onTransfer}" update=":form:m_pickList" />  
+                </p:pickList>
+                <p:message for="m_pickList" />
 
                 <p:outputLabel for="m_clave" value="Clave:" />
                 <p:inputText type="password" id="m_clave" value="#{usuariosBean.usuario.clave}" label="Clave" readonly="true"/> 

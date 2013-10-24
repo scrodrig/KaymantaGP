@@ -19,6 +19,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  * La Clase Rol representa a la tabla gpk_rol. Función que un usuario desempeña
@@ -46,6 +47,7 @@ public class Rol implements Serializable {
     /**
      * Nombre del rol.. Representa a la columna NOMBRE.
      */
+    //@UniqueConstraint(name = "NOMBRE")
     @Column(name = "NOMBRE", nullable = false, length = 20)
     private String nombre;
 

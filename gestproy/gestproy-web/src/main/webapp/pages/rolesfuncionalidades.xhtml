@@ -4,7 +4,8 @@
                 xmlns:f="http://java.sun.com/jsf/core" 
                 xmlns:ui="http://java.sun.com/jsf/facelets" 
                 xmlns:p="http://primefaces.org/ui"
-                template="/templates/templateMantenimiento.xhtml">
+                template="/templates/templateMantenimiento.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <ui:define name="titulo">Roles Funcionalidades</ui:define> 
 
@@ -13,7 +14,7 @@
                      rowKey="#{rlfun.pk.funcionalidad}" style="width: 1000px" 
                      paginator="true" rows="10"  scrollWidth="false" paginatorPosition="bottom"
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                      emptyMessage="No se ha registrado ningún Roles-Funcionalidades" rendered="#{not (rolesFuncionalidadBean.enRegistro or rolesFuncionalidadBean.enEdicion or rolesFuncionalidadBean.enAuditoria)}" >
+                     emptyMessage="No se ha registrado ningún Roles-Funcionalidades" rendered="#{not (rolesFuncionalidadBean.enRegistro or rolesFuncionalidadBean.enEdicion or rolesFuncionalidadBean.enAuditoria)}" >
 
             <p:ajax event="rowSelect" listener="#{rolesFuncionalidadBean.filaSeleccionada(evento)}" update="rolesFuncionalidad"/>
             <p:ajax event="rowUnselect" listener="#{rolesFuncionalidadBean.filaSeleccionada(evento)}" update="rolesFuncionalidad"/>
@@ -31,7 +32,9 @@
                 #{rlfun.funcionalidad.modulo.nombre}
             </p:column>
             <p:column headerText="Fecha" style="width: 100px">
-                #{rlfun.fecha}
+                <h:outputLabel value="#{rlfun.fecha}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputLabel>
             </p:column>
             <f:facet name="footer">  
                 <p:commandButton  value="Nuevo" update="@form" actionListener="#{rolesFuncionalidadBean.nuevo(evento)}" disabled="#{rolesFuncionalidadBean.disabledNuevo}" icon="ui-icon-document"/>  
@@ -66,10 +69,6 @@
                     <f:selectItems value="#{rolesFuncionalidadBean.roles}" var="rol" itemLabel="#{rol.nombre}" itemValue="#{rol.codigo}"/>
                 </p:selectOneMenu>
                 <p:message for="rol" />
-
-                <p:outputLabel for="fecha" value="Fecha:" />
-                <p:calendar id="fecha" value="#{rolesFuncionalidadBean.rolFuncionalidad.fecha}" effect="explode" label="Fecha" required="true"/> 
-                <p:message for="fecha" />
 
             </p:panelGrid>
             <f:facet name="footer"> 

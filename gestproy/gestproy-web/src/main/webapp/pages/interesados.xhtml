@@ -14,7 +14,7 @@
                      rowKey="#{interesado.codigo}" style="width: 1000px" scrollWidth="false"
                      paginator="true" rows="10"   paginatorPosition="bottom"
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                      emptyMessage="No se ha registrado ninguna Empresa" rendered="#{not (interesadosBean.enRegistro or interesadosBean.enEdicion or interesadosBean.enAuditoria)}" >
+                     emptyMessage="No se ha registrado ninguna Empresa" rendered="#{not (interesadosBean.enRegistro or interesadosBean.enEdicion or interesadosBean.enAuditoria)}" >
 
             <p:ajax event="rowSelect" listener="#{interesadosBean.filaSeleccionada(evento)}" update="interesados"/>
             <p:ajax event="rowUnselect" listener="#{interesadosBean.filaSeleccionada(evento)}" update="interesados"/>
@@ -116,7 +116,9 @@
                 <p:message for="telef" />                
 
                 <p:outputLabel for="email" value="Email" />
-                <p:inputText id="email" value="#{interesadosBean.interesado.email}" label="Email" required="true"/> 
+                <p:inputText id="email" value="#{interesadosBean.interesado.email}" label="Email" required="true" validatorMessage="Dirección de correo inválida">
+                    <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                </p:inputText>
                 <p:message for="email" />
 
                 <p:outputLabel for="ws" value="Notas" />
@@ -154,7 +156,9 @@
                 <p:message for="m_telef" />
 
                 <p:outputLabel for="m_email" value="Email" />
-                <p:inputText id="m_email" value="#{interesadosBean.interesado.email}" label="Email" required="true"/> 
+                <p:inputText id="m_email" value="#{interesadosBean.interesado.email}" label="Email" required="true" validatorMessage="Dirección de correo inválida">
+                    <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                </p:inputText> 
                 <p:message for="m_email" />
 
                 <p:outputLabel for="m_ws" value="Notas" />

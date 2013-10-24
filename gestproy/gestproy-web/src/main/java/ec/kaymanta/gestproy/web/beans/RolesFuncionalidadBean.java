@@ -12,6 +12,7 @@ import ec.kaymanta.gestproy.servicio.RolFuncionalidadServicio;
 import ec.kaymanta.gestproy.servicio.RolServicio;
 import ec.kaymanta.gestproy.web.util.MensajesGenericos;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -128,6 +129,7 @@ public class RolesFuncionalidadBean extends BotonesBean implements Serializable 
                 this.rolFuncionalidad.getPk().setRol(Long.parseLong(this.rol));
                 this.rolFuncionalidad.setFuncionalidad(funcionalidadTmp);
                 this.rolFuncionalidad.setRol(rolTmp);
+                this.rolFuncionalidad.setFecha(new Date());
                 this.rolFuncionalidadServicio.crear(this.rolFuncionalidad);
                 this.rolesFuncionalidad.add(this.rolFuncionalidad);
 
@@ -136,6 +138,7 @@ public class RolesFuncionalidadBean extends BotonesBean implements Serializable 
                 MensajesGenericos.infoCrear("RolFuncionalidad", this.rolFuncionalidad.getPk().toString().concat(" - ").concat(this.rolFuncionalidad.getPk().toString()), Boolean.TRUE);
                 super.sinSeleccion();
             } else {
+                this.rolFuncionalidad.setFecha(new Date());
                 this.rolFuncionalidadServicio.actualizar(this.rolFuncionalidad);
                 BeanUtils.copyProperties(this.respaldo, this.rolFuncionalidad);
                 MensajesGenericos.infoModificar("RolFuncionalidad", this.rolFuncionalidad.getPk().toString().concat(" - ").concat(this.rolFuncionalidad.getPk().toString()), Boolean.TRUE);

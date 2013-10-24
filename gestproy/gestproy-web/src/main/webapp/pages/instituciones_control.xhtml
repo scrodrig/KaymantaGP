@@ -14,7 +14,7 @@
                      rowKey="#{institucionControl.codigo}" style="width: 1000px" scrollWidth="false" 
                      paginator="true" rows="10"  paginatorPosition="bottom" 
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                      emptyMessage="No se ha registrado ninguna Empresa" rendered="#{not (institucionesControlBean.enRegistro or institucionesControlBean.enEdicion or institucionesControlBean.enAuditoria)}" >
+                     emptyMessage="No se ha registrado ninguna Empresa" rendered="#{not (institucionesControlBean.enRegistro or institucionesControlBean.enEdicion or institucionesControlBean.enAuditoria)}" >
 
             <p:ajax event="rowSelect" listener="#{institucionesControlBean.filaSeleccionada(evento)}" update="instituciones"/>
             <p:ajax event="rowUnselect" listener="#{institucionesControlBean.filaSeleccionada(evento)}" update="instituciones"/>
@@ -76,13 +76,16 @@
                     <p:outputLabel id="usrcre" value="#{institucionesControlBean.getUsrAuditoria(institucionesControlBean.institucionControl.usrCreacion)}"/>              
 
                     <p:outputLabel for="usrcref" value="Fecha creación:"/>                
-                    <p:outputLabel id="usrcref" value="#{institucionesControlBean.institucionControl.fcreacion}"/>              
-
+                    <h:outputLabel id="usrcref" value="#{institucionesControlBean.institucionControl.fcreacion}">              
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
                     <p:outputLabel for="usrmod" value="Usuario modificación:"/>                
                     <p:outputLabel id="usrmod" value="#{institucionesControlBean.getUsrAuditoria(institucionesControlBean.institucionControl.usrModificacion)}"/>              
 
                     <p:outputLabel for="usrmodf" value="Fecha modificación:"/>                
-                    <p:outputLabel id="usrmodf" value="#{institucionesControlBean.institucionControl.fmodificacion}"/>              
+                    <h:outputLabel id="usrmodf" value="#{institucionesControlBean.institucionControl.fmodificacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
 
                 </p:panelGrid> 
             </p:panelGrid>

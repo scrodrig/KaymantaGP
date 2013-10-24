@@ -43,6 +43,12 @@ public class RolServicio {
     public Rol findByID(Long codigo) {
         return this.rolDAO.findById(codigo, false);
     }
+    
+    
+    public Rol findByName(String nombre)
+    {
+        return this.rolDAO.findByName(nombre);
+    }
 
     /**
      * Función para crear nuevos registros

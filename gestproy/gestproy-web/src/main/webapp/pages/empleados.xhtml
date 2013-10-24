@@ -14,7 +14,7 @@
                      rowKey="#{empleado.codigo}" style="width: 1000px" 
                      paginator="true" rows="10"  scrollWidth="false" paginatorPosition="bottom"
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                      emptyMessage="No se ha registrado ningún Empleado" rendered="#{not (empleadosBean.enRegistro or empleadosBean.enEdicion or empleadosBean.enAuditoria)}" >
+                     emptyMessage="No se ha registrado ningún Empleado" rendered="#{not (empleadosBean.enRegistro or empleadosBean.enEdicion or empleadosBean.enAuditoria)}" >
 
             <p:ajax event="rowSelect" listener="#{empleadosBean.filaSeleccionada(evento)}" update="empleados"/>
             <p:ajax event="rowUnselect" listener="#{empleadosBean.filaSeleccionada(evento)}" update="empleados"/>
@@ -29,7 +29,9 @@
                 #{empleado.nombre}
             </p:column>
             <p:column headerText="Fecha Nacimiento" style="width: 100px">
-                #{empleado.fnacimiento}
+                <h:outputLabel value="#{empleado.fnacimiento}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputLabel>
             </p:column>
             <p:column headerText="Email" style="width: 150px">
                 #{empleado.email}
@@ -48,7 +50,7 @@
             </f:facet>
         </p:dataTable>
 
-        
+
 
 
         <p:confirmDialog id="confirmDialog" message="¿Seguro desea eliminar?"  
@@ -77,13 +79,17 @@
                     <p:outputLabel id="usrcre" value="#{empleadosBean.getUsrAuditoria(empleadosBean.empleado.usrCreacion)}"/>              
 
                     <p:outputLabel for="usrcref" value="Fecha creación:"/>                
-                    <p:outputLabel id="usrcref" value="#{empleadosBean.empleado.fcreacion}"/>              
+                    <h:outputLabel id="usrcref" value="#{empleadosBean.empleado.fcreacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
 
                     <p:outputLabel for="usrmod" value="Usuario modificación:"/>                
                     <p:outputLabel id="usrmod" value="#{empleadosBean.getUsrAuditoria(empleadosBean.empleado.usrModificacion)}"/>              
 
                     <p:outputLabel for="usrmodf" value="Fecha modificación:"/>                
-                    <p:outputLabel id="usrmodf" value="#{empleadosBean.empleado.fmodificacion}"/>              
+                    <h:outputLabel id="usrmodf" value="#{empleadosBean.empleado.fmodificacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
 
                 </p:panelGrid> 
             </p:panelGrid>
@@ -117,21 +123,23 @@
                 <p:outputLabel for="fnacimiento" value="Fecha de Nacimiento" />
                 <p:calendar id="fnacimiento" showButtonPanel="true" pattern="dd/MM/yyyy" value="#{empleadosBean.empleado.fnacimiento}" effect="explode" label="Fecha de Nacimiento" required="true"/> 
                 <p:message for="fnacimiento" />
-                                
+
                 <p:outputLabel for="telef" value="Telefono" />
                 <p:inputMask id="telef" mask="9999999999" value="#{empleadosBean.empleado.telefono}" label="Telefono" required="true"/> 
                 <p:message for="telef" />
-                
+
                 <p:outputLabel for="email" value="Email" />
-                <p:inputText id="email" value="#{empleadosBean.empleado.email}" label="Email" required="true"/> 
+                <p:inputText id="email" value="#{empleadosBean.empleado.email}" label="Email" required="true" validatorMessage="Dirección de correo inválida">
+                    <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                </p:inputText> 
                 <p:message for="email" />
-    
+
 
 
             </p:panelGrid>
             <f:facet name="footer"> 
                 <p:commandButton actionListener="#{empleadosBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
-                <p:commandButton actionListener="#{empleadosBean.cancelar(evento)}" immediate="true" value="Cancelar" immediate="true" update="@form" icon="ui-icon-cancel"/>
+                <p:commandButton actionListener="#{empleadosBean.cancelar(evento)}"  value="Cancelar" immediate="true" update="@form" icon="ui-icon-cancel"/>
             </f:facet>
         </p:panel>
 
@@ -155,16 +163,18 @@
                 <p:outputLabel for="m_fnacimiento" value="Fecha de Nacimiento" />
                 <p:calendar id="m_fnacimiento" value="#{empleadosBean.empleado.fnacimiento}" effect="explode" label="Fecha de Nacimiento" required="true"/> 
                 <p:message for="m_fnacimiento" />
-                                
+
                 <p:outputLabel for="m_telef" value="Telefono" />
                 <p:inputMask id="m_telef" mask="9999999999" value="#{empleadosBean.empleado.telefono}" label="Telefono" required="true"/> 
                 <p:message for="m_telef" />
-                
+
                 <p:outputLabel for="m_email" value="Email" />
-                <p:inputText id="m_email" value="#{empleadosBean.empleado.email}" label="Email" required="true"/> 
+                <p:inputText id="m_email" value="#{empleadosBean.empleado.email}" label="Email" required="true" validatorMessage="Dirección de correo inválida">
+                    <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                </p:inputText> 
                 <p:message for="m_email" />
 
-                                
+
                 <p:outputLabel for="m_estado" value="Tipo:"/>                
                 <p:selectOneMenu id="m_estado" value="#{empleadosBean.empleado.estado}" label="Estado" required="true">
                     <f:selectItem itemLabel="Activo" itemValue="A"/>

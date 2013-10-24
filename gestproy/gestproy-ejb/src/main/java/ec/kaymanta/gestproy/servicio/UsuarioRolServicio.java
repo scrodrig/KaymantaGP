@@ -5,12 +5,15 @@
 package ec.kaymanta.gestproy.servicio;
 
 import ec.kaymanta.gestproy.dao.UsuarioRolDAO;
+import ec.kaymanta.gestproy.modelo.Usuario;
 import ec.kaymanta.gestproy.modelo.UsuarioRol;
 import ec.kaymanta.gestproy.modelo.UsuarioRolPK;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
+import javax.persistence.Transient;
 
 /**
  *
@@ -50,8 +53,7 @@ public class UsuarioRolServicio {
      */
     public void crear(UsuarioRol usuarioRol) {
         System.out.println("En crear "+usuarioRol.getUsuario());
-        //UsuarioRol ur =this.usuarioRolDAO.findById(usuarioRol.getPk(), false);
-        //usuarioRol.setFechaUltAcceso(new Date());
+        usuarioRol.setFecha(new Date());
         this.usuarioRolDAO.insert(usuarioRol);
     }
        
@@ -74,6 +76,19 @@ public class UsuarioRolServicio {
         System.out.println("En eliminar "+usuarioRol.getUsuario());
         UsuarioRol usuarioTmp = this.usuarioRolDAO.findById(usuarioRol.getPk(), false);
         this.usuarioRolDAO.remove(usuarioTmp);
+    }
+    
+    
+    /**
+     *
+     * @param usuario
+     * @return
+     */
+    @Transient
+    public List<UsuarioRol> getByUser(Usuario usuario)
+    {
+        System.out.println("En consultar "+usuario.getUsuario());
+        return this.usuarioRolDAO.findByUser(usuario);
     }
 
 }
