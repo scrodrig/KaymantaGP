@@ -40,7 +40,6 @@
         </p:dataTable>
 
         
-        <p:growl id="mensajeEliminar" />
         <p:confirmDialog id="confirmDialog" message="¿Seguro desea eliminar?"  
                          header="Eliminación" severity="alert" widgetVar="confirmation">  
             <p:commandButton id="confirm" value="Si, seguro" update="@form " oncomplete="confirmation.hide()"  
@@ -49,7 +48,7 @@
 
         </p:confirmDialog> 
 
-        <p:panel id="nuevoRevestimiento" header="Creación de Módulos" rendered="#{modulosBean.enRegistro}" style="width: 1000px">
+        <p:panel id="nuevoRevestimiento" header="Creación de Módulos" rendered="#{modulosBean.enRegistro}" style="width: 700px">
             <p:panelGrid columns="3">                
 
                 <p:outputLabel for="nombre" value="Nombre:"/>
@@ -59,12 +58,12 @@
             </p:panelGrid>
             <f:facet name="footer"> 
                 <p:commandButton actionListener="#{modulosBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
-                <p:commandButton actionListener="#{modulosBean.cancelar(evento)}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+                <p:commandButton actionListener="#{modulosBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
             </f:facet>
         </p:panel>
 
 
-        <p:panel id="modificarRevestimiento" header="Modificación de Módulos" rendered="#{modulosBean.enEdicion}" style="width: 1000px">
+        <p:panel id="modificarRevestimiento" header="Modificación de Módulos" rendered="#{modulosBean.enEdicion}" style="width: 700px">
             <p:panelGrid columns="3">              
 
                 <p:outputLabel for="m_codigo" value="Código Revestimiento:"/>
@@ -79,7 +78,7 @@
             </p:panelGrid>
             <f:facet name="footer"> 
                 <p:commandButton actionListener="#{modulosBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
-                <p:commandButton actionListener="#{modulosBean.cancelar(evento)}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+                <p:commandButton actionListener="#{modulosBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
             </f:facet>
 
         </p:panel>

@@ -86,6 +86,15 @@ public class MensajesGenericos {
     public static void info(String message) {
         FacesUtil.addMessageInfo(message);
     }
+    
+     /**
+     * Agrega un mensaje de información.
+     *
+     * @param msg Mensaje a ser agregado.
+     */
+    public static void infoCargado(String message) {
+        FacesUtil.addMessageInfo(message);
+    }
 
     /**
      * Agrega un mesaje de error.

@@ -86,7 +86,7 @@
             </p:panelGrid>
             <p:separator/>
             <f:facet name="footer"> 
-                <p:commandButton actionListener="#{empresasBean.volver(evento)}" value="Volver" update="@form" icon="ui-icon-back"/>
+                <p:commandButton actionListener="#{empresasBean.cancelar()}" value="Volver" update="@form" icon="ui-icon-back"/>
             </f:facet>
         </p:dialog>
 
@@ -127,7 +127,7 @@
             </p:panelGrid>
             <f:facet name="footer"> 
                 <p:commandButton actionListener="#{empresasBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
-                <p:commandButton actionListener="#{empresasBean.cancelar(evento)}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+                <p:commandButton actionListener="#{empresasBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
             </f:facet>
         </p:panel>
 
@@ -167,7 +167,7 @@
 
             <f:facet name="footer"> 
                 <p:commandButton actionListener="#{empresasBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
-                <p:commandButton actionListener="#{empresasBean.cancelar(evento)}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+                <p:commandButton actionListener="#{empresasBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
             </f:facet>
         </p:panel>
     </ui:define>

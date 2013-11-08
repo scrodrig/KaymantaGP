@@ -11,7 +11,7 @@
 
     <ui:define name="cuerpo">
         <p:dataTable id="provincias"  value="#{provinciasBean.provincias}" var="provincia" selection="#{provinciasBean.provinciaSeleccionado}" selectionMode="single" scrollable="true" 
-                     rowKey="#{provincia.codigo}" style="width: 1000px" scrollWidth="false" 
+                     rowKey="#{provincia.codigo}" style="width: 800px" scrollWidth="false" 
                      paginator="true" rows="10"   paginatorPosition="bottom"
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                       emptyMessage="No se ha registrado ninguna Región" rendered="#{not (provinciasBean.enRegistro or provinciasBean.enEdicion)}" >
@@ -48,7 +48,7 @@
 
         </p:confirmDialog> 
 
-        <p:panel id="nuevoRevestimiento" header="Creación de Provincias" rendered="#{provinciasBean.enRegistro}" style="width: 1000px">
+        <p:panel id="nuevoRevestimiento" header="Creación de Provincias" rendered="#{provinciasBean.enRegistro}" style="width: 800px">
             <p:focus context="nuevoRevestimiento"/>
             <p:panelGrid columns="3">                
 
@@ -59,12 +59,12 @@
             </p:panelGrid>
             <f:facet name="footer"> 
                 <p:commandButton actionListener="#{provinciasBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
-                <p:commandButton actionListener="#{provinciasBean.cancelar(evento)}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+                <p:commandButton actionListener="#{provinciasBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
             </f:facet>
         </p:panel>
 
 
-        <p:panel id="modificarRevestimiento" header="Modificación de Provincias" rendered="#{provinciasBean.enEdicion}" style="width: 1000px">
+        <p:panel id="modificarRevestimiento" header="Modificación de Provincias" rendered="#{provinciasBean.enEdicion}" style="width: 800px">
             <p:focus context="modificarRevestimiento"/>
             <p:panelGrid columns="3">              
 
@@ -80,7 +80,7 @@
             </p:panelGrid>
             <f:facet name="footer"> 
                 <p:commandButton actionListener="#{provinciasBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
-                <p:commandButton actionListener="#{provinciasBean.cancelar(evento)}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+                <p:commandButton actionListener="#{provinciasBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
             </f:facet>
 
         </p:panel>

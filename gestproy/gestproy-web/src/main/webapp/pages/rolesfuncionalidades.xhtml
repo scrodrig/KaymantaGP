@@ -73,7 +73,7 @@
             </p:panelGrid>
             <f:facet name="footer"> 
                 <p:commandButton actionListener="#{rolesFuncionalidadBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
-                <p:commandButton actionListener="#{rolesFuncionalidadBean.cancelar(evento)}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+                <p:commandButton actionListener="#{rolesFuncionalidadBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
             </f:facet>
         </p:panel>
 

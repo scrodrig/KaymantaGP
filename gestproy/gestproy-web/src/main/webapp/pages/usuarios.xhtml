@@ -11,7 +11,7 @@
 
     <ui:define name="cuerpo">
         <p:dataTable id="usuarios"  value="#{usuariosBean.usuarios}" var="usuario" selection="#{usuariosBean.usuarioSeleccionado}" selectionMode="single" scrollable="true" 
-                     rowKey="#{usuario.codigo}" style="width: 1000px"  scrollWidth="false"
+                     rowKey="#{usuario.codigo}" style="width: 800px"  scrollWidth="false"
                      paginator="true" rows="10" paginatorPosition="bottom"
                      paginatorTemplate=" {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                      emptyMessage="No se ha registrado ningún Usuario" rendered="#{not (usuariosBean.enRegistro or usuariosBean.enEdicion or usuariosBean.enAuditoria)}" >
@@ -36,7 +36,6 @@
             <f:facet name="footer">  
                 <p:commandButton  value="Nuevo" update="@form" actionListener="#{usuariosBean.nuevo(evento)}" disabled="#{usuariosBean.disabledNuevo}" icon="ui-icon-document"/>  
                 <p:commandButton value="Modificar" update="@form" actionListener="#{usuariosBean.modificar(evento)}" disabled="#{usuariosBean.disabledModificar}" icon="ui-icon-pencil"/>
-                <p:commandButton value="Eliminar" onclick="confirmation.show();" disabled="#{usuariosBean.disabledEliminar}" icon="ui-icon-close"/>
                 <p:commandButton  value="Auditoría" update=":form:mensaje" onsuccess="dlg.show()" actionListener="#{usuariosBean.verAuditoria(evento)}" disabled="#{usuariosBean.disableAuditoria}" icon="ui-icon-document"/>  
             </f:facet>
         </p:dataTable>
@@ -84,7 +83,7 @@
             </p:panelGrid>
             <p:separator/>
             <f:facet name="footer"> 
-                <p:commandButton actionListener="#{usuariosBean.volver(evento)}" value="Volver" update="@form" icon="ui-icon-back"/>
+                <p:commandButton actionListener="#{usuariosBean.cancelar()}" value="Volver" update="@form" icon="ui-icon-back"/>
             </f:facet>
         </p:dialog>
 
@@ -95,7 +94,7 @@
 
 
 
-        <p:panel id="nuevoUsr" header="Creación de Usuario" rendered="#{usuariosBean.enRegistro}" style="width: 1000px">
+        <p:panel id="nuevoUsr" header="Creación de Usuario" rendered="#{usuariosBean.enRegistro}" style="width: 800px">
             <p:panelGrid columns="3">
                 <p:outputLabel for="codigo" value="Cédula"/>
                 <p:inputText id="codigo" value="#{usuariosBean.usuario.codigo}" label="Cédula" required="true">
@@ -110,24 +109,24 @@
 
                 <p:outputLabel for="pickList" value="Rol:"/>                
                 <p:pickList id="pickList" value="#{usuariosBean.roles}" var="rol"   
-                            itemLabel="#{rol}" itemValue="#{rol}" >
+                            itemLabel="#{rol}" itemValue="#{rol}" required="true">
                     <p:ajax event="transfer" listener="#{usuariosBean.onTransfer}" update=":form:pickList" />  
                 </p:pickList>
                 <p:message for="pickList" />
 
                 <p:outputLabel for="clave" value="Clave:" />
-                <p:password id="clave" value="#{usuariosBean.usuario.clave}" match="pwd2" label="Clave" feedback="true" required="true"/> 
+                <p:password id="clave" value="#{usuariosBean.usuario.clave}" match="pwd2" label="Clave" feedback="true" goodLabel="Bien" weakLabel="Débil" promptLabel="Ingrese su clave" validatorMessage="Las claves deben coincidir" requiredMessage="El campo es obligatorio, se necesita un valor" strongLabel="Fuerte" required="true"/> 
                 <p:message for="clave" />
 
                 <p:outputLabel for="pwd2" value="Repetir clave:" />
-                <p:password id="pwd2" value="#{usuariosBean.usuario.clave}" label="Clave" feedback="true" required="true"/> 
+                <p:password id="pwd2" value="#{usuariosBean.usuario.clave}" label="Clave" feedback="true" goodLabel="Bien" weakLabel="Débil" strongLabel="Fuerte" promptLabel="Ingrese su clave" validatorMessage="Las claves deben coincidir" requiredMessage="El campo es obligatorio, se necesita un valor" required="true"/> 
                 <p:message for="pwd2" />
 
 
             </p:panelGrid>
             <f:facet name="footer"> 
                 <p:commandButton actionListener="#{usuariosBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
-                <p:commandButton actionListener="#{usuariosBean.cancelar(evento)}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+                <p:commandButton actionListener="#{usuariosBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
             </f:facet>
         </p:panel>
 
@@ -136,7 +135,7 @@
 
 
 
-        <p:panel id="modificarUsr" header="Modificación de Usuario" rendered="#{usuariosBean.enEdicion}" style="width: 1000px">
+        <p:panel id="modificarUsr" header="Modificación de Usuario" rendered="#{usuariosBean.enEdicion}" style="width: 800px">
             <p:panelGrid columns="3">
 
                 <p:outputLabel for="m_codigo" value="Código:"/>
@@ -163,7 +162,7 @@
 
             <f:facet name="footer"> 
                 <p:commandButton actionListener="#{usuariosBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
-                <p:commandButton actionListener="#{usuariosBean.cancelar(evento)}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+                <p:commandButton actionListener="#{usuariosBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
             </f:facet>
         </p:panel>
     </ui:define>

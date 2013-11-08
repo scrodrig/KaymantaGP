@@ -93,6 +93,14 @@ public class EmpleadosBean extends BotonesBean implements Serializable {
 
     }
 
+    public String getNombreEstado(String estado)
+    {
+        if(estado.equals("A") || estado.equals("a"))
+            return "Activo";
+        else
+            return "Inactivo";
+    }
+    
     public String getUsrAuditoria(String usr) {
         if (usr == null || "".equals(usr)) {
             return "";

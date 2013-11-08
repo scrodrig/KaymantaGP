@@ -15,13 +15,16 @@ package ec.kaymanta.gestproy.dao;
 import com.persist.common.dao.DefaultGenericDAOImple;
 import ec.kaymanta.gestproy.modelo.DocumentosProyecto;
 import ec.kaymanta.gestproy.modelo.DocumentosProyectoPK;
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
 
 /**
- * La Clase DocumentosProyectoDAO especifica e implementa las operaciones de 
+ * La Clase DocumentosProyectoDAO especifica e implementa las operaciones de
  * acceso a datos relacionadas con la entidad DocumentosProyecto.
- * 
+ *
  * @author JPA Generator
  * @version 1.0
  */
@@ -29,9 +32,24 @@ import javax.ejb.Stateless;
 @LocalBean
 public class DocumentosProyectoDAO extends DefaultGenericDAOImple<DocumentosProyecto, DocumentosProyectoPK> {
 
-      public DocumentosProyectoDAO()
-    {
+    public DocumentosProyectoDAO() {
         super(DocumentosProyecto.class);
-    
+
+    }
+
+    public List<DocumentosProyecto> findByProyecto(Long proyecto) {
+        System.out.println("ESTOY EN DAO y EL PROYECTO ES "+ proyecto);
+
+        try {
+            String sql = "SELECT obj FROM DocumentosProyecto obj WHERE obj.pk.proyecto=?1";
+            Query qry = this.getEntityManager().createQuery(sql);
+            qry.setParameter(1, proyecto);
+            System.out.println(qry.toString());
+             System.out.println("La dimensión del arreglo 0 es: "+qry.getResultList().size());
+            return qry.getResultList();
+            
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

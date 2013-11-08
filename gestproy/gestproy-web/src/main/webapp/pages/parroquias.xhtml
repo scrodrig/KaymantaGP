@@ -9,7 +9,7 @@
 
     <ui:define name="titulo">Administración de Parroquias</ui:define>
     <ui:define name="cuerpo">
-        <p:panel id="panelSeleccion" header="Buscar" style="width: 600px"
+        <p:panel id="panelSeleccion" header="Buscar" style="width: 800px"
                  rendered="#{not(parroquiaBean.enRegistro or parroquiaBean.enEdicion)}"> 
         <p:focus context="panelSeleccion"/> 
         <h:panelGrid columns="5" >
@@ -30,7 +30,7 @@
         <p:spacer height="10"/>
         <p:dataTable id="tabla" var="parroquia" value="#{parroquiaBean.parroquias}" rowKey="#{parroquia.pk}"  
                      selection="#{parroquiaBean.parroquiaSeleccionado}" selectionMode="single" scrollWidth="false"  paginatorPosition="bottom"
-                     scrollable="true" scrollHeight="250" style="width: 600px" emptyMessage="No se ha registrado ningún Parroquias"
+                     scrollable="true" scrollHeight="250" style="width: 800px" emptyMessage="No se ha registrado ningún Parroquias"
                      rendered="#{not(parroquiaBean.enRegistro or parroquiaBean.enEdicion)}" >
             <p:ajax event="rowSelect" listener="#{parroquiaBean.filaSeleccionada(evento)}" update="tabla"/>
             <p:ajax event="rowUnselect" listener="#{parroquiaBean.filaSeleccionada(evento)}" update="tabla"/>
@@ -92,7 +92,7 @@
                 <p:commandButton value="Guardar" update="@form"   
                                  actionListener="#{parroquiaBean.guardar(evento)}" />
                 <p:commandButton value="Cancelar" update="@form"   
-                                 actionListener="#{parroquiaBean.cancelar(evento)}" immediate="true"/>
+                                 actionListener="#{parroquiaBean.cancelar()}" immediate="true"/>
             </h:panelGrid>  
         </p:panel>
 

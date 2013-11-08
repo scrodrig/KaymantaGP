@@ -16,6 +16,7 @@ public class BotonesBean {
     private Boolean disabledModificar;
     private Boolean disabledEliminar;
     private Boolean disableAuditoria;
+    private Boolean disableCargaDocumentos;
     private Boolean uno;
     private Boolean varios;
     private Boolean noSeleccionados;
@@ -23,6 +24,7 @@ public class BotonesBean {
     private Boolean enRegistro;
     private Boolean soloLectura;
     private Boolean enAuditoria;
+    private Boolean enCargaDocumentos;
 
     @PostConstruct
     public void postConstructor() {
@@ -35,7 +37,9 @@ public class BotonesBean {
         this.disabledEliminar = Boolean.TRUE;
         this.noSeleccionados = Boolean.TRUE;
         this.disableAuditoria = Boolean.TRUE;
-        this.uno=Boolean.FALSE;
+        this.disableCargaDocumentos = Boolean.TRUE;
+
+        this.uno = Boolean.FALSE;
     }
 
     public void seleccionadoUno() {
@@ -56,6 +60,7 @@ public class BotonesBean {
         this.disabledEliminar = Boolean.TRUE;
         this.disableAuditoria = Boolean.TRUE;
         this.enRegistro = Boolean.TRUE;
+        this.disableCargaDocumentos = Boolean.TRUE;
     }
 
     public void modificar() {
@@ -64,7 +69,9 @@ public class BotonesBean {
         this.disabledModificar = Boolean.TRUE;
         this.disabledEliminar = Boolean.TRUE;
         this.disableAuditoria = Boolean.TRUE;
+        this.disableCargaDocumentos = Boolean.TRUE;
         this.enEdicion = Boolean.TRUE;
+
     }
 
     public void cancelar() {
@@ -73,9 +80,8 @@ public class BotonesBean {
         this.disabledEliminar = Boolean.TRUE;
         this.disableAuditoria = Boolean.TRUE;
         this.enAuditoria = Boolean.FALSE;
+        this.disableCargaDocumentos = Boolean.TRUE;
         this.soloLectura = Boolean.FALSE;
-
-
     }
 
     public void verAuditoria() {
@@ -84,7 +90,8 @@ public class BotonesBean {
         this.disabledModificar = Boolean.TRUE;
         this.disabledEliminar = Boolean.TRUE;
         this.disableAuditoria = Boolean.TRUE;
-        this.enAuditoria=Boolean.TRUE;
+        this.disableCargaDocumentos = Boolean.TRUE;
+        this.enAuditoria = Boolean.TRUE;
         this.soloLectura = Boolean.TRUE;
     }
 
@@ -97,17 +104,30 @@ public class BotonesBean {
         this.soloLectura = Boolean.TRUE;
     }
 
+    public void verCargaDocumentos() {
+        this.reset();
+        
+        this.disabledNuevo = Boolean.TRUE;
+        this.disabledModificar = Boolean.TRUE;
+        this.disabledEliminar = Boolean.TRUE;
+        this.disableAuditoria = Boolean.TRUE;
+        this.enCargaDocumentos = Boolean.TRUE;
+        this.soloLectura = Boolean.FALSE;
+    }
+
     private void reset() {
         this.disabledNuevo = Boolean.FALSE;
         this.disabledModificar = Boolean.FALSE;
         this.disabledEliminar = Boolean.FALSE;
         this.disableAuditoria = Boolean.FALSE;
+        this.disableCargaDocumentos= Boolean.FALSE;
         this.uno = Boolean.FALSE;
         this.varios = Boolean.FALSE;
         this.noSeleccionados = Boolean.FALSE;
         this.enEdicion = Boolean.FALSE;
         this.enRegistro = Boolean.FALSE;
-        this.enAuditoria=Boolean.FALSE;
+        this.enAuditoria = Boolean.FALSE;
+        this.enCargaDocumentos=Boolean.FALSE;
         this.soloLectura = Boolean.FALSE;
     }
 
@@ -190,4 +210,20 @@ public class BotonesBean {
     public void setEnAuditoria(Boolean enAuditoria) {
         this.enAuditoria = enAuditoria;
     }
+
+    public Boolean getDisableCargaDocumentos() {
+        return disableCargaDocumentos;
+    }
+
+    public void setDisableCargaDocumentos(Boolean disableCargaDocumentos) {
+        this.disableCargaDocumentos = disableCargaDocumentos;
+    }
+
+    public Boolean getEnCargaDocumentos() {
+        return enCargaDocumentos;
+    }
+
+    public void setEnCargaDocumentos(Boolean enCargaDocumentos) {
+        this.enCargaDocumentos = enCargaDocumentos;
+    }    
 }

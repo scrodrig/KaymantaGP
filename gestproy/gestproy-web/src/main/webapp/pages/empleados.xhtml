@@ -40,7 +40,7 @@
                 #{empleado.telefono}
             </p:column>
             <p:column headerText="Estado" style="width: 40px">
-                #{empleado.estado}
+                #{empleadosBean.getNombreEstado(empleado.estado)}
             </p:column>
             <f:facet name="footer">  
                 <p:commandButton  value="Nuevo" update="@form" actionListener="#{empleadosBean.nuevo(evento)}" disabled="#{empleadosBean.disabledNuevo}" icon="ui-icon-document"/>  
@@ -95,7 +95,7 @@
             </p:panelGrid>
             <p:separator/>
             <f:facet name="footer"> 
-                <p:commandButton actionListener="#{empleadosBean.volver(evento)}" value="Volver" update="@form" icon="ui-icon-back"/>
+                <p:commandButton actionListener="#{empleadosBean.cancelar()}" value="Volver" update="@form" icon="ui-icon-back"/>
             </f:facet>
         </p:dialog>
 
@@ -139,7 +139,7 @@
             </p:panelGrid>
             <f:facet name="footer"> 
                 <p:commandButton actionListener="#{empleadosBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
-                <p:commandButton actionListener="#{empleadosBean.cancelar(evento)}"  value="Cancelar" immediate="true" update="@form" icon="ui-icon-cancel"/>
+                <p:commandButton actionListener="#{empleadosBean.cancelar()}"  value="Cancelar" immediate="true" update="@form" icon="ui-icon-cancel"/>
             </f:facet>
         </p:panel>
 
@@ -186,7 +186,7 @@
 
             <f:facet name="footer"> 
                 <p:commandButton actionListener="#{empleadosBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
-                <p:commandButton actionListener="#{empleadosBean.cancelar(evento)}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+                <p:commandButton actionListener="#{empleadosBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
             </f:facet>
         </p:panel>
     </ui:define>

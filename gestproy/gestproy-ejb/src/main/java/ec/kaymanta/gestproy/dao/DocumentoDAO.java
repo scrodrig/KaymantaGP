@@ -14,13 +14,14 @@ package ec.kaymanta.gestproy.dao;
 
 import com.persist.common.dao.DefaultGenericDAOImple;
 import ec.kaymanta.gestproy.modelo.Documento;
+import ec.kaymanta.gestproy.modelo.Proyecto;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 /**
- * La Clase DocumentoDAO especifica e implementa las operaciones de 
- * acceso a datos relacionadas con la entidad Documento.
- * 
+ * La Clase DocumentoDAO especifica e implementa las operaciones de acceso a
+ * datos relacionadas con la entidad Documento.
+ *
  * @author JPA Generator
  * @version 1.0
  */
@@ -28,9 +29,8 @@ import javax.ejb.Stateless;
 @LocalBean
 public class DocumentoDAO extends DefaultGenericDAOImple<Documento, Long> {
 
-      public DocumentoDAO()
-    {
+    public DocumentoDAO() {
         super(Documento.class);
-    
+
     }
 }
