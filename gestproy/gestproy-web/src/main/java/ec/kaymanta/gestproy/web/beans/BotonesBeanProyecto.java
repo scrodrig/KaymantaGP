@@ -33,6 +33,22 @@ public class BotonesBeanProyecto {
     private Boolean disableNuevoDocumento;
     private Boolean disableEdicionDocumento;
     private Boolean disableAuditoriaDocumento;
+    //FLAGS BOTONES ACTIVIDADES
+    private Boolean enAuditoriaActividad;
+    private Boolean enNuevaActividad;
+    private Boolean enEdicionActividad;
+    private Boolean enActividades;
+    private Boolean disableNuevaActividad;
+    private Boolean disableModificarActividad;
+    private Boolean disableAuditoriaActividad;
+    //FLAGS BOTONES SUB-ACTIVIDADES
+    private Boolean enAuditoriaSubActividad;
+    private Boolean enNuevaSubActividad;
+    private Boolean enEdicionSubActividad;
+    private Boolean enSubActividades;
+    private Boolean disableNuevaSubActividad;
+    private Boolean disableModificarSubActividad;
+    private Boolean disableAuditoriaSubActividad;
 
     @PostConstruct
     public void postConstructor() {
@@ -65,7 +81,27 @@ public class BotonesBeanProyecto {
         this.disableCargaDocumentos = Boolean.TRUE;
         this.disableGuardarDocumento = Boolean.TRUE;
         this.uno = Boolean.FALSE;
-        
+
+    }
+
+    public void sinSeleccionActividad() {
+        this.resetTablaActividad();
+        this.enActividades = Boolean.TRUE;
+        this.noSeleccionados = Boolean.TRUE;
+        this.disableAuditoriaActividad = Boolean.TRUE;
+        this.disableModificarActividad = Boolean.TRUE;
+        this.uno = Boolean.FALSE;
+
+    }
+
+    public void sinSeleccionSubActividad() {
+        this.resetTablaSubActividad();
+        this.enSubActividades = Boolean.TRUE;
+        this.noSeleccionados = Boolean.TRUE;
+        this.disableAuditoriaSubActividad = Boolean.TRUE;
+        this.disableModificarSubActividad = Boolean.TRUE;
+        this.uno = Boolean.FALSE;
+
     }
 
     public void seleccionadoUno() {
@@ -75,6 +111,16 @@ public class BotonesBeanProyecto {
 
     public void seleccionadoUnoDocumentos() {
         this.resetTablaDocumentos();
+        this.uno = Boolean.TRUE;
+    }
+
+    public void seleccionadoUnoActividades() {
+        this.resetTablaActividad();
+        this.uno = Boolean.TRUE;
+    }
+
+    public void seleccionadoUnoSubActividades() {
+        this.resetTablaSubActividad();
         this.uno = Boolean.TRUE;
     }
 
@@ -112,36 +158,54 @@ public class BotonesBeanProyecto {
         //this.enCargaDocumentos= Boolean.TRUE;
     }
 
+    public void crearActividad() {
+        this.reset();
+        this.disableModificarActividad = Boolean.TRUE;
+        this.disabledEliminar = Boolean.TRUE;
+        this.disableAuditoriaActividad = Boolean.TRUE;
+        this.enNuevaActividad = Boolean.TRUE;
+    }
+
+    public void crearSubActividad() {
+        this.reset();
+        this.disableModificarSubActividad = Boolean.TRUE;
+        this.disabledEliminar = Boolean.TRUE;
+        this.disableAuditoriaSubActividad = Boolean.TRUE;
+        this.enNuevaSubActividad = Boolean.TRUE;
+    }
+
     public void modificar() {
         this.reset();
         this.disabledNuevo = Boolean.TRUE;
         this.disabledModificar = Boolean.TRUE;
         this.disabledEliminar = Boolean.TRUE;
         this.disableAuditoria = Boolean.TRUE;
-
         this.disableAuditoriaDocumento = Boolean.TRUE;
         this.disableEdicionDocumento = Boolean.TRUE;
         this.disableNuevoDocumento = Boolean.TRUE;
-
         this.disableCargaDocumentos = Boolean.TRUE;
         this.enEdicion = Boolean.TRUE;
-
     }
 
     public void modificarDocumento() {
         this.reset();
-        this.disabledNuevo = Boolean.TRUE;
-        this.disabledModificar = Boolean.TRUE;
-        this.disabledEliminar = Boolean.TRUE;
-        this.disableAuditoria = Boolean.TRUE;
-
-        this.disableAuditoriaDocumento = Boolean.TRUE;
         this.disableEdicionDocumento = Boolean.TRUE;
-        this.disableNuevoDocumento = Boolean.TRUE;
-
+        this.disabledEliminar = Boolean.TRUE;
+        this.disableAuditoriaDocumento = Boolean.TRUE;
+        this.disableGuardarDocumento = Boolean.TRUE;
         this.disableCargaDocumentos = Boolean.TRUE;
         this.enEdicionDocumento = Boolean.TRUE;
+    }
 
+    public void modificarActividad() {
+        this.reset();
+        this.enEdicionActividad = Boolean.TRUE;
+
+    }
+
+    public void modificarSubActividad() {
+        this.reset();
+        this.enEdicionSubActividad = Boolean.TRUE;
     }
 
     public void cancelar() {
@@ -158,6 +222,9 @@ public class BotonesBeanProyecto {
         this.enAuditoriaDocumento = Boolean.FALSE;
         this.disableCargaDocumentos = Boolean.TRUE;
         this.soloLectura = Boolean.FALSE;
+
+
+
     }
 
     public void verAuditoria() {
@@ -194,6 +261,24 @@ public class BotonesBeanProyecto {
         this.soloLectura = Boolean.TRUE;
     }
 
+    public void verAuditoriaActividad() {
+        this.reset();
+        this.disableAuditoriaActividad = Boolean.TRUE;
+        this.disableModificarActividad = Boolean.TRUE;
+        this.disableNuevaActividad = Boolean.TRUE;
+        this.enAuditoriaActividad = Boolean.TRUE;
+        this.soloLectura = Boolean.TRUE;
+    }
+
+    public void verAuditoriaSubActividad() {
+        this.reset();
+        this.disableAuditoriaSubActividad = Boolean.TRUE;
+        this.disableModificarSubActividad = Boolean.TRUE;
+        this.disableNuevaSubActividad = Boolean.TRUE;
+        this.enAuditoriaSubActividad = Boolean.TRUE;
+        this.soloLectura = Boolean.TRUE;
+    }
+
     public void verDetalles() {
         this.reset();
         this.disabledNuevo = Boolean.TRUE;
@@ -225,6 +310,20 @@ public class BotonesBeanProyecto {
         this.enCargaDocumentos = Boolean.TRUE;
     }
 
+    public void verActividades() {
+        this.reset();
+        this.enActividades = Boolean.TRUE;
+        this.disableAuditoriaActividad = Boolean.TRUE;
+        this.disableModificarActividad = Boolean.TRUE;
+    }
+
+    public void verSubActividades() {
+        this.reset();
+        this.enSubActividades = Boolean.TRUE;
+        this.disableAuditoriaSubActividad = Boolean.TRUE;
+        this.disableModificarSubActividad = Boolean.TRUE;
+    }
+
     private void reset() {
         this.disabledNuevo = Boolean.FALSE;
         this.disabledModificar = Boolean.FALSE;
@@ -247,6 +346,28 @@ public class BotonesBeanProyecto {
         this.enCargaDocumentos = Boolean.FALSE;
         this.disableGuardarDocumento = Boolean.FALSE;
         this.soloLectura = Boolean.FALSE;
+
+        //ACTIVIDADES
+        this.disableAuditoriaActividad = Boolean.FALSE;
+        this.disableModificarActividad = Boolean.FALSE;
+        this.disableNuevaActividad = Boolean.FALSE;
+        this.enAuditoriaActividad = Boolean.FALSE;
+        this.enEdicionActividad = Boolean.FALSE;
+        this.enNuevaActividad = Boolean.FALSE;
+        this.enActividades = Boolean.FALSE;
+
+        //SUB-ACTIVIDADES
+        this.disableAuditoriaSubActividad = Boolean.FALSE;
+        this.disableModificarSubActividad = Boolean.FALSE;
+        this.disableNuevaSubActividad = Boolean.FALSE;
+        this.enAuditoriaSubActividad = Boolean.FALSE;
+        this.enEdicionSubActividad = Boolean.FALSE;
+        this.enNuevaSubActividad = Boolean.FALSE;
+        this.enSubActividades = Boolean.FALSE;
+
+
+
+
     }
 
     private void resetTablaDocumentos() {
@@ -270,6 +391,102 @@ public class BotonesBeanProyecto {
         this.enAuditoria = Boolean.FALSE;
         this.disableGuardarDocumento = Boolean.FALSE;
         this.soloLectura = Boolean.FALSE;
+
+        this.disableAuditoriaActividad = Boolean.FALSE;
+        this.disableModificarActividad = Boolean.FALSE;
+        this.disableNuevaActividad = Boolean.FALSE;
+        this.enAuditoriaActividad = Boolean.FALSE;
+        this.enEdicionActividad = Boolean.FALSE;
+        this.enNuevaActividad = Boolean.FALSE;
+
+        //SUB-ACTIVIDADES
+        this.disableAuditoriaSubActividad = Boolean.FALSE;
+        this.disableModificarSubActividad = Boolean.FALSE;
+        this.disableNuevaSubActividad = Boolean.FALSE;
+        this.enAuditoriaSubActividad = Boolean.FALSE;
+        this.enEdicionSubActividad = Boolean.FALSE;
+        this.enNuevaSubActividad = Boolean.FALSE;
+        this.enSubActividades = Boolean.FALSE;
+    }
+
+    private void resetTablaActividad() {
+        this.disabledNuevo = Boolean.FALSE;
+        this.disabledModificar = Boolean.FALSE;
+        this.disabledEliminar = Boolean.FALSE;
+        this.disableAuditoria = Boolean.FALSE;
+
+        this.disableCargaDocumentos = Boolean.FALSE;
+        this.disableNuevoDocumento = Boolean.FALSE;
+        this.disableAuditoriaDocumento = Boolean.FALSE;
+        this.disableEdicionDocumento = Boolean.FALSE;
+
+        this.enNuevoDocumento = Boolean.FALSE;
+        this.enEdicionDocumento = Boolean.FALSE;
+        this.uno = Boolean.FALSE;
+        this.varios = Boolean.FALSE;
+        this.noSeleccionados = Boolean.FALSE;
+        this.enEdicion = Boolean.FALSE;
+        this.enRegistro = Boolean.FALSE;
+        this.enAuditoria = Boolean.FALSE;
+        this.disableGuardarDocumento = Boolean.FALSE;
+        this.soloLectura = Boolean.FALSE;
+
+        //SUB-ACTIVIDADES
+        this.disableAuditoriaSubActividad = Boolean.FALSE;
+        this.disableModificarSubActividad = Boolean.FALSE;
+        this.disableNuevaSubActividad = Boolean.FALSE;
+        this.enAuditoriaSubActividad = Boolean.FALSE;
+        this.enEdicionSubActividad = Boolean.FALSE;
+        this.enNuevaSubActividad = Boolean.FALSE;
+        this.enSubActividades = Boolean.FALSE;
+
+
+        this.disableAuditoriaActividad = Boolean.FALSE;
+        this.disableModificarActividad = Boolean.FALSE;
+        this.disableNuevaActividad = Boolean.FALSE;
+        this.enAuditoriaActividad = Boolean.FALSE;
+        this.enEdicionActividad = Boolean.FALSE;
+        this.enNuevaActividad = Boolean.FALSE;
+    }
+
+    private void resetTablaSubActividad() {
+        this.disabledNuevo = Boolean.FALSE;
+        this.disabledModificar = Boolean.FALSE;
+        this.disabledEliminar = Boolean.FALSE;
+        this.disableAuditoria = Boolean.FALSE;
+
+        this.disableCargaDocumentos = Boolean.FALSE;
+        this.disableNuevoDocumento = Boolean.FALSE;
+        this.disableAuditoriaDocumento = Boolean.FALSE;
+        this.disableEdicionDocumento = Boolean.FALSE;
+
+        this.enNuevoDocumento = Boolean.FALSE;
+        this.enEdicionDocumento = Boolean.FALSE;
+        this.uno = Boolean.FALSE;
+        this.varios = Boolean.FALSE;
+        this.noSeleccionados = Boolean.FALSE;
+        this.enEdicion = Boolean.FALSE;
+        this.enRegistro = Boolean.FALSE;
+        this.enAuditoria = Boolean.FALSE;
+        this.disableGuardarDocumento = Boolean.FALSE;
+        this.soloLectura = Boolean.FALSE;
+
+        //SUB-ACTIVIDADES
+        this.disableAuditoriaSubActividad = Boolean.FALSE;
+        this.disableModificarSubActividad = Boolean.FALSE;
+        this.disableNuevaSubActividad = Boolean.FALSE;
+        this.enAuditoriaSubActividad = Boolean.FALSE;
+        this.enEdicionSubActividad = Boolean.FALSE;
+        this.enNuevaSubActividad = Boolean.FALSE;
+        this.enActividades = Boolean.FALSE;
+
+
+        this.disableAuditoriaActividad = Boolean.FALSE;
+        this.disableModificarActividad = Boolean.FALSE;
+        this.disableNuevaActividad = Boolean.FALSE;
+        this.enAuditoriaActividad = Boolean.FALSE;
+        this.enEdicionActividad = Boolean.FALSE;
+        this.enNuevaActividad = Boolean.FALSE;
     }
 
     public Boolean getDisabledEliminar() {
@@ -422,5 +639,117 @@ public class BotonesBeanProyecto {
 
     public void setDisableAuditoriaDocumento(Boolean disableAuditoriaDocumento) {
         this.disableAuditoriaDocumento = disableAuditoriaDocumento;
+    }
+
+    public Boolean getEnAuditoriaActividad() {
+        return enAuditoriaActividad;
+    }
+
+    public void setEnAuditoriaActividad(Boolean enAuditoriaActividad) {
+        this.enAuditoriaActividad = enAuditoriaActividad;
+    }
+
+    public Boolean getEnNuevaActividad() {
+        return enNuevaActividad;
+    }
+
+    public void setEnNuevaActividad(Boolean enNuevaActividad) {
+        this.enNuevaActividad = enNuevaActividad;
+    }
+
+    public Boolean getEnEdicionActividad() {
+        return enEdicionActividad;
+    }
+
+    public void setEnEdicionActividad(Boolean enEdicionActividad) {
+        this.enEdicionActividad = enEdicionActividad;
+    }
+
+    public Boolean getDisableNuevaActividad() {
+        return disableNuevaActividad;
+    }
+
+    public void setDisableNuevaActividad(Boolean disableNuevaActividad) {
+        this.disableNuevaActividad = disableNuevaActividad;
+    }
+
+    public Boolean getDisableModificarActividad() {
+        return disableModificarActividad;
+    }
+
+    public void setDisableModificarActividad(Boolean disableModificarActividad) {
+        this.disableModificarActividad = disableModificarActividad;
+    }
+
+    public Boolean getDisableAuditoriaActividad() {
+        return disableAuditoriaActividad;
+    }
+
+    public void setDisableAuditoriaActividad(Boolean disableAuditoriaActividad) {
+        this.disableAuditoriaActividad = disableAuditoriaActividad;
+    }
+
+    public Boolean getEnActividades() {
+        return enActividades;
+    }
+
+    public void setEnActividades(Boolean enActividades) {
+        this.enActividades = enActividades;
+    }
+
+    public Boolean getEnAuditoriaSubActividad() {
+        return enAuditoriaSubActividad;
+    }
+
+    public void setEnAuditoriaSubActividad(Boolean enAuditoriaSubActividad) {
+        this.enAuditoriaSubActividad = enAuditoriaSubActividad;
+    }
+
+    public Boolean getEnNuevaSubActividad() {
+        return enNuevaSubActividad;
+    }
+
+    public void setEnNuevaSubActividad(Boolean enNuevaSubActividad) {
+        this.enNuevaSubActividad = enNuevaSubActividad;
+    }
+
+    public Boolean getEnEdicionSubActividad() {
+        return enEdicionSubActividad;
+    }
+
+    public void setEnEdicionSubActividad(Boolean enEdicionSubActividad) {
+        this.enEdicionSubActividad = enEdicionSubActividad;
+    }
+
+    public Boolean getEnSubActividades() {
+        return enSubActividades;
+    }
+
+    public void setEnSubActividades(Boolean enSubActividades) {
+        this.enSubActividades = enSubActividades;
+    }
+
+    public Boolean getDisableNuevaSubActividad() {
+        return disableNuevaSubActividad;
+    }
+
+    public void setDisableNuevaSubActividad(Boolean disableNuevaSubActividad) {
+        this.disableNuevaSubActividad = disableNuevaSubActividad;
+    }
+
+    public Boolean getDisableModificarSubActividad() {
+        return disableModificarSubActividad;
+    }
+
+    public void setDisableModificarSubActividad(Boolean disableModificarSubActividad) {
+        this.disableModificarSubActividad = disableModificarSubActividad;
+    }
+
+    public Boolean getDisableAuditoriaSubActividad() {
+        return disableAuditoriaSubActividad;
+    }
+
+    public void setDisableAuditoriaSubActividad(Boolean disableAuditoriaSubActividad) {
+        this.disableAuditoriaSubActividad = disableAuditoriaSubActividad;
     }
 }

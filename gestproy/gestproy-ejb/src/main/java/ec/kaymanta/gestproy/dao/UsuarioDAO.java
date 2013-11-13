@@ -42,6 +42,7 @@ public class UsuarioDAO extends DefaultGenericDAOImple<Usuario, String> {
         try {
             System.out.println(nombreUsuario);
             String sql = "SELECT obj FROM Usuario obj WHERE obj.usuario=?1";
+            System.out.println("HOLA ESTOY EN USUARIO DAO");
             Query qry = this.getEntityManager().createQuery(sql);
             qry.setParameter(1, nombreUsuario);
             System.out.println(qry.toString());

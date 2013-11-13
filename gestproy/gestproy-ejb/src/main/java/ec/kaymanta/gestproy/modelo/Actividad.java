@@ -18,6 +18,8 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -45,6 +47,7 @@ public class Actividad implements Serializable {
      * relaciona con la columna COD_ACTIVIDAD.
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "COD_ACTIVIDAD", nullable = false, length = 10)
     private Long codigo;
     /**
@@ -178,8 +181,9 @@ public class Actividad implements Serializable {
     }
 
     /**
-     * Asigna un valor a la propiedad subactividad, relacionado con la columna
-     * SUBACTIVIDAD.
+     * Asigna un valor a la propiedad subactividad, referiendose a que actividad padre se relaciona, 
+     * coherente con la columna
+     * ACTIVIDAD.
      *
      * @param subactividad el valor a ser asignado a la propiedad subactividad
      */

@@ -55,14 +55,14 @@ public class FechasActividad implements Serializable {
      * Fecha de finalización de la actividad.. Representa a la columna FFIN.
      */
     @Temporal(TemporalType.DATE)
-    @Column(name = "FFIN", nullable = false)
+    @Column(name = "FFIN")
     private Date ffin;
     /**
      * Fecha estimada para completar la actividad.. Representa a la columna
      * FESTIMADA.
      */
     @Temporal(TemporalType.DATE)
-    @Column(name = "FESTIMADA", nullable = false)
+    @Column(name = "FESTIMADA")
     private Date festimada;
     /**
      * Usuario que crea el registro.. Representa a la columna USR_CREACION.

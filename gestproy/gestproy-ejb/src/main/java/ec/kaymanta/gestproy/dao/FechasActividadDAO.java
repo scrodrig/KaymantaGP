@@ -13,10 +13,15 @@
 package ec.kaymanta.gestproy.dao;
 
 import com.persist.common.dao.DefaultGenericDAOImple;
+import ec.kaymanta.gestproy.modelo.Actividad;
 import ec.kaymanta.gestproy.modelo.FechasActividad;
 import ec.kaymanta.gestproy.modelo.FechasActividadPK;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
 
 /**
  * La Clase FechasActividadDAO especifica e implementa las operaciones de acceso
@@ -33,4 +38,30 @@ public class FechasActividadDAO extends DefaultGenericDAOImple<FechasActividad, 
         super(FechasActividad.class);
 
     }
+    
+    public FechasActividad findLastByActividad(Actividad actividad){
+        System.out.println("ESTOY EN DAO y LA ACTIVIDAD ES " + actividad);
+
+        try {
+            List<FechasActividad> factividades = new ArrayList<FechasActividad>();
+            List<FechasActividad> fretorno = new ArrayList<FechasActividad>();
+
+            String sql = "SELECT obj FROM FechasActividad obj WHERE obj.actividad=?1";
+            Query qry = this.getEntityManager().createQuery(sql);
+            qry.setParameter(1, actividad);
+            System.out.println(qry.toString());
+            System.out.println("La dimensión del arreglo 0 es: " + qry.getResultList().size());
+            factividades = qry.getResultList();
+            for (int i = 0; i < factividades.size(); i++) {
+                if (factividades.get(i).getActividad() == null) {
+                    fretorno.add(factividades.get(i));
+                }
+            }
+            return fretorno.get(fretorno.size()-1);
+
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+    
 }
