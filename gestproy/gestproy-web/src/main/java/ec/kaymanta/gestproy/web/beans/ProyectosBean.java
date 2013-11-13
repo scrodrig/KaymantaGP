@@ -365,8 +365,10 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
 
     public void modificarSubActividad(ActionEvent evento) {
         this.subActividad = new Actividad();
+        this.fechasActividad=new FechasActividad();
         try {
             this.subActividad = (Actividad) BeanUtils.cloneBean(this.subActividadSeleccionada);
+            this.fechasActividad=this.fechasActividadServicio.findLastByActividad(actividad);
         } catch (Exception e) {
         }
         super.modificarSubActividad();

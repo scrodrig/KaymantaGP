@@ -51,7 +51,7 @@ public class FechasActividadServicio {
      * @param codigo
      * @return
      */
-    public FechasActividad findByID(Actividad actividad) {
+    public FechasActividad findLastByActividad(Actividad actividad) {
         return this.fechasActividadDAO.findLastByActividad(actividad);
     }
 
