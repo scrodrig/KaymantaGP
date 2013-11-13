@@ -510,6 +510,8 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
                 System.out.println("SubActividad FE: " + fechasActividad.getFestimada());
                 System.out.println("SubActividad FF: " + fechasActividad.getFfin());
                 System.out.println("SubActividad COD: " + fechasActividad);
+                
+                System.out.println("DEBERIAR GUARDAR");
             }
             super.sinSeleccionSubActividad();
             //CREAR ACTIVIDAD CON RESPONSABLE
