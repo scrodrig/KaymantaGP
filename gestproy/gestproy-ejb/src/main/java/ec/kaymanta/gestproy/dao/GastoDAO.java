@@ -13,15 +13,18 @@
 package ec.kaymanta.gestproy.dao;
 
 import com.persist.common.dao.DefaultGenericDAOImple;
+import ec.kaymanta.gestproy.modelo.Actividad;
 import ec.kaymanta.gestproy.modelo.Gasto;
 import ec.kaymanta.gestproy.modelo.GastoPK;
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 
 /**
- * La Clase GastoDAO especifica e implementa las operaciones de 
- * acceso a datos relacionadas con la entidad Gasto.
- * 
+ * La Clase GastoDAO especifica e implementa las operaciones de acceso a datos
+ * relacionadas con la entidad Gasto.
+ *
  * @author JPA Generator
  * @version 1.0
  */
@@ -29,9 +32,15 @@ import javax.ejb.Stateless;
 @LocalBean
 public class GastoDAO extends DefaultGenericDAOImple<Gasto, GastoPK> {
 
-      public GastoDAO()
-    {
+    public GastoDAO() {
         super(Gasto.class);
-    
+
+    }
+
+    public List<Gasto> findBySubActividad(Actividad subActividad) {
+        String sql = "SELECT obj FROM Gasto obj WHERE obj.actividad=?1";
+        Query qry = this.getEntityManager().createQuery(sql);
+        qry.setParameter(1, subActividad);
+        return qry.getResultList();
     }
 }

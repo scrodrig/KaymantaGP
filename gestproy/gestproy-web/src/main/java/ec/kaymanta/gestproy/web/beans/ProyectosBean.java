@@ -13,6 +13,7 @@ import ec.kaymanta.gestproy.modelo.DocumentosProyecto;
 import ec.kaymanta.gestproy.modelo.Empleado;
 import ec.kaymanta.gestproy.modelo.Empresa;
 import ec.kaymanta.gestproy.modelo.FechasActividad;
+import ec.kaymanta.gestproy.modelo.Gasto;
 import ec.kaymanta.gestproy.modelo.HistorialDocumento;
 import ec.kaymanta.gestproy.modelo.InstitucionControl;
 import ec.kaymanta.gestproy.modelo.Parroquia;
@@ -20,6 +21,7 @@ import ec.kaymanta.gestproy.modelo.ParroquiaPK;
 import ec.kaymanta.gestproy.modelo.Provincia;
 import ec.kaymanta.gestproy.modelo.Proyecto;
 import ec.kaymanta.gestproy.modelo.TipoDocumento;
+import ec.kaymanta.gestproy.modelo.TipoGasto;
 import ec.kaymanta.gestproy.modelo.Usuario;
 import ec.kaymanta.gestproy.servicio.ActividadServicio;
 import ec.kaymanta.gestproy.servicio.CantonServicio;
@@ -28,12 +30,14 @@ import ec.kaymanta.gestproy.servicio.DocumentosProyectoServicio;
 import ec.kaymanta.gestproy.servicio.EmpleadoServicio;
 import ec.kaymanta.gestproy.servicio.EmpresaServicio;
 import ec.kaymanta.gestproy.servicio.FechasActividadServicio;
+import ec.kaymanta.gestproy.servicio.GastoServicio;
 import ec.kaymanta.gestproy.servicio.HistorialDocumentoServicio;
 import ec.kaymanta.gestproy.servicio.InstitucionControlServicio;
 import ec.kaymanta.gestproy.servicio.ParroquiaServicio;
 import ec.kaymanta.gestproy.servicio.ProvinciaServicio;
 import ec.kaymanta.gestproy.servicio.ProyectoServicio;
 import ec.kaymanta.gestproy.servicio.TipoDocumentoServicio;
+import ec.kaymanta.gestproy.servicio.TipoGastoServicio;
 import ec.kaymanta.gestproy.servicio.UsuarioServicio;
 import ec.kaymanta.gestproy.web.util.MensajesGenericos;
 import java.io.Serializable;
@@ -92,6 +96,10 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
     private ActividadServicio actividadServicio;
     @EJB
     private FechasActividadServicio fechasActividadServicio;
+    @EJB
+    private GastoServicio gastoServicio;
+    @EJB
+    private TipoGastoServicio tipoGastoServicio;
     //Listas
     private List<Empresa> empresas;
     private List<Proyecto> proyectos;
@@ -104,6 +112,8 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
     private List<Documento> documentos;
     private List<Actividad> actividades;
     private List<Actividad> subActividades;
+    private List<Gasto> gastos;
+    private List<TipoGasto> tiposGasto;
     private Documento documento;
     private Documento documentoSeleccionado;
     private Documento documentoAnt;
@@ -121,10 +131,14 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
     private Actividad subActividad;
     private Actividad subActividadSeleccionada;
     private Actividad respaldoSubActividad;
+    //Variables de Gastos
+    private Gasto gasto;
+    private Gasto gastoSeleccionado;
     //Variables de Actividad Responsable
     private ActividadEmpleado actividadEmpleado;
     //Variables Fechas Actividad
     private FechasActividad fechasActividad;
+    private FechasActividad fechasActividadRespaldo;
     //Variables de auditoría
     private Usuario usrSesion;
     private Usuario usrAuditoria;
@@ -140,6 +154,7 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
     //Documentos Llaves Foraneas
     private String instControl;
     private String tipoDoc;
+    private String tipoGasto;
     //Flags
 
     /**
@@ -158,6 +173,7 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
         this.fechasActividad = new FechasActividad();
         this.institucionesControl = this.institucionControlServicio.obtener();
         this.tipoDocumento = this.tipoDocumentoServicio.obtener();
+        this.tiposGasto = this.tipoGastoServicio.obtener();
         this.documento = new Documento();
     }
 
@@ -180,6 +196,11 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
         super.crearSubActividad();
         this.subActividad = new Actividad();
         this.fechasActividad = new FechasActividad();
+    }
+
+    public void nuevoGasto(ActionEvent evento) {
+        super.crearGasto();
+        this.gasto = new Gasto();
     }
 
     public void actualizaCantonesB(ActionEvent evento) {
@@ -248,9 +269,20 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
 
     public void verAuditoriaSubActividad(ActionEvent evento) throws IllegalAccessException {
         try {
+            super.verAuditoriaSubActividad();
             this.subActividad = new Actividad();
             this.subActividad = (Actividad) BeanUtils.cloneBean(this.subActividadSeleccionada);
-            super.verAuditoriaActividad();
+        } catch (Exception ex) {
+            MensajesGenericos.errorCopyProperties();
+        }
+
+    }
+
+    public void verAuditoriaGastos(ActionEvent evento) throws IllegalAccessException {
+        try {
+            super.verAuditoriaGastos();
+            this.gasto = new Gasto();
+            this.gasto = (Gasto) BeanUtils.cloneBean(this.gastoSeleccionado);
         } catch (Exception ex) {
             MensajesGenericos.errorCopyProperties();
         }
@@ -299,6 +331,21 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
             this.subActividad = new Actividad();
             this.empleado = new String();
             System.out.println("VALOR:" + super.getEnSubActividades());
+        } catch (Exception e) {
+            MensajesGenericos.errorCopyProperties();
+        }
+
+
+    }
+
+    public void verGastos(ActionEvent evento) {
+        try {
+            super.verGastos();
+            System.out.println("EN LA PANTALLA DE GASTOS");
+            System.out.println("PROYECTO: " + proyecto.getNombreProyecto() + " ACTIVIDAD: " + actividad.getNombreActividad() + " SUBACTIVIDAD: " + subActividad.getNombreActividad());
+            this.gastos = this.gastoServicio.findBySubActividad(subActividad);
+            this.gasto = new Gasto();
+            System.out.println("VALOR:" + super.getEnGastos());
         } catch (Exception e) {
             MensajesGenericos.errorCopyProperties();
         }
@@ -365,13 +412,27 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
 
     public void modificarSubActividad(ActionEvent evento) {
         this.subActividad = new Actividad();
-        this.fechasActividad=new FechasActividad();
+        this.fechasActividad = new FechasActividad();
         try {
             this.subActividad = (Actividad) BeanUtils.cloneBean(this.subActividadSeleccionada);
-            this.fechasActividad=this.fechasActividadServicio.findLastByActividad(actividad);
+            this.fechasActividad = this.fechasActividadServicio.findLastByActividad(subActividad);
+            this.fechasActividadRespaldo = (FechasActividad) BeanUtils.cloneBean(this.fechasActividad);
+            if (this.fechasActividad == null) {
+                this.fechasActividad = new FechasActividad();
+            }
         } catch (Exception e) {
         }
         super.modificarSubActividad();
+    }
+
+    public void modificarGasto(ActionEvent evento) {
+        this.gasto = new Gasto();
+        try {
+            this.gasto = (Gasto) BeanUtils.cloneBean(this.gastoSeleccionado);
+            this.tipoGasto = String.valueOf(gasto.getTipoGasto().getCodigo());
+        } catch (Exception e) {
+        }
+        super.modificarGasto();
     }
 
     public void guardar(ActionEvent evento) {
@@ -477,6 +538,41 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
 
     }
 
+    public void guardarGasto(ActionEvent evento) {
+        try {
+            if (super.getEnNuevoGasto()) {
+                this.gasto.setActividad(subActividad);
+                this.gasto.setTipoGasto(this.tipoGastoServicio.findByID(Long.parseLong(tipoGasto)));
+                this.gasto.setCodTipoGasto(Long.parseLong(tipoGasto));
+                this.gasto.getPk().setActividad(subActividad.getCodigo());
+                this.gasto.getPk().setCodigoGasto(Long.parseLong(String.valueOf(this.gastoServicio.obtener().size())) + 1);
+                this.gasto.setUsrCreacion(usrSesion.getCodigo());
+                this.gasto.setFcreacion(new Date());
+                this.gasto.setValorReal(BigDecimal.ZERO);
+
+                this.gastoServicio.crear(gasto);
+                this.gastos.add(gasto);
+                MensajesGenericos.infoCrear("Gasto", this.gasto.getPk().toString().concat(" - ").concat(this.gasto.getValorPlan().toString()), Boolean.TRUE);
+
+            } else if (super.getEnEdicionGasto()) {
+                int i = this.gastos.indexOf(this.gasto);
+                this.gasto.setTipoGasto(this.tipoGastoServicio.findByID(Long.parseLong(tipoGasto)));
+                this.gasto.setUsrModificacion(usrSesion.getCodigo());
+                this.gasto.setFmodificacion(new Date());
+                this.gastoServicio.actualizar(gasto);
+                this.gastos.set(i, this.gasto);
+                MensajesGenericos.infoModificar("Gasto", this.gasto.getPk().toString().concat(" - ").concat(this.gasto.getValorPlan().toString()), Boolean.TRUE);
+
+            }
+            super.sinSeleccionGastos();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            MensajesGenericos.errorGuardar();
+        }
+
+    }
+
     public void guardarSubActividad(ActionEvent evento) {
         try {
             if (super.getEnNuevaSubActividad()) {
@@ -501,17 +597,48 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
                 this.fechasActividadServicio.crear(fechasActividad);
                 MensajesGenericos.infoCrear("Sub-Actividad", this.subActividad.getCodigo().toString().concat(" - ").concat(this.subActividad.getNombreActividad()), Boolean.TRUE);
             } else if (super.getEnEdicionSubActividad()) {
+
                 System.out.println("SubActividad: " + subActividad);
-                
-                
+                int i = this.subActividades.indexOf(this.subActividad);
+
                 this.subActividad.setUsrModificacion(usrSesion.getCodigo());
                 this.subActividad.setFmodificacion(new Date());
+                this.actividadServicio.actualizar(subActividad);
+                this.subActividades.set(i, this.subActividad);
+
+
                 System.out.println("SubActividad FI: " + fechasActividad.getFinicio());
                 System.out.println("SubActividad FE: " + fechasActividad.getFestimada());
                 System.out.println("SubActividad FF: " + fechasActividad.getFfin());
                 System.out.println("SubActividad COD: " + fechasActividad);
-                
-                System.out.println("DEBERIAR GUARDAR");
+
+
+                System.out.println(" FI: " + fechasActividadRespaldo.getFinicio());
+                System.out.println(" FE: " + fechasActividadRespaldo.getFestimada());
+                System.out.println(" FF: " + fechasActividadRespaldo.getFfin());
+                System.out.println(" COD: " + fechasActividadRespaldo);
+
+                MensajesGenericos.infoModificar("SubActividad", this.subActividad.getCodigo().toString().concat(" - ").concat(this.subActividad.getNombreActividad()), Boolean.TRUE);
+
+
+                if (fechasActividad.getFinicio().compareTo(fechasActividadRespaldo.getFinicio()) == 0
+                        && fechasActividad.getFestimada().compareTo(fechasActividadRespaldo.getFestimada()) == 0) {
+                    System.out.println("NO GUARDO FECHAS YA QUE SON LAS MISMOS");
+                } else {
+                    FechasActividad fechasActividadNueva = new FechasActividad();
+                    fechasActividadNueva.getPk().setActividad(subActividad.getCodigo());
+                    System.out.println("CLAVE AUTOSUMA: " + Long.parseLong(String.valueOf(fechasActividadServicio.obtener().size())) + 1);
+
+                    fechasActividadNueva.getPk().setCodigoFechasActividad(Long.parseLong(String.valueOf(fechasActividadServicio.obtener().size())) + 1);
+
+                    fechasActividadNueva.setActividad(subActividad);
+                    fechasActividadNueva.setFinicio(fechasActividad.getFinicio());
+                    fechasActividadNueva.setFestimada(fechasActividad.getFestimada());
+                    fechasActividadNueva.setFfin(fechasActividad.getFestimada());
+                    fechasActividadNueva.setUsrCreacion(usrSesion.getCodigo());
+                    fechasActividadNueva.setFcreacion(new Date());
+                    this.fechasActividadServicio.crear(fechasActividadNueva);
+                }
             }
             super.sinSeleccionSubActividad();
             //CREAR ACTIVIDAD CON RESPONSABLE
@@ -519,6 +646,15 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
             MensajesGenericos.errorGuardar();
         }
 
+    }
+    
+    
+    public void eliminar(ActionEvent evento) {
+        System.out.println(this.gastoSeleccionado);
+        this.gastoServicio.eliminar(this.gastoSeleccionado);
+        this.gastos.remove(this.gastoSeleccionado);
+        MensajesGenericos.infoEliminar("Empleado", this.gasto.getActividad().getNombreActividad().toString().concat(" - ").concat(this.gasto.getCodTipoGasto().toString()), Boolean.TRUE);
+        super.sinSeleccion();
     }
 
     public void subirDocumento(FileUploadEvent event) {
@@ -674,11 +810,31 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
     public void filaSeleccionadaSubActividad(ActionEvent evento) {
         if (subActividadSeleccionada instanceof Actividad) {
             super.seleccionadoUnoSubActividades();
-
-            System.out.println("ESTOY AQUI Y SI SELECCIONE");
+            try {
+                this.subActividad = new Actividad();
+                this.subActividad = (Actividad) BeanUtils.cloneBean(this.subActividadSeleccionada);
+                System.out.println("ESTOY AQUI Y SI SELECCIONE, LA ACTIVIDAD ES: " + subActividad.getNombreActividad());
+            } catch (Exception e) {
+                System.out.println("Error en Sub-actividad");
+            }
         } else {
             super.sinSeleccion();
             System.out.println("ESTOY ACA Y NO SELECCIONE");
+        }
+    }
+
+    public void filaSeleccionadaGasto(ActionEvent evento) {
+        if (gastoSeleccionado instanceof Gasto) {
+            super.seleccionadoUnoGastos();
+            try {
+                this.gasto = new Gasto();
+                this.gasto = (Gasto) BeanUtils.cloneBean(this.gastoSeleccionado);
+                System.out.println("ESTOY AQUI Y SI SELECCIONE, EL GASTO ES: " + gasto.getPk());
+            } catch (Exception e) {
+                System.out.println("Error en Gasto");
+            }
+        } else {
+            super.sinSeleccion();
         }
     }
 
@@ -961,5 +1117,53 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
 
     public void setFechasActividad(FechasActividad fechasActividad) {
         this.fechasActividad = fechasActividad;
+    }
+
+    public List<Gasto> getGastos() {
+        return gastos;
+    }
+
+    public void setGastos(List<Gasto> gastos) {
+        this.gastos = gastos;
+    }
+
+    public Gasto getGasto() {
+        return gasto;
+    }
+
+    public void setGasto(Gasto gasto) {
+        this.gasto = gasto;
+    }
+
+    public Gasto getGastoSeleccionado() {
+        return gastoSeleccionado;
+    }
+
+    public void setGastoSeleccionado(Gasto gastoSeleccionado) {
+        this.gastoSeleccionado = gastoSeleccionado;
+    }
+
+    public TipoGastoServicio getTipoGastoServicio() {
+        return tipoGastoServicio;
+    }
+
+    public void setTipoGastoServicio(TipoGastoServicio tipoGastoServicio) {
+        this.tipoGastoServicio = tipoGastoServicio;
+    }
+
+    public List<TipoGasto> getTiposGasto() {
+        return tiposGasto;
+    }
+
+    public void setTiposGasto(List<TipoGasto> tiposGasto) {
+        this.tiposGasto = tiposGasto;
+    }
+
+    public String getTipoGasto() {
+        return tipoGasto;
+    }
+
+    public void setTipoGasto(String tipoGasto) {
+        this.tipoGasto = tipoGasto;
     }
 }

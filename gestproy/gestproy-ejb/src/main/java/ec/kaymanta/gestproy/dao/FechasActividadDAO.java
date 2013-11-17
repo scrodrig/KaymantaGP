@@ -40,24 +40,17 @@ public class FechasActividadDAO extends DefaultGenericDAOImple<FechasActividad, 
     }
     
     public FechasActividad findLastByActividad(Actividad actividad){
-        System.out.println("ESTOY EN DAO y LA ACTIVIDAD ES " + actividad);
+        System.out.println("ESTOY EN DAO y LA ACTIVIDAD ES " + actividad.getNombreActividad());
 
         try {
             List<FechasActividad> factividades = new ArrayList<FechasActividad>();
-            List<FechasActividad> fretorno = new ArrayList<FechasActividad>();
-
             String sql = "SELECT obj FROM FechasActividad obj WHERE obj.actividad=?1";
             Query qry = this.getEntityManager().createQuery(sql);
             qry.setParameter(1, actividad);
             System.out.println(qry.toString());
             System.out.println("La dimensión del arreglo 0 es: " + qry.getResultList().size());
-            factividades = qry.getResultList();
-            for (int i = 0; i < factividades.size(); i++) {
-                if (factividades.get(i).getActividad() == null) {
-                    fretorno.add(factividades.get(i));
-                }
-            }
-            return fretorno.get(fretorno.size()-1);
+            factividades = qry.getResultList();            
+            return factividades.get(factividades.size()-1);
 
         } catch (NoResultException e) {
             return null;
