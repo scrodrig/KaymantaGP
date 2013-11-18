@@ -15,8 +15,11 @@ package ec.kaymanta.gestproy.dao;
 import com.persist.common.dao.DefaultGenericDAOImple;
 import ec.kaymanta.gestproy.modelo.Expectativa;
 import ec.kaymanta.gestproy.modelo.ExpectativaPK;
+import ec.kaymanta.gestproy.modelo.Proyecto;
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 
 /**
  * La Clase ExpectativaDAO especifica e implementa las operaciones de 
@@ -33,5 +36,13 @@ public class ExpectativaDAO extends DefaultGenericDAOImple<Expectativa, Expectat
     {
         super(Expectativa.class);
     
+    }
+      
+      public List<Expectativa> getByProyecto(Proyecto proyecto)
+    {
+        String sql="SELECT obj FROM Expectativa obj WHERE obj.proyecto=?1";
+        Query qry= this.getEntityManager().createQuery(sql);
+        qry.setParameter(1, proyecto);
+        return qry.getResultList();    
     }
 }

@@ -13,10 +13,13 @@
 package ec.kaymanta.gestproy.dao;
 
 import com.persist.common.dao.DefaultGenericDAOImple;
+import ec.kaymanta.gestproy.modelo.Proyecto;
 import ec.kaymanta.gestproy.modelo.Riesgo;
 import ec.kaymanta.gestproy.modelo.RiesgoPK;
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 
 /**
  * La Clase RiesgoDAO especifica e implementa las operaciones de 
@@ -33,5 +36,12 @@ public class RiesgoDAO extends DefaultGenericDAOImple<Riesgo, RiesgoPK> {
     {
         super(Riesgo.class);
     
+    }
+      
+      public List<Riesgo> getByProyecto(Proyecto proyecto) {
+        String sql = "SELECT obj FROM Riesgo obj WHERE obj.proyecto=?1";
+        Query qry = this.getEntityManager().createQuery(sql);
+        qry.setParameter(1, proyecto);
+        return qry.getResultList();
     }
 }

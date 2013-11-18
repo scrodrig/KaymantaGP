@@ -55,6 +55,24 @@ public class BotonesBeanProyecto {
     private Boolean enEdicionGasto;
     private Boolean enAuditoriaGasto;
     private Boolean disableBotonesGastos;
+    //FLAGS PARA ENTREGABLES
+    private Boolean enEntregables;
+    private Boolean enNuevoEntregable;
+    private Boolean enEdicionEntregable;
+    private Boolean enAuditoriaEntregable;
+    private Boolean disableBotonesEntregable;
+    //FLAGS PARA DOCUMENTOS DE ENTREGABLES
+    private Boolean enDocumentos;
+    private Boolean enNuevoDoc;
+    private Boolean enEditarDoc;
+    private Boolean enAuditoriaDoc;
+    private Boolean disableBotonesDocumento;
+    //FLAGS PARA REUNIONES
+    private Boolean enReuniones;
+    private Boolean enNuevaReunion;
+    private Boolean enEdicionReunion;
+    private Boolean enAuditoriaReunion;
+    private Boolean disableBotonesReunion;
 
     @PostConstruct
     public void postConstructor() {
@@ -109,12 +127,36 @@ public class BotonesBeanProyecto {
         this.uno = Boolean.FALSE;
 
     }
-    
+
     public void sinSeleccionGastos() {
         this.resetTablaGastos();
         this.enGastos = Boolean.TRUE;
         this.noSeleccionados = Boolean.TRUE;
         this.disableBotonesGastos = Boolean.TRUE;
+        this.uno = Boolean.FALSE;
+    }
+
+    public void sinSeleccionEntregables() {
+        this.resetTablaEntregables();
+        this.enEntregables = Boolean.TRUE;
+        this.noSeleccionados = Boolean.TRUE;
+        this.disableBotonesEntregable = Boolean.TRUE;
+        this.uno = Boolean.FALSE;
+    }
+
+    public void sinSeleccionDocs() {
+        this.resetTablaDocs();
+        this.enDocumentos = Boolean.TRUE;
+        this.noSeleccionados = Boolean.TRUE;
+        this.disableBotonesDocumento = Boolean.TRUE;
+        this.uno = Boolean.FALSE;
+    }
+    
+    public void sinSeleccionReuniones() {
+        this.resetTablaReuniones();
+        this.enReuniones = Boolean.TRUE;
+        this.noSeleccionados = Boolean.TRUE;
+        this.disableBotonesReunion = Boolean.TRUE;
         this.uno = Boolean.FALSE;
     }
 
@@ -137,9 +179,24 @@ public class BotonesBeanProyecto {
         this.resetTablaSubActividad();
         this.uno = Boolean.TRUE;
     }
-    
-     public void seleccionadoUnoGastos() {
+
+    public void seleccionadoUnoGastos() {
         this.resetTablaGastos();
+        this.uno = Boolean.TRUE;
+    }
+
+    public void seleccionadoUnoEntregables() {
+        this.resetTablaEntregables();
+        this.uno = Boolean.TRUE;
+    }
+
+    public void seleccionadoUnoDocs() {
+        this.resetTablaDocs();
+        this.uno = Boolean.TRUE;
+    }
+    
+    public void seleccionadoUnoReunion() {
+        this.resetTablaReuniones();
         this.uno = Boolean.TRUE;
     }
 
@@ -177,6 +234,13 @@ public class BotonesBeanProyecto {
         //this.enCargaDocumentos= Boolean.TRUE;
     }
 
+    public void crearDoc() {
+        this.reset();
+        this.disableGuardarDocumento = Boolean.TRUE;
+        this.disableBotonesDocumento = Boolean.TRUE;
+        this.enNuevoDoc = Boolean.TRUE;
+    }
+
     public void crearActividad() {
         this.reset();
         this.disableModificarActividad = Boolean.TRUE;
@@ -192,7 +256,7 @@ public class BotonesBeanProyecto {
         this.disableAuditoriaSubActividad = Boolean.TRUE;
         this.enNuevaSubActividad = Boolean.TRUE;
     }
-    
+
     public void crearGasto() {
         this.reset();
         this.disableBotonesGastos = Boolean.TRUE;
@@ -200,6 +264,20 @@ public class BotonesBeanProyecto {
         this.enNuevoGasto = Boolean.TRUE;
     }
 
+    public void crearEntregable() {
+        this.reset();
+        this.disableBotonesEntregable = Boolean.TRUE;
+        this.disabledEliminar = Boolean.TRUE;
+        this.enNuevoEntregable = Boolean.TRUE;
+    }
+
+    public void crearReunion() {
+        this.reset();
+        this.disableBotonesReunion = Boolean.TRUE;
+        this.disabledEliminar = Boolean.TRUE;
+        this.enNuevaReunion = Boolean.TRUE;
+    }
+    
     public void modificar() {
         this.reset();
         this.disabledNuevo = Boolean.TRUE;
@@ -223,6 +301,12 @@ public class BotonesBeanProyecto {
         this.enEdicionDocumento = Boolean.TRUE;
     }
 
+    public void modificarDoc() {
+        this.reset();
+        this.disableBotonesDocumento = Boolean.TRUE;
+        this.enEditarDoc = Boolean.TRUE;
+    }
+
     public void modificarActividad() {
         this.reset();
         this.enEdicionActividad = Boolean.TRUE;
@@ -233,10 +317,20 @@ public class BotonesBeanProyecto {
         this.reset();
         this.enEdicionSubActividad = Boolean.TRUE;
     }
-    
+
     public void modificarGasto() {
         this.reset();
         this.enEdicionGasto = Boolean.TRUE;
+    }
+
+    public void modificarEntregable() {
+        this.reset();
+        this.enEdicionEntregable = Boolean.TRUE;
+    }
+    
+     public void modificarReunion() {
+        this.reset();
+        this.enEdicionReunion = Boolean.TRUE;
     }
 
     public void cancelar() {
@@ -292,6 +386,13 @@ public class BotonesBeanProyecto {
         this.soloLectura = Boolean.TRUE;
     }
 
+    public void verAuditoriaDoc() {
+        this.reset();
+        this.disableBotonesDocumento = Boolean.TRUE;
+        this.enAuditoriaDoc = Boolean.TRUE;
+        this.soloLectura = Boolean.TRUE;
+    }
+
     public void verAuditoriaActividad() {
         this.reset();
         this.disableAuditoriaActividad = Boolean.TRUE;
@@ -309,11 +410,25 @@ public class BotonesBeanProyecto {
         this.enAuditoriaSubActividad = Boolean.TRUE;
         this.soloLectura = Boolean.TRUE;
     }
-    
+
     public void verAuditoriaGastos() {
         this.reset();
         this.disableBotonesGastos = Boolean.TRUE;
         this.enAuditoriaGasto = Boolean.TRUE;
+        this.soloLectura = Boolean.TRUE;
+    }
+
+    public void verAuditoriaEntregables() {
+        this.reset();
+        this.disableBotonesEntregable = Boolean.TRUE;
+        this.enAuditoriaEntregable = Boolean.TRUE;
+        this.soloLectura = Boolean.TRUE;
+    }
+    
+    public void verAuditoriaReunion() {
+        this.reset();
+        this.disableBotonesReunion = Boolean.TRUE;
+        this.enAuditoriaReunion = Boolean.TRUE;
         this.soloLectura = Boolean.TRUE;
     }
 
@@ -348,6 +463,12 @@ public class BotonesBeanProyecto {
         this.enCargaDocumentos = Boolean.TRUE;
     }
 
+    public void verDocumentos() {
+        this.reset();
+        this.enDocumentos = Boolean.TRUE;
+        this.disableBotonesDocumento = Boolean.TRUE;
+    }
+
     public void verActividades() {
         this.reset();
         this.enActividades = Boolean.TRUE;
@@ -361,11 +482,23 @@ public class BotonesBeanProyecto {
         this.disableAuditoriaSubActividad = Boolean.TRUE;
         this.disableModificarSubActividad = Boolean.TRUE;
     }
-    
+
     public void verGastos() {
         this.reset();
         this.enGastos = Boolean.TRUE;
         this.disableBotonesGastos = Boolean.TRUE;
+    }
+
+    public void verEntregables() {
+        this.reset();
+        this.enEntregables = Boolean.TRUE;
+        this.disableBotonesEntregable = Boolean.TRUE;
+    }
+    
+    public void verReuniones() {
+        this.reset();
+        this.enReuniones = Boolean.TRUE;
+        this.disableBotonesReunion = Boolean.TRUE;
     }
 
     private void reset() {
@@ -416,8 +549,27 @@ public class BotonesBeanProyecto {
         this.enAuditoriaGasto = Boolean.FALSE;
         this.disableBotonesGastos = Boolean.FALSE;
 
+        //ENTREGABLES
+        this.enEntregables = Boolean.FALSE;
+        this.enNuevoEntregable = Boolean.FALSE;
+        this.enEdicionEntregable = Boolean.FALSE;
+        this.enAuditoriaEntregable = Boolean.FALSE;
+        this.disableBotonesEntregable = Boolean.FALSE;
 
+        //Documentos
+        enDocumentos = Boolean.FALSE;
+        enNuevoDoc = Boolean.FALSE;
+        enEditarDoc = Boolean.FALSE;
+        enAuditoriaDoc = Boolean.FALSE;
+        disableBotonesDocumento = Boolean.FALSE;
+        this.disableGuardarDocumento = Boolean.FALSE;
 
+        //REUNIONES
+        this.enReuniones = Boolean.FALSE;
+        this.enNuevaReunion = Boolean.FALSE;
+        this.enEdicionReunion = Boolean.FALSE;
+        this.enAuditoriaReunion = Boolean.FALSE;
+        this.disableBotonesReunion = Boolean.FALSE;
     }
 
     private void resetTablaDocumentos() {
@@ -449,6 +601,13 @@ public class BotonesBeanProyecto {
         this.enEdicionActividad = Boolean.FALSE;
         this.enNuevaActividad = Boolean.FALSE;
 
+        //ENTREGABLES
+        this.enEntregables = Boolean.FALSE;
+        this.enNuevoEntregable = Boolean.FALSE;
+        this.enEdicionEntregable = Boolean.FALSE;
+        this.enAuditoriaEntregable = Boolean.FALSE;
+        this.disableBotonesEntregable = Boolean.FALSE;
+
         //SUB-ACTIVIDADES
         this.disableAuditoriaSubActividad = Boolean.FALSE;
         this.disableModificarSubActividad = Boolean.FALSE;
@@ -457,13 +616,27 @@ public class BotonesBeanProyecto {
         this.enEdicionSubActividad = Boolean.FALSE;
         this.enNuevaSubActividad = Boolean.FALSE;
         this.enSubActividades = Boolean.FALSE;
-        
+
         //GASTOS
         this.enGastos = Boolean.FALSE;
         this.enNuevoGasto = Boolean.FALSE;
         this.enEdicionGasto = Boolean.FALSE;
         this.enAuditoriaGasto = Boolean.FALSE;
         this.disableBotonesGastos = Boolean.FALSE;
+
+        //Documentos
+        enDocumentos = Boolean.FALSE;
+        enNuevoDoc = Boolean.FALSE;
+        enEditarDoc = Boolean.FALSE;
+        enAuditoriaDoc = Boolean.FALSE;
+        disableBotonesDocumento = Boolean.FALSE;
+        
+        //REUNIONES
+        this.enReuniones = Boolean.FALSE;
+        this.enNuevaReunion = Boolean.FALSE;
+        this.enEdicionReunion = Boolean.FALSE;
+        this.enAuditoriaReunion = Boolean.FALSE;
+        this.disableBotonesReunion = Boolean.FALSE;
     }
 
     private void resetTablaActividad() {
@@ -497,6 +670,13 @@ public class BotonesBeanProyecto {
         this.enNuevaSubActividad = Boolean.FALSE;
         this.enSubActividades = Boolean.FALSE;
 
+        //ENTREGABLES
+        this.enEntregables = Boolean.FALSE;
+        this.enNuevoEntregable = Boolean.FALSE;
+        this.enEdicionEntregable = Boolean.FALSE;
+        this.enAuditoriaEntregable = Boolean.FALSE;
+        this.disableBotonesEntregable = Boolean.FALSE;
+
 
         this.disableAuditoriaActividad = Boolean.FALSE;
         this.disableModificarActividad = Boolean.FALSE;
@@ -504,14 +684,28 @@ public class BotonesBeanProyecto {
         this.enAuditoriaActividad = Boolean.FALSE;
         this.enEdicionActividad = Boolean.FALSE;
         this.enNuevaActividad = Boolean.FALSE;
-        
-        
+
         //GASTOS
         this.enGastos = Boolean.FALSE;
         this.enNuevoGasto = Boolean.FALSE;
         this.enEdicionGasto = Boolean.FALSE;
         this.enAuditoriaGasto = Boolean.FALSE;
         this.disableBotonesGastos = Boolean.FALSE;
+
+        //Documentos
+        enDocumentos = Boolean.FALSE;
+        enNuevoDoc = Boolean.FALSE;
+        enEditarDoc = Boolean.FALSE;
+        enAuditoriaDoc = Boolean.FALSE;
+        disableBotonesDocumento = Boolean.FALSE;
+        this.disableGuardarDocumento = Boolean.FALSE;
+        
+        //REUNIONES
+        this.enReuniones = Boolean.FALSE;
+        this.enNuevaReunion = Boolean.FALSE;
+        this.enEdicionReunion = Boolean.FALSE;
+        this.enAuditoriaReunion = Boolean.FALSE;
+        this.disableBotonesReunion = Boolean.FALSE;
     }
 
     private void resetTablaSubActividad() {
@@ -536,6 +730,13 @@ public class BotonesBeanProyecto {
         this.disableGuardarDocumento = Boolean.FALSE;
         this.soloLectura = Boolean.FALSE;
 
+        //ENTREGABLES
+        this.enEntregables = Boolean.FALSE;
+        this.enNuevoEntregable = Boolean.FALSE;
+        this.enEdicionEntregable = Boolean.FALSE;
+        this.enAuditoriaEntregable = Boolean.FALSE;
+        this.disableBotonesEntregable = Boolean.FALSE;
+
         //SUB-ACTIVIDADES
         this.disableAuditoriaSubActividad = Boolean.FALSE;
         this.disableModificarSubActividad = Boolean.FALSE;
@@ -544,9 +745,83 @@ public class BotonesBeanProyecto {
         this.enEdicionSubActividad = Boolean.FALSE;
         this.enNuevaSubActividad = Boolean.FALSE;
         this.enActividades = Boolean.FALSE;
-        
+
         //GASTOS
         this.enGastos = Boolean.FALSE;
+        this.enNuevoGasto = Boolean.FALSE;
+        this.enEdicionGasto = Boolean.FALSE;
+        this.enAuditoriaGasto = Boolean.FALSE;
+        this.disableBotonesGastos = Boolean.FALSE;
+
+        //ENTREGABLES
+        this.enEntregables = Boolean.FALSE;
+        this.enNuevoEntregable = Boolean.FALSE;
+        this.enEdicionEntregable = Boolean.FALSE;
+        this.enAuditoriaEntregable = Boolean.FALSE;
+        this.disableBotonesEntregable = Boolean.FALSE;
+
+        this.disableAuditoriaActividad = Boolean.FALSE;
+        this.disableModificarActividad = Boolean.FALSE;
+        this.disableNuevaActividad = Boolean.FALSE;
+        this.enAuditoriaActividad = Boolean.FALSE;
+        this.enEdicionActividad = Boolean.FALSE;
+        this.enNuevaActividad = Boolean.FALSE;
+
+        //Documentos
+        enDocumentos = Boolean.FALSE;
+        enNuevoDoc = Boolean.FALSE;
+        enEditarDoc = Boolean.FALSE;
+        enAuditoriaDoc = Boolean.FALSE;
+        disableBotonesDocumento = Boolean.FALSE;
+        this.disableGuardarDocumento = Boolean.FALSE;
+        
+        //REUNIONES
+        this.enReuniones = Boolean.FALSE;
+        this.enNuevaReunion = Boolean.FALSE;
+        this.enEdicionReunion = Boolean.FALSE;
+        this.enAuditoriaReunion = Boolean.FALSE;
+        this.disableBotonesReunion = Boolean.FALSE;
+    }
+
+    private void resetTablaGastos() {
+        this.disabledNuevo = Boolean.FALSE;
+        this.disabledModificar = Boolean.FALSE;
+        this.disabledEliminar = Boolean.FALSE;
+        this.disableAuditoria = Boolean.FALSE;
+
+        this.disableCargaDocumentos = Boolean.FALSE;
+        this.disableNuevoDocumento = Boolean.FALSE;
+        this.disableAuditoriaDocumento = Boolean.FALSE;
+        this.disableEdicionDocumento = Boolean.FALSE;
+
+        this.enNuevoDocumento = Boolean.FALSE;
+        this.enEdicionDocumento = Boolean.FALSE;
+        this.uno = Boolean.FALSE;
+        this.varios = Boolean.FALSE;
+        this.noSeleccionados = Boolean.FALSE;
+        this.enEdicion = Boolean.FALSE;
+        this.enRegistro = Boolean.FALSE;
+        this.enAuditoria = Boolean.FALSE;
+        this.disableGuardarDocumento = Boolean.FALSE;
+        this.soloLectura = Boolean.FALSE;
+
+        //ENTREGABLES
+        this.enEntregables = Boolean.FALSE;
+        this.enNuevoEntregable = Boolean.FALSE;
+        this.enEdicionEntregable = Boolean.FALSE;
+        this.enAuditoriaEntregable = Boolean.FALSE;
+        this.disableBotonesEntregable = Boolean.FALSE;
+
+        //SUB-ACTIVIDADES
+        this.disableAuditoriaSubActividad = Boolean.FALSE;
+        this.disableModificarSubActividad = Boolean.FALSE;
+        this.disableNuevaSubActividad = Boolean.FALSE;
+        this.enAuditoriaSubActividad = Boolean.FALSE;
+        this.enEdicionSubActividad = Boolean.FALSE;
+        this.enNuevaSubActividad = Boolean.FALSE;
+        this.enActividades = Boolean.FALSE;
+
+        //GASTOS
         this.enNuevoGasto = Boolean.FALSE;
         this.enEdicionGasto = Boolean.FALSE;
         this.enAuditoriaGasto = Boolean.FALSE;
@@ -559,10 +834,24 @@ public class BotonesBeanProyecto {
         this.enAuditoriaActividad = Boolean.FALSE;
         this.enEdicionActividad = Boolean.FALSE;
         this.enNuevaActividad = Boolean.FALSE;
+
+        //Documentos
+        enDocumentos = Boolean.FALSE;
+        enNuevoDoc = Boolean.FALSE;
+        enEditarDoc = Boolean.FALSE;
+        enAuditoriaDoc = Boolean.FALSE;
+        disableBotonesDocumento = Boolean.FALSE;
+        this.disableGuardarDocumento = Boolean.FALSE;
+        
+        //REUNIONES
+        this.enReuniones = Boolean.FALSE;
+        this.enNuevaReunion = Boolean.FALSE;
+        this.enEdicionReunion = Boolean.FALSE;
+        this.enAuditoriaReunion = Boolean.FALSE;
+        this.disableBotonesReunion = Boolean.FALSE;
     }
-    
-    
-    private void resetTablaGastos() {
+
+    private void resetTablaEntregables() {
         this.disabledNuevo = Boolean.FALSE;
         this.disabledModificar = Boolean.FALSE;
         this.disabledEliminar = Boolean.FALSE;
@@ -592,8 +881,17 @@ public class BotonesBeanProyecto {
         this.enEdicionSubActividad = Boolean.FALSE;
         this.enNuevaSubActividad = Boolean.FALSE;
         this.enActividades = Boolean.FALSE;
-        
+
+
+        //ENTREGABLES
+        this.enNuevoEntregable = Boolean.FALSE;
+        this.enEdicionEntregable = Boolean.FALSE;
+        this.enAuditoriaEntregable = Boolean.FALSE;
+        this.disableBotonesEntregable = Boolean.FALSE;
+
+
         //GASTOS
+        this.enGastos = Boolean.FALSE;
         this.enNuevoGasto = Boolean.FALSE;
         this.enEdicionGasto = Boolean.FALSE;
         this.enAuditoriaGasto = Boolean.FALSE;
@@ -606,6 +904,161 @@ public class BotonesBeanProyecto {
         this.enAuditoriaActividad = Boolean.FALSE;
         this.enEdicionActividad = Boolean.FALSE;
         this.enNuevaActividad = Boolean.FALSE;
+
+        //Documentos
+        enDocumentos = Boolean.FALSE;
+        enNuevoDoc = Boolean.FALSE;
+        enEditarDoc = Boolean.FALSE;
+        enAuditoriaDoc = Boolean.FALSE;
+        disableBotonesDocumento = Boolean.FALSE;
+        this.disableGuardarDocumento = Boolean.FALSE;
+        
+        //REUNIONES
+        this.enReuniones = Boolean.FALSE;
+        this.enNuevaReunion = Boolean.FALSE;
+        this.enEdicionReunion = Boolean.FALSE;
+        this.enAuditoriaReunion = Boolean.FALSE;
+        this.disableBotonesReunion = Boolean.FALSE;
+    }
+
+    private void resetTablaDocs() {
+        this.disabledNuevo = Boolean.FALSE;
+        this.disabledModificar = Boolean.FALSE;
+        this.disabledEliminar = Boolean.FALSE;
+        this.disableAuditoria = Boolean.FALSE;
+
+        this.disableCargaDocumentos = Boolean.FALSE;
+        this.disableNuevoDocumento = Boolean.FALSE;
+        this.disableAuditoriaDocumento = Boolean.FALSE;
+        this.disableEdicionDocumento = Boolean.FALSE;
+
+        this.enNuevoDocumento = Boolean.FALSE;
+        this.enEdicionDocumento = Boolean.FALSE;
+        this.uno = Boolean.FALSE;
+        this.varios = Boolean.FALSE;
+        this.noSeleccionados = Boolean.FALSE;
+        this.enEdicion = Boolean.FALSE;
+        this.enRegistro = Boolean.FALSE;
+        this.enAuditoria = Boolean.FALSE;
+        this.disableGuardarDocumento = Boolean.FALSE;
+        this.soloLectura = Boolean.FALSE;
+
+        //SUB-ACTIVIDADES
+        this.disableAuditoriaSubActividad = Boolean.FALSE;
+        this.disableModificarSubActividad = Boolean.FALSE;
+        this.disableNuevaSubActividad = Boolean.FALSE;
+        this.enAuditoriaSubActividad = Boolean.FALSE;
+        this.enEdicionSubActividad = Boolean.FALSE;
+        this.enNuevaSubActividad = Boolean.FALSE;
+        this.enActividades = Boolean.FALSE;
+
+
+        //ENTREGABLES
+        this.enEntregables = Boolean.FALSE;
+        this.enNuevoEntregable = Boolean.FALSE;
+        this.enEdicionEntregable = Boolean.FALSE;
+        this.enAuditoriaEntregable = Boolean.FALSE;
+        this.disableBotonesEntregable = Boolean.FALSE;
+
+
+        //GASTOS
+        this.enGastos = Boolean.FALSE;
+        this.enNuevoGasto = Boolean.FALSE;
+        this.enEdicionGasto = Boolean.FALSE;
+        this.enAuditoriaGasto = Boolean.FALSE;
+        this.disableBotonesGastos = Boolean.FALSE;
+
+
+        this.disableAuditoriaActividad = Boolean.FALSE;
+        this.disableModificarActividad = Boolean.FALSE;
+        this.disableNuevaActividad = Boolean.FALSE;
+        this.enAuditoriaActividad = Boolean.FALSE;
+        this.enEdicionActividad = Boolean.FALSE;
+        this.enNuevaActividad = Boolean.FALSE;
+
+        //Documentos
+        enNuevoDoc = Boolean.FALSE;
+        enEditarDoc = Boolean.FALSE;
+        enAuditoriaDoc = Boolean.FALSE;
+        disableBotonesDocumento = Boolean.FALSE;
+        this.disableGuardarDocumento = Boolean.FALSE;
+        
+        //REUNIONES
+        this.enReuniones = Boolean.FALSE;
+        this.enNuevaReunion = Boolean.FALSE;
+        this.enEdicionReunion = Boolean.FALSE;
+        this.enAuditoriaReunion = Boolean.FALSE;
+        this.disableBotonesReunion = Boolean.FALSE;
+    }
+    
+        private void resetTablaReuniones() {
+        this.disabledNuevo = Boolean.FALSE;
+        this.disabledModificar = Boolean.FALSE;
+        this.disabledEliminar = Boolean.FALSE;
+        this.disableAuditoria = Boolean.FALSE;
+
+        this.disableCargaDocumentos = Boolean.FALSE;
+        this.disableNuevoDocumento = Boolean.FALSE;
+        this.disableAuditoriaDocumento = Boolean.FALSE;
+        this.disableEdicionDocumento = Boolean.FALSE;
+
+        this.enNuevoDocumento = Boolean.FALSE;
+        this.enEdicionDocumento = Boolean.FALSE;
+        this.uno = Boolean.FALSE;
+        this.varios = Boolean.FALSE;
+        this.noSeleccionados = Boolean.FALSE;
+        this.enEdicion = Boolean.FALSE;
+        this.enRegistro = Boolean.FALSE;
+        this.enAuditoria = Boolean.FALSE;
+        this.disableGuardarDocumento = Boolean.FALSE;
+        this.soloLectura = Boolean.FALSE;
+
+        //SUB-ACTIVIDADES
+        this.disableAuditoriaSubActividad = Boolean.FALSE;
+        this.disableModificarSubActividad = Boolean.FALSE;
+        this.disableNuevaSubActividad = Boolean.FALSE;
+        this.enAuditoriaSubActividad = Boolean.FALSE;
+        this.enEdicionSubActividad = Boolean.FALSE;
+        this.enNuevaSubActividad = Boolean.FALSE;
+        this.enActividades = Boolean.FALSE;
+
+
+        //ENTREGABLES
+        this.enEntregables = Boolean.FALSE;
+        this.enNuevoEntregable = Boolean.FALSE;
+        this.enEdicionEntregable = Boolean.FALSE;
+        this.enAuditoriaEntregable = Boolean.FALSE;
+        this.disableBotonesEntregable = Boolean.FALSE;
+
+
+        //GASTOS
+        this.enGastos = Boolean.FALSE;
+        this.enNuevoGasto = Boolean.FALSE;
+        this.enEdicionGasto = Boolean.FALSE;
+        this.enAuditoriaGasto = Boolean.FALSE;
+        this.disableBotonesGastos = Boolean.FALSE;
+
+
+        this.disableAuditoriaActividad = Boolean.FALSE;
+        this.disableModificarActividad = Boolean.FALSE;
+        this.disableNuevaActividad = Boolean.FALSE;
+        this.enAuditoriaActividad = Boolean.FALSE;
+        this.enEdicionActividad = Boolean.FALSE;
+        this.enNuevaActividad = Boolean.FALSE;
+
+        //Documentos
+        enNuevoDoc = Boolean.FALSE;
+        enEditarDoc = Boolean.FALSE;
+        enAuditoriaDoc = Boolean.FALSE;
+        disableBotonesDocumento = Boolean.FALSE;
+        this.disableGuardarDocumento = Boolean.FALSE;
+        
+        //REUNIONES
+        this.enDocumentos = Boolean.FALSE;
+        this.enNuevaReunion = Boolean.FALSE;
+        this.enEdicionReunion = Boolean.FALSE;
+        this.enAuditoriaReunion = Boolean.FALSE;
+        this.disableBotonesReunion = Boolean.FALSE;
     }
 
     public Boolean getDisabledEliminar() {
@@ -911,4 +1364,126 @@ public class BotonesBeanProyecto {
     public void setDisableBotonesGastos(Boolean disableBotonesGastos) {
         this.disableBotonesGastos = disableBotonesGastos;
     }
+
+    public Boolean getEnEntregables() {
+        return enEntregables;
+    }
+
+    public void setEnEntregables(Boolean enEntregables) {
+        this.enEntregables = enEntregables;
+    }
+
+    public Boolean getEnNuevoEntregable() {
+        return enNuevoEntregable;
+    }
+
+    public void setEnNuevoEntregable(Boolean enNuevoEntregable) {
+        this.enNuevoEntregable = enNuevoEntregable;
+    }
+
+    public Boolean getEnEdicionEntregable() {
+        return enEdicionEntregable;
+    }
+
+    public void setEnEdicionEntregable(Boolean enEdicionEntregable) {
+        this.enEdicionEntregable = enEdicionEntregable;
+    }
+
+    public Boolean getEnAuditoriaEntregable() {
+        return enAuditoriaEntregable;
+    }
+
+    public void setEnAuditoriaEntregable(Boolean enAuditoriaEntregable) {
+        this.enAuditoriaEntregable = enAuditoriaEntregable;
+    }
+
+    public Boolean getDisableBotonesEntregable() {
+        return disableBotonesEntregable;
+    }
+
+    public void setDisableBotonesEntregable(Boolean disableBotonesEntregable) {
+        this.disableBotonesEntregable = disableBotonesEntregable;
+    }
+
+    public Boolean getEnDocumentos() {
+        return enDocumentos;
+    }
+
+    public void setEnDocumentos(Boolean enDocumentos) {
+        this.enDocumentos = enDocumentos;
+    }
+
+    public Boolean getEnNuevoDoc() {
+        return enNuevoDoc;
+    }
+
+    public void setEnNuevoDoc(Boolean enNuevoDoc) {
+        this.enNuevoDoc = enNuevoDoc;
+    }
+
+    public Boolean getEnEditarDoc() {
+        return enEditarDoc;
+    }
+
+    public void setEnEditarDoc(Boolean enEditarDoc) {
+        this.enEditarDoc = enEditarDoc;
+    }
+
+    public Boolean getEnAuditoriaDoc() {
+        return enAuditoriaDoc;
+    }
+
+    public void setEnAuditoriaDoc(Boolean enAuditoriaDoc) {
+        this.enAuditoriaDoc = enAuditoriaDoc;
+    }
+
+    public Boolean getDisableBotonesDocumento() {
+        return disableBotonesDocumento;
+    }
+
+    public void setDisableBotonesDocumento(Boolean disableBotonesDocumento) {
+        this.disableBotonesDocumento = disableBotonesDocumento;
+    }
+
+    public Boolean getEnReuniones() {
+        return enReuniones;
+    }
+
+    public void setEnReuniones(Boolean enReuniones) {
+        this.enReuniones = enReuniones;
+    }
+
+    public Boolean getEnNuevaReunion() {
+        return enNuevaReunion;
+    }
+
+    public void setEnNuevaReunion(Boolean enNuevaReunion) {
+        this.enNuevaReunion = enNuevaReunion;
+    }
+
+    public Boolean getEnEdicionReunion() {
+        return enEdicionReunion;
+    }
+
+    public void setEnEdicionReunion(Boolean enEdicionReunion) {
+        this.enEdicionReunion = enEdicionReunion;
+    }
+
+    public Boolean getEnAuditoriaReunion() {
+        return enAuditoriaReunion;
+    }
+
+    public void setEnAuditoriaReunion(Boolean enAuditoriaReunion) {
+        this.enAuditoriaReunion = enAuditoriaReunion;
+    }
+
+    public Boolean getDisableBotonesReunion() {
+        return disableBotonesReunion;
+    }
+
+    public void setDisableBotonesReunion(Boolean disableBotonesReunion) {
+        this.disableBotonesReunion = disableBotonesReunion;
+    }
+    
+    
 }

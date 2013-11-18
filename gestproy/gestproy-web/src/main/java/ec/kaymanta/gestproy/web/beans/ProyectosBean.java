@@ -6,12 +6,14 @@ package ec.kaymanta.gestproy.web.beans;
 
 import ec.kaymanta.gestproy.modelo.Actividad;
 import ec.kaymanta.gestproy.modelo.ActividadEmpleado;
+import ec.kaymanta.gestproy.modelo.ActividadEntregable;
 import ec.kaymanta.gestproy.modelo.Canton;
 import ec.kaymanta.gestproy.modelo.CantonPK;
 import ec.kaymanta.gestproy.modelo.Documento;
 import ec.kaymanta.gestproy.modelo.DocumentosProyecto;
 import ec.kaymanta.gestproy.modelo.Empleado;
 import ec.kaymanta.gestproy.modelo.Empresa;
+import ec.kaymanta.gestproy.modelo.EntregableDocumento;
 import ec.kaymanta.gestproy.modelo.FechasActividad;
 import ec.kaymanta.gestproy.modelo.Gasto;
 import ec.kaymanta.gestproy.modelo.HistorialDocumento;
@@ -20,15 +22,19 @@ import ec.kaymanta.gestproy.modelo.Parroquia;
 import ec.kaymanta.gestproy.modelo.ParroquiaPK;
 import ec.kaymanta.gestproy.modelo.Provincia;
 import ec.kaymanta.gestproy.modelo.Proyecto;
+import ec.kaymanta.gestproy.modelo.Reunion;
 import ec.kaymanta.gestproy.modelo.TipoDocumento;
+import ec.kaymanta.gestproy.modelo.TipoEntregable;
 import ec.kaymanta.gestproy.modelo.TipoGasto;
 import ec.kaymanta.gestproy.modelo.Usuario;
+import ec.kaymanta.gestproy.servicio.ActividadEntregableServicio;
 import ec.kaymanta.gestproy.servicio.ActividadServicio;
 import ec.kaymanta.gestproy.servicio.CantonServicio;
 import ec.kaymanta.gestproy.servicio.DocumentoServicio;
 import ec.kaymanta.gestproy.servicio.DocumentosProyectoServicio;
 import ec.kaymanta.gestproy.servicio.EmpleadoServicio;
 import ec.kaymanta.gestproy.servicio.EmpresaServicio;
+import ec.kaymanta.gestproy.servicio.EntregableDocumentoServicio;
 import ec.kaymanta.gestproy.servicio.FechasActividadServicio;
 import ec.kaymanta.gestproy.servicio.GastoServicio;
 import ec.kaymanta.gestproy.servicio.HistorialDocumentoServicio;
@@ -36,7 +42,9 @@ import ec.kaymanta.gestproy.servicio.InstitucionControlServicio;
 import ec.kaymanta.gestproy.servicio.ParroquiaServicio;
 import ec.kaymanta.gestproy.servicio.ProvinciaServicio;
 import ec.kaymanta.gestproy.servicio.ProyectoServicio;
+import ec.kaymanta.gestproy.servicio.ReunionServicio;
 import ec.kaymanta.gestproy.servicio.TipoDocumentoServicio;
+import ec.kaymanta.gestproy.servicio.TipoEntregableServicio;
 import ec.kaymanta.gestproy.servicio.TipoGastoServicio;
 import ec.kaymanta.gestproy.servicio.UsuarioServicio;
 import ec.kaymanta.gestproy.web.util.MensajesGenericos;
@@ -100,6 +108,14 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
     private GastoServicio gastoServicio;
     @EJB
     private TipoGastoServicio tipoGastoServicio;
+    @EJB
+    private ActividadEntregableServicio actividadEntregableServicio;
+    @EJB
+    private TipoEntregableServicio tipoEntregableServicio;
+    @EJB
+    private EntregableDocumentoServicio entregableDocumentoServicio;
+    @EJB
+    private ReunionServicio reunionServicio;
     //Listas
     private List<Empresa> empresas;
     private List<Proyecto> proyectos;
@@ -113,7 +129,10 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
     private List<Actividad> actividades;
     private List<Actividad> subActividades;
     private List<Gasto> gastos;
+    private List<Reunion> reuniones;
     private List<TipoGasto> tiposGasto;
+    private List<TipoEntregable> tiposEntregable;
+    private List<ActividadEntregable> actividadEntregables;
     private Documento documento;
     private Documento documentoSeleccionado;
     private Documento documentoAnt;
@@ -123,6 +142,7 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
     private Proyecto proyectoSeleccionado;
     private Proyecto respaldo;
     private DocumentosProyecto documentosProyecto;
+    private EntregableDocumento entregableDocumento;
     //Variables de actividad
     private Actividad actividad;
     private Actividad actividadSeleccionada;
@@ -133,7 +153,13 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
     private Actividad respaldoSubActividad;
     //Variables de Gastos
     private Gasto gasto;
-    private Gasto gastoSeleccionado;
+    private Gasto gastoSeleccionado;    
+    //Variables de Reuniones
+    private Reunion reunion;
+    private Reunion reunionSeleccionado;
+    //Variables de Gastos
+    private ActividadEntregable actividadEntregable;
+    private ActividadEntregable actividadEntregableSeleccionado;
     //Variables de Actividad Responsable
     private ActividadEmpleado actividadEmpleado;
     //Variables Fechas Actividad
@@ -155,6 +181,7 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
     private String instControl;
     private String tipoDoc;
     private String tipoGasto;
+    private String tipoEntregable;
     //Flags
 
     /**
@@ -174,6 +201,7 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
         this.institucionesControl = this.institucionControlServicio.obtener();
         this.tipoDocumento = this.tipoDocumentoServicio.obtener();
         this.tiposGasto = this.tipoGastoServicio.obtener();
+        this.tiposEntregable = this.tipoEntregableServicio.obtener();
         this.documento = new Documento();
     }
 
@@ -184,6 +212,11 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
 
     public void nuevoDocumento(ActionEvent evento) {
         super.crearDocumento();
+        this.documento = new Documento();
+    }
+
+    public void nuevoDoc(ActionEvent evento) {
+        super.crearDoc();
         this.documento = new Documento();
     }
 
@@ -201,6 +234,16 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
     public void nuevoGasto(ActionEvent evento) {
         super.crearGasto();
         this.gasto = new Gasto();
+    }
+    
+    public void nuevaReunion(ActionEvent evento) {
+        super.crearReunion();
+        this.reunion = new Reunion();
+    }
+
+    public void nuevaActividadEntregable(ActionEvent evento) {
+        super.crearEntregable();
+        this.actividadEntregable = new ActividadEntregable();
     }
 
     public void actualizaCantonesB(ActionEvent evento) {
@@ -244,12 +287,34 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
         }
 
     }
+    
+    public void verAuditoriaReunion(ActionEvent evento) throws IllegalAccessException {
+        try {
+            this.proyecto = new Proyecto();
+            this.proyecto = (Proyecto) BeanUtils.cloneBean(this.proyectoSeleccionado);
+            super.verAuditoriaReunion();
+        } catch (Exception ex) {
+            MensajesGenericos.errorCopyProperties();
+        }
+
+    }
 
     public void verAuditoriaDocumento(ActionEvent evento) throws IllegalAccessException {
         try {
             this.documento = new Documento();
             this.documento = (Documento) BeanUtils.cloneBean(this.documentoSeleccionado);
             super.verAuditoriaDocumento();
+        } catch (Exception ex) {
+            MensajesGenericos.errorCopyProperties();
+        }
+
+    }
+
+    public void verAuditoriaDoc(ActionEvent evento) throws IllegalAccessException {
+        try {
+            this.documento = new Documento();
+            this.documento = (Documento) BeanUtils.cloneBean(this.documentoSeleccionado);
+            super.verAuditoriaDoc();
         } catch (Exception ex) {
             MensajesGenericos.errorCopyProperties();
         }
@@ -289,6 +354,17 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
 
     }
 
+    public void verAuditoriaEntregables(ActionEvent evento) throws IllegalAccessException {
+        try {
+            super.verAuditoriaEntregables();
+            this.actividadEntregable = new ActividadEntregable();
+            this.actividadEntregable = (ActividadEntregable) BeanUtils.cloneBean(this.actividadEntregableSeleccionado);
+        } catch (Exception ex) {
+            MensajesGenericos.errorCopyProperties();
+        }
+
+    }
+
     public void cargaDeDocumentos(ActionEvent evento) {
         try {
             super.verCargaDocumentos();
@@ -298,6 +374,22 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
 
             this.documento = new Documento();
             System.out.println("CARGA DE DOCUMENTOS");
+        } catch (Exception e) {
+            MensajesGenericos.errorCopyProperties();
+        }
+
+
+    }
+
+    public void verDocumentos(ActionEvent evento) {
+        try {
+            super.verDocumentos();
+            this.instControl = new String();
+            this.tipoDoc = new String();
+            System.out.println("PROYECTO: " + proyecto.getNombreProyecto());
+            //this.proyecto = new Proyecto();
+            this.documentos = this.documentoServicio.findBySubActividad(actividadEntregable);
+            System.out.println("PROYECTO: " + proyecto.getNombreProyecto() + " ACTIVIDAD: " + actividad.getNombreActividad());
         } catch (Exception e) {
             MensajesGenericos.errorCopyProperties();
         }
@@ -346,6 +438,38 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
             this.gastos = this.gastoServicio.findBySubActividad(subActividad);
             this.gasto = new Gasto();
             System.out.println("VALOR:" + super.getEnGastos());
+        } catch (Exception e) {
+            MensajesGenericos.errorCopyProperties();
+        }
+
+
+    }
+    
+    public void verReuniones(ActionEvent evento) {
+        try {
+            super.verReuniones();
+            
+            System.out.println("EN LA PANTALLA DE REUNIONES");
+            this.proyecto = new Proyecto();
+            this.proyecto = (Proyecto) BeanUtils.cloneBean(this.proyectoSeleccionado);
+            System.out.println("PROYECTO: " + proyecto.getNombreProyecto() );
+            this.reuniones = this.reunionServicio.findByProyecto(proyecto);
+            this.reunion = new Reunion();
+        } catch (Exception e) {
+            MensajesGenericos.errorCopyProperties();
+        }
+
+
+    }
+
+    public void verEntregables(ActionEvent evento) {
+        try {
+            super.verEntregables();
+            System.out.println("EN LA PANTALLA DE Entregables");
+            System.out.println("PROYECTO: " + proyecto.getNombreProyecto() + " ACTIVIDAD: " + actividad.getNombreActividad() + " SUBACTIVIDAD: " + subActividad.getNombreActividad());
+            this.actividadEntregables = this.actividadEntregableServicio.findBySubActividad(subActividad);
+            this.actividadEntregable = new ActividadEntregable();
+            System.out.println("VALOR:" + super.getEnEntregables());
         } catch (Exception e) {
             MensajesGenericos.errorCopyProperties();
         }
@@ -401,6 +525,17 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
         super.modificarDocumento();
     }
 
+    public void modificarDoc(ActionEvent evento) {
+        this.documento = new Documento();
+        try {
+            this.documento = (Documento) BeanUtils.cloneBean(this.documentoSeleccionado);
+            this.instControl = this.documento.getInstitucionControl().getCodigo().toString();
+            this.tipoDoc = this.documento.getTipoDocumento().getCodigo().toString();
+        } catch (Exception e) {
+        }
+        super.modificarDoc();
+    }
+
     public void modificarActividad(ActionEvent evento) {
         this.actividad = new Actividad();
         try {
@@ -408,6 +543,15 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
         } catch (Exception e) {
         }
         super.modificarActividad();
+    }
+    
+    public void modificarReunion(ActionEvent evento) {
+        this.reunion = new Reunion();
+        try {
+            this.reunion = (Reunion) BeanUtils.cloneBean(this.reunionSeleccionado);
+        } catch (Exception e) {
+        }
+        super.modificarReunion();
     }
 
     public void modificarSubActividad(ActionEvent evento) {
@@ -433,6 +577,17 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
         } catch (Exception e) {
         }
         super.modificarGasto();
+    }
+
+    public void modificarEntregable(ActionEvent evento) {
+        this.actividadEntregable = new ActividadEntregable();
+        try {
+            this.actividadEntregable = (ActividadEntregable) BeanUtils.cloneBean(this.actividadEntregableSeleccionado);
+            this.instControl = String.valueOf(actividadEntregable.getCodInstitucionControl());
+            this.tipoEntregable = String.valueOf(actividadEntregable.getCodTipoEntregable());
+        } catch (Exception e) {
+        }
+        super.modificarEntregable();
     }
 
     public void guardar(ActionEvent evento) {
@@ -537,8 +692,8 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
         }
 
     }
-
-    public void guardarGasto(ActionEvent evento) {
+    
+     public void guardarGasto(ActionEvent evento) {
         try {
             if (super.getEnNuevoGasto()) {
                 this.gasto.setActividad(subActividad);
@@ -562,6 +717,28 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
                 this.gastoServicio.actualizar(gasto);
                 this.gastos.set(i, this.gasto);
                 MensajesGenericos.infoModificar("Gasto", this.gasto.getPk().toString().concat(" - ").concat(this.gasto.getValorPlan().toString()), Boolean.TRUE);
+
+            }
+            super.sinSeleccionGastos();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            MensajesGenericos.errorGuardar();
+        }
+
+    }
+
+    public void guardarReunion(ActionEvent evento) {
+        try {
+            if (super.getEnNuevaReunion()) {
+                this.reuniones.add(reunion);
+                MensajesGenericos.infoCrear("Reunion", this.reunion.getPk().toString(), Boolean.TRUE);
+
+            } else if (super.getEnEdicionReunion()) {
+                int i = this.reuniones.indexOf(this.reunion);
+                
+                this.reuniones.set(i, this.reunion);
+                MensajesGenericos.infoModificar("Reunion", this.reunion.getPk().toString(), Boolean.TRUE);
 
             }
             super.sinSeleccionGastos();
@@ -647,8 +824,45 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
         }
 
     }
-    
-    
+
+    public void guardarEntregables(ActionEvent evento) {
+        try {
+            if (super.getEnNuevoEntregable()) {
+                this.actividadEntregable.setActividad(subActividad);
+                this.actividadEntregable.setCodTipoEntregable(Long.parseLong(tipoEntregable));
+                this.actividadEntregable.setCodInstitucionControl(Long.parseLong(instControl));
+                this.actividadEntregable.setTipoEntregable(this.tipoEntregableServicio.findByID(Long.parseLong(tipoEntregable)));
+                this.actividadEntregable.setInstitucionControl(this.institucionControlServicio.findByID(Long.parseLong(instControl)));
+                this.actividadEntregable.setEstado("I");
+                this.actividadEntregable.getPk().setActividad(subActividad.getCodigo());
+                this.actividadEntregable.getPk().setCodigoActividadEntregable(Long.parseLong(String.valueOf(this.actividadEntregableServicio.obtener().size())) + 1);
+                this.actividadEntregable.setUsrCreacion(usrSesion.getCodigo());
+                this.actividadEntregable.setFcreacion(new Date());
+                this.actividadEntregableServicio.crear(actividadEntregable);
+                this.actividadEntregables.add(actividadEntregable);
+
+                MensajesGenericos.infoCrear("Entregable", this.actividadEntregable.getPk().toString().concat(" - ").concat(this.actividadEntregable.getNombreEntregable().toString()), Boolean.TRUE);
+            } else if (super.getEnEdicionEntregable()) {
+                int i = this.actividadEntregables.indexOf(this.actividadEntregable);
+                this.actividadEntregable.setCodTipoEntregable(Long.parseLong(tipoEntregable));
+                this.actividadEntregable.setCodInstitucionControl(Long.parseLong(instControl));
+                this.actividadEntregable.setTipoEntregable(this.tipoEntregableServicio.findByID(Long.parseLong(tipoEntregable)));
+                this.actividadEntregable.setInstitucionControl(this.institucionControlServicio.findByID(Long.parseLong(instControl)));
+                this.actividadEntregable.setUsrModificacion(usrSesion.getCodigo());
+                this.actividadEntregable.setFmodificacion(new Date());
+                this.actividadEntregableServicio.actualizar(actividadEntregable);
+                this.actividadEntregables.set(i, this.actividadEntregable);
+                MensajesGenericos.infoModificar("Entregable", this.actividadEntregable.getPk().toString().concat(" - ").concat(this.actividadEntregable.getNombreEntregable().toString()), Boolean.TRUE);
+            }
+            super.sinSeleccionEntregables();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            MensajesGenericos.errorGuardar();
+        }
+
+    }
+
     public void eliminar(ActionEvent evento) {
         System.out.println(this.gastoSeleccionado);
         this.gastoServicio.eliminar(this.gastoSeleccionado);
@@ -703,6 +917,60 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
         }
     }
 
+    public void guardarDocumento(ActionEvent evento) {
+        try {
+            if (super.getEnNuevoDoc()) {
+                this.documento.setInstitucionControl(institucionControlServicio.findByID(Long.parseLong(instControl)));
+                this.documento.setTipoDocumento(tipoDocumentoServicio.findByID(Long.parseLong(tipoDoc)));
+                this.documento.setCodInstitucionControl(Long.parseLong(instControl));
+                this.documento.setCodTipoDocumento(Long.parseLong(tipoDoc));
+                this.documento.setUsrCreacion(usrSesion.getCodigo());
+                this.documento.setFcreacion(new Date());
+                this.documentoServicio.crear(documento);
+                this.documentos.add(documento);
+                //CREACIÓN TABLA ENTREGABLE DOCUMENTOS 
+                this.entregableDocumento = new EntregableDocumento();
+                this.entregableDocumento.getPk().setActividad(actividadEntregable.getPk().getActividad());
+                this.entregableDocumento.getPk().setEntregable(actividadEntregable.getPk().getCodigoActividadEntregable());
+                this.entregableDocumento.getPk().setDocumento(documento.getCodigo());
+                this.entregableDocumento.setActividadEntregable(actividadEntregable);
+                this.entregableDocumento.setDocumento(documento);
+                this.entregableDocumento.setFecha(new Date());
+                this.entregableDocumento.setUsrCreacion(usrSesion.getCodigo());
+                this.entregableDocumento.setFcreacion(new Date());
+                this.entregableDocumentoServicio.crear(entregableDocumento);
+                MensajesGenericos.infoCargado("Se ha cargado el archivo " + documento.getNombreDocumento());
+            } else if (super.getEnEditarDoc()) {
+                System.out.println("EN EDICIÓN DE DOCUMENTO");
+                int i = this.documentos.indexOf(this.documento);
+                this.documento.setInstitucionControl(institucionControlServicio.findByID(Long.parseLong(instControl)));
+                this.documento.setTipoDocumento(tipoDocumentoServicio.findByID(Long.parseLong(tipoDoc)));
+                this.documento.setCodInstitucionControl(Long.parseLong(instControl));
+                this.documento.setCodTipoDocumento(Long.parseLong(tipoDoc));
+                this.documento.setUsrModificacion(usrSesion.getCodigo());
+                this.documento.setFmodificacion(new Date());
+                this.documentoServicio.actualizar(documento);
+                //CREACION DE HISTORIAL DE DOCUMENTO
+                this.historialDocumento = new HistorialDocumento();
+                this.historialDocumento.getPk().setDocumento(documentoAnt.getCodigo());
+                this.historialDocumento.getPk().setCodigoHistorialDocumento(Long.parseLong(String.valueOf(historialDocumentoServicio.obtener().size())) + 1);
+                this.historialDocumento.setDocumento(documentoAnt);
+                this.historialDocumento.setNombre(documentoAnt.getNombreDocumento());
+                this.historialDocumento.setRespaldoDocumento(documentoAnt.getDocumento());
+                this.historialDocumento.setUsrCreacion(usrSesion.getCodigo());
+                this.historialDocumento.setFcreacion(new Date());
+                System.out.println("Codigo documento en guardar la actualizacion documento modificado " + historialDocumento.getPk().getCodigoHistorialDocumento() + "," + historialDocumento.getPk().getDocumento());
+                this.historialDocumentoServicio.crear(historialDocumento);
+                documentos.set(i, this.documento);
+                MensajesGenericos.infoCargado("Se ha cargado el archivo " + documento.getNombreDocumento());
+            }
+            super.sinSeleccionDocs();
+        } catch (Exception e) {
+            e.printStackTrace();
+            MensajesGenericos.errorGuardar();
+        }
+    }
+
     public void cargarDocumento(ActionEvent evento) {
         try {
             if (super.getEnNuevoDocumento()) {
@@ -713,6 +981,7 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
                 this.documento.setUsrCreacion(usrSesion.getCodigo());
                 this.documento.setFcreacion(new Date());
                 this.documentoServicio.crear(documento);
+                this.documentos.add(documento);
                 //CREACIÖN TABLA DOCUMENTOS PROYECTO
                 System.out.println("EL PROYECTO ES: " + proyecto.getNombreProyecto() + " Y EK DOCUMENTO ES: " + documento.getNombreDocumento());
                 System.out.println("EL PROYECTO ES: " + proyecto.getCodigo() + " Y EK DOCUMENTO ES: " + documento.getCodigo());
@@ -790,6 +1059,17 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
         }
     }
 
+    public void filaSeleccionadaDoc(ActionEvent evento) {
+        if (documentoSeleccionado instanceof Documento) {
+            super.seleccionadoUnoDocs();
+            System.out.println("ESTOY AQUI Y SI SELECCIONE, LA ACTIVIDAD ES: " + subActividad.getNombreActividad());
+
+        } else {
+            super.sinSeleccion();
+            System.out.println("ESTOY ACA Y NO SELECCIONE");
+        }
+    }
+
     public void filaSeleccionadaActividad(ActionEvent evento) {
         if (actividadSeleccionada instanceof Actividad) {
             super.seleccionadoUnoActividades();
@@ -830,6 +1110,36 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
                 this.gasto = new Gasto();
                 this.gasto = (Gasto) BeanUtils.cloneBean(this.gastoSeleccionado);
                 System.out.println("ESTOY AQUI Y SI SELECCIONE, EL GASTO ES: " + gasto.getPk());
+            } catch (Exception e) {
+                System.out.println("Error en Gasto");
+            }
+        } else {
+            super.sinSeleccion();
+        }
+    }
+    
+     public void filaSeleccionadaReunion(ActionEvent evento) {
+        if (reunionSeleccionado instanceof Reunion) {
+            super.seleccionadoUnoReunion();
+            try {
+                this.reunion = new Reunion();
+                this.reunion = (Reunion) BeanUtils.cloneBean(this.reunionSeleccionado);
+                System.out.println("ESTOY AQUI Y SI SELECCIONE LA REUNION");
+            } catch (Exception e) {
+                System.out.println("Error en Gasto");
+            }
+        } else {
+            super.sinSeleccion();
+        }
+    }
+
+    public void filaSeleccionadaEntregable(ActionEvent evento) {
+        if (actividadEntregableSeleccionado instanceof ActividadEntregable) {
+            super.seleccionadoUnoEntregables();
+            try {
+                this.actividadEntregable = new ActividadEntregable();
+                this.actividadEntregable = (ActividadEntregable) BeanUtils.cloneBean(this.actividadEntregableSeleccionado);
+                System.out.println("ESTOY AQUI Y SI SELECCIONE, EL ENTREGABLE ES: " + actividadEntregable.getPk());
             } catch (Exception e) {
                 System.out.println("Error en Gasto");
             }
@@ -1166,4 +1476,78 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
     public void setTipoGasto(String tipoGasto) {
         this.tipoGasto = tipoGasto;
     }
+
+    public List<ActividadEntregable> getActividadEntregables() {
+        return actividadEntregables;
+    }
+
+    public void setActividadEntregables(List<ActividadEntregable> actividadEntregables) {
+        this.actividadEntregables = actividadEntregables;
+    }
+
+    public ActividadEntregable getActividadEntregable() {
+        return actividadEntregable;
+    }
+
+    public void setActividadEntregable(ActividadEntregable actividadEntregable) {
+        this.actividadEntregable = actividadEntregable;
+    }
+
+    public ActividadEntregable getActividadEntregableSeleccionado() {
+        return actividadEntregableSeleccionado;
+    }
+
+    public void setActividadEntregableSeleccionado(ActividadEntregable actividadEntregableSeleccionado) {
+        this.actividadEntregableSeleccionado = actividadEntregableSeleccionado;
+    }
+
+    public List<TipoEntregable> getTiposEntregable() {
+        return tiposEntregable;
+    }
+
+    public void setTiposEntregable(List<TipoEntregable> tiposEntregable) {
+        this.tiposEntregable = tiposEntregable;
+    }
+
+    public String getTipoEntregable() {
+        return tipoEntregable;
+    }
+
+    public void setTipoEntregable(String tipoEntregable) {
+        this.tipoEntregable = tipoEntregable;
+    }
+
+    public ReunionServicio getReunionServicio() {
+        return reunionServicio;
+    }
+
+    public void setReunionServicio(ReunionServicio reunionServicio) {
+        this.reunionServicio = reunionServicio;
+    }
+
+    public Reunion getReunion() {
+        return reunion;
+    }
+
+    public void setReunion(Reunion reunion) {
+        this.reunion = reunion;
+    }
+
+    public Reunion getReunionSeleccionado() {
+        return reunionSeleccionado;
+    }
+
+    public void setReunionSeleccionado(Reunion reunionSeleccionado) {
+        this.reunionSeleccionado = reunionSeleccionado;
+    }
+
+    public List<Reunion> getReuniones() {
+        return reuniones;
+    }
+
+    public void setReuniones(List<Reunion> reuniones) {
+        this.reuniones = reuniones;
+    }
+    
+    
 }

@@ -5,6 +5,7 @@
 package ec.kaymanta.gestproy.servicio;
 
 import ec.kaymanta.gestproy.dao.InteresadoDAO;
+import ec.kaymanta.gestproy.modelo.Empresa;
 import ec.kaymanta.gestproy.modelo.Interesado;
 import java.util.List;
 import javax.ejb.EJB;
@@ -32,6 +33,15 @@ public class InteresadoServicio {
      */
     public List<Interesado> obtener() {
         return this.interesadoDAO.findAll();
+    }
+    
+    /**
+     * Función para obtener todos los registros existentes
+     *
+     * @return
+     */
+    public List<Interesado> obtenerByEmpresa(Empresa empresa) {
+        return this.interesadoDAO.getByProyecto(empresa);
     }
 
     /**

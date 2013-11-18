@@ -5,8 +5,10 @@
 package ec.kaymanta.gestproy.servicio;
 
 import ec.kaymanta.gestproy.dao.DocumentoDAO;
+import ec.kaymanta.gestproy.modelo.ActividadEntregable;
 import ec.kaymanta.gestproy.modelo.Documento;
 import ec.kaymanta.gestproy.modelo.DocumentosProyecto;
+import ec.kaymanta.gestproy.modelo.EntregableDocumento;
 import ec.kaymanta.gestproy.modelo.Proyecto;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,8 @@ public class DocumentoServicio {
     private DocumentoDAO documentoDAO;
     @EJB
     private DocumentosProyectoServicio documentosProyectoServicio;
+    @EJB
+    private EntregableDocumentoServicio entregableDocumentoServicio;
 
     /**
      * Función para obtener todos los registros existentes
@@ -62,6 +66,25 @@ public class DocumentoServicio {
         System.out.println("La dimension del arreglo 1 es de: "+documentosProyectos.size());
         for (int i = 0; i < documentosProyectos.size(); i++) {
             documentos.add(documentosProyectos.get(i).getDocumento());
+        }
+        System.out.println("La dimension del arreglo 2 es de: "+documentos.size());
+        return documentos;
+    }
+    
+    /**
+     * Función para obtener el registro de un empleado
+     *
+     * @param codigo
+     * @return
+     */
+    public List<Documento> findBySubActividad(ActividadEntregable actividadEntregable) {
+        System.out.println("PROYECTO: "+actividadEntregable.getNombreEntregable());
+        List<EntregableDocumento> entregableDocumentos = new ArrayList<EntregableDocumento>();
+        List<Documento> documentos = new ArrayList<Documento>();
+        entregableDocumentos = this.entregableDocumentoServicio.findBySubActividad(actividadEntregable);
+        System.out.println("La dimension del arreglo 1 es de: "+entregableDocumentos.size());
+        for (int i = 0; i < entregableDocumentos.size(); i++) {
+            documentos.add(entregableDocumentos.get(i).getDocumento());
         }
         System.out.println("La dimension del arreglo 2 es de: "+documentos.size());
         return documentos;

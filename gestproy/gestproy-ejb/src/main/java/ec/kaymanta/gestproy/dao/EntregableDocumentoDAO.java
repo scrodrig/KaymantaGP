@@ -13,10 +13,14 @@
 package ec.kaymanta.gestproy.dao;
 
 import com.persist.common.dao.DefaultGenericDAOImple;
+import ec.kaymanta.gestproy.modelo.ActividadEntregable;
 import ec.kaymanta.gestproy.modelo.EntregableDocumento;
 import ec.kaymanta.gestproy.modelo.EntregableDocumentoPK;
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
 
 /**
  * La Clase EntregableDocumentoDAO especifica e implementa las operaciones de 
@@ -33,5 +37,21 @@ public class EntregableDocumentoDAO extends DefaultGenericDAOImple<EntregableDoc
     {
         super(EntregableDocumento.class);
     
+    }
+      
+       public List<EntregableDocumento> findBySubActividad(ActividadEntregable entregable) {
+        System.out.println("ESTOY EN DAO y EL ENTREGABLE ES "+ entregable+" Actividad "+entregable.getActividad().getNombreActividad());
+
+        try {
+            String sql = "SELECT obj FROM EntregableDocumento obj WHERE obj.actividadEntregable=?1";
+            Query qry = this.getEntityManager().createQuery(sql);
+            qry.setParameter(1, entregable);
+            System.out.println(qry.toString());
+             System.out.println("La dimensión del arreglo 0 es: "+qry.getResultList().size());
+            return qry.getResultList();
+            
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

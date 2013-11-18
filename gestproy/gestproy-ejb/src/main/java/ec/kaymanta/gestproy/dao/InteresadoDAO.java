@@ -13,14 +13,17 @@
 package ec.kaymanta.gestproy.dao;
 
 import com.persist.common.dao.DefaultGenericDAOImple;
+import ec.kaymanta.gestproy.modelo.Empresa;
 import ec.kaymanta.gestproy.modelo.Interesado;
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 
 /**
- * La Clase InteresadoDAO especifica e implementa las operaciones de 
- * acceso a datos relacionadas con la entidad Interesado.
- * 
+ * La Clase InteresadoDAO especifica e implementa las operaciones de acceso a
+ * datos relacionadas con la entidad Interesado.
+ *
  * @author JPA Generator
  * @version 1.0
  */
@@ -28,10 +31,15 @@ import javax.ejb.Stateless;
 @LocalBean
 public class InteresadoDAO extends DefaultGenericDAOImple<Interesado, Long> {
 
-      public InteresadoDAO()
-    {
+    public InteresadoDAO() {
         super(Interesado.class);
-    
+
     }
-    
+
+    public List<Interesado> getByProyecto(Empresa empresa) {
+        String sql = "SELECT obj FROM Interesado obj WHERE obj.empresa=?1";
+        Query qry = this.getEntityManager().createQuery(sql);
+        qry.setParameter(1, empresa);
+        return qry.getResultList();
+    }
 }

@@ -32,7 +32,19 @@
                                                                                     proyectosBean.enGastos or
                                                                                     proyectosBean.enNuevoGasto or
                                                                                     proyectosBean.enEdicionGasto or
-                                                                                    proyectosBean.enAuditoriaGasto)}" >
+                                                                                    proyectosBean.enAuditoriaGasto or
+                                                                                    proyectosBean.enEntregables or
+                                                                                    proyectosBean.enNuevoEntregable or
+                                                                                    proyectosBean.enEdicionEntregable or
+                                                                                    proyectosBean.enAuditoriaEntregable or 
+                                                                                    proyectosBean.enNuevoDoc or 
+                                                                                    proyectosBean.enEditarDoc or 
+                                                                                    proyectosBean.enAuditoriaDoc or 
+                                                                                    proyectosBean.enDocumentos or 
+                                                                                    proyectosBean.enNuevaReunion or 
+                                                                                    proyectosBean.enEdicionReunion or 
+                                                                                    proyectosBean.enAuditoriaReunion or 
+                                                                                    proyectosBean.enReuniones)}" >
 
             <p:ajax event="rowSelect" listener="#{proyectosBean.filaSeleccionada(evento)}" update="proyectos"/>
             <p:ajax event="rowUnselect" listener="#{proyectosBean.filaSeleccionada(evento)}" update="proyectos"/>
@@ -73,6 +85,7 @@
             <f:facet name="footer">  
                 <p:commandButton  value="Nuevo" update="@form" actionListener="#{proyectosBean.nuevo(evento)}" disabled="#{proyectosBean.disabledNuevo}" icon="ui-icon-document"/>  
                 <p:commandButton value="Modificar" update="@form" actionListener="#{proyectosBean.modificar(evento)}" disabled="#{proyectosBean.disabledModificar}" icon="ui-icon-pencil"/>
+                <p:commandButton value="Reuniones" update="@form" actionListener="#{proyectosBean.verReuniones(evento)}" disabled="#{proyectosBean.disableAuditoria}" icon="ui-icon-document"/>
                 <p:commandButton value="Actividades" update="@form" actionListener="#{proyectosBean.verActividades(evento)}" disabled="#{proyectosBean.disableAuditoria}" icon="ui-icon-close"/>
                 <p:commandButton  value="Auditoría" update=":form:mensaje" onsuccess="dlg.show()" actionListener="#{proyectosBean.verAuditoria(evento)}" disabled="#{proyectosBean.disableAuditoria}" icon="ui-icon-document"/>  
                 <p:commandButton value="Documentos" update="@form" actionListener="#{proyectosBean.cargaDeDocumentos(evento)}" disabled="#{proyectosBean.disableCargaDocumentos}" icon="ui-icon-document"/>
@@ -257,6 +270,43 @@
             </f:facet>
         </p:panel>
 
+        <!--REUNIONES-->
+        <!--PANEL-->
+        <p:dataTable id="reuniones"  value="#{proyectosBean.reuniones}" var="reunion" selection="#{proyectosBean.reunionSeleccionado}" selectionMode="single" scrollable="true" 
+                     rowKey="#{reunion.pk}" style="width: 800px" 
+                     paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
+                     paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     emptyMessage="No se ha registrado ningún gasto" rendered="#{proyectosBean.enReuniones}" >
+
+            <p:ajax event="rowSelect" listener="#{proyectosBean.filaSeleccionadaReunion(evento)}" update="reuniones"/>
+            <p:ajax event="rowUnselect" listener="#{proyectosBean.filaSeleccionadaReunion(evento)}" update="reuniones"/>
+
+            <f:facet name="header">
+                Gastos
+            </f:facet>
+            <p:column headerText="Sub-Actividad" style="width: 100px">
+                #{reunion.proyecto.nombreProyecto}
+            </p:column>
+            <p:column headerText="Asistentes" style="width: 200px">
+                #{reunion.asistentes}
+            </p:column>        
+            <p:column headerText="Novedades" style="width: 200px">
+                #{reunion.novedades} 
+            </p:column>
+            <p:column headerText="Fecha" style="width: 70px">
+                <h:outputLabel value="#{reunion.fecha}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputLabel>
+            </p:column>
+            <f:facet name="footer">  
+                <p:commandButton  value="Nuevo" update="@form" actionListener="#{proyectosBean.nuevaReunion(evento)}" icon="ui-icon-document"/>  
+                <p:commandButton value="Modificar" update="@form" actionListener="#{proyectosBean.modificarReunion(evento)}" disabled="#{proyectosBean.disableBotonesReunion}" icon="ui-icon-pencil"/>
+                <p:commandButton  value="Auditoría" update=":form:g_mensaje" onsuccess="dlg4.show()" actionListener="#{proyectosBean.verAuditoriaReunion(evento)}" disabled="#{proyectosBean.disableBotonesReunion}" icon="ui-icon-document"/>
+                <p:commandButton value="Volver" update="@form" actionListener="#{proyectosBean.cancelar()}" icon="ui-icon-back"/>
+            </f:facet>
+        </p:dataTable>  
+        <!--//PANEL-->
+        <!--//REUNIONES-->
         <!--
         DOCUMENTOS
         -->
@@ -606,15 +656,15 @@
             <f:facet name="header">
                 Sub-Actividades
             </f:facet>
+            <p:column headerText="Proyecto" style="width: 100px">
+                #{subActividad.proyecto.nombreProyecto}
+            </p:column>
             <p:column headerText="Actividad" style="width: 80px">
                 #{subActividad.actividad.nombreActividad}
             </p:column>
             <p:column headerText="Sub-Actividad" style="width: 80px">
                 #{subActividad.nombreActividad}
             </p:column>
-            <p:column headerText="Proyecto" style="width: 100px">
-                #{subActividad.proyecto.nombreProyecto}
-            </p:column>        
             <p:column headerText="Avance" style="width: 100px">
                 #{subActividad.avance} %
             </p:column>
@@ -627,6 +677,7 @@
                 <p:commandButton  value="Nuevo" update="@form" actionListener="#{proyectosBean.nuevoSubActividad(evento)}" disabled="#{proyectosBean.disableNuevaSubActividad}" icon="ui-icon-document"/>  
                 <p:commandButton value="Modificar" update="@form" actionListener="#{proyectosBean.modificarSubActividad(evento)}" disabled="#{proyectosBean.disableModificarSubActividad}" icon="ui-icon-pencil"/>
                 <p:commandButton  value="Gastos" update="@form" actionListener="#{proyectosBean.verGastos(evento)}" disabled="#{proyectosBean.disableAuditoriaSubActividad}" icon="ui-icon-close"/>
+                <p:commandButton  value="Entregables" update="@form" actionListener="#{proyectosBean.verEntregables(evento)}" disabled="#{proyectosBean.disableAuditoriaSubActividad}" icon="ui-icon-close"/>
                 <p:commandButton  value="Auditoría" update=":form:sact_mensaje" onsuccess="dlg3.show()" actionListener="#{proyectosBean.verAuditoriaSubActividad(evento)}" disabled="#{proyectosBean.disableAuditoriaSubActividad}" icon="ui-icon-document"/>
                 <p:commandButton value="Volver" update="@form" actionListener="#{proyectosBean.cancelar()}" icon="ui-icon-back"/>
 
@@ -835,7 +886,7 @@
         <!--//CREAR Gasto-->
 
 
-        <!--CREAR Gasto-->
+        <!--EDITAR Gasto-->
         <p:panel id="editarGasto" header="Modificar Gasto" style="width: 800px"
                  rendered="#{proyectosBean.enEdicionGasto}"> 
             <p:focus context="editarGasto"/> 
@@ -878,10 +929,370 @@
                 <p:commandButton actionListener="#{proyectosBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
             </f:facet>
         </p:panel>
-        <!--//CREAR Gasto-->
-
-
+        <!--//EDITAR Gasto-->
         <!--//GASTOS-->
+        <!--ENTREGABLES-->
+        <!--ACTIVIDAD ENTREGABLE PANEL-->
+        <p:dataTable id="entregables"  value="#{proyectosBean.actividadEntregables}" var="entregable" selection="#{proyectosBean.actividadEntregableSeleccionado}" selectionMode="single" scrollable="true" 
+                     rowKey="#{entregable.pk}" style="width: 800px" 
+                     paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
+                     paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     emptyMessage="No se ha registrado ningún gasto" rendered="#{proyectosBean.enEntregables}" >
+
+            <p:ajax event="rowSelect" listener="#{proyectosBean.filaSeleccionadaEntregable(evento)}" update="entregables"/>
+            <p:ajax event="rowUnselect" listener="#{proyectosBean.filaSeleccionadaEntregable(evento)}" update="entregables"/>
+
+            <f:facet name="header">
+                Entregables
+            </f:facet>
+            <p:column headerText="Sub-Actividad" style="width: 80px">
+                #{entregable.actividad.nombreActividad}
+            </p:column>
+            <p:column headerText="Entregable" style="width: 100px">
+                #{entregable.nombreEntregable}
+            </p:column> 
+            <p:column headerText="Institución Control" style="width: 80px">
+                #{entregable.institucionControl.nombre}
+            </p:column>                   
+            <p:column headerText="Tipo" style="width: 100px">
+                #{entregable.tipoEntregable.nombre} 
+            </p:column>
+            <p:column headerText="" style="width: 40px">
+                #{entregable.estado}  
+            </p:column>
+            <f:facet name="footer">  
+                <p:commandButton  value="Nuevo" update="@form" actionListener="#{proyectosBean.nuevaActividadEntregable(evento)}" icon="ui-icon-document"/>  
+                <p:commandButton value="Modificar" update="@form" actionListener="#{proyectosBean.modificarEntregable(evento)}" disabled="#{proyectosBean.disableBotonesEntregable}" icon="ui-icon-pencil"/>
+                <p:commandButton  value="Documentos" update="@form" actionListener="#{proyectosBean.verDocumentos(evento)}" disabled="#{proyectosBean.disableBotonesEntregable}" icon="ui-icon-close"/>
+                <p:commandButton  value="Auditoría" update=":form:ent_mensaje" onsuccess="dlg5.show()" actionListener="#{proyectosBean.verAuditoriaEntregables(evento)}" disabled="#{proyectosBean.disableBotonesEntregable}" icon="ui-icon-document"/>
+                <p:commandButton value="Volver" update="@form" actionListener="#{proyectosBean.cancelar()}" icon="ui-icon-back"/>
+
+            </f:facet>
+        </p:dataTable> 
+        <!--//PANEL-->
+
+        <!--AUDITORIA ENTREGABLES-->
+        <p:dialog id="ent_picture" widgetVar="dlg5"  
+                  resizable="false" header="Auditoría de Entregable" modal="true" closable="false" showEffect="clip" hideEffect="clip" style="width: 600px">  
+            <p:panelGrid id="ent_mensaje"  columns="2">  
+                <p:graphicImage value="/images/footer.png"/>                    
+                <p:panelGrid columns="2" rendered="#{proyectosBean.enAuditoriaEntregable}">
+
+                    <p:outputLabel for="ent_codigo" value="Código:"/>
+                    <p:outputLabel id="ent_codigo" value="#{proyectosBean.actividadEntregable.pk.codigoActividadEntregable}" />
+
+                    <p:outputLabel for="ent_empresa" value="Nombre de Sub-Actividad"/>                
+                    <p:outputLabel id="ent_empresa" value="#{proyectosBean.actividadEntregable.actividad.nombreActividad}"/>              
+
+                    <p:outputLabel for="ent_usrcre" value="Usuario creación"/>                
+                    <p:outputLabel id="ent_usrcre" value="#{proyectosBean.getUsrAuditoria(proyectosBean.actividadEntregable.usrCreacion)}" />              
+
+                    <p:outputLabel for="ent_usrcref" value="Fecha creación:"/>                
+                    <h:outputLabel id="ent_usrcref" value="#{proyectosBean.actividadEntregable.fcreacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+
+                    <p:outputLabel for="ent_usrmod" value="Usuario modificación:"/>                
+                    <p:outputLabel id="ent_usrmod" value="#{proyectosBean.getUsrAuditoria(proyectosBean.actividadEntregable.usrModificacion)}"/>              
+
+                    <p:outputLabel for="ent_usrmodf" value="Fecha modificación:"/>                
+                    <h:outputLabel id="ent_usrmodf" value="#{proyectosBean.actividadEntregable.fmodificacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+
+                </p:panelGrid> 
+            </p:panelGrid>
+            <p:separator/>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{proyectosBean.cancelar()}" value="Volver" update="@form" icon="ui-icon-back"/>
+            </f:facet>
+        </p:dialog>
+        <!--//AUDITORIA ENTREGABLE-->
+        <!--CREAR ENTREGABLE-->
+        <p:panel id="nuevoEntregable" header="Nuevo Entregable" style="width: 800px"
+                 rendered="#{proyectosBean.enNuevoEntregable}"> 
+            <p:focus context="nuevoEntregable"/> 
+            <p:panelGrid columns="3" >  
+
+                <p:outputLabel for="ent_proyecto" value="Proyecto: "/>
+                <p:inputText id="ent_proyecto" value="#{proyectosBean.proyecto.nombreProyecto}" required="true" readonly="true"/>
+                <p:message for="ent_proyecto"/>
+
+                <p:outputLabel for="ent_actividad" value="Actividad: "/>
+                <p:inputText id="ent_actividad" value="#{proyectosBean.actividad.nombreActividad}" required="true" readonly="true"/>
+                <p:message for="ent_actividad"/>
+
+                <p:outputLabel for="ent_nombre" value="Sub-Actividad: "/>
+                <p:inputText id="ent_nombre" value="#{proyectosBean.subActividad.nombreActividad}" required="true" readonly="true"/>
+                <p:message for="ent_nombre"/>
+
+                <p:outputLabel for="ent_icontrol" value="Institución de Control:"/>
+                <p:selectOneMenu id="ent_icontrol" value="#{proyectosBean.instControl}" label="Institución Control" requiredMessage="Es obligatorio seleccionar una Institución de Control" required="true">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItems value="#{proyectosBean.institucionesControl}" var="ic" itemValue="#{ic.codigo}" itemLabel="#{ic.nombre}"/>
+                </p:selectOneMenu>
+                <p:message for="ent_icontrol"/>
+
+                <p:outputLabel for="ent_tipo" value="Tipo: "/>
+                <p:selectOneMenu id="ent_tipo" value="#{proyectosBean.tipoEntregable}" label="Tipo" requiredMessage="Es obligatorio seleccionar un Tipo del entregable" required="true">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItems value="#{proyectosBean.tiposEntregable}" var="te" itemValue="#{te.codigo}" itemLabel="#{te.nombre}"/>
+                </p:selectOneMenu>
+                <p:message for="ent_tipo"/>
+
+                <p:outputLabel for="ent_entregable" value="Entregable: "/>
+                <p:inputText id="ent_entregable" value="#{proyectosBean.actividadEntregable.nombreEntregable}" required="true"/>
+                <p:message for="ent_entregable"/>
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{proyectosBean.guardarEntregables(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{proyectosBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>
+        <!--//CREAR ENTREGABLE-->
+
+        <!--CREAR ENTREGABLE-->
+        <p:panel id="editarEntregable" header="Editar Entregable" style="width: 800px"
+                 rendered="#{proyectosBean.enEdicionEntregable}"> 
+            <p:focus context="editarEntregable"/> 
+            <p:panelGrid columns="3" >  
+
+                <p:outputLabel for="m_ent_proyecto" value="Proyecto: "/>
+                <p:inputText id="m_ent_proyecto" value="#{proyectosBean.actividadEntregable.actividad.actividad.proyecto.nombreProyecto}" required="true" readonly="true"/>
+                <p:message for="m_ent_proyecto"/>
+
+                <p:outputLabel for="m_ent_actividad" value="Actividad: "/>
+                <p:inputText id="m_ent_actividad" value="#{proyectosBean.actividadEntregable.actividad.actividad.nombreActividad}" required="true" readonly="true"/>
+                <p:message for="m_ent_actividad"/>
+
+                <p:outputLabel for="m_ent_nombre" value="Sub-Actividad: "/>
+                <p:inputText id="m_ent_nombre" value="#{proyectosBean.actividadEntregable.actividad.nombreActividad}" required="true" readonly="true"/>
+                <p:message for="m_ent_nombre"/>
+
+                <p:outputLabel for="m_ent_icontrol" value="Institución de Control:"/>
+                <p:selectOneMenu id="m_ent_icontrol" value="#{proyectosBean.instControl}" label="Institución Control" requiredMessage="Es obligatorio seleccionar una Institución de Control" required="true">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItems value="#{proyectosBean.institucionesControl}" var="ic" itemValue="#{ic.codigo}" itemLabel="#{ic.nombre}"/>
+                </p:selectOneMenu>
+                <p:message for="m_ent_icontrol"/>
+
+                <p:outputLabel for="m_ent_tipo" value="Tipo: "/>
+                <p:selectOneMenu id="m_ent_tipo" value="#{proyectosBean.tipoEntregable}" label="Tipo" requiredMessage="Es obligatorio seleccionar un Tipo del entregable" required="true">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItems value="#{proyectosBean.tiposEntregable}" var="te" itemValue="#{te.codigo}" itemLabel="#{te.nombre}"/>
+                </p:selectOneMenu>
+                <p:message for="m_ent_tipo"/>
+
+                <p:outputLabel for="m_ent_entregable" value="Entregable: "/>
+                <p:inputText id="m_ent_entregable" value="#{proyectosBean.actividadEntregable.nombreEntregable}" required="true"/>
+                <p:message for="m_ent_entregable"/>
+
+                <p:outputLabel for="m_estado" value="Estado:"/>                
+                <p:selectOneMenu id="m_estado" value="#{proyectosBean.actividadEntregable.estado}" label="Estado" required="true">
+                    <f:selectItem itemLabel="Inicial" itemValue="I"/>
+                    <f:selectItem itemLabel="En proceso" itemValue="P"/>
+                    <f:selectItem itemLabel="Finalizado" itemValue="F"/>
+                    <f:selectItem itemLabel="Revisado" itemValue="R"/>
+                </p:selectOneMenu>
+                <p:message for="m_estado" />
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{proyectosBean.guardarEntregables(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{proyectosBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>
+
+
+        <!--ENTREGABLES-->
+
+        <!--DOCUMENTOS-->
+        <!--PANEL-->
+        <p:dataTable id="docs"  value="#{proyectosBean.documentos}" var="documento" selection="#{proyectosBean.documentoSeleccionado}" selectionMode="single" scrollable="true" 
+                     rowKey="#{documento.codigo}" style="width: 1000px" 
+                     paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
+                     paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     emptyMessage="No se ha registrado ningún Documento" rendered="#{proyectosBean.enDocumentos}" >
+
+            <p:ajax event="rowSelect" listener="#{proyectosBean.filaSeleccionadaDoc(evento)}" update="docs"/>
+            <p:ajax event="rowUnselect" listener="#{proyectosBean.filaSeleccionadaDoc(evento)}" update="docs"/>
+
+            <f:facet name="header">
+                Documentos
+            </f:facet>
+            <p:column headerText="Sub-Actividad" style="width: 80px">
+                #{proyectosBean.actividadEntregable.actividad.nombreActividad}
+            </p:column>
+            <p:column headerText="Entregable:" style="width: 80px">
+                #{proyectosBean.actividadEntregable.nombreEntregable}
+            </p:column>
+            <p:column headerText="Documento" style="width: 80px">
+                #{documento.nombreDocumento}
+            </p:column>                               
+            <p:column headerText="Institución Control" style="width: 100px">
+                #{documento.institucionControl.nombre}
+            </p:column>
+            <p:column headerText="Tipo" style="width: 100px">
+                #{documento.tipoDocumento.nombre}
+            </p:column> 
+            <p:column headerText="Fecha de Carga" style="width: 80px">
+                <h:outputLabel value="#{documento.fcreacion}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputLabel>
+            </p:column>
+            <f:facet name="footer">  
+                <p:commandButton  value="Nuevo" update="@form" actionListener="#{proyectosBean.nuevoDoc(evento)}" icon="ui-icon-document"/>  
+                <p:commandButton value="Modificar" update="@form" actionListener="#{proyectosBean.modificarDoc(evento)}" disabled="#{proyectosBean.disableBotonesDocumento}" icon="ui-icon-pencil"/>
+                <p:commandButton  value="Auditoría" update=":form:doc_mensaje" onsuccess="dlg5.show()" actionListener="#{proyectosBean.verAuditoriaDoc(evento)}" disabled="#{proyectosBean.disableBotonesDocumento}" icon="ui-icon-document"/>
+                <p:commandButton value="Volver" update="@form" actionListener="#{proyectosBean.cancelar()}" icon="ui-icon-back"/>
+            </f:facet>
+        </p:dataTable>
+        <!--//PANEL-->
+        <!--NUEVO DOC-->
+        <p:panel id="nuevoDoc" header="Nuevo Documento" style="width: 800px"
+                 rendered="#{proyectosBean.enNuevoDoc}"> 
+            <p:focus context="nuevoDoc"/> 
+            <p:panelGrid columns="3" >  
+
+                <p:outputLabel for="doc_proyecto" value="Proyecto: "/>
+                <p:inputText id="doc_proyecto" value="#{proyectosBean.proyecto.nombreProyecto}" required="true" readonly="true"/>
+                <p:message for="doc_proyecto"/>
+
+                <p:outputLabel for="doc_actividad" value="Actividad: "/>
+                <p:inputText id="doc_actividad" value="#{proyectosBean.actividad.nombreActividad}" required="true" readonly="true"/>
+                <p:message for="doc_actividad"/>
+
+
+                <p:outputLabel for="doc_nombre" value="Sub-Actividad: "/>
+                <p:inputText id="doc_nombre" value="#{proyectosBean.subActividad.nombreActividad}" required="true" readonly="true"/>
+                <p:message for="doc_nombre"/>
+
+                <p:outputLabel for="doc_institucionControl" value="Institucion Control "/>
+                <p:selectOneMenu id="doc_institucionControl" value="#{proyectosBean.instControl}" requiredMessage="Es obligatorio seleccionar una Institución de Control" label="Institucion de Control" required="true">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItems value="#{proyectosBean.institucionesControl}" var="i" itemValue="#{i.codigo}" itemLabel="#{i.nombre}"/>
+                </p:selectOneMenu>
+                <p:message for="doc_institucionControl"/>
+
+                <p:outputLabel for="doc_tipoDocumento" value="Tipo Documento"/>
+                <p:selectOneMenu id="doc_tipoDocumento" value="#{proyectosBean.tipoDoc}" label="Tipo Documento" requiredMessage="Es obligatorio seleccionar un tipo de documento" required="true">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItems value="#{proyectosBean.tipoDocumento}" var="td" itemValue="#{td.codigo}" itemLabel="#{td.nombre}"/>
+                </p:selectOneMenu>
+                <p:message for="doc_tipoDocumento"/>
+
+                <p:outputLabel for="archivoUP" value="Archivo:"/>
+                <p:column>
+                    <p:fileUpload id="doc_archivoUP" multiple="false" invalidFileMessage="Este archivo no esta soportado para este documento" invalidSizeMessage="El tamaño del documento ha exedido los límites" fileUploadListener="#{proyectosBean.subirDocumento}"       
+                                  mode="advanced"  sizeLimit="90000000" dragDropSupport="true"  auto="false" required="true" 
+                                  label="Selección de Archivo" update="doc_guardarDoc" cancelLabel="Cancelar" uploadLabel="Subir"  style="width: 600px; font-size: 12px" allowTypes="/(\.|\/)(doc|docx|pdf|png)$/"/>
+                </p:column>
+                <p:message for="doc_archivoUP"/>
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton id="doc_guardarDoc" value="Guardar" update="@form"  icon="ui-icon-disk" 
+                                 actionListener="#{proyectosBean.guardarDocumento(evento)}" disabled="#{proyectosBean.disableGuardarDocumento}" />
+                <p:commandButton value="Cancelar" update="@form" icon="ui-icon-cancel"
+                                 actionListener="#{proyectosBean.cancelar()}" immediate="true"/>
+            </f:facet>
+
+        </p:panel>
+        <!--//NUEVO DOC-->
+        <!--Auditoria Documento-->
+        <p:dialog id="doc_picture" widgetVar="dlg5"  
+                  resizable="false" header="Auditoría de Documentos" modal="true" closable="false" showEffect="clip" hideEffect="clip" style="width: 600px">  
+            <p:panelGrid id="doc_mensaje"  columns="2">  
+                <p:graphicImage value="/images/footer.png"/>                    
+                <p:panelGrid columns="2" rendered="#{proyectosBean.enAuditoriaDoc}">
+
+                    <p:outputLabel for="a_doc_codigo" value="Código:"/>
+                    <p:outputLabel id="a_doc_codigo" value="#{proyectosBean.documento.codigo}" />
+
+
+                    <p:outputLabel for="a_doc_empresa" value="Nombre de Documento"/>                
+                    <p:outputLabel id="a_doc_empresa" value="#{proyectosBean.documento.nombreDocumento}"/>              
+
+                    <p:outputLabel for="a_doc_usrcre" value="Usuario creación"/>                
+                    <p:outputLabel id="a_doc_usrcre" value="#{proyectosBean.getUsrAuditoria(proyectosBean.documento.usrCreacion)}" />              
+
+                    <p:outputLabel for="a_doc_usrcref" value="Fecha creación:"/>                
+                    <h:outputLabel id="a_doc_usrcref" value="#{proyectosBean.documento.fcreacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+
+                    <p:outputLabel for="a_doc_usrmod" value="Usuario modificación:"/>                
+                    <p:outputLabel id="a_doc_usrmod" value="#{proyectosBean.getUsrAuditoria(proyectosBean.documento.usrModificacion)}"/>              
+
+                    <p:outputLabel for="a_doc_usrmodf" value="Fecha modificación:"/>                
+                    <h:outputLabel id="a_doc_usrmodf" value="#{proyectosBean.documento.fmodificacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+
+                </p:panelGrid> 
+            </p:panelGrid>
+            <p:separator/>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{proyectosBean.cancelar()}" value="Volver" update="@form" icon="ui-icon-back"/>
+            </f:facet>
+        </p:dialog>
+        <!--//Auditoria Documento-->
+        <!--Edicion Documento-->
+        <p:panel id="edicionDoc" header="Nuevos Documentos" style="width: 800px"
+                 rendered="#{proyectosBean.enEditarDoc}"> 
+            <p:focus context="edicionDoc"/> 
+            <p:panelGrid columns="3" >  
+
+                <p:outputLabel for="m_doc_proyecto" value="Proyecto: "/>
+                <p:inputText id="m_doc_proyecto" value="#{proyectosBean.proyecto.nombreProyecto}" required="true" readonly="true"/>
+                <p:message for="m_doc_proyecto"/>
+
+                <p:outputLabel for="m_doc_actividad" value="Actividad: "/>
+                <p:inputText id="m_doc_actividad" value="#{proyectosBean.actividad.nombreActividad}" required="true" readonly="true"/>
+                <p:message for="m_doc_actividad"/>
+
+                <p:outputLabel for="m_doc_nombre" value="Sub-Actividad: "/>
+                <p:inputText id="m_doc_nombre" value="#{proyectosBean.subActividad.nombreActividad}" required="true" readonly="true"/>
+                <p:message for="m_doc_nombre"/>
+
+                <p:outputLabel for="m_doc_institucionControl" value="Institucion Control "/>
+                <p:selectOneMenu id="m_doc_institucionControl" value="#{proyectosBean.instControl}" requiredMessage="Es obligatorio seleccionar una Institución de Control" label="Institucion de Control" required="true">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItems value="#{proyectosBean.institucionesControl}" var="i" itemValue="#{i.codigo}" itemLabel="#{i.nombre}"/>
+                </p:selectOneMenu>
+                <p:message for="m_doc_institucionControl"/>
+
+                <p:outputLabel for="m_doc_tipoDocumento" value="Tipo Documento"/>
+                <p:selectOneMenu id="m_doc_tipoDocumento" value="#{proyectosBean.tipoDoc}" label="Tipo Documento" requiredMessage="Es obligatorio seleccionar un tipo de documento" required="true">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItems value="#{proyectosBean.tipoDocumento}" var="td" itemValue="#{td.codigo}" itemLabel="#{td.nombre}"/>
+                </p:selectOneMenu>
+                <p:message for="m_doc_tipoDocumento"/>
+
+                <p:outputLabel for="m_doc_nom_documento" value="Documento Cargado: "/>
+                <p:outputLabel id="m_doc_nom_documento" value="#{proyectosBean.documento.nombreDocumento}"/>
+                <p:message for="m_doc_nom_documento"/>
+
+                <p:outputLabel for="m_doc_archivoUP" value="Nueva Versión Documento:"/>
+                <p:column>
+                    <p:fileUpload id="m_doc_archivoUP" multiple="false" invalidFileMessage="Este archivo no esta soportado para este documento" invalidSizeMessage="El tamaño del documento ha exedido los límites" fileUploadListener="#{proyectosBean.subirDocumentoModificado}"       
+                                  mode="advanced"  sizeLimit="90000000" dragDropSupport="true"  auto="false" required="true" 
+                                  label="Selección de Archivo" update="m_doc_guardarDoc" cancelLabel="Cancelar" uploadLabel="Subir"  style="width: 600px; font-size: 12px" allowTypes="/(\.|\/)(doc|docx|pdf|png)$/"/>
+                </p:column>
+                <p:message for="m_doc_archivoUP"/>
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton id="m_doc_guardarDoc" value="Guardar" update="@form"  icon="ui-icon-disk" 
+                                 actionListener="#{proyectosBean.guardarDocumento(evento)}" disabled="#{proyectosBean.disableGuardarDocumento}" />
+                <p:commandButton value="Cancelar" update="@form" icon="ui-icon-cancel"
+                                 actionListener="#{proyectosBean.cancelar()}" immediate="true"/>
+            </f:facet>
+
+        </p:panel>
+
+        <!--//Edicion Documentos-->
+        <!--//DOCUMENTOS-->
+
     </ui:define>
 
 </ui:composition>
