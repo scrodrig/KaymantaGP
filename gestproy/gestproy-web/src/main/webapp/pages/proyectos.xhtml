@@ -44,7 +44,27 @@
                                                                                     proyectosBean.enNuevaReunion or 
                                                                                     proyectosBean.enEdicionReunion or 
                                                                                     proyectosBean.enAuditoriaReunion or 
-                                                                                    proyectosBean.enReuniones)}" >
+                                                                                    proyectosBean.enReuniones or 
+                                                                                    proyectosBean.enNuevaRiesgo or 
+                                                                                    proyectosBean.enEdicionRiesgo or 
+                                                                                    proyectosBean.enAuditoriaRiesgo or 
+                                                                                    proyectosBean.enRiesgos or
+                                                                                    proyectosBean.enNuevaExpectativa or 
+                                                                                    proyectosBean.enEdicionExpectativa or 
+                                                                                    proyectosBean.enAuditoriaExpectativa or 
+                                                                                    proyectosBean.enExpectativas or 
+                                                                                    proyectosBean.enNuevaLeccion or 
+                                                                                    proyectosBean.enEdicionLeccion or 
+                                                                                    proyectosBean.enAuditoriaLeccion or 
+                                                                                    proyectosBean.enLecciones or 
+                                                                                    proyectosBean.enNuevaInteresado or 
+                                                                                    proyectosBean.enEdicionInteresado or 
+                                                                                    proyectosBean.enAuditoriaInteresado or 
+                                                                                    proyectosBean.enInteresados or 
+                                                                                    proyectosBean.enNuevaResponsable or 
+                                                                                    proyectosBean.enEdicionResponsable or 
+                                                                                    proyectosBean.enAuditoriaResponsable or 
+                                                                                    proyectosBean.enResponsables)}" >
 
             <p:ajax event="rowSelect" listener="#{proyectosBean.filaSeleccionada(evento)}" update="proyectos"/>
             <p:ajax event="rowUnselect" listener="#{proyectosBean.filaSeleccionada(evento)}" update="proyectos"/>
@@ -86,6 +106,10 @@
                 <p:commandButton  value="Nuevo" update="@form" actionListener="#{proyectosBean.nuevo(evento)}" disabled="#{proyectosBean.disabledNuevo}" icon="ui-icon-document"/>  
                 <p:commandButton value="Modificar" update="@form" actionListener="#{proyectosBean.modificar(evento)}" disabled="#{proyectosBean.disabledModificar}" icon="ui-icon-pencil"/>
                 <p:commandButton value="Reuniones" update="@form" actionListener="#{proyectosBean.verReuniones(evento)}" disabled="#{proyectosBean.disableAuditoria}" icon="ui-icon-document"/>
+                <p:commandButton value="Riesgos" update="@form" actionListener="#{proyectosBean.verRiesgos(evento)}" disabled="#{proyectosBean.disableAuditoria}" icon="ui-icon-close"/>
+                <p:commandButton value="Expectativas" update="@form" actionListener="#{proyectosBean.verExpectativas(evento)}" disabled="#{proyectosBean.disableAuditoria}" icon="ui-icon-close"/>              
+                <p:commandButton value="Interesados" update="@form" actionListener="#{proyectosBean.verInteresados(evento)}" disabled="#{proyectosBean.disableAuditoria}" icon="ui-icon-close"/>              
+                <p:commandButton value="Problemas" update="@form" actionListener="#{proyectosBean.verLecciones(evento)}" disabled="#{proyectosBean.disableAuditoria}" icon="ui-icon-close"/>              
                 <p:commandButton value="Actividades" update="@form" actionListener="#{proyectosBean.verActividades(evento)}" disabled="#{proyectosBean.disableAuditoria}" icon="ui-icon-close"/>
                 <p:commandButton  value="Auditoría" update=":form:mensaje" onsuccess="dlg.show()" actionListener="#{proyectosBean.verAuditoria(evento)}" disabled="#{proyectosBean.disableAuditoria}" icon="ui-icon-document"/>  
                 <p:commandButton value="Documentos" update="@form" actionListener="#{proyectosBean.cargaDeDocumentos(evento)}" disabled="#{proyectosBean.disableCargaDocumentos}" icon="ui-icon-document"/>
@@ -282,7 +306,7 @@
             <p:ajax event="rowUnselect" listener="#{proyectosBean.filaSeleccionadaReunion(evento)}" update="reuniones"/>
 
             <f:facet name="header">
-                Gastos
+                Reuniones
             </f:facet>
             <p:column headerText="Sub-Actividad" style="width: 100px">
                 #{reunion.proyecto.nombreProyecto}
@@ -301,12 +325,901 @@
             <f:facet name="footer">  
                 <p:commandButton  value="Nuevo" update="@form" actionListener="#{proyectosBean.nuevaReunion(evento)}" icon="ui-icon-document"/>  
                 <p:commandButton value="Modificar" update="@form" actionListener="#{proyectosBean.modificarReunion(evento)}" disabled="#{proyectosBean.disableBotonesReunion}" icon="ui-icon-pencil"/>
-                <p:commandButton  value="Auditoría" update=":form:g_mensaje" onsuccess="dlg4.show()" actionListener="#{proyectosBean.verAuditoriaReunion(evento)}" disabled="#{proyectosBean.disableBotonesReunion}" icon="ui-icon-document"/>
+                <p:commandButton  value="Auditoría" update=":form:reu_mensaje" onsuccess="dlg6.show()" actionListener="#{proyectosBean.verAuditoriaReunion(evento)}" disabled="#{proyectosBean.disableBotonesReunion}" icon="ui-icon-document"/>
                 <p:commandButton value="Volver" update="@form" actionListener="#{proyectosBean.cancelar()}" icon="ui-icon-back"/>
             </f:facet>
         </p:dataTable>  
         <!--//PANEL-->
+        <!--CREAR REUNION-->
+        <p:panel id="nuevaReunion" header="Nuevo Reunión" style="width: 800px"
+                 rendered="#{proyectosBean.enNuevaReunion}"> 
+            <p:focus context="nuevaReunion"/> 
+            <p:panelGrid columns="3" >  
+
+                <p:outputLabel for="reu_proyecto" value="Proyecto: "/>
+                <p:inputText id="reu_proyecto" value="#{proyectosBean.proyecto.nombreProyecto}" required="true" readonly="true"/>
+                <p:message for="reu_proyecto"/>
+
+                <p:outputLabel for="reu_lugar" value="Lugar: "/>
+                <p:inputText id="reu_lugar" value="#{proyectosBean.reunion.lugar}" required="true"/>
+                <p:message for="reu_lugar"/>
+
+                <p:outputLabel for="reu_asist" value="Asistentes: "/>
+                <p:inputTextarea id="reu_asist" value="#{proyectosBean.reunion.asistentes}" required="true"/>
+                <p:message for="reu_asist"/>
+
+                <p:outputLabel for="reu_novedades" value="Novedades: "/>
+                <p:inputTextarea id="reu_novedades" value="#{proyectosBean.reunion.novedades}" required="true"/>
+                <p:message for="reu_novedades"/>
+
+                <p:outputLabel for="reu_fecha" value="Fecha: "/>
+                <p:calendar id="reu_fecha" effect="explode" showButtonPanel="true" pattern="dd/MM/yyyy" value="#{proyectosBean.reunion.fecha}" label="Fecha de Nacimiento" required="true"/>
+                <p:message for="reu_fecha"/>                
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{proyectosBean.guardarReunion(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{proyectosBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>
+
+        <!--//CREAR REUNION-->
+        <!--EDITAR REUNION-->
+        <p:panel id="editarReunion" header="Editar Reunión" style="width: 800px"
+                 rendered="#{proyectosBean.enEdicionReunion}"> 
+            <p:focus context="editarReunion"/> 
+            <p:panelGrid columns="3" >  
+
+                <p:outputLabel for="m_reu_proyecto" value="Proyecto: "/>
+                <p:inputText id="m_reu_proyecto" value="#{proyectosBean.reunion.proyecto.nombreProyecto}" required="true" readonly="true"/>
+                <p:message for="m_reu_proyecto"/>
+
+                <p:outputLabel for="m_reu_lugar" value="Lugar: "/>
+                <p:inputText id="m_reu_lugar" value="#{proyectosBean.reunion.lugar}" required="true"/>
+                <p:message for="m_reu_lugar"/>
+
+                <p:outputLabel for="m_reu_asist" value="Asistentes: "/>
+                <p:inputTextarea id="m_reu_asist" value="#{proyectosBean.reunion.asistentes}" required="true"/>
+                <p:message for="m_reu_asist"/>
+
+                <p:outputLabel for="m_reu_novedades" value="Novedades: "/>
+                <p:inputTextarea id="m_reu_novedades" value="#{proyectosBean.reunion.novedades}" required="true"/>
+                <p:message for="m_reu_novedades"/>
+
+                <p:outputLabel for="m_reu_fecha" value="Fecha: "/>
+                <p:calendar id="m_reu_fecha" effect="explode" showButtonPanel="true" pattern="dd/MM/yyyy" value="#{proyectosBean.reunion.fecha}" label="Fecha de Nacimiento" required="true"/>
+                <p:message for="m_reu_fecha"/>                
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{proyectosBean.guardarReunion(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{proyectosBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>        
+        <!--//EDITAR REUNION-->
+        <!--AUDITORIA-->
+        <p:dialog id="reu_picture" widgetVar="dlg6"  
+                  resizable="false" header="Auditoría de Reuniones" modal="true" closable="false" showEffect="clip" hideEffect="clip" style="width: 600px">  
+            <p:panelGrid id="reu_mensaje"  columns="2">  
+                <p:graphicImage value="/images/footer.png"/>                    
+                <p:panelGrid columns="2" rendered="#{proyectosBean.enAuditoriaReunion}">
+
+                    <p:outputLabel for="a_reu_codigo" value="Código:"/>
+                    <p:outputLabel id="a_reu_codigo" value="#{proyectosBean.reunion.pk.codigoReunion}" />
+
+                    <p:outputLabel for="a_reu_empresa" value="Proyecto:"/>                
+                    <p:outputLabel id="a_reu_empresa" value="#{proyectosBean.reunion.proyecto.nombreProyecto}"/>              
+
+                    <p:outputLabel for="a_reu_usrcre" value="Usuario creación"/>                
+                    <p:outputLabel id="a_reu_usrcre" value="#{proyectosBean.getUsrAuditoria(proyectosBean.reunion.usrCreacion)}" />              
+
+                    <p:outputLabel for="a_reu_usrcref" value="Fecha creación:"/>                
+                    <h:outputLabel id="a_reu_usrcref" value="#{proyectosBean.reunion.fcreacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+
+                    <p:outputLabel for="a_reu_usrmod" value="Usuario modificación:"/>                
+                    <p:outputLabel id="a_reu_usrmod" value="#{proyectosBean.getUsrAuditoria(proyectosBean.reunion.usrModificacion)}"/>              
+
+                    <p:outputLabel for="a_reu_usrmodf" value="Fecha modificación:"/>                
+                    <h:outputLabel id="a_reu_usrmodf" value="#{proyectosBean.reunion.fmodificacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+
+                </p:panelGrid> 
+            </p:panelGrid>
+            <p:separator/>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{proyectosBean.cancelar()}" value="Volver" update="@form" icon="ui-icon-back"/>
+            </f:facet>
+        </p:dialog>
+        <!--//AUDITORIA-->
         <!--//REUNIONES-->
+
+        <!--RIESGOS-->
+        <!--PANEL-->
+        <p:dataTable id="riesgos"  value="#{proyectosBean.riesgos}" var="riesgo" selection="#{proyectosBean.riesgoSeleccionado}" selectionMode="single" scrollable="true" 
+                     rowKey="#{riesgo.pk}" style="width: 1000px" 
+                     paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
+                     paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     emptyMessage="No se ha registrado ningún gasto" rendered="#{proyectosBean.enRiesgos}" >
+
+            <p:ajax event="rowSelect" listener="#{proyectosBean.filaSeleccionadaRiesgo(evento)}" update="riesgos"/>
+            <p:ajax event="rowUnselect" listener="#{proyectosBean.filaSeleccionadaRiesgo(evento)}" update="riesgos"/>
+
+            <f:facet name="header">
+                Riesgos
+            </f:facet>
+            <p:column headerText="Proyecto" style="width: 100px">
+                #{riesgo.proyecto.nombreProyecto}
+            </p:column>
+            <p:column headerText="Riesgo" style="width: 100px">
+                #{riesgo.nombre}
+            </p:column>        
+            <p:column headerText="Descripción" style="width: 200px">
+                #{riesgo.descripcion} 
+            </p:column>
+            <p:column headerText="Impacto" style="width: 80px">
+                #{proyectosBean.getImpacto(riesgo.impacto)} 
+            </p:column>
+            <p:column headerText="Estado" style="width: 80px">
+                #{proyectosBean.getEstado(riesgo.estado)} 
+            </p:column>
+            <p:column headerText="Acción" style="width: 200px">
+                #{riesgo.accion} 
+            </p:column>
+
+            <f:facet name="footer">  
+                <p:commandButton  value="Nuevo" update="@form" actionListener="#{proyectosBean.nuevaRiesgo(evento)}" icon="ui-icon-document"/>  
+                <p:commandButton value="Modificar" update="@form" actionListener="#{proyectosBean.modificarRiesgo(evento)}" disabled="#{proyectosBean.disableBotonesRiesgo}" icon="ui-icon-pencil"/>
+                <p:commandButton  value="Auditoría" update=":form:risk_mensaje" onsuccess="dlg7.show()" actionListener="#{proyectosBean.verAuditoriaRiesgo(evento)}" disabled="#{proyectosBean.disableBotonesRiesgo}" icon="ui-icon-document"/>
+                <p:commandButton value="Volver" update="@form" actionListener="#{proyectosBean.cancelar()}" icon="ui-icon-back"/>
+            </f:facet>
+        </p:dataTable>  
+        <!--//PANEL-->
+        <!--CREAR REUNION-->
+        <p:panel id="nuevoRiesgo" header="Nuevo Riesgo" style="width: 800px"
+                 rendered="#{proyectosBean.enNuevaRiesgo}"> 
+            <p:focus context="nuevoRiesgo"/> 
+            <p:panelGrid columns="3" >  
+
+                <p:outputLabel for="risk_proyecto" value="Proyecto: "/>
+                <p:inputText id="risk_proyecto" value="#{proyectosBean.proyecto.nombreProyecto}" required="true" readonly="true"/>
+                <p:message for="risk_proyecto"/>
+
+                <p:outputLabel for="risk_nombre" value="Riesgo: "/>
+                <p:inputText id="risk_nombre" value="#{proyectosBean.riesgo.nombre}" required="true"/>
+                <p:message for="risk_nombre"/>
+
+
+                <p:outputLabel for="risk_impacto" value="Impacto:"/>                
+                <p:selectOneMenu id="risk_impacto" value="#{proyectosBean.riesgo.impacto}" label="Impacto" required="true">
+                    <f:selectItem itemLabel="Bajo" itemValue="B"/>
+                    <f:selectItem itemLabel="Medio" itemValue="M"/>
+                    <f:selectItem itemLabel="Alto" itemValue="A"/>
+                </p:selectOneMenu>
+                <p:message for="risk_impacto" />
+
+                <p:outputLabel for="risk_estado" value="Estado:"/>                
+                <p:selectOneMenu id="risk_estado" value="#{proyectosBean.riesgo.estado}" label="Estado" required="true">
+                    <f:selectItem itemLabel="Pendiente" itemValue="I"/>
+                    <f:selectItem itemLabel="Mitigado" itemValue="M"/>
+                </p:selectOneMenu>
+                <p:message for="risk_estado" />
+
+                <p:outputLabel for="risk_descripcion" value="Descripción: "/>
+                <p:inputTextarea id="risk_descripcion" value="#{proyectosBean.riesgo.descripcion}" required="true"/>
+                <p:message for="risk_descripcion"/>
+
+
+
+                <p:outputLabel for="risk_accion" value="Acción: "/>
+                <p:inputTextarea id="risk_accion" value="#{proyectosBean.riesgo.accion}" required="true"/>
+                <p:message for="risk_accion"/>
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{proyectosBean.guardarRiesgo(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{proyectosBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>
+
+        <!--//CREAR REUNION-->
+        <!--EDITAR REUNION-->
+        <p:panel id="editarRiesgo" header="Editar Riesgo" style="width: 800px"
+                 rendered="#{proyectosBean.enEdicionRiesgo}"> 
+            <p:focus context="editarRiesgo"/> 
+            <p:panelGrid columns="3" >  
+
+                <p:outputLabel for="m_risk_proyecto" value="Proyecto: "/>
+                <p:inputText id="m_risk_proyecto" value="#{proyectosBean.proyecto.nombreProyecto}" required="true" readonly="true"/>
+                <p:message for="m_risk_proyecto"/>
+
+                <p:outputLabel for="m_risk_nombre" value="Riesgo: "/>
+                <p:inputText id="m_risk_nombre" value="#{proyectosBean.riesgo.nombre}" required="true"/>
+                <p:message for="m_risk_nombre"/>
+
+
+                <p:outputLabel for="m_risk_impacto" value="Impacto:"/>                
+                <p:selectOneMenu id="m_risk_impacto" value="#{proyectosBean.riesgo.impacto}" label="Impacto" required="true">
+                    <f:selectItem itemLabel="Bajo" itemValue="B"/>
+                    <f:selectItem itemLabel="Medio" itemValue="M"/>
+                    <f:selectItem itemLabel="Alto" itemValue="A"/>
+                </p:selectOneMenu>
+                <p:message for="m_risk_impacto" />
+
+                <p:outputLabel for="m_risk_estado" value="Estado:"/>                
+                <p:selectOneMenu id="m_risk_estado" value="#{proyectosBean.riesgo.estado}" label="Estado" required="true">
+                    <f:selectItem itemLabel="Pendiente" itemValue="I"/>
+                    <f:selectItem itemLabel="Mitigado" itemValue="M"/>
+                </p:selectOneMenu>
+                <p:message for="m_risk_estado" />
+
+                <p:outputLabel for="m_risk_descripcion" value="Descripción: "/>
+                <p:inputTextarea id="m_risk_descripcion" value="#{proyectosBean.riesgo.descripcion}" required="true"/>
+                <p:message for="m_risk_descripcion"/>
+
+
+
+                <p:outputLabel for="m_risk_accion" value="Acción: "/>
+                <p:inputTextarea id="m_risk_accion" value="#{proyectosBean.riesgo.accion}" required="true"/>
+                <p:message for="m_risk_accion"/>
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{proyectosBean.guardarRiesgo(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{proyectosBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>        
+        <!--//EDITAR REUNION-->
+        <!--AUDITORIA-->
+        <p:dialog id="risk_picture" widgetVar="dlg7"  
+                  resizable="false" header="Auditoría de Riesgo" modal="true" closable="false" showEffect="clip" hideEffect="clip" style="width: 600px">  
+            <p:panelGrid id="risk_mensaje"  columns="2">  
+                <p:graphicImage value="/images/footer.png"/>                    
+                <p:panelGrid columns="2" rendered="#{proyectosBean.enAuditoriaRiesgo}">
+
+                    <p:outputLabel for="a_risk_codigo" value="Código:"/>
+                    <p:outputLabel id="a_risk_codigo" value="#{proyectosBean.riesgo.pk.codigoRiesgo}" />
+
+                    <p:outputLabel for="a_risk_empresa" value="Proyecto:"/>                
+                    <p:outputLabel id="a_risk_empresa" value="#{proyectosBean.riesgo.proyecto.nombreProyecto}"/>              
+
+                    <p:outputLabel for="a_risk_usrcre" value="Usuario creación"/>                
+                    <p:outputLabel id="a_risk_usrcre" value="#{proyectosBean.getUsrAuditoria(proyectosBean.riesgo.usrCreacion)}" />              
+
+                    <p:outputLabel for="a_risk_usrcref" value="Fecha creación:"/>                
+                    <h:outputLabel id="a_risk_usrcref" value="#{proyectosBean.riesgo.fcreacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+
+                    <p:outputLabel for="a_risk_usrmod" value="Usuario modificación:"/>                
+                    <p:outputLabel id="a_risk_usrmod" value="#{proyectosBean.getUsrAuditoria(proyectosBean.riesgo.usrModificacion)}"/>              
+
+                    <p:outputLabel for="a_risk_usrmodf" value="Fecha modificación:"/>                
+                    <h:outputLabel id="a_risk_usrmodf" value="#{proyectosBean.riesgo.fmodificacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+
+                </p:panelGrid> 
+            </p:panelGrid>
+            <p:separator/>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{proyectosBean.cancelar()}" value="Volver" update="@form" icon="ui-icon-back"/>
+            </f:facet>
+        </p:dialog>
+        <!--//AUDITORIA-->
+        <!--//RIESGOS-->
+
+
+        <!--EXPECTATIVA-->
+        <!--PANEL-->
+        <p:dataTable id="expectativas"  value="#{proyectosBean.expectativas}" var="expectativa" selection="#{proyectosBean.expectativaSeleccionado}" selectionMode="single" scrollable="true" 
+                     rowKey="#{expectativa.pk}" style="width: 1000px" 
+                     paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
+                     paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     emptyMessage="No se ha registrado ningún gasto" rendered="#{proyectosBean.enExpectativas}" >
+
+            <p:ajax event="rowSelect" listener="#{proyectosBean.filaSeleccionadaExpectativa(evento)}" update="expectativas"/>
+            <p:ajax event="rowUnselect" listener="#{proyectosBean.filaSeleccionadaExpectativa(evento)}" update="expectativas"/>
+
+            <f:facet name="header">
+                Expectativas
+            </f:facet>
+            <p:column headerText="Proyecto" style="width: 100px">
+                #{expectativa.proyecto.nombreProyecto}
+            </p:column>     
+            <p:column headerText="Descripción" style="width: 200px">
+                #{expectativa.requerimiento} 
+            </p:column>
+            <p:column headerText="Estado" style="width: 80px">
+                #{proyectosBean.getEstado(expectativa.estado)} 
+            </p:column>
+            <p:column headerText="Acción" style="width: 200px">
+                #{expectativa.accion} 
+            </p:column>
+
+            <f:facet name="footer">  
+                <p:commandButton  value="Nuevo" update="@form" actionListener="#{proyectosBean.nuevaExpectativa(evento)}" icon="ui-icon-document"/>  
+                <p:commandButton value="Modificar" update="@form" actionListener="#{proyectosBean.modificarExpectativa(evento)}" disabled="#{proyectosBean.disableBotonesExpectativa}" icon="ui-icon-pencil"/>
+                <p:commandButton  value="Auditoría" update=":form:exp_mensaje" onsuccess="dlg8.show()" actionListener="#{proyectosBean.verAuditoriaExpectativa(evento)}" disabled="#{proyectosBean.disableBotonesExpectativa}" icon="ui-icon-document"/>
+                <p:commandButton value="Volver" update="@form" actionListener="#{proyectosBean.cancelar()}" icon="ui-icon-back"/>
+            </f:facet>
+        </p:dataTable>  
+        <!--//PANEL-->
+        <!--CREAR EXPECTATIVA-->
+        <p:panel id="nuevoExpectativa" header="Nuevo Expectativa" style="width: 800px"
+                 rendered="#{proyectosBean.enNuevaExpectativa}"> 
+            <p:focus context="nuevoExpectativa"/> 
+            <p:panelGrid columns="3" >  
+
+                <p:outputLabel for="exp_proyecto" value="Proyecto: "/>
+                <p:inputText id="exp_proyecto" value="#{proyectosBean.proyecto.nombreProyecto}" required="true" readonly="true"/>
+                <p:message for="exp_proyecto"/>
+
+                <p:outputLabel for="exp_req" value="Requerimiento "/>
+                <p:inputTextarea id="exp_req" value="#{proyectosBean.expectativa.requerimiento}" required="true"/>
+                <p:message for="exp_req"/>
+
+                <p:outputLabel for="exp_estado" value="Estado:"/>                
+                <p:selectOneMenu id="exp_estado" value="#{proyectosBean.expectativa.estado}" label="Estado" required="true">
+                    <f:selectItem itemLabel="Pendiente" itemValue="P"/>
+                    <f:selectItem itemLabel="Cumplida" itemValue="C"/>
+                </p:selectOneMenu>
+                <p:message for="exp_estado" />
+
+                <p:outputLabel for="exp_accion" value="Acción: "/>
+                <p:inputTextarea id="exp_accion" value="#{proyectosBean.expectativa.accion}"/>
+                <p:message for="exp_accion"/>
+
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{proyectosBean.guardarExpectativa(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{proyectosBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>
+
+        <!--//CREAR EXPECTATIVA-->
+        <!--EDITAR EXPECTATIVA-->
+        <p:panel id="editarExpectativa" header="Editar Expectativa" style="width: 800px"
+                 rendered="#{proyectosBean.enEdicionExpectativa}"> 
+            <p:focus context="editarExpectativa"/> 
+            <p:panelGrid columns="3" >  
+
+                <p:outputLabel for="m_exp_proyecto" value="Proyecto: "/>
+                <p:inputText id="m_exp_proyecto" value="#{proyectosBean.expectativa.proyecto.nombreProyecto}" required="true" readonly="true"/>
+                <p:message for="m_exp_proyecto"/>
+
+                <p:outputLabel for="m_exp_req" value="Requerimiento "/>
+                <p:inputTextarea id="m_exp_req" value="#{proyectosBean.expectativa.requerimiento}" required="true"/>
+                <p:message for="m_exp_req"/>
+
+                <p:outputLabel for="m_exp_estado" value="Estado:"/>                
+                <p:selectOneMenu id="m_exp_estado" value="#{proyectosBean.expectativa.estado}" label="Estado" required="true">
+                    <f:selectItem itemLabel="Pendiente" itemValue="P"/>
+                    <f:selectItem itemLabel="Cumplida" itemValue="C"/>
+                </p:selectOneMenu>
+                <p:message for="m_exp_estado" />
+
+                <p:outputLabel for="m_exp_accion" value="Acción: "/>
+                <p:inputTextarea id="m_exp_accion" value="#{proyectosBean.expectativa.accion}"/>
+                <p:message for="m_exp_accion"/>
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{proyectosBean.guardarExpectativa(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{proyectosBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>        
+        <!--//EDITAR EXPECTATIVA-->
+        <!--AUDITORIA-->
+        <p:dialog id="exp_picture" widgetVar="dlg8"  
+                  resizable="false" header="Auditoría de Expectativas" modal="true" closable="false" showEffect="clip" hideEffect="clip" style="width: 600px">  
+            <p:panelGrid id="exp_mensaje"  columns="2">  
+                <p:graphicImage value="/images/footer.png"/>                    
+                <p:panelGrid columns="2" rendered="#{proyectosBean.enAuditoriaExpectativa}">
+
+                    <p:outputLabel for="a_exp_codigo" value="Código:"/>
+                    <p:outputLabel id="a_exp_codigo" value="#{proyectosBean.expectativa.pk.codigoExpectativa}" />
+
+                    <p:outputLabel for="a_exp_empresa" value="Proyecto:"/>                
+                    <p:outputLabel id="a_exp_empresa" value="#{proyectosBean.expectativa.proyecto.nombreProyecto}"/>              
+
+                    <p:outputLabel for="a_exp_usrcre" value="Usuario creación"/>                
+                    <p:outputLabel id="a_exp_usrcre" value="#{proyectosBean.getUsrAuditoria(proyectosBean.expectativa.usrCreacion)}" />              
+
+                    <p:outputLabel for="a_exp_usrcref" value="Fecha creación:"/>                
+                    <h:outputLabel id="a_exp_usrcref" value="#{proyectosBean.expectativa.fcreacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+
+                    <p:outputLabel for="a_exp_usrmod" value="Usuario modificación:"/>                
+                    <p:outputLabel id="a_exp_usrmod" value="#{proyectosBean.getUsrAuditoria(proyectosBean.expectativa.usrModificacion)}"/>              
+
+                    <p:outputLabel for="a_exp_usrmodf" value="Fecha modificación:"/>                
+                    <h:outputLabel id="a_exp_usrmodf" value="#{proyectosBean.expectativa.fmodificacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+
+                </p:panelGrid> 
+            </p:panelGrid>
+            <p:separator/>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{proyectosBean.cancelar()}" value="Volver" update="@form" icon="ui-icon-back"/>
+            </f:facet>
+        </p:dialog>
+        <!--//AUDITORIA-->
+        <!--//EXPECTATIVA-->
+
+
+        <!--LECCIONES-->
+        <!--PANEL-->
+        <p:dataTable id="lecciones"  value="#{proyectosBean.leccionesAprendidasList}" var="leccion" selection="#{proyectosBean.leccionesAprendidasSeleccionada}" selectionMode="single" scrollable="true" 
+                     rowKey="#{leccion.pk}" style="width: 1000px" 
+                     paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
+                     paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     emptyMessage="No se ha registrado ninguna lección" rendered="#{proyectosBean.enLecciones}" >
+
+            <p:ajax event="rowSelect" listener="#{proyectosBean.filaSeleccionadaLeccion(evento)}" update="lecciones"/>
+            <p:ajax event="rowUnselect" listener="#{proyectosBean.filaSeleccionadaLeccion(evento)}" update="lecciones"/>
+
+            <f:facet name="header">
+                Base del Conocimiento
+            </f:facet>
+            <p:column headerText="Proyecto" style="width: 100px">
+                #{leccion.proyecto.nombreProyecto}
+            </p:column>     
+            <p:column headerText="Problema" style="width: 200px">
+                #{leccion.problema} 
+            </p:column>
+            <p:column headerText="Fecha del Problema" style="width: 70px">
+                <h:outputLabel value="#{leccion.fproblema}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputLabel>
+            </p:column>
+
+            <p:column headerText="Solución" style="width: 200px">
+                #{leccion.solucion} 
+            </p:column>
+
+            <p:column headerText="Fecha de la Solución" style="width: 70px">
+                <h:outputLabel value="#{leccion.fsolucion}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputLabel>
+            </p:column>
+
+
+            <f:facet name="footer">  
+                <p:commandButton  value="Nuevo" update="@form" actionListener="#{proyectosBean.nuevaLeccion(evento)}" icon="ui-icon-document"/>  
+                <p:commandButton value="Modificar" update="@form" actionListener="#{proyectosBean.modificarLeccion(evento)}" disabled="#{proyectosBean.disableBotonesLeccion}" icon="ui-icon-pencil"/>
+                <p:commandButton  value="Auditoría" update=":form:la_mensaje" onsuccess="dlg9.show()" actionListener="#{proyectosBean.verAuditoriaLeccion(evento)}" disabled="#{proyectosBean.disableBotonesLeccion}" icon="ui-icon-document"/>
+                <p:commandButton value="Volver" update="@form" actionListener="#{proyectosBean.cancelar()}" icon="ui-icon-back"/>
+            </f:facet>
+        </p:dataTable>  
+        <!--//PANEL-->
+        <!--CREAR EXPECTATIVA-->
+        <p:panel id="nuevaLeccion" header="Nueva Lección" style="width: 800px"
+                 rendered="#{proyectosBean.enNuevaLeccion}"> 
+            <p:focus context="nuevaLeccion"/> 
+            <p:panelGrid columns="3" >  
+
+                <p:outputLabel for="la_proyecto" value="Proyecto: "/>
+                <p:inputText id="la_proyecto" value="#{proyectosBean.proyecto.nombreProyecto}" required="true" readonly="true"/>
+                <p:message for="la_proyecto"/>
+
+                <p:outputLabel for="la_problema" value="Problema: "/>
+                <p:inputTextarea id="la_problema" value="#{proyectosBean.leccionesAprendidas.problema}" required="true"/>
+                <p:message for="la_problema"/>
+
+                <p:outputLabel for="la_fp" value="Fecha del Problema: "/>
+                <p:calendar id="la_fp" value="#{proyectosBean.leccionesAprendidas.fproblema}" label="Fecha del Problema" showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode" required="true"/>
+                <p:message for="la_fp"/>
+
+
+                <p:outputLabel for="la_solucion" value="Solución: "/>
+                <p:inputTextarea id="la_solucion" value="#{proyectosBean.leccionesAprendidas.solucion}"/>
+                <p:message for="la_solucion"/>
+
+                <p:outputLabel for="la_fs" value="Fecha de la Solución: "/>
+                <p:calendar id="la_fs" value="#{proyectosBean.leccionesAprendidas.fsolucion}" label="Fecha de la Solucion" showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode"/>
+                <p:message for="la_fs"/>
+
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{proyectosBean.guardarLeccion(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{proyectosBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>
+
+        <!--//CREAR LECCION-->
+        <!--EDITAR LECCION-->
+        <p:panel id="editarLeccion" header="Editar Lección" style="width: 800px"
+                 rendered="#{proyectosBean.enEdicionLeccion}"> 
+            <p:focus context="editarLeccion"/> 
+            <p:panelGrid columns="3" >  
+
+                <p:outputLabel for="m_la_proyecto" value="Proyecto: "/>
+                <p:inputText id="m_la_proyecto" value="#{proyectosBean.leccionesAprendidas.proyecto.nombreProyecto}" required="true" readonly="true"/>
+                <p:message for="m_la_proyecto"/>
+
+                <p:outputLabel for="m_la_problema" value="Problema: "/>
+                <p:inputTextarea id="m_la_problema" value="#{proyectosBean.leccionesAprendidas.problema}" required="true"/>
+                <p:message for="m_la_problema"/>
+
+                <p:outputLabel for="m_la_fp" value="Fecha del Problema: "/>
+                <p:calendar id="m_la_fp" value="#{proyectosBean.leccionesAprendidas.fproblema}" label="Fecha del Problema" showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode" required="true"/>
+                <p:message for="m_la_fp"/>
+
+
+                <p:outputLabel for="m_la_solucion" value="Solución: "/>
+                <p:inputTextarea id="m_la_solucion" value="#{proyectosBean.leccionesAprendidas.solucion}"/>
+                <p:message for="m_la_solucion"/>
+
+                <p:outputLabel for="m_la_fs" value="Fecha de la Solución: "/>
+                <p:calendar id="m_la_fs" value="#{proyectosBean.leccionesAprendidas.fsolucion}" label="Fecha de la Solucion" showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode"/>
+                <p:message for="m_la_fs"/>
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{proyectosBean.guardarLeccion(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{proyectosBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>        
+        <!--//EDITAR LECCION-->
+        <!--AUDITORIA-->
+        <p:dialog id="la_picture" widgetVar="dlg9"  
+                  resizable="false" header="Auditoría de Leccion" modal="true" closable="false" showEffect="clip" hideEffect="clip" style="width: 600px">  
+            <p:panelGrid id="la_mensaje"  columns="2">  
+                <p:graphicImage value="/images/footer.png"/>                    
+                <p:panelGrid columns="2" rendered="#{proyectosBean.enAuditoriaLeccion}">
+
+                    <p:outputLabel for="a_la_codigo" value="Código:"/>
+                    <p:outputLabel id="a_la_codigo" value="#{proyectosBean.leccionesAprendidas.pk.codigoLeccionesAprendidas}" />
+
+                    <p:outputLabel for="a_la_empresa" value="Proyecto:"/>                
+                    <p:outputLabel id="a_la_empresa" value="#{proyectosBean.leccionesAprendidas.proyecto.nombreProyecto}"/>              
+
+                    <p:outputLabel for="a_la_usrcre" value="Usuario creación"/>                
+                    <p:outputLabel id="a_la_usrcre" value="#{proyectosBean.getUsrAuditoria(proyectosBean.leccionesAprendidas.usrCreacion)}" />              
+
+                    <p:outputLabel for="a_la_usrcref" value="Fecha creación:"/>                
+                    <h:outputLabel id="a_la_usrcref" value="#{proyectosBean.leccionesAprendidas.fcreacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+
+                    <p:outputLabel for="a_la_usrmod" value="Usuario modificación:"/>                
+                    <p:outputLabel id="a_la_usrmod" value="#{proyectosBean.getUsrAuditoria(proyectosBean.leccionesAprendidas.usrModificacion)}"/>              
+
+                    <p:outputLabel for="a_la_usrmodf" value="Fecha modificación:"/>                
+                    <h:outputLabel id="a_la_usrmodf" value="#{proyectosBean.leccionesAprendidas.fmodificacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+
+                </p:panelGrid> 
+            </p:panelGrid>
+            <p:separator/>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{proyectosBean.cancelar()}" value="Volver" update="@form" icon="ui-icon-back"/>
+            </f:facet>
+        </p:dialog>
+        <!--//AUDITORIA-->
+        <!--//LECCIONES-->
+
+        <!--INTERESADO-->
+        <!--PANEL-->
+        <p:dataTable id="interesados"  value="#{proyectosBean.interesados}" var="interesado" selection="#{proyectosBean.interesadoSeleccionado}" selectionMode="single" scrollable="true" 
+                     rowKey="#{interesado.codigo}" style="width: 800px" scrollWidth="false"
+                     paginator="true" rows="10"   paginatorPosition="bottom"
+                     paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     emptyMessage="No se ha registrado ningun Interesado" rendered="#{proyectosBean.enInteresados}" >
+
+            <p:ajax event="rowSelect" listener="#{proyectosBean.filaSeleccionadaInteresado(evento)}" update="interesados"/>
+            <p:ajax event="rowUnselect" listener="#{proyectosBean.filaSeleccionadaInteresado(evento)}" update="interesados"/>
+
+            <f:facet name="header">
+                Interesados
+            </f:facet>
+            <p:column headerText="Proyecto" style="width: 50px">
+                #{proyectosBean.proyecto.nombreProyecto}
+            </p:column>
+            <p:column headerText="Empresa" style="width: 50px">
+                #{interesado.empresa.razonSocial}
+            </p:column>
+            <p:column headerText="Nombre Empleado" style="width: 80px">
+                #{interesado.nombre}
+            </p:column>
+            <p:column headerText="Teléfono" style="width: 50px">
+                #{interesado.telefono}
+            </p:column>
+            <p:column headerText="Email" style="width: 120px">
+                #{interesado.email}
+            </p:column>
+            <f:facet name="footer">  
+                <p:commandButton  value="Nuevo" update="@form" actionListener="#{proyectosBean.nuevoInteresado(evento)}" icon="ui-icon-document"/>  
+                <p:commandButton value="Modificar" update="@form" actionListener="#{proyectosBean.modificarInteresado(evento)}" disabled="#{proyectosBean.disableBotonesInteresado}" icon="ui-icon-pencil"/>
+                <p:commandButton  value="Auditoría" update=":form:inte_mensaje" onsuccess="dlg10.show()" actionListener="#{proyectosBean.verAuditoriaInteresado(evento)}" disabled="#{proyectosBean.disableBotonesInteresado}" icon="ui-icon-document"/>  
+                <p:commandButton value="Volver" update="@form" actionListener="#{proyectosBean.cancelar()}" icon="ui-icon-back"/>
+            </f:facet>
+        </p:dataTable>
+
+
+        <!--//PANEL-->
+        <!--CREAR INTERESADO-->
+        <p:panel id="nuevoInteresado" header="Nuevo Interesado" rendered="#{proyectosBean.enNuevaInteresado}" style="width: 800px">
+            <p:panelGrid columns="3">
+
+                <p:outputLabel for="inte_proyecto" value="Proyecto: "/>
+                <p:inputText id="inte_proyecto" value="#{proyectosBean.proyecto.nombreProyecto}" required="true" readonly="true"/>
+                <p:message for="inte_proyecto"/>
+
+                <p:outputLabel for="inte_interesado" value="Interesado:"/>                
+                <p:inputText id="inte_interesado" value="#{proyectosBean.interesado.nombre}" label="NombreInteresado" required="true">
+                </p:inputText>
+                <p:message for="inte_interesado" />
+
+                <p:outputLabel for="inte_telef" value="Telefono:" />
+                <p:inputMask  id="inte_telef" value="#{proyectosBean.interesado.telefono}" mask="9999999999" label="Telefono" required="true"/> 
+                <p:message for="inte_telef" />                
+
+                <p:outputLabel for="inte_email" value="Email:" />
+                <p:inputText id="inte_email" value="#{proyectosBean.interesado.email}" label="Email" required="true" validatorMessage="Dirección de correo inválida">
+                    <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                </p:inputText>
+                <p:message for="inte_email" />
+
+                <p:outputLabel for="inte_ws" value="Notas:" />
+                <p:inputTextarea id="inte_ws" value="#{proyectosBean.interesado.notas}" label="Notas"/> 
+                <p:message for="inte_ws" />
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{proyectosBean.guardarInteresado(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{proyectosBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>
+
+        <!--//CREAR INTERESADO-->
+
+        <!--EDITAR INTERESADO-->
+        <p:panel id="editarInteresado" header="Edición Interesado" rendered="#{proyectosBean.enEdicionInteresado}" style="width: 800px">
+            <p:panelGrid columns="3">
+
+                <p:outputLabel for="m_inte_proyecto" value="Proyecto: "/>
+                <p:inputText id="m_inte_proyecto" value="#{proyectosBean.proyecto.nombreProyecto}" required="true" readonly="true"/>
+                <p:message for="m_inte_proyecto"/>
+
+                <p:outputLabel for="m_inte_interesado" value="Interesado:"/>                
+                <p:inputText id="m_inte_interesado" value="#{proyectosBean.interesado.nombre}" label="NombreInteresado" required="true">
+                </p:inputText>
+                <p:message for="m_inte_interesado" />
+
+                <p:outputLabel for="m_inte_telef" value="Telefono:" />
+                <p:inputMask  id="m_inte_telef" value="#{proyectosBean.interesado.telefono}" mask="9999999999" label="Telefono" required="true"/> 
+                <p:message for="m_inte_telef" />                
+
+                <p:outputLabel for="m_inte_email" value="Email:" />
+                <p:inputText id="m_inte_email" value="#{proyectosBean.interesado.email}" label="Email" required="true" validatorMessage="Dirección de correo inválida">
+                    <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                </p:inputText>
+                <p:message for="m_inte_email" />
+
+                <p:outputLabel for="m_inte_ws" value="Notas:" />
+                <p:inputTextarea id="m_inte_ws" value="#{proyectosBean.interesado.notas}" label="Notas"/> 
+                <p:message for="m_inte_ws" />
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{proyectosBean.guardarInteresado(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{proyectosBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>
+        <!--//EDITAR INTERESADO-->
+
+        <!--AUDITORIA INTERESADO-->
+        <p:dialog id="inte_picture" widgetVar="dlg10"  
+                  resizable="false" header="Auditoría de Interesado" modal="true" closable="false" showEffect="clip" hideEffect="clip" style="width: 600px">  
+            <p:panelGrid id="inte_mensaje"  columns="2">  
+                <p:graphicImage value="/images/footer.png"/>                    
+                <p:panelGrid columns="2" rendered="#{proyectosBean.enAuditoriaInteresado}">
+
+                    <p:outputLabel for="a_inte_codigo" value="Código:"/>
+                    <p:outputLabel id="a_inte_codigo" value="#{proyectosBean.interesado.codigo}"/>
+
+                    <p:outputLabel for="a_inte_empresa" value="Empresa:"/>
+                    <p:outputLabel id="a_inte_empresa" value="#{proyectosBean.interesado.empresa.razonSocial}" />
+
+                    <p:outputLabel for="a_inte_interesado" value="Interesado:"/>                
+                    <p:outputLabel id="a_inte_interesado" value="#{proyectosBean.interesado.nombre}"/>              
+
+                    <p:outputLabel for="a_inte_usrcre" value="Usuario creación"/>                
+                    <p:outputLabel id="a_inte_usrcre" value="#{proyectosBean.getUsrAuditoria(proyectosBean.interesado.usrCreacion)}" />              
+
+                    <p:outputLabel for="a_inte_usrcref" value="Fecha creación:"/>                
+                    <h:outputLabel id="a_inte_usrcref" value="#{proyectosBean.interesado.fmodificacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                    <p:outputLabel for="a_inte_usrmod" value="Usuario modificación:"/>                
+                    <p:outputLabel id="a_inte_usrmod" value="#{proyectosBean.getUsrAuditoria(proyectosBean.interesado.usrModificacion)}" />              
+
+                    <p:outputLabel for="a_inte_usrmodf" value="Fecha modificación:"/>                
+                    <h:outputLabel id="a_inte_usrmodf" value="#{proyectosBean.interesado.fmodificacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                </p:panelGrid> 
+            </p:panelGrid>
+            <p:separator/>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{proyectosBean.cancelar()}" value="Volver" update="@form" icon="ui-icon-back"/>
+            </f:facet>
+        </p:dialog>
+
+        <!--//AUDITORIA INTERESADO-->
+
+        <!--//INTERESADO-->
+
+
+        <!--RESPONSABLES-->
+        <!--PANEL-->
+        <p:dataTable id="responsables"  value="#{proyectosBean.actividadEmpleados}" var="responsable" selection="#{proyectosBean.actividadEmpleadoSeleccionado}" selectionMode="single" scrollable="true" 
+                     rowKey="#{responsable.pk}" style="width: 1000px" scrollWidth="false"
+                     paginator="true" rows="10"   paginatorPosition="bottom"
+                     paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     emptyMessage="No se ha registrado ningun Interesado" rendered="#{proyectosBean.enResponsables}" >
+
+            <p:ajax event="rowSelect" listener="#{proyectosBean.filaSeleccionadaResponsable(evento)}" update="responsables"/>
+            <p:ajax event="rowUnselect" listener="#{proyectosBean.filaSeleccionadaResponsable(evento)}" update="responsables"/>
+
+            <f:facet name="header">
+                Responsables
+            </f:facet>
+            <p:column headerText="Sub-Actividad" style="width: 50px">
+                #{responsable.actividad.nombreActividad}
+            </p:column>
+            <p:column headerText="Empleado" style="width: 50px">
+                #{responsable.empleado.nombre}
+            </p:column>
+            <p:column headerText="Responsable" style="width: 80px">
+                #{responsable.esResponsable}
+            </p:column>
+            <p:column headerText="Fecha Inicio" style="width: 60px">
+                <h:outputLabel value="#{responsable.finicio}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputLabel>
+            </p:column>
+            <p:column headerText="Fecha Fin" style="width: 60px">
+                <h:outputLabel value="#{responsable.ffin}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputLabel>
+            </p:column>
+            <f:facet name="footer">  
+                <p:commandButton  value="Nuevo" update="@form" actionListener="#{proyectosBean.nuevoResponsable(evento)}" icon="ui-icon-document"/>  
+                <p:commandButton value="Modificar" update="@form" actionListener="#{proyectosBean.modificarResponsable(evento)}" disabled="#{proyectosBean.disableBotonesResponsable}" icon="ui-icon-pencil"/>
+                <p:commandButton  value="Auditoría" update=":form:resp_mensaje" onsuccess="dlg11.show()" actionListener="#{proyectosBean.verAuditoriaResponsable(evento)}" disabled="#{proyectosBean.disableBotonesResponsable}" icon="ui-icon-document"/>  
+                <p:commandButton value="Volver" update="@form" actionListener="#{proyectosBean.cancelar()}" icon="ui-icon-back"/>
+            </f:facet>
+        </p:dataTable>
+
+
+        <!--//PANEL-->
+        <!--CREAR RESPONSABLES-->
+        <p:panel id="nuevoRevesponsable" header="Nuevo Responsable" rendered="#{proyectosBean.enNuevaResponsable}" style="width: 800px">
+            <p:panelGrid columns="3">
+
+                <p:outputLabel for="resp_subact" value="Sub-Actividad: "/>
+                <p:inputText id="resp_subact" value="#{proyectosBean.subActividad.nombreActividad}" required="true" readonly="true"/>
+                <p:message for="resp_subact"/>
+
+                <p:outputLabel for="resp_empleado" value="Empleado: "/>
+                <p:selectOneMenu id="resp_empleado" value="#{proyectosBean.actividadEmpleado.pk.responsable}" label="Empleado" required="true">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItems value="#{proyectosBean.empleados}" var="empleado" itemValue="#{empleado.codigo}" itemLabel="#{empleado.nombre}"/>
+                </p:selectOneMenu>
+                <p:message for="resp_empleado"/>
+
+                <p:outputLabel for="resp_esresp" value="¿Es responsable?"/>                
+                <p:selectOneMenu id="resp_esresp" value="#{proyectosBean.actividadEmpleado.esResponsable}" label="Es Responsable" required="true">
+                    <f:selectItem itemLabel="No" itemValue="N"/>
+                    <f:selectItem itemLabel="Si" itemValue="S"/>
+                </p:selectOneMenu>
+                <p:message for="resp_esresp" />
+
+                <p:outputLabel for="resp_finicio" value="Fecha de Inicio: "/>
+                <p:calendar id="resp_finicio" value="#{proyectosBean.actividadEmpleado.finicio}" label="Fecha de Inicio" showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode" required="true"/>
+                <p:message for="resp_finicio"/>
+
+                <p:outputLabel for="resp_ffin" value="Fecha de Finalización "/>
+                <p:calendar id="resp_ffin" value="#{proyectosBean.actividadEmpleado.ffin}" label="Fecha de Finalización " showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode" required="true"/>
+                <p:message for="resp_ffin"/>
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{proyectosBean.guardarResponsable(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{proyectosBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>
+
+        <!--//CREAR RESPONSABLES-->
+
+        <!--EDITAR RESPONSABLES-->
+        <p:panel id="editarResponsable" header="Edición Responsable" rendered="#{proyectosBean.enEdicionResponsable}" style="width: 800px">
+            <p:panelGrid columns="3">
+
+                <p:outputLabel for="m_resp_subact" value="Sub-Actividad: "/>
+                <p:inputText id="m_resp_subact" value="#{proyectosBean.subActividad.nombreActividad}" required="true" readonly="true"/>
+                <p:message for="m_resp_subact"/>
+
+                <p:outputLabel for="m_resp_emple" value="Empleado: "/>
+                <p:inputText id="m_resp_emple" value="#{proyectosBean.actividadEmpleado.empleado.nombre}" required="true" readonly="true"/>
+                <p:message for="m_resp_emple"/>
+
+                <p:outputLabel for="m_resp_esresp" value="¿Es responsable?"/>                
+                <p:selectOneMenu id="m_resp_esresp" value="#{proyectosBean.actividadEmpleado.esResponsable}" label="Es Responsable" required="true">
+                    <f:selectItem itemLabel="No" itemValue="N"/>
+                    <f:selectItem itemLabel="Si" itemValue="S"/>
+                </p:selectOneMenu>
+                <p:message for="m_resp_esresp" />
+
+                <p:outputLabel for="m_resp_finicio" value="Fecha de Inicio: "/>
+                <p:calendar id="m_resp_finicio" value="#{proyectosBean.actividadEmpleado.finicio}" label="Fecha de Inicio" showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode" required="true"/>
+                <p:message for="m_resp_finicio"/>
+
+                <p:outputLabel for="m_resp_ffin" value="Fecha de Finalización: "/>
+                <p:calendar id="m_resp_ffin" value="#{proyectosBean.actividadEmpleado.ffin}" label="Fecha de Finalización " showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode" required="true"/>
+                <p:message for="m_resp_ffin"/>
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{proyectosBean.guardarResponsable(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{proyectosBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>
+        <!--//EDITAR RESPONSABLES-->
+
+        <!--AUDITORIA RESPONSABLES-->
+        <p:dialog id="resp_picture" widgetVar="dlg11"  
+                  resizable="false" header="Auditoría de Responsable" modal="true" closable="false" showEffect="clip" hideEffect="clip" style="width: 600px">  
+            <p:panelGrid id="resp_mensaje"  columns="2">  
+                <p:graphicImage value="/images/footer.png"/>                    
+                <p:panelGrid columns="2" rendered="#{proyectosBean.enAuditoriaResponsable}">
+
+                    <p:outputLabel for="a_resp_codigo" value="Código:"/>
+                    <p:outputLabel id="a_resp_codigo" value="#{proyectosBean.actividadEmpleado.pk.responsable}"/>
+
+                    <p:outputLabel for="a_resp_empresa" value="Empleado:"/>
+                    <p:outputLabel id="a_resp_empresa" value="#{proyectosBean.actividadEmpleado.empleado.nombre}" />
+
+                    <p:outputLabel for="a_resp_interesado" value="Responsable"/>                
+                    <p:outputLabel id="a_resp_interesado" value="#{proyectosBean.actividadEmpleado.esResponsable}"/>              
+
+                    <p:outputLabel for="a_resp_usrcre" value="Usuario creación"/>                
+                    <p:outputLabel id="a_resp_usrcre" value="#{proyectosBean.getUsrAuditoria(proyectosBean.actividadEmpleado.usrCreacion)}" />              
+
+                    <p:outputLabel for="a_resp_usrcref" value="Fecha creación:"/>                
+                    <h:outputLabel id="a_resp_usrcref" value="#{proyectosBean.actividadEmpleado.fmodificacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                    <p:outputLabel for="a_resp_usrmod" value="Usuario modificación:"/>                
+                    <p:outputLabel id="a_resp_usrmod" value="#{proyectosBean.getUsrAuditoria(proyectosBean.actividadEmpleado.usrModificacion)}" />              
+
+                    <p:outputLabel for="a_resp_usrmodf" value="Fecha modificación:"/>                
+                    <h:outputLabel id="a_resp_usrmodf" value="#{proyectosBean.actividadEmpleado.fmodificacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                </p:panelGrid> 
+            </p:panelGrid>
+            <p:separator/>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{proyectosBean.cancelar()}" value="Volver" update="@form" icon="ui-icon-back"/>
+            </f:facet>
+        </p:dialog>
+
+        <!--//AUDITORIA RESPONSABLES-->
+
+        <!--//RESPONSABLES-->
+
+
+
+
         <!--
         DOCUMENTOS
         -->
@@ -677,6 +1590,7 @@
                 <p:commandButton  value="Nuevo" update="@form" actionListener="#{proyectosBean.nuevoSubActividad(evento)}" disabled="#{proyectosBean.disableNuevaSubActividad}" icon="ui-icon-document"/>  
                 <p:commandButton value="Modificar" update="@form" actionListener="#{proyectosBean.modificarSubActividad(evento)}" disabled="#{proyectosBean.disableModificarSubActividad}" icon="ui-icon-pencil"/>
                 <p:commandButton  value="Gastos" update="@form" actionListener="#{proyectosBean.verGastos(evento)}" disabled="#{proyectosBean.disableAuditoriaSubActividad}" icon="ui-icon-close"/>
+                <p:commandButton value="Responsables" update="@form" actionListener="#{proyectosBean.verResponsables(evento)}" disabled="#{proyectosBean.disableAuditoriaSubActividad}" icon="ui-icon-close"/>
                 <p:commandButton  value="Entregables" update="@form" actionListener="#{proyectosBean.verEntregables(evento)}" disabled="#{proyectosBean.disableAuditoriaSubActividad}" icon="ui-icon-close"/>
                 <p:commandButton  value="Auditoría" update=":form:sact_mensaje" onsuccess="dlg3.show()" actionListener="#{proyectosBean.verAuditoriaSubActividad(evento)}" disabled="#{proyectosBean.disableAuditoriaSubActividad}" icon="ui-icon-document"/>
                 <p:commandButton value="Volver" update="@form" actionListener="#{proyectosBean.cancelar()}" icon="ui-icon-back"/>
@@ -957,8 +1871,8 @@
             <p:column headerText="Tipo" style="width: 100px">
                 #{entregable.tipoEntregable.nombre} 
             </p:column>
-            <p:column headerText="" style="width: 40px">
-                #{entregable.estado}  
+            <p:column headerText="Estado" style="width: 40px">
+                #{proyectosBean.getEstado(entregable.estado)}  
             </p:column>
             <f:facet name="footer">  
                 <p:commandButton  value="Nuevo" update="@form" actionListener="#{proyectosBean.nuevaActividadEntregable(evento)}" icon="ui-icon-document"/>  

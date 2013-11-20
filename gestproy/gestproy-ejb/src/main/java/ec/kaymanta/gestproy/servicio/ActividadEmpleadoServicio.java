@@ -5,6 +5,7 @@
 package ec.kaymanta.gestproy.servicio;
 
 import ec.kaymanta.gestproy.dao.ActividadEmpleadoDAO;
+import ec.kaymanta.gestproy.modelo.Actividad;
 import ec.kaymanta.gestproy.modelo.ActividadEmpleado;
 import ec.kaymanta.gestproy.modelo.ActividadEmpleadoPK;
 import java.util.List;
@@ -69,6 +70,16 @@ public class ActividadEmpleadoServicio {
         System.out.println("En actualizar " + actividadEmpleado.getEsResponsable());
         //actividadEmpleado.setFechaUltAcceso(new Date());
         this.actividadEmpleadoDAO.update(actividadEmpleado);
+    }
+    
+    
+    /**
+     * Función para obtener todos los registros existentes
+     *
+     * @return
+     */
+    public List<ActividadEmpleado> findBySubActividad(Actividad actividad) {
+        return this.actividadEmpleadoDAO.findBySubActividad(actividad);
     }
 
     /**

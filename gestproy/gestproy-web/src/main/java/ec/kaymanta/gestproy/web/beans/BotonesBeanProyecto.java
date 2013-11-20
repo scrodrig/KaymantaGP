@@ -73,6 +73,37 @@ public class BotonesBeanProyecto {
     private Boolean enEdicionReunion;
     private Boolean enAuditoriaReunion;
     private Boolean disableBotonesReunion;
+    //FLAGS PARA RIESGOS
+    private Boolean enRiesgos;
+    private Boolean enNuevaRiesgo;
+    private Boolean enEdicionRiesgo;
+    private Boolean enAuditoriaRiesgo;
+    private Boolean disableBotonesRiesgo;
+    //FLAGS PARA EXPECTATIVAS
+    private Boolean enExpectativas;
+    private Boolean enNuevaExpectativa;
+    private Boolean enEdicionExpectativa;
+    private Boolean enAuditoriaExpectativa;
+    private Boolean disableBotonesExpectativa;
+    //FLAGS PARA LECCIONES APRENDIDAS
+    private Boolean enLecciones;
+    private Boolean enNuevaLeccion;
+    private Boolean enEdicionLeccion;
+    private Boolean enAuditoriaLeccion;
+    private Boolean disableBotonesLeccion;
+    //FLAGS PARA LECCIONES APRENDIDAS
+    private Boolean enInteresados;
+    private Boolean enNuevaInteresado;
+    private Boolean enEdicionInteresado;
+    private Boolean enAuditoriaInteresado;
+    private Boolean disableBotonesInteresado;
+    
+    //FLAGS PARA RESPONSABLE Y FORMULAS
+    private Boolean enResponsables;
+    private Boolean enNuevaResponsable;
+    private Boolean enEdicionResponsable;
+    private Boolean enAuditoriaResponsable;
+    private Boolean disableBotonesResponsable;
 
     @PostConstruct
     public void postConstructor() {
@@ -151,12 +182,52 @@ public class BotonesBeanProyecto {
         this.disableBotonesDocumento = Boolean.TRUE;
         this.uno = Boolean.FALSE;
     }
-    
+
     public void sinSeleccionReuniones() {
         this.resetTablaReuniones();
         this.enReuniones = Boolean.TRUE;
         this.noSeleccionados = Boolean.TRUE;
         this.disableBotonesReunion = Boolean.TRUE;
+        this.uno = Boolean.FALSE;
+    }
+
+    public void sinSeleccionRiesgos() {
+        this.resetTablaRiesgos();
+        this.enRiesgos = Boolean.TRUE;
+        this.noSeleccionados = Boolean.TRUE;
+        this.disableBotonesReunion = Boolean.TRUE;
+        this.uno = Boolean.FALSE;
+    }
+
+    public void sinSeleccionExpectativas() {
+        this.resetTablaExpectativa();
+        this.enExpectativas = Boolean.TRUE;
+        this.noSeleccionados = Boolean.TRUE;
+        this.disableBotonesExpectativa = Boolean.TRUE;
+        this.uno = Boolean.FALSE;
+    }
+
+    public void sinSeleccionLecciones() {
+        this.resetTablaLecciones();
+        this.enLecciones = Boolean.TRUE;
+        this.noSeleccionados = Boolean.TRUE;
+        this.disableBotonesLeccion = Boolean.TRUE;
+        this.uno = Boolean.FALSE;
+    }
+
+    public void sinSeleccionInteresados() {
+        this.resetTablaInteresados();
+        this.enInteresados = Boolean.TRUE;
+        this.noSeleccionados = Boolean.TRUE;
+        this.disableBotonesInteresado = Boolean.TRUE;
+        this.uno = Boolean.FALSE;
+    }
+    
+    public void sinSeleccionResponsables() {
+        this.resetTablaResponsables();
+        this.enResponsables = Boolean.TRUE;
+        this.noSeleccionados = Boolean.TRUE;
+        this.disableBotonesResponsable = Boolean.TRUE;
         this.uno = Boolean.FALSE;
     }
 
@@ -194,9 +265,34 @@ public class BotonesBeanProyecto {
         this.resetTablaDocs();
         this.uno = Boolean.TRUE;
     }
-    
+
     public void seleccionadoUnoReunion() {
         this.resetTablaReuniones();
+        this.uno = Boolean.TRUE;
+    }
+
+    public void seleccionadoUnoRiesgo() {
+        this.resetTablaRiesgos();
+        this.uno = Boolean.TRUE;
+    }
+
+    public void seleccionadoUnoExpectativa() {
+        this.resetTablaExpectativa();
+        this.uno = Boolean.TRUE;
+    }
+
+    public void seleccionadoUnoLeccion() {
+        this.resetTablaLecciones();
+        this.uno = Boolean.TRUE;
+    }
+
+    public void seleccionadoUnoInteresados() {
+        this.resetTablaInteresados();
+        this.uno = Boolean.TRUE;
+    }
+    
+    public void seleccionadoUnoResponsables() {
+        this.resetTablaResponsables();
         this.uno = Boolean.TRUE;
     }
 
@@ -277,7 +373,42 @@ public class BotonesBeanProyecto {
         this.disabledEliminar = Boolean.TRUE;
         this.enNuevaReunion = Boolean.TRUE;
     }
+
+    public void crearExpectativa() {
+        this.reset();
+        this.disableBotonesExpectativa = Boolean.TRUE;
+        this.disabledEliminar = Boolean.TRUE;
+        this.enNuevaExpectativa = Boolean.TRUE;
+    }
+
+    public void crearRiesgo() {
+        this.reset();
+        this.disableBotonesRiesgo = Boolean.TRUE;
+        this.disabledEliminar = Boolean.TRUE;
+        this.enNuevaRiesgo = Boolean.TRUE;
+    }
+
+    public void crearLeccion() {
+        this.reset();
+        this.disableBotonesLeccion = Boolean.TRUE;
+        this.disabledEliminar = Boolean.TRUE;
+        this.enNuevaLeccion = Boolean.TRUE;
+    }
+
+    public void crearInteresado() {
+        this.reset();
+        this.disableBotonesInteresado = Boolean.TRUE;
+        this.disabledEliminar = Boolean.TRUE;
+        this.enNuevaInteresado = Boolean.TRUE;
+    }
     
+    public void crearResponsable() {
+        this.reset();
+        this.disableBotonesResponsable = Boolean.TRUE;
+        this.disabledEliminar = Boolean.TRUE;
+        this.enNuevaResponsable = Boolean.TRUE;
+    }
+
     public void modificar() {
         this.reset();
         this.disabledNuevo = Boolean.TRUE;
@@ -327,10 +458,35 @@ public class BotonesBeanProyecto {
         this.reset();
         this.enEdicionEntregable = Boolean.TRUE;
     }
-    
-     public void modificarReunion() {
+
+    public void modificarReunion() {
         this.reset();
         this.enEdicionReunion = Boolean.TRUE;
+    }
+
+    public void modificarRiesgo() {
+        this.reset();
+        this.enEdicionRiesgo = Boolean.TRUE;
+    }
+
+    public void modificarExpectativa() {
+        this.reset();
+        this.enEdicionExpectativa = Boolean.TRUE;
+    }
+
+    public void modificarLeccion() {
+        this.reset();
+        this.enEdicionLeccion = Boolean.TRUE;
+    }
+
+    public void modificarInteresado() {
+        this.reset();
+        this.enEdicionInteresado = Boolean.TRUE;
+    }
+    
+    public void modificarResponsable() {
+        this.reset();
+        this.enEdicionResponsable = Boolean.TRUE;
     }
 
     public void cancelar() {
@@ -347,9 +503,6 @@ public class BotonesBeanProyecto {
         this.enAuditoriaDocumento = Boolean.FALSE;
         this.disableCargaDocumentos = Boolean.TRUE;
         this.soloLectura = Boolean.FALSE;
-
-
-
     }
 
     public void verAuditoria() {
@@ -424,11 +577,46 @@ public class BotonesBeanProyecto {
         this.enAuditoriaEntregable = Boolean.TRUE;
         this.soloLectura = Boolean.TRUE;
     }
-    
+
     public void verAuditoriaReunion() {
         this.reset();
         this.disableBotonesReunion = Boolean.TRUE;
         this.enAuditoriaReunion = Boolean.TRUE;
+        this.soloLectura = Boolean.TRUE;
+    }
+
+    public void verAuditoriaRiesgo() {
+        this.reset();
+        this.disableBotonesRiesgo = Boolean.TRUE;
+        this.enAuditoriaRiesgo = Boolean.TRUE;
+        this.soloLectura = Boolean.TRUE;
+    }
+
+    public void verAuditoriaExpectativa() {
+        this.reset();
+        this.disableBotonesExpectativa = Boolean.TRUE;
+        this.enAuditoriaExpectativa = Boolean.TRUE;
+        this.soloLectura = Boolean.TRUE;
+    }
+
+    public void verAuditoriaLeccion() {
+        this.reset();
+        this.disableBotonesLeccion = Boolean.TRUE;
+        this.enAuditoriaLeccion = Boolean.TRUE;
+        this.soloLectura = Boolean.TRUE;
+    }
+
+    public void verAuditoriaInteresado() {
+        this.reset();
+        this.disableBotonesInteresado = Boolean.TRUE;
+        this.enAuditoriaInteresado = Boolean.TRUE;
+        this.soloLectura = Boolean.TRUE;
+    }
+    
+    public void verAuditoriaResponsable() {
+        this.reset();
+        this.disableBotonesResponsable = Boolean.TRUE;
+        this.enAuditoriaResponsable = Boolean.TRUE;
         this.soloLectura = Boolean.TRUE;
     }
 
@@ -494,11 +682,41 @@ public class BotonesBeanProyecto {
         this.enEntregables = Boolean.TRUE;
         this.disableBotonesEntregable = Boolean.TRUE;
     }
-    
+
     public void verReuniones() {
         this.reset();
         this.enReuniones = Boolean.TRUE;
         this.disableBotonesReunion = Boolean.TRUE;
+    }
+
+    public void verRiesgos() {
+        this.reset();
+        this.enRiesgos = Boolean.TRUE;
+        this.disableBotonesRiesgo = Boolean.TRUE;
+    }
+
+    public void verExpectativas() {
+        this.reset();
+        this.enExpectativas = Boolean.TRUE;
+        this.disableBotonesExpectativa = Boolean.TRUE;
+    }
+
+    public void verLecciones() {
+        this.reset();
+        this.enLecciones = Boolean.TRUE;
+        this.disableBotonesLeccion = Boolean.TRUE;
+    }
+
+    public void verInteresados() {
+        this.reset();
+        this.enInteresados = Boolean.TRUE;
+        this.disableBotonesInteresado = Boolean.TRUE;
+    }
+    
+    public void verResponsables() {
+        this.reset();
+        this.enResponsables = Boolean.TRUE;
+        this.disableBotonesResponsable = Boolean.TRUE;
     }
 
     private void reset() {
@@ -570,6 +788,41 @@ public class BotonesBeanProyecto {
         this.enEdicionReunion = Boolean.FALSE;
         this.enAuditoriaReunion = Boolean.FALSE;
         this.disableBotonesReunion = Boolean.FALSE;
+
+        //RIESGOS
+        this.enRiesgos = Boolean.FALSE;
+        this.enNuevaRiesgo = Boolean.FALSE;
+        this.enEdicionRiesgo = Boolean.FALSE;
+        this.enAuditoriaRiesgo = Boolean.FALSE;
+        this.disableBotonesRiesgo = Boolean.FALSE;
+
+        //EXPECTATIVAS
+        this.enExpectativas = Boolean.FALSE;
+        this.enNuevaExpectativa = Boolean.FALSE;
+        this.enEdicionExpectativa = Boolean.FALSE;
+        this.enAuditoriaExpectativa = Boolean.FALSE;
+        this.disableBotonesExpectativa = Boolean.FALSE;
+
+        //LECCIONES
+        this.enLecciones = Boolean.FALSE;
+        this.enNuevaLeccion = Boolean.FALSE;
+        this.enEdicionLeccion = Boolean.FALSE;
+        this.enAuditoriaLeccion = Boolean.FALSE;
+        this.disableBotonesLeccion = Boolean.FALSE;
+
+        //INTERESADOS
+        this.enInteresados = Boolean.FALSE;
+        this.enNuevaInteresado = Boolean.FALSE;
+        this.enEdicionInteresado = Boolean.FALSE;
+        this.enAuditoriaInteresado = Boolean.FALSE;
+        this.disableBotonesInteresado = Boolean.FALSE;
+        
+        //RESPONSABLES
+        this.enResponsables = Boolean.FALSE;
+        this.enNuevaResponsable = Boolean.FALSE;
+        this.enEdicionResponsable = Boolean.FALSE;
+        this.enAuditoriaResponsable = Boolean.FALSE;
+        this.disableBotonesResponsable = Boolean.FALSE;
     }
 
     private void resetTablaDocumentos() {
@@ -630,13 +883,45 @@ public class BotonesBeanProyecto {
         enEditarDoc = Boolean.FALSE;
         enAuditoriaDoc = Boolean.FALSE;
         disableBotonesDocumento = Boolean.FALSE;
-        
+
         //REUNIONES
         this.enReuniones = Boolean.FALSE;
         this.enNuevaReunion = Boolean.FALSE;
         this.enEdicionReunion = Boolean.FALSE;
         this.enAuditoriaReunion = Boolean.FALSE;
         this.disableBotonesReunion = Boolean.FALSE;
+
+        //RIESGOS
+        this.enRiesgos = Boolean.FALSE;
+        this.enNuevaRiesgo = Boolean.FALSE;
+        this.enEdicionRiesgo = Boolean.FALSE;
+        this.enAuditoriaRiesgo = Boolean.FALSE;
+        this.disableBotonesRiesgo = Boolean.FALSE;
+        //EXPECTATIVAS
+        this.enExpectativas = Boolean.FALSE;
+        this.enNuevaExpectativa = Boolean.FALSE;
+        this.enEdicionExpectativa = Boolean.FALSE;
+        this.enAuditoriaExpectativa = Boolean.FALSE;
+        this.disableBotonesExpectativa = Boolean.FALSE;
+        //LECCIONES
+        this.enLecciones = Boolean.FALSE;
+        this.enNuevaLeccion = Boolean.FALSE;
+        this.enEdicionLeccion = Boolean.FALSE;
+        this.enAuditoriaLeccion = Boolean.FALSE;
+        this.disableBotonesLeccion = Boolean.FALSE;
+        //INTERESADOS
+        this.enInteresados = Boolean.FALSE;
+        this.enNuevaInteresado = Boolean.FALSE;
+        this.enEdicionInteresado = Boolean.FALSE;
+        this.enAuditoriaInteresado = Boolean.FALSE;
+        this.disableBotonesInteresado = Boolean.FALSE;
+        
+        //RESPONSABLES
+        this.enResponsables = Boolean.FALSE;
+        this.enNuevaResponsable = Boolean.FALSE;
+        this.enEdicionResponsable = Boolean.FALSE;
+        this.enAuditoriaResponsable = Boolean.FALSE;
+        this.disableBotonesResponsable = Boolean.FALSE;
     }
 
     private void resetTablaActividad() {
@@ -699,13 +984,44 @@ public class BotonesBeanProyecto {
         enAuditoriaDoc = Boolean.FALSE;
         disableBotonesDocumento = Boolean.FALSE;
         this.disableGuardarDocumento = Boolean.FALSE;
-        
+
         //REUNIONES
         this.enReuniones = Boolean.FALSE;
         this.enNuevaReunion = Boolean.FALSE;
         this.enEdicionReunion = Boolean.FALSE;
         this.enAuditoriaReunion = Boolean.FALSE;
         this.disableBotonesReunion = Boolean.FALSE;
+        //RIESGOS
+        this.enRiesgos = Boolean.FALSE;
+        this.enNuevaRiesgo = Boolean.FALSE;
+        this.enEdicionRiesgo = Boolean.FALSE;
+        this.enAuditoriaRiesgo = Boolean.FALSE;
+        this.disableBotonesRiesgo = Boolean.FALSE;
+        //EXPECTATIVAS
+        this.enExpectativas = Boolean.FALSE;
+        this.enNuevaExpectativa = Boolean.FALSE;
+        this.enEdicionExpectativa = Boolean.FALSE;
+        this.enAuditoriaExpectativa = Boolean.FALSE;
+        this.disableBotonesExpectativa = Boolean.FALSE;
+        //LECCIONES
+        this.enLecciones = Boolean.FALSE;
+        this.enNuevaLeccion = Boolean.FALSE;
+        this.enEdicionLeccion = Boolean.FALSE;
+        this.enAuditoriaLeccion = Boolean.FALSE;
+        this.disableBotonesLeccion = Boolean.FALSE;
+        //INTERESADOS
+        this.enInteresados = Boolean.FALSE;
+        this.enNuevaInteresado = Boolean.FALSE;
+        this.enEdicionInteresado = Boolean.FALSE;
+        this.enAuditoriaInteresado = Boolean.FALSE;
+        this.disableBotonesInteresado = Boolean.FALSE;
+        
+        //RESPONSABLES
+        this.enResponsables = Boolean.FALSE;
+        this.enNuevaResponsable = Boolean.FALSE;
+        this.enEdicionResponsable = Boolean.FALSE;
+        this.enAuditoriaResponsable = Boolean.FALSE;
+        this.disableBotonesResponsable = Boolean.FALSE;
     }
 
     private void resetTablaSubActividad() {
@@ -774,13 +1090,48 @@ public class BotonesBeanProyecto {
         enAuditoriaDoc = Boolean.FALSE;
         disableBotonesDocumento = Boolean.FALSE;
         this.disableGuardarDocumento = Boolean.FALSE;
-        
+
         //REUNIONES
         this.enReuniones = Boolean.FALSE;
         this.enNuevaReunion = Boolean.FALSE;
         this.enEdicionReunion = Boolean.FALSE;
         this.enAuditoriaReunion = Boolean.FALSE;
         this.disableBotonesReunion = Boolean.FALSE;
+
+        //RIESGOS
+        this.enRiesgos = Boolean.FALSE;
+        this.enNuevaRiesgo = Boolean.FALSE;
+        this.enEdicionRiesgo = Boolean.FALSE;
+        this.enAuditoriaRiesgo = Boolean.FALSE;
+        this.disableBotonesRiesgo = Boolean.FALSE;
+
+        //EXPECTATIVAS
+        this.enExpectativas = Boolean.FALSE;
+        this.enNuevaExpectativa = Boolean.FALSE;
+        this.enEdicionExpectativa = Boolean.FALSE;
+        this.enAuditoriaExpectativa = Boolean.FALSE;
+        this.disableBotonesExpectativa = Boolean.FALSE;
+
+        //LECCIONES
+        this.enLecciones = Boolean.FALSE;
+        this.enNuevaLeccion = Boolean.FALSE;
+        this.enEdicionLeccion = Boolean.FALSE;
+        this.enAuditoriaLeccion = Boolean.FALSE;
+        this.disableBotonesLeccion = Boolean.FALSE;
+
+        //INTERESADOS
+        this.enInteresados = Boolean.FALSE;
+        this.enNuevaInteresado = Boolean.FALSE;
+        this.enEdicionInteresado = Boolean.FALSE;
+        this.enAuditoriaInteresado = Boolean.FALSE;
+        this.disableBotonesInteresado = Boolean.FALSE;
+        
+        //RESPONSABLES
+        this.enResponsables = Boolean.FALSE;
+        this.enNuevaResponsable = Boolean.FALSE;
+        this.enEdicionResponsable = Boolean.FALSE;
+        this.enAuditoriaResponsable = Boolean.FALSE;
+        this.disableBotonesResponsable = Boolean.FALSE;
     }
 
     private void resetTablaGastos() {
@@ -842,13 +1193,41 @@ public class BotonesBeanProyecto {
         enAuditoriaDoc = Boolean.FALSE;
         disableBotonesDocumento = Boolean.FALSE;
         this.disableGuardarDocumento = Boolean.FALSE;
-        
+
         //REUNIONES
         this.enReuniones = Boolean.FALSE;
         this.enNuevaReunion = Boolean.FALSE;
         this.enEdicionReunion = Boolean.FALSE;
         this.enAuditoriaReunion = Boolean.FALSE;
         this.disableBotonesReunion = Boolean.FALSE;
+
+        //EXPECTATIVAS
+        this.enExpectativas = Boolean.FALSE;
+        this.enNuevaExpectativa = Boolean.FALSE;
+        this.enEdicionExpectativa = Boolean.FALSE;
+        this.enAuditoriaExpectativa = Boolean.FALSE;
+        this.disableBotonesExpectativa = Boolean.FALSE;
+
+        //LECCIONES
+        this.enLecciones = Boolean.FALSE;
+        this.enNuevaLeccion = Boolean.FALSE;
+        this.enEdicionLeccion = Boolean.FALSE;
+        this.enAuditoriaLeccion = Boolean.FALSE;
+        this.disableBotonesLeccion = Boolean.FALSE;
+
+        //INTERESADOS
+        this.enInteresados = Boolean.FALSE;
+        this.enNuevaInteresado = Boolean.FALSE;
+        this.enEdicionInteresado = Boolean.FALSE;
+        this.enAuditoriaInteresado = Boolean.FALSE;
+        this.disableBotonesInteresado = Boolean.FALSE;
+        
+        //RESPONSABLES
+        this.enResponsables = Boolean.FALSE;
+        this.enNuevaResponsable = Boolean.FALSE;
+        this.enEdicionResponsable = Boolean.FALSE;
+        this.enAuditoriaResponsable = Boolean.FALSE;
+        this.disableBotonesResponsable = Boolean.FALSE;
     }
 
     private void resetTablaEntregables() {
@@ -912,13 +1291,48 @@ public class BotonesBeanProyecto {
         enAuditoriaDoc = Boolean.FALSE;
         disableBotonesDocumento = Boolean.FALSE;
         this.disableGuardarDocumento = Boolean.FALSE;
-        
+
         //REUNIONES
         this.enReuniones = Boolean.FALSE;
         this.enNuevaReunion = Boolean.FALSE;
         this.enEdicionReunion = Boolean.FALSE;
         this.enAuditoriaReunion = Boolean.FALSE;
         this.disableBotonesReunion = Boolean.FALSE;
+
+        //RIESGOS
+        this.enRiesgos = Boolean.FALSE;
+        this.enNuevaRiesgo = Boolean.FALSE;
+        this.enEdicionRiesgo = Boolean.FALSE;
+        this.enAuditoriaRiesgo = Boolean.FALSE;
+        this.disableBotonesRiesgo = Boolean.FALSE;
+
+        //EXPECTATIVAS
+        this.enExpectativas = Boolean.FALSE;
+        this.enNuevaExpectativa = Boolean.FALSE;
+        this.enEdicionExpectativa = Boolean.FALSE;
+        this.enAuditoriaExpectativa = Boolean.FALSE;
+        this.disableBotonesExpectativa = Boolean.FALSE;
+
+        //LECCIONES
+        this.enLecciones = Boolean.FALSE;
+        this.enNuevaLeccion = Boolean.FALSE;
+        this.enEdicionLeccion = Boolean.FALSE;
+        this.enAuditoriaLeccion = Boolean.FALSE;
+        this.disableBotonesLeccion = Boolean.FALSE;
+
+        //INTERESADOS
+        this.enInteresados = Boolean.FALSE;
+        this.enNuevaInteresado = Boolean.FALSE;
+        this.enEdicionInteresado = Boolean.FALSE;
+        this.enAuditoriaInteresado = Boolean.FALSE;
+        this.disableBotonesInteresado = Boolean.FALSE;
+        
+        //RESPONSABLES
+        this.enResponsables = Boolean.FALSE;
+        this.enNuevaResponsable = Boolean.FALSE;
+        this.enEdicionResponsable = Boolean.FALSE;
+        this.enAuditoriaResponsable = Boolean.FALSE;
+        this.disableBotonesResponsable = Boolean.FALSE;
     }
 
     private void resetTablaDocs() {
@@ -982,16 +1396,51 @@ public class BotonesBeanProyecto {
         enAuditoriaDoc = Boolean.FALSE;
         disableBotonesDocumento = Boolean.FALSE;
         this.disableGuardarDocumento = Boolean.FALSE;
-        
+
         //REUNIONES
         this.enReuniones = Boolean.FALSE;
         this.enNuevaReunion = Boolean.FALSE;
         this.enEdicionReunion = Boolean.FALSE;
         this.enAuditoriaReunion = Boolean.FALSE;
         this.disableBotonesReunion = Boolean.FALSE;
+
+        //RIESGOS
+        this.enRiesgos = Boolean.FALSE;
+        this.enNuevaRiesgo = Boolean.FALSE;
+        this.enEdicionRiesgo = Boolean.FALSE;
+        this.enAuditoriaRiesgo = Boolean.FALSE;
+        this.disableBotonesRiesgo = Boolean.FALSE;
+
+        //EXPECTATIVAS
+        this.enExpectativas = Boolean.FALSE;
+        this.enNuevaExpectativa = Boolean.FALSE;
+        this.enEdicionExpectativa = Boolean.FALSE;
+        this.enAuditoriaExpectativa = Boolean.FALSE;
+        this.disableBotonesExpectativa = Boolean.FALSE;
+
+        //LECCIONES
+        this.enLecciones = Boolean.FALSE;
+        this.enNuevaLeccion = Boolean.FALSE;
+        this.enEdicionLeccion = Boolean.FALSE;
+        this.enAuditoriaLeccion = Boolean.FALSE;
+        this.disableBotonesLeccion = Boolean.FALSE;
+
+        //INTERESADOS
+        this.enInteresados = Boolean.FALSE;
+        this.enNuevaInteresado = Boolean.FALSE;
+        this.enEdicionInteresado = Boolean.FALSE;
+        this.enAuditoriaInteresado = Boolean.FALSE;
+        this.disableBotonesInteresado = Boolean.FALSE;
+        
+        //RESPONSABLES
+        this.enResponsables = Boolean.FALSE;
+        this.enNuevaResponsable = Boolean.FALSE;
+        this.enEdicionResponsable = Boolean.FALSE;
+        this.enAuditoriaResponsable = Boolean.FALSE;
+        this.disableBotonesResponsable = Boolean.FALSE;
     }
-    
-        private void resetTablaReuniones() {
+
+    private void resetTablaReuniones() {
         this.disabledNuevo = Boolean.FALSE;
         this.disabledModificar = Boolean.FALSE;
         this.disabledEliminar = Boolean.FALSE;
@@ -1052,13 +1501,574 @@ public class BotonesBeanProyecto {
         enAuditoriaDoc = Boolean.FALSE;
         disableBotonesDocumento = Boolean.FALSE;
         this.disableGuardarDocumento = Boolean.FALSE;
-        
+
         //REUNIONES
         this.enDocumentos = Boolean.FALSE;
         this.enNuevaReunion = Boolean.FALSE;
         this.enEdicionReunion = Boolean.FALSE;
         this.enAuditoriaReunion = Boolean.FALSE;
         this.disableBotonesReunion = Boolean.FALSE;
+
+        //RIESGOS
+        this.enRiesgos = Boolean.FALSE;
+        this.enNuevaRiesgo = Boolean.FALSE;
+        this.enEdicionRiesgo = Boolean.FALSE;
+        this.enAuditoriaRiesgo = Boolean.FALSE;
+        this.disableBotonesRiesgo = Boolean.FALSE;
+
+        //EXPECTATIVAS
+        this.enExpectativas = Boolean.FALSE;
+        this.enNuevaExpectativa = Boolean.FALSE;
+        this.enEdicionExpectativa = Boolean.FALSE;
+        this.enAuditoriaExpectativa = Boolean.FALSE;
+        this.disableBotonesExpectativa = Boolean.FALSE;
+
+        //LECCIONES
+        this.enLecciones = Boolean.FALSE;
+        this.enNuevaLeccion = Boolean.FALSE;
+        this.enEdicionLeccion = Boolean.FALSE;
+        this.enAuditoriaLeccion = Boolean.FALSE;
+        this.disableBotonesLeccion = Boolean.FALSE;
+
+        //INTERESADOS
+        this.enInteresados = Boolean.FALSE;
+        this.enNuevaInteresado = Boolean.FALSE;
+        this.enEdicionInteresado = Boolean.FALSE;
+        this.enAuditoriaInteresado = Boolean.FALSE;
+        this.disableBotonesInteresado = Boolean.FALSE;
+        
+        //RESPONSABLES
+        this.enResponsables = Boolean.FALSE;
+        this.enNuevaResponsable = Boolean.FALSE;
+        this.enEdicionResponsable = Boolean.FALSE;
+        this.enAuditoriaResponsable = Boolean.FALSE;
+        this.disableBotonesResponsable = Boolean.FALSE;
+    }
+
+    private void resetTablaRiesgos() {
+        this.disabledNuevo = Boolean.FALSE;
+        this.disabledModificar = Boolean.FALSE;
+        this.disabledEliminar = Boolean.FALSE;
+        this.disableAuditoria = Boolean.FALSE;
+
+        this.disableCargaDocumentos = Boolean.FALSE;
+        this.disableNuevoDocumento = Boolean.FALSE;
+        this.disableAuditoriaDocumento = Boolean.FALSE;
+        this.disableEdicionDocumento = Boolean.FALSE;
+
+        this.enNuevoDocumento = Boolean.FALSE;
+        this.enEdicionDocumento = Boolean.FALSE;
+        this.uno = Boolean.FALSE;
+        this.varios = Boolean.FALSE;
+        this.noSeleccionados = Boolean.FALSE;
+        this.enEdicion = Boolean.FALSE;
+        this.enRegistro = Boolean.FALSE;
+        this.enAuditoria = Boolean.FALSE;
+        this.disableGuardarDocumento = Boolean.FALSE;
+        this.soloLectura = Boolean.FALSE;
+
+        //SUB-ACTIVIDADES
+        this.disableAuditoriaSubActividad = Boolean.FALSE;
+        this.disableModificarSubActividad = Boolean.FALSE;
+        this.disableNuevaSubActividad = Boolean.FALSE;
+        this.enAuditoriaSubActividad = Boolean.FALSE;
+        this.enEdicionSubActividad = Boolean.FALSE;
+        this.enNuevaSubActividad = Boolean.FALSE;
+        this.enActividades = Boolean.FALSE;
+
+
+        //ENTREGABLES
+        this.enEntregables = Boolean.FALSE;
+        this.enNuevoEntregable = Boolean.FALSE;
+        this.enEdicionEntregable = Boolean.FALSE;
+        this.enAuditoriaEntregable = Boolean.FALSE;
+        this.disableBotonesEntregable = Boolean.FALSE;
+
+
+        //GASTOS
+        this.enGastos = Boolean.FALSE;
+        this.enNuevoGasto = Boolean.FALSE;
+        this.enEdicionGasto = Boolean.FALSE;
+        this.enAuditoriaGasto = Boolean.FALSE;
+        this.disableBotonesGastos = Boolean.FALSE;
+
+
+        this.disableAuditoriaActividad = Boolean.FALSE;
+        this.disableModificarActividad = Boolean.FALSE;
+        this.disableNuevaActividad = Boolean.FALSE;
+        this.enAuditoriaActividad = Boolean.FALSE;
+        this.enEdicionActividad = Boolean.FALSE;
+        this.enNuevaActividad = Boolean.FALSE;
+
+        //Documentos
+        enNuevoDoc = Boolean.FALSE;
+        enEditarDoc = Boolean.FALSE;
+        enAuditoriaDoc = Boolean.FALSE;
+        disableBotonesDocumento = Boolean.FALSE;
+        this.disableGuardarDocumento = Boolean.FALSE;
+
+        //REUNIONES
+        this.enDocumentos = Boolean.FALSE;
+        this.enNuevaReunion = Boolean.FALSE;
+        this.enEdicionReunion = Boolean.FALSE;
+        this.enAuditoriaReunion = Boolean.FALSE;
+        this.disableBotonesReunion = Boolean.FALSE;
+
+        //RIESGOS
+        this.enReuniones = Boolean.FALSE;
+        this.enNuevaRiesgo = Boolean.FALSE;
+        this.enEdicionRiesgo = Boolean.FALSE;
+        this.enAuditoriaRiesgo = Boolean.FALSE;
+        this.disableBotonesRiesgo = Boolean.FALSE;
+
+        //EXPECTATIVAS
+        this.enExpectativas = Boolean.FALSE;
+        this.enNuevaExpectativa = Boolean.FALSE;
+        this.enEdicionExpectativa = Boolean.FALSE;
+        this.enAuditoriaExpectativa = Boolean.FALSE;
+        this.disableBotonesExpectativa = Boolean.FALSE;
+
+        //LECCIONES
+        this.enLecciones = Boolean.FALSE;
+        this.enNuevaLeccion = Boolean.FALSE;
+        this.enEdicionLeccion = Boolean.FALSE;
+        this.enAuditoriaLeccion = Boolean.FALSE;
+        this.disableBotonesLeccion = Boolean.FALSE;
+
+        //INTERESADOS
+        this.enInteresados = Boolean.FALSE;
+        this.enNuevaInteresado = Boolean.FALSE;
+        this.enEdicionInteresado = Boolean.FALSE;
+        this.enAuditoriaInteresado = Boolean.FALSE;
+        this.disableBotonesInteresado = Boolean.FALSE;
+        
+        //RESPONSABLES
+        this.enResponsables = Boolean.FALSE;
+        this.enNuevaResponsable = Boolean.FALSE;
+        this.enEdicionResponsable = Boolean.FALSE;
+        this.enAuditoriaResponsable = Boolean.FALSE;
+        this.disableBotonesResponsable = Boolean.FALSE;
+    }
+
+    private void resetTablaExpectativa() {
+        this.disabledNuevo = Boolean.FALSE;
+        this.disabledModificar = Boolean.FALSE;
+        this.disabledEliminar = Boolean.FALSE;
+        this.disableAuditoria = Boolean.FALSE;
+
+        this.disableCargaDocumentos = Boolean.FALSE;
+        this.disableNuevoDocumento = Boolean.FALSE;
+        this.disableAuditoriaDocumento = Boolean.FALSE;
+        this.disableEdicionDocumento = Boolean.FALSE;
+
+        this.enNuevoDocumento = Boolean.FALSE;
+        this.enEdicionDocumento = Boolean.FALSE;
+        this.uno = Boolean.FALSE;
+        this.varios = Boolean.FALSE;
+        this.noSeleccionados = Boolean.FALSE;
+        this.enEdicion = Boolean.FALSE;
+        this.enRegistro = Boolean.FALSE;
+        this.enAuditoria = Boolean.FALSE;
+        this.disableGuardarDocumento = Boolean.FALSE;
+        this.soloLectura = Boolean.FALSE;
+
+        //SUB-ACTIVIDADES
+        this.disableAuditoriaSubActividad = Boolean.FALSE;
+        this.disableModificarSubActividad = Boolean.FALSE;
+        this.disableNuevaSubActividad = Boolean.FALSE;
+        this.enAuditoriaSubActividad = Boolean.FALSE;
+        this.enEdicionSubActividad = Boolean.FALSE;
+        this.enNuevaSubActividad = Boolean.FALSE;
+        this.enActividades = Boolean.FALSE;
+
+
+        //ENTREGABLES
+        this.enEntregables = Boolean.FALSE;
+        this.enNuevoEntregable = Boolean.FALSE;
+        this.enEdicionEntregable = Boolean.FALSE;
+        this.enAuditoriaEntregable = Boolean.FALSE;
+        this.disableBotonesEntregable = Boolean.FALSE;
+
+
+        //GASTOS
+        this.enGastos = Boolean.FALSE;
+        this.enNuevoGasto = Boolean.FALSE;
+        this.enEdicionGasto = Boolean.FALSE;
+        this.enAuditoriaGasto = Boolean.FALSE;
+        this.disableBotonesGastos = Boolean.FALSE;
+
+
+        this.disableAuditoriaActividad = Boolean.FALSE;
+        this.disableModificarActividad = Boolean.FALSE;
+        this.disableNuevaActividad = Boolean.FALSE;
+        this.enAuditoriaActividad = Boolean.FALSE;
+        this.enEdicionActividad = Boolean.FALSE;
+        this.enNuevaActividad = Boolean.FALSE;
+
+        //Documentos
+        enNuevoDoc = Boolean.FALSE;
+        enEditarDoc = Boolean.FALSE;
+        enAuditoriaDoc = Boolean.FALSE;
+        disableBotonesDocumento = Boolean.FALSE;
+        this.disableGuardarDocumento = Boolean.FALSE;
+
+        //REUNIONES
+        this.enDocumentos = Boolean.FALSE;
+        this.enNuevaReunion = Boolean.FALSE;
+        this.enEdicionReunion = Boolean.FALSE;
+        this.enAuditoriaReunion = Boolean.FALSE;
+        this.disableBotonesReunion = Boolean.FALSE;
+
+        //RIESGOS
+        this.enReuniones = Boolean.FALSE;
+        this.enNuevaRiesgo = Boolean.FALSE;
+        this.enEdicionRiesgo = Boolean.FALSE;
+        this.enAuditoriaRiesgo = Boolean.FALSE;
+        this.disableBotonesRiesgo = Boolean.FALSE;
+
+        //EXPECTATIVAS
+        this.enRiesgos = Boolean.FALSE;
+        this.enNuevaExpectativa = Boolean.FALSE;
+        this.enEdicionExpectativa = Boolean.FALSE;
+        this.enAuditoriaExpectativa = Boolean.FALSE;
+        this.disableBotonesExpectativa = Boolean.FALSE;
+
+        //LECCIONES
+        this.enLecciones = Boolean.FALSE;
+        this.enNuevaLeccion = Boolean.FALSE;
+        this.enEdicionLeccion = Boolean.FALSE;
+        this.enAuditoriaLeccion = Boolean.FALSE;
+        this.disableBotonesLeccion = Boolean.FALSE;
+
+        //INTERESADOS
+        this.enInteresados = Boolean.FALSE;
+        this.enNuevaInteresado = Boolean.FALSE;
+        this.enEdicionInteresado = Boolean.FALSE;
+        this.enAuditoriaInteresado = Boolean.FALSE;
+        this.disableBotonesInteresado = Boolean.FALSE;
+        
+        //RESPONSABLES
+        this.enResponsables = Boolean.FALSE;
+        this.enNuevaResponsable = Boolean.FALSE;
+        this.enEdicionResponsable = Boolean.FALSE;
+        this.enAuditoriaResponsable = Boolean.FALSE;
+        this.disableBotonesResponsable = Boolean.FALSE;
+    }
+
+    private void resetTablaLecciones() {
+        this.disabledNuevo = Boolean.FALSE;
+        this.disabledModificar = Boolean.FALSE;
+        this.disabledEliminar = Boolean.FALSE;
+        this.disableAuditoria = Boolean.FALSE;
+
+        this.disableCargaDocumentos = Boolean.FALSE;
+        this.disableNuevoDocumento = Boolean.FALSE;
+        this.disableAuditoriaDocumento = Boolean.FALSE;
+        this.disableEdicionDocumento = Boolean.FALSE;
+
+        this.enNuevoDocumento = Boolean.FALSE;
+        this.enEdicionDocumento = Boolean.FALSE;
+        this.uno = Boolean.FALSE;
+        this.varios = Boolean.FALSE;
+        this.noSeleccionados = Boolean.FALSE;
+        this.enEdicion = Boolean.FALSE;
+        this.enRegistro = Boolean.FALSE;
+        this.enAuditoria = Boolean.FALSE;
+        this.disableGuardarDocumento = Boolean.FALSE;
+        this.soloLectura = Boolean.FALSE;
+
+        //SUB-ACTIVIDADES
+        this.disableAuditoriaSubActividad = Boolean.FALSE;
+        this.disableModificarSubActividad = Boolean.FALSE;
+        this.disableNuevaSubActividad = Boolean.FALSE;
+        this.enAuditoriaSubActividad = Boolean.FALSE;
+        this.enEdicionSubActividad = Boolean.FALSE;
+        this.enNuevaSubActividad = Boolean.FALSE;
+        this.enActividades = Boolean.FALSE;
+
+
+        //ENTREGABLES
+        this.enEntregables = Boolean.FALSE;
+        this.enNuevoEntregable = Boolean.FALSE;
+        this.enEdicionEntregable = Boolean.FALSE;
+        this.enAuditoriaEntregable = Boolean.FALSE;
+        this.disableBotonesEntregable = Boolean.FALSE;
+
+
+        //GASTOS
+        this.enGastos = Boolean.FALSE;
+        this.enNuevoGasto = Boolean.FALSE;
+        this.enEdicionGasto = Boolean.FALSE;
+        this.enAuditoriaGasto = Boolean.FALSE;
+        this.disableBotonesGastos = Boolean.FALSE;
+
+
+        this.disableAuditoriaActividad = Boolean.FALSE;
+        this.disableModificarActividad = Boolean.FALSE;
+        this.disableNuevaActividad = Boolean.FALSE;
+        this.enAuditoriaActividad = Boolean.FALSE;
+        this.enEdicionActividad = Boolean.FALSE;
+        this.enNuevaActividad = Boolean.FALSE;
+
+        //Documentos
+        enNuevoDoc = Boolean.FALSE;
+        enEditarDoc = Boolean.FALSE;
+        enAuditoriaDoc = Boolean.FALSE;
+        disableBotonesDocumento = Boolean.FALSE;
+        this.disableGuardarDocumento = Boolean.FALSE;
+
+        //REUNIONES
+        this.enDocumentos = Boolean.FALSE;
+        this.enNuevaReunion = Boolean.FALSE;
+        this.enEdicionReunion = Boolean.FALSE;
+        this.enAuditoriaReunion = Boolean.FALSE;
+        this.disableBotonesReunion = Boolean.FALSE;
+
+        //RIESGOS
+        this.enReuniones = Boolean.FALSE;
+        this.enNuevaRiesgo = Boolean.FALSE;
+        this.enEdicionRiesgo = Boolean.FALSE;
+        this.enAuditoriaRiesgo = Boolean.FALSE;
+        this.disableBotonesRiesgo = Boolean.FALSE;
+
+        //EXPECTATIVAS
+        this.enRiesgos = Boolean.FALSE;
+        this.enNuevaExpectativa = Boolean.FALSE;
+        this.enEdicionExpectativa = Boolean.FALSE;
+        this.enAuditoriaExpectativa = Boolean.FALSE;
+        this.disableBotonesExpectativa = Boolean.FALSE;
+
+        //LECCIONES
+        this.enExpectativas = Boolean.FALSE;
+        this.enNuevaLeccion = Boolean.FALSE;
+        this.enEdicionLeccion = Boolean.FALSE;
+        this.enAuditoriaLeccion = Boolean.FALSE;
+        this.disableBotonesLeccion = Boolean.FALSE;
+
+        //INTERESADOS
+        this.enInteresados = Boolean.FALSE;
+        this.enNuevaInteresado = Boolean.FALSE;
+        this.enEdicionInteresado = Boolean.FALSE;
+        this.enAuditoriaInteresado = Boolean.FALSE;
+        this.disableBotonesInteresado = Boolean.FALSE;
+        
+        //RESPONSABLES
+        this.enResponsables = Boolean.FALSE;
+        this.enNuevaResponsable = Boolean.FALSE;
+        this.enEdicionResponsable = Boolean.FALSE;
+        this.enAuditoriaResponsable = Boolean.FALSE;
+        this.disableBotonesResponsable = Boolean.FALSE;
+    }
+
+    private void resetTablaInteresados() {
+        this.disabledNuevo = Boolean.FALSE;
+        this.disabledModificar = Boolean.FALSE;
+        this.disabledEliminar = Boolean.FALSE;
+        this.disableAuditoria = Boolean.FALSE;
+
+        this.disableCargaDocumentos = Boolean.FALSE;
+        this.disableNuevoDocumento = Boolean.FALSE;
+        this.disableAuditoriaDocumento = Boolean.FALSE;
+        this.disableEdicionDocumento = Boolean.FALSE;
+
+        this.enNuevoDocumento = Boolean.FALSE;
+        this.enEdicionDocumento = Boolean.FALSE;
+        this.uno = Boolean.FALSE;
+        this.varios = Boolean.FALSE;
+        this.noSeleccionados = Boolean.FALSE;
+        this.enEdicion = Boolean.FALSE;
+        this.enRegistro = Boolean.FALSE;
+        this.enAuditoria = Boolean.FALSE;
+        this.disableGuardarDocumento = Boolean.FALSE;
+        this.soloLectura = Boolean.FALSE;
+
+        //SUB-ACTIVIDADES
+        this.disableAuditoriaSubActividad = Boolean.FALSE;
+        this.disableModificarSubActividad = Boolean.FALSE;
+        this.disableNuevaSubActividad = Boolean.FALSE;
+        this.enAuditoriaSubActividad = Boolean.FALSE;
+        this.enEdicionSubActividad = Boolean.FALSE;
+        this.enNuevaSubActividad = Boolean.FALSE;
+        this.enActividades = Boolean.FALSE;
+
+
+        //ENTREGABLES
+        this.enEntregables = Boolean.FALSE;
+        this.enNuevoEntregable = Boolean.FALSE;
+        this.enEdicionEntregable = Boolean.FALSE;
+        this.enAuditoriaEntregable = Boolean.FALSE;
+        this.disableBotonesEntregable = Boolean.FALSE;
+
+
+        //GASTOS
+        this.enGastos = Boolean.FALSE;
+        this.enNuevoGasto = Boolean.FALSE;
+        this.enEdicionGasto = Boolean.FALSE;
+        this.enAuditoriaGasto = Boolean.FALSE;
+        this.disableBotonesGastos = Boolean.FALSE;
+
+
+        this.disableAuditoriaActividad = Boolean.FALSE;
+        this.disableModificarActividad = Boolean.FALSE;
+        this.disableNuevaActividad = Boolean.FALSE;
+        this.enAuditoriaActividad = Boolean.FALSE;
+        this.enEdicionActividad = Boolean.FALSE;
+        this.enNuevaActividad = Boolean.FALSE;
+
+        //Documentos
+        enNuevoDoc = Boolean.FALSE;
+        enEditarDoc = Boolean.FALSE;
+        enAuditoriaDoc = Boolean.FALSE;
+        disableBotonesDocumento = Boolean.FALSE;
+        this.disableGuardarDocumento = Boolean.FALSE;
+
+        //REUNIONES
+        this.enDocumentos = Boolean.FALSE;
+        this.enNuevaReunion = Boolean.FALSE;
+        this.enEdicionReunion = Boolean.FALSE;
+        this.enAuditoriaReunion = Boolean.FALSE;
+        this.disableBotonesReunion = Boolean.FALSE;
+
+        //RIESGOS
+        this.enReuniones = Boolean.FALSE;
+        this.enNuevaRiesgo = Boolean.FALSE;
+        this.enEdicionRiesgo = Boolean.FALSE;
+        this.enAuditoriaRiesgo = Boolean.FALSE;
+        this.disableBotonesRiesgo = Boolean.FALSE;
+
+        //EXPECTATIVAS
+        this.enRiesgos = Boolean.FALSE;
+        this.enNuevaExpectativa = Boolean.FALSE;
+        this.enEdicionExpectativa = Boolean.FALSE;
+        this.enAuditoriaExpectativa = Boolean.FALSE;
+        this.disableBotonesExpectativa = Boolean.FALSE;
+
+        //LECCIONES
+        this.enExpectativas = Boolean.FALSE;
+        this.enNuevaLeccion = Boolean.FALSE;
+        this.enEdicionLeccion = Boolean.FALSE;
+        this.enAuditoriaLeccion = Boolean.FALSE;
+        this.disableBotonesLeccion = Boolean.FALSE;
+
+        //INTERESADOS
+        this.enLecciones = Boolean.FALSE;
+        this.enNuevaInteresado = Boolean.FALSE;
+        this.enEdicionInteresado = Boolean.FALSE;
+        this.enAuditoriaInteresado = Boolean.FALSE;
+        this.disableBotonesInteresado = Boolean.FALSE;
+        
+        //RESPONSABLES
+        this.enResponsables = Boolean.FALSE;
+        this.enNuevaResponsable = Boolean.FALSE;
+        this.enEdicionResponsable = Boolean.FALSE;
+        this.enAuditoriaResponsable = Boolean.FALSE;
+        this.disableBotonesResponsable = Boolean.FALSE;
+    }
+    
+    
+    private void resetTablaResponsables() {
+        this.disabledNuevo = Boolean.FALSE;
+        this.disabledModificar = Boolean.FALSE;
+        this.disabledEliminar = Boolean.FALSE;
+        this.disableAuditoria = Boolean.FALSE;
+
+        this.disableCargaDocumentos = Boolean.FALSE;
+        this.disableNuevoDocumento = Boolean.FALSE;
+        this.disableAuditoriaDocumento = Boolean.FALSE;
+        this.disableEdicionDocumento = Boolean.FALSE;
+
+        this.enNuevoDocumento = Boolean.FALSE;
+        this.enEdicionDocumento = Boolean.FALSE;
+        this.uno = Boolean.FALSE;
+        this.varios = Boolean.FALSE;
+        this.noSeleccionados = Boolean.FALSE;
+        this.enEdicion = Boolean.FALSE;
+        this.enRegistro = Boolean.FALSE;
+        this.enAuditoria = Boolean.FALSE;
+        this.disableGuardarDocumento = Boolean.FALSE;
+        this.soloLectura = Boolean.FALSE;
+
+        //SUB-ACTIVIDADES
+        this.disableAuditoriaSubActividad = Boolean.FALSE;
+        this.disableModificarSubActividad = Boolean.FALSE;
+        this.disableNuevaSubActividad = Boolean.FALSE;
+        this.enAuditoriaSubActividad = Boolean.FALSE;
+        this.enEdicionSubActividad = Boolean.FALSE;
+        this.enNuevaSubActividad = Boolean.FALSE;
+        this.enActividades = Boolean.FALSE;
+
+
+        //ENTREGABLES
+        this.enEntregables = Boolean.FALSE;
+        this.enNuevoEntregable = Boolean.FALSE;
+        this.enEdicionEntregable = Boolean.FALSE;
+        this.enAuditoriaEntregable = Boolean.FALSE;
+        this.disableBotonesEntregable = Boolean.FALSE;
+
+
+        //GASTOS
+        this.enGastos = Boolean.FALSE;
+        this.enNuevoGasto = Boolean.FALSE;
+        this.enEdicionGasto = Boolean.FALSE;
+        this.enAuditoriaGasto = Boolean.FALSE;
+        this.disableBotonesGastos = Boolean.FALSE;
+
+
+        this.disableAuditoriaActividad = Boolean.FALSE;
+        this.disableModificarActividad = Boolean.FALSE;
+        this.disableNuevaActividad = Boolean.FALSE;
+        this.enAuditoriaActividad = Boolean.FALSE;
+        this.enEdicionActividad = Boolean.FALSE;
+        this.enNuevaActividad = Boolean.FALSE;
+
+        //Documentos
+        enNuevoDoc = Boolean.FALSE;
+        enEditarDoc = Boolean.FALSE;
+        enAuditoriaDoc = Boolean.FALSE;
+        disableBotonesDocumento = Boolean.FALSE;
+        this.disableGuardarDocumento = Boolean.FALSE;
+
+        //REUNIONES
+        this.enDocumentos = Boolean.FALSE;
+        this.enNuevaReunion = Boolean.FALSE;
+        this.enEdicionReunion = Boolean.FALSE;
+        this.enAuditoriaReunion = Boolean.FALSE;
+        this.disableBotonesReunion = Boolean.FALSE;
+
+        //RIESGOS
+        this.enReuniones = Boolean.FALSE;
+        this.enNuevaRiesgo = Boolean.FALSE;
+        this.enEdicionRiesgo = Boolean.FALSE;
+        this.enAuditoriaRiesgo = Boolean.FALSE;
+        this.disableBotonesRiesgo = Boolean.FALSE;
+
+        //EXPECTATIVAS
+        this.enRiesgos = Boolean.FALSE;
+        this.enNuevaExpectativa = Boolean.FALSE;
+        this.enEdicionExpectativa = Boolean.FALSE;
+        this.enAuditoriaExpectativa = Boolean.FALSE;
+        this.disableBotonesExpectativa = Boolean.FALSE;
+
+        //LECCIONES
+        this.enExpectativas = Boolean.FALSE;
+        this.enNuevaLeccion = Boolean.FALSE;
+        this.enEdicionLeccion = Boolean.FALSE;
+        this.enAuditoriaLeccion = Boolean.FALSE;
+        this.disableBotonesLeccion = Boolean.FALSE;
+
+        //INTERESADOS
+        this.enLecciones = Boolean.FALSE;
+        this.enNuevaInteresado = Boolean.FALSE;
+        this.enEdicionInteresado = Boolean.FALSE;
+        this.enAuditoriaInteresado = Boolean.FALSE;
+        this.disableBotonesInteresado = Boolean.FALSE;
+        
+        //RESPONSABLES
+        this.enInteresados = Boolean.FALSE;
+        this.enNuevaResponsable = Boolean.FALSE;
+        this.enEdicionResponsable = Boolean.FALSE;
+        this.enAuditoriaResponsable = Boolean.FALSE;
+        this.disableBotonesResponsable = Boolean.FALSE;
     }
 
     public Boolean getDisabledEliminar() {
@@ -1484,6 +2494,208 @@ public class BotonesBeanProyecto {
     public void setDisableBotonesReunion(Boolean disableBotonesReunion) {
         this.disableBotonesReunion = disableBotonesReunion;
     }
+
+    public Boolean getEnRiesgos() {
+        return enRiesgos;
+    }
+
+    public void setEnRiesgos(Boolean enRiesgos) {
+        this.enRiesgos = enRiesgos;
+    }
+
+    public Boolean getEnNuevaRiesgo() {
+        return enNuevaRiesgo;
+    }
+
+    public void setEnNuevaRiesgo(Boolean enNuevaRiesgo) {
+        this.enNuevaRiesgo = enNuevaRiesgo;
+    }
+
+    public Boolean getEnEdicionRiesgo() {
+        return enEdicionRiesgo;
+    }
+
+    public void setEnEdicionRiesgo(Boolean enEdicionRiesgo) {
+        this.enEdicionRiesgo = enEdicionRiesgo;
+    }
+
+    public Boolean getEnAuditoriaRiesgo() {
+        return enAuditoriaRiesgo;
+    }
+
+    public void setEnAuditoriaRiesgo(Boolean enAuditoriaRiesgo) {
+        this.enAuditoriaRiesgo = enAuditoriaRiesgo;
+    }
+
+    public Boolean getDisableBotonesRiesgo() {
+        return disableBotonesRiesgo;
+    }
+
+    public void setDisableBotonesRiesgo(Boolean disableBotonesRiesgo) {
+        this.disableBotonesRiesgo = disableBotonesRiesgo;
+    }
+
+    public Boolean getEnExpectativas() {
+        return enExpectativas;
+    }
+
+    public void setEnExpectativas(Boolean enExpectativas) {
+        this.enExpectativas = enExpectativas;
+    }
+
+    public Boolean getEnNuevaExpectativa() {
+        return enNuevaExpectativa;
+    }
+
+    public void setEnNuevaExpectativa(Boolean enNuevaExpectativa) {
+        this.enNuevaExpectativa = enNuevaExpectativa;
+    }
+
+    public Boolean getEnEdicionExpectativa() {
+        return enEdicionExpectativa;
+    }
+
+    public void setEnEdicionExpectativa(Boolean enEdicionExpectativa) {
+        this.enEdicionExpectativa = enEdicionExpectativa;
+    }
+
+    public Boolean getEnAuditoriaExpectativa() {
+        return enAuditoriaExpectativa;
+    }
+
+    public void setEnAuditoriaExpectativa(Boolean enAuditoriaExpectativa) {
+        this.enAuditoriaExpectativa = enAuditoriaExpectativa;
+    }
+
+    public Boolean getDisableBotonesExpectativa() {
+        return disableBotonesExpectativa;
+    }
+
+    public void setDisableBotonesExpectativa(Boolean disableBotonesExpectativa) {
+        this.disableBotonesExpectativa = disableBotonesExpectativa;
+    }
+
+    public Boolean getEnLecciones() {
+        return enLecciones;
+    }
+
+    public void setEnLecciones(Boolean enLecciones) {
+        this.enLecciones = enLecciones;
+    }
+
+    public Boolean getEnNuevaLeccion() {
+        return enNuevaLeccion;
+    }
+
+    public void setEnNuevaLeccion(Boolean enNuevaLeccion) {
+        this.enNuevaLeccion = enNuevaLeccion;
+    }
+
+    public Boolean getEnEdicionLeccion() {
+        return enEdicionLeccion;
+    }
+
+    public void setEnEdicionLeccion(Boolean enEdicionLeccion) {
+        this.enEdicionLeccion = enEdicionLeccion;
+    }
+
+    public Boolean getEnAuditoriaLeccion() {
+        return enAuditoriaLeccion;
+    }
+
+    public void setEnAuditoriaLeccion(Boolean enAuditoriaLeccion) {
+        this.enAuditoriaLeccion = enAuditoriaLeccion;
+    }
+
+    public Boolean getDisableBotonesLeccion() {
+        return disableBotonesLeccion;
+    }
+
+    public void setDisableBotonesLeccion(Boolean disableBotonesLeccion) {
+        this.disableBotonesLeccion = disableBotonesLeccion;
+    }
+
+    public Boolean getEnInteresados() {
+        return enInteresados;
+    }
+
+    public void setEnInteresados(Boolean enInteresados) {
+        this.enInteresados = enInteresados;
+    }
+
+    public Boolean getEnNuevaInteresado() {
+        return enNuevaInteresado;
+    }
+
+    public void setEnNuevaInteresado(Boolean enNuevaInteresado) {
+        this.enNuevaInteresado = enNuevaInteresado;
+    }
+
+    public Boolean getEnEdicionInteresado() {
+        return enEdicionInteresado;
+    }
+
+    public void setEnEdicionInteresado(Boolean enEdicionInteresado) {
+        this.enEdicionInteresado = enEdicionInteresado;
+    }
+
+    public Boolean getEnAuditoriaInteresado() {
+        return enAuditoriaInteresado;
+    }
+
+    public void setEnAuditoriaInteresado(Boolean enAuditoriaInteresado) {
+        this.enAuditoriaInteresado = enAuditoriaInteresado;
+    }
+
+    public Boolean getDisableBotonesInteresado() {
+        return disableBotonesInteresado;
+    }
+
+    public void setDisableBotonesInteresado(Boolean disableBotonesInteresado) {
+        this.disableBotonesInteresado = disableBotonesInteresado;
+    }
+
+    public Boolean getEnResponsables() {
+        return enResponsables;
+    }
+
+    public void setEnResponsables(Boolean enResponsables) {
+        this.enResponsables = enResponsables;
+    }
+
+    public Boolean getEnNuevaResponsable() {
+        return enNuevaResponsable;
+    }
+
+    public void setEnNuevaResponsable(Boolean enNuevaResponsable) {
+        this.enNuevaResponsable = enNuevaResponsable;
+    }
+
+    public Boolean getEnEdicionResponsable() {
+        return enEdicionResponsable;
+    }
+
+    public void setEnEdicionResponsable(Boolean enEdicionResponsable) {
+        this.enEdicionResponsable = enEdicionResponsable;
+    }
+
+    public Boolean getEnAuditoriaResponsable() {
+        return enAuditoriaResponsable;
+    }
+
+    public void setEnAuditoriaResponsable(Boolean enAuditoriaResponsable) {
+        this.enAuditoriaResponsable = enAuditoriaResponsable;
+    }
+
+    public Boolean getDisableBotonesResponsable() {
+        return disableBotonesResponsable;
+    }
+
+    public void setDisableBotonesResponsable(Boolean disableBotonesResponsable) {
+        this.disableBotonesResponsable = disableBotonesResponsable;
+    }
+    
+    
     
     
 }

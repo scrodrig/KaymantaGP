@@ -13,10 +13,13 @@
 package ec.kaymanta.gestproy.dao;
 
 import com.persist.common.dao.DefaultGenericDAOImple;
+import ec.kaymanta.gestproy.modelo.Actividad;
 import ec.kaymanta.gestproy.modelo.ActividadEmpleado;
 import ec.kaymanta.gestproy.modelo.ActividadEmpleadoPK;
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 
 /**
  * La Clase ActividadEmpleadoDAO especifica e implementa las operaciones de
@@ -32,5 +35,12 @@ public class ActividadEmpleadoDAO extends DefaultGenericDAOImple<ActividadEmplea
     public ActividadEmpleadoDAO() {
         super(ActividadEmpleado.class);
 
+    }
+    
+    public List<ActividadEmpleado> findBySubActividad(Actividad subActividad) {
+        String sql = "SELECT obj FROM ActividadEmpleado obj WHERE obj.actividad=?1";
+        Query qry = this.getEntityManager().createQuery(sql);
+        qry.setParameter(1, subActividad);
+        return qry.getResultList();
     }
 }

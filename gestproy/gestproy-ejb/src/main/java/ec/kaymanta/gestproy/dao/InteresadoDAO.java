@@ -36,10 +36,11 @@ public class InteresadoDAO extends DefaultGenericDAOImple<Interesado, Long> {
 
     }
 
-    public List<Interesado> getByProyecto(Empresa empresa) {
-        String sql = "SELECT obj FROM Interesado obj WHERE obj.empresa=?1";
+    public List<Interesado> getByProyecto(Empresa empresa, Long proyecto) {
+        String sql = "SELECT obj FROM Interesado obj WHERE obj.empresa=?1 AND obj.proyecto=?2";
         Query qry = this.getEntityManager().createQuery(sql);
         qry.setParameter(1, empresa);
+        qry.setParameter(2, proyecto);
         return qry.getResultList();
     }
 }

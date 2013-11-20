@@ -14,19 +14,24 @@ import ec.kaymanta.gestproy.modelo.DocumentosProyecto;
 import ec.kaymanta.gestproy.modelo.Empleado;
 import ec.kaymanta.gestproy.modelo.Empresa;
 import ec.kaymanta.gestproy.modelo.EntregableDocumento;
+import ec.kaymanta.gestproy.modelo.Expectativa;
 import ec.kaymanta.gestproy.modelo.FechasActividad;
 import ec.kaymanta.gestproy.modelo.Gasto;
 import ec.kaymanta.gestproy.modelo.HistorialDocumento;
 import ec.kaymanta.gestproy.modelo.InstitucionControl;
+import ec.kaymanta.gestproy.modelo.Interesado;
+import ec.kaymanta.gestproy.modelo.LeccionesAprendidas;
 import ec.kaymanta.gestproy.modelo.Parroquia;
 import ec.kaymanta.gestproy.modelo.ParroquiaPK;
 import ec.kaymanta.gestproy.modelo.Provincia;
 import ec.kaymanta.gestproy.modelo.Proyecto;
 import ec.kaymanta.gestproy.modelo.Reunion;
+import ec.kaymanta.gestproy.modelo.Riesgo;
 import ec.kaymanta.gestproy.modelo.TipoDocumento;
 import ec.kaymanta.gestproy.modelo.TipoEntregable;
 import ec.kaymanta.gestproy.modelo.TipoGasto;
 import ec.kaymanta.gestproy.modelo.Usuario;
+import ec.kaymanta.gestproy.servicio.ActividadEmpleadoServicio;
 import ec.kaymanta.gestproy.servicio.ActividadEntregableServicio;
 import ec.kaymanta.gestproy.servicio.ActividadServicio;
 import ec.kaymanta.gestproy.servicio.CantonServicio;
@@ -35,14 +40,18 @@ import ec.kaymanta.gestproy.servicio.DocumentosProyectoServicio;
 import ec.kaymanta.gestproy.servicio.EmpleadoServicio;
 import ec.kaymanta.gestproy.servicio.EmpresaServicio;
 import ec.kaymanta.gestproy.servicio.EntregableDocumentoServicio;
+import ec.kaymanta.gestproy.servicio.ExpectativaServicio;
 import ec.kaymanta.gestproy.servicio.FechasActividadServicio;
 import ec.kaymanta.gestproy.servicio.GastoServicio;
 import ec.kaymanta.gestproy.servicio.HistorialDocumentoServicio;
 import ec.kaymanta.gestproy.servicio.InstitucionControlServicio;
+import ec.kaymanta.gestproy.servicio.InteresadoServicio;
+import ec.kaymanta.gestproy.servicio.LeccionesAprendidasServicio;
 import ec.kaymanta.gestproy.servicio.ParroquiaServicio;
 import ec.kaymanta.gestproy.servicio.ProvinciaServicio;
 import ec.kaymanta.gestproy.servicio.ProyectoServicio;
 import ec.kaymanta.gestproy.servicio.ReunionServicio;
+import ec.kaymanta.gestproy.servicio.RiesgoServicio;
 import ec.kaymanta.gestproy.servicio.TipoDocumentoServicio;
 import ec.kaymanta.gestproy.servicio.TipoEntregableServicio;
 import ec.kaymanta.gestproy.servicio.TipoGastoServicio;
@@ -116,6 +125,16 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
     private EntregableDocumentoServicio entregableDocumentoServicio;
     @EJB
     private ReunionServicio reunionServicio;
+    @EJB
+    private RiesgoServicio riesgoServicio;
+    @EJB
+    private ExpectativaServicio expectativaServicio;
+    @EJB
+    private LeccionesAprendidasServicio leccionesAprendidasServicio;
+    @EJB
+    private InteresadoServicio interesadoServicio;
+    @EJB
+    private ActividadEmpleadoServicio actividadEmpleadoServicio;
     //Listas
     private List<Empresa> empresas;
     private List<Proyecto> proyectos;
@@ -130,9 +149,14 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
     private List<Actividad> subActividades;
     private List<Gasto> gastos;
     private List<Reunion> reuniones;
+    private List<Riesgo> riesgos;
+    private List<LeccionesAprendidas> leccionesAprendidasList;
+    private List<Interesado> interesados;
+    private List<Expectativa> expectativas;
     private List<TipoGasto> tiposGasto;
     private List<TipoEntregable> tiposEntregable;
     private List<ActividadEntregable> actividadEntregables;
+    private List<ActividadEmpleado> actividadEmpleados;
     private Documento documento;
     private Documento documentoSeleccionado;
     private Documento documentoAnt;
@@ -153,15 +177,28 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
     private Actividad respaldoSubActividad;
     //Variables de Gastos
     private Gasto gasto;
-    private Gasto gastoSeleccionado;    
+    private Gasto gastoSeleccionado;
     //Variables de Reuniones
     private Reunion reunion;
     private Reunion reunionSeleccionado;
+    //Variables de Reuniones
+    private Riesgo riesgo;
+    private Riesgo riesgoSeleccionado;
+    //Variables de Expectativa
+    private Expectativa expectativa;
+    private Expectativa expectativaSeleccionado;
+    //Variables de Lecciones Aprendidas
+    private LeccionesAprendidas leccionesAprendidas;
+    private LeccionesAprendidas leccionesAprendidasSeleccionada;
+    //Variables de Lecciones Aprendidas
+    private Interesado interesado;
+    private Interesado interesadoSeleccionado;
     //Variables de Gastos
     private ActividadEntregable actividadEntregable;
     private ActividadEntregable actividadEntregableSeleccionado;
     //Variables de Actividad Responsable
     private ActividadEmpleado actividadEmpleado;
+    private ActividadEmpleado actividadEmpleadoSeleccionado;
     //Variables Fechas Actividad
     private FechasActividad fechasActividad;
     private FechasActividad fechasActividadRespaldo;
@@ -235,10 +272,36 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
         super.crearGasto();
         this.gasto = new Gasto();
     }
-    
+
     public void nuevaReunion(ActionEvent evento) {
         super.crearReunion();
         this.reunion = new Reunion();
+    }
+
+    public void nuevaRiesgo(ActionEvent evento) {
+        super.crearRiesgo();
+        this.riesgo = new Riesgo();
+    }
+
+    public void nuevaExpectativa(ActionEvent evento) {
+        super.crearExpectativa();
+        this.expectativa = new Expectativa();
+    }
+
+    public void nuevaLeccion(ActionEvent evento) {
+        super.crearLeccion();
+        System.out.println("NUEVO" + super.getEnNuevaLeccion());
+        this.leccionesAprendidas = new LeccionesAprendidas();
+    }
+
+    public void nuevoInteresado(ActionEvent evento) {
+        super.crearInteresado();
+        this.interesado = new Interesado();
+    }
+    
+    public void nuevoResponsable(ActionEvent evento) {
+        super.crearResponsable();
+        this.actividadEmpleado = new ActividadEmpleado();
     }
 
     public void nuevaActividadEntregable(ActionEvent evento) {
@@ -287,12 +350,59 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
         }
 
     }
-    
+
     public void verAuditoriaReunion(ActionEvent evento) throws IllegalAccessException {
         try {
-            this.proyecto = new Proyecto();
-            this.proyecto = (Proyecto) BeanUtils.cloneBean(this.proyectoSeleccionado);
             super.verAuditoriaReunion();
+        } catch (Exception ex) {
+            MensajesGenericos.errorCopyProperties();
+        }
+
+    }
+
+    public void verAuditoriaRiesgo(ActionEvent evento) throws IllegalAccessException {
+        try {
+            super.verAuditoriaRiesgo();
+        } catch (Exception ex) {
+            MensajesGenericos.errorCopyProperties();
+        }
+
+    }
+
+    public void verAuditoriaExpectativa(ActionEvent evento) throws IllegalAccessException {
+        try {
+            super.verAuditoriaExpectativa();
+        } catch (Exception ex) {
+            MensajesGenericos.errorCopyProperties();
+        }
+
+    }
+
+    public void verAuditoriaLeccion(ActionEvent evento) throws IllegalAccessException {
+        try {
+            super.verAuditoriaLeccion();
+        } catch (Exception ex) {
+            MensajesGenericos.errorCopyProperties();
+        }
+
+    }
+
+    public void verAuditoriaInteresado(ActionEvent evento) throws IllegalAccessException {
+        try {
+            this.interesado = new Interesado();
+            this.interesado = (Interesado) BeanUtils.cloneBean(this.interesadoSeleccionado);
+            super.verAuditoriaInteresado();
+        } catch (Exception ex) {
+            MensajesGenericos.errorCopyProperties();
+        }
+
+    }
+    
+    public void verAuditoriaResponsable(ActionEvent evento) throws IllegalAccessException {
+        try {
+            this.actividadEmpleado = new ActividadEmpleado();
+            this.actividadEmpleado = (ActividadEmpleado) BeanUtils.cloneBean(this.actividadEmpleadoSeleccionado);
+            super.verAuditoriaResponsable();
         } catch (Exception ex) {
             MensajesGenericos.errorCopyProperties();
         }
@@ -444,17 +554,99 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
 
 
     }
-    
+
     public void verReuniones(ActionEvent evento) {
         try {
             super.verReuniones();
-            
+
             System.out.println("EN LA PANTALLA DE REUNIONES");
             this.proyecto = new Proyecto();
             this.proyecto = (Proyecto) BeanUtils.cloneBean(this.proyectoSeleccionado);
-            System.out.println("PROYECTO: " + proyecto.getNombreProyecto() );
+            System.out.println("PROYECTO: " + proyecto.getNombreProyecto());
             this.reuniones = this.reunionServicio.findByProyecto(proyecto);
             this.reunion = new Reunion();
+        } catch (Exception e) {
+            MensajesGenericos.errorCopyProperties();
+        }
+
+
+    }
+
+    public void verRiesgos(ActionEvent evento) {
+        try {
+            super.verRiesgos();
+
+            System.out.println("EN LA PANTALLA DE REUNIONES");
+            this.proyecto = new Proyecto();
+            this.proyecto = (Proyecto) BeanUtils.cloneBean(this.proyectoSeleccionado);
+            System.out.println("PROYECTO: " + proyecto.getNombreProyecto());
+            this.riesgos = this.riesgoServicio.findByProyecto(proyecto);
+            this.riesgo = new Riesgo();
+        } catch (Exception e) {
+            MensajesGenericos.errorCopyProperties();
+        }
+
+
+    }
+
+    public void verExpectativas(ActionEvent evento) {
+        try {
+            super.verExpectativas();
+
+            System.out.println("EN LA PANTALLA DE EXPECTATIVAS");
+            this.proyecto = new Proyecto();
+            this.proyecto = (Proyecto) BeanUtils.cloneBean(this.proyectoSeleccionado);
+            System.out.println("PROYECTO: " + proyecto.getNombreProyecto());
+            this.expectativas = this.expectativaServicio.findByProyecto(proyecto);
+            this.expectativa = new Expectativa();
+        } catch (Exception e) {
+            MensajesGenericos.errorCopyProperties();
+        }
+
+
+    }
+
+    public void verLecciones(ActionEvent evento) {
+        try {
+            super.verLecciones();
+
+            System.out.println("EN LA PANTALLA DE LECCIONES APRENDIDAS");
+            this.proyecto = new Proyecto();
+            this.proyecto = (Proyecto) BeanUtils.cloneBean(this.proyectoSeleccionado);
+            System.out.println("PROYECTO: " + proyecto.getNombreProyecto());
+            this.leccionesAprendidasList = this.leccionesAprendidasServicio.findByProyecto(proyecto);
+            this.leccionesAprendidas = new LeccionesAprendidas();
+        } catch (Exception e) {
+            MensajesGenericos.errorCopyProperties();
+        }
+
+
+    }
+
+    public void verInteresados(ActionEvent evento) {
+        try {
+            super.verInteresados();
+
+            System.out.println("EN LA PANTALLA DE INTERESADOS");
+            this.proyecto = new Proyecto();
+            this.proyecto = (Proyecto) BeanUtils.cloneBean(this.proyectoSeleccionado);
+            System.out.println("PROYECTO: " + proyecto.getNombreProyecto());
+            this.interesados = this.interesadoServicio.obtenerByProyecto(proyecto.getEmpresa(), proyecto.getCodigo());
+            this.interesado = new Interesado();
+        } catch (Exception e) {
+            MensajesGenericos.errorCopyProperties();
+        }
+
+
+    }
+    
+    public void verResponsables(ActionEvent evento) {
+        try {
+            super.verResponsables();
+
+            System.out.println("EN LA PANTALLA DE RESPONSABLES");            
+            this.actividadEmpleados = this.actividadEmpleadoServicio.findBySubActividad(subActividad);
+            this.actividadEmpleado = new ActividadEmpleado();
         } catch (Exception e) {
             MensajesGenericos.errorCopyProperties();
         }
@@ -490,6 +682,68 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
                 return "";
             }
         }
+    }
+
+    public String getImpacto(String impacto) {
+        if (impacto == null || "".equals(impacto)) {
+            return "";
+        } else {
+            System.out.println(impacto);
+            if (impacto.equals("A")) {
+                return "Alto";
+            } else if (impacto.equals("M")) {
+                return "Medio";
+            } else if (impacto.equals("B")) {
+                return "Bajo";
+            }
+            return "";
+        }
+    }
+
+    public String getEstado(String estado) {
+        if (super.getEnEntregables()) {
+            if (estado == null || "".equals(estado)) {
+                return "";
+            } else {
+                System.out.println(estado);
+                if (estado.equals("I")) {
+                    return "Inicial";
+                } else if (estado.equals("P")) {
+                    return "Procesado";
+                } else if (estado.equals("F")) {
+                    return "Finalizado";
+                } else if (estado.equals("R")) {
+                    return "Revisado";
+                }
+                return "Desconocido";
+            }
+
+        } else if (super.getEnRiesgos()) {
+            if (estado == null || "".equals(estado)) {
+                return "";
+            } else {
+                System.out.println(estado);
+                if (estado.equals("I")) {
+                    return "Pendiente";
+                } else if (estado.equals("M")) {
+                    return "Mitigado";
+                }
+                return "Desconocido";
+            }
+        } else if (super.getEnExpectativas()) {
+            if (estado == null || "".equals(estado)) {
+                return "";
+            } else {
+                System.out.println(estado);
+                if (estado.equals("P")) {
+                    return "Pendiente";
+                } else if (estado.equals("C")) {
+                    return "Cumplida";
+                }
+                return "Desconocido";
+            }
+        }
+        return "Desconocido";
     }
 
     public void modificar(ActionEvent evento) {
@@ -544,7 +798,7 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
         }
         super.modificarActividad();
     }
-    
+
     public void modificarReunion(ActionEvent evento) {
         this.reunion = new Reunion();
         try {
@@ -552,6 +806,62 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
         } catch (Exception e) {
         }
         super.modificarReunion();
+    }
+
+    public void modificarRiesgo(ActionEvent evento) {
+        this.riesgo = new Riesgo();
+        try {
+            this.riesgo = (Riesgo) BeanUtils.cloneBean(this.riesgoSeleccionado);
+            System.out.println("RIESGO " + riesgo.getNombre());
+        } catch (Exception e) {
+        }
+        super.modificarRiesgo();
+    }
+
+    public void modificarExpectativa(ActionEvent evento) {
+        this.expectativa = new Expectativa();
+        try {
+            this.expectativa = (Expectativa) BeanUtils.cloneBean(this.expectativaSeleccionado);
+            System.out.println("EXPECTATIVA " + expectativa.getRequerimiento());
+        } catch (Exception e) {
+        }
+        super.modificarExpectativa();
+    }
+
+    public void modificarLeccion(ActionEvent evento) {
+        this.leccionesAprendidas = new LeccionesAprendidas();
+        try {
+            this.leccionesAprendidas = (LeccionesAprendidas) BeanUtils.cloneBean(this.leccionesAprendidasSeleccionada);
+            System.out.println("LECCIONES APRENDIDAS " + leccionesAprendidas.getProblema());
+            System.out.println("MODIFICACION" + super.getEnEdicionLeccion());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        super.modificarLeccion();
+    }
+
+    public void modificarInteresado(ActionEvent evento) {
+        this.interesado = new Interesado();
+        try {
+            this.interesado = (Interesado) BeanUtils.cloneBean(this.interesadoSeleccionado);
+            //Invariable Objetos de Auditoria            
+            this.empresa = this.empresaServicio.findByID(interesado.getCodEmpresa()).getCodigo();
+            super.modificarInteresado();
+        } catch (Exception ex) {
+            MensajesGenericos.errorCopyProperties();
+        }
+    }
+    
+    public void modificarResponsable(ActionEvent evento) {
+        this.actividadEmpleado = new ActividadEmpleado();
+        try {
+            this.actividadEmpleado = (ActividadEmpleado) BeanUtils.cloneBean(this.actividadEmpleadoSeleccionado);
+            //Invariable Objetos de Auditoria            
+            super.modificarResponsable();
+        } catch (Exception ex) {
+            MensajesGenericos.errorCopyProperties();
+        }
     }
 
     public void modificarSubActividad(ActionEvent evento) {
@@ -692,8 +1002,8 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
         }
 
     }
-    
-     public void guardarGasto(ActionEvent evento) {
+
+    public void guardarGasto(ActionEvent evento) {
         try {
             if (super.getEnNuevoGasto()) {
                 this.gasto.setActividad(subActividad);
@@ -731,20 +1041,167 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
     public void guardarReunion(ActionEvent evento) {
         try {
             if (super.getEnNuevaReunion()) {
+                reunion.getPk().setProyecto(proyecto.getCodigo());
+                reunion.getPk().setCodigoReunion(Long.parseLong(String.valueOf(this.reunionServicio.obtener().size())) + 1);
+                reunion.setProyecto(proyecto);
+                reunion.setUsrCreacion(usrSesion.getCodigo());
+                reunion.setFcreacion(new Date());
+                reunionServicio.crear(reunion);
                 this.reuniones.add(reunion);
                 MensajesGenericos.infoCrear("Reunion", this.reunion.getPk().toString(), Boolean.TRUE);
-
             } else if (super.getEnEdicionReunion()) {
                 int i = this.reuniones.indexOf(this.reunion);
-                
+                reunion.setUsrModificacion(usrSesion.getCodigo());
+                reunion.setFmodificacion(new Date());
                 this.reuniones.set(i, this.reunion);
+                reunionServicio.actualizar(reunion);
                 MensajesGenericos.infoModificar("Reunion", this.reunion.getPk().toString(), Boolean.TRUE);
-
             }
-            super.sinSeleccionGastos();
+            super.sinSeleccionReuniones();
 
         } catch (Exception e) {
             e.printStackTrace();
+            MensajesGenericos.errorGuardar();
+        }
+
+    }
+
+    public void guardarRiesgo(ActionEvent evento) {
+        try {
+            if (super.getEnNuevaRiesgo()) {
+                riesgo.getPk().setProyecto(proyecto.getCodigo());
+                riesgo.getPk().setCodigoRiesgo(Long.parseLong(String.valueOf(this.riesgoServicio.obtener().size())) + 1);
+                riesgo.setProyecto(proyecto);
+                riesgo.setUsrCreacion(usrSesion.getCodigo());
+                riesgo.setFcreacion(new Date());
+                riesgoServicio.crear(riesgo);
+                this.riesgos.add(riesgo);
+                MensajesGenericos.infoCrear("Riesgo", this.riesgo.getPk().toString(), Boolean.TRUE);
+            } else if (super.getEnEdicionRiesgo()) {
+                int i = this.riesgos.indexOf(this.riesgo);
+                riesgo.setUsrModificacion(usrSesion.getCodigo());
+                riesgo.setFmodificacion(new Date());
+                this.riesgos.set(i, this.riesgo);
+                riesgoServicio.actualizar(riesgo);
+                MensajesGenericos.infoModificar("Riesgo", this.riesgo.getPk().toString(), Boolean.TRUE);
+            }
+            super.sinSeleccionRiesgos();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            MensajesGenericos.errorGuardar();
+        }
+
+    }
+
+    public void guardarExpectativa(ActionEvent evento) {
+        try {
+            if (super.getEnNuevaExpectativa()) {
+                expectativa.getPk().setProyecto(proyecto.getCodigo());
+                expectativa.getPk().setCodigoExpectativa(Long.parseLong(String.valueOf(this.expectativaServicio.obtener().size())) + 1);
+                expectativa.setProyecto(proyecto);
+                expectativa.setUsrCreacion(usrSesion.getCodigo());
+                expectativa.setFcreacion(new Date());
+                expectativaServicio.crear(expectativa);
+                this.expectativas.add(expectativa);
+                MensajesGenericos.infoCrear("Expectativa", this.expectativa.getPk().toString(), Boolean.TRUE);
+            } else if (super.getEnEdicionExpectativa()) {
+                int i = this.expectativas.indexOf(this.expectativa);
+                expectativa.setUsrModificacion(usrSesion.getCodigo());
+                expectativa.setFmodificacion(new Date());
+                this.expectativas.set(i, this.expectativa);
+                expectativaServicio.actualizar(expectativa);
+                MensajesGenericos.infoModificar("Expectativa", this.expectativa.getPk().toString(), Boolean.TRUE);
+            }
+            super.sinSeleccionExpectativas();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            MensajesGenericos.errorGuardar();
+        }
+
+    }
+
+    public void guardarLeccion(ActionEvent evento) {
+        System.out.println("EDICION" + super.getEnEdicionLeccion());
+        System.out.println("NUEVO" + super.getEnNuevaLeccion());
+        try {
+            if (super.getEnNuevaLeccion()) {
+                leccionesAprendidas.getPk().setProyecto(proyecto.getCodigo());
+                leccionesAprendidas.getPk().setCodigoLeccionesAprendidas(Long.parseLong(String.valueOf(this.leccionesAprendidasServicio.obtener().size())) + 1);
+                leccionesAprendidas.setProyecto(proyecto);
+                leccionesAprendidas.setUsrCreacion(usrSesion.getCodigo());
+                leccionesAprendidas.setFcreacion(new Date());
+                leccionesAprendidasServicio.crear(leccionesAprendidas);
+                this.leccionesAprendidasList.add(leccionesAprendidas);
+                MensajesGenericos.infoCrear("Lecciones Aprendidas", this.leccionesAprendidas.getPk().toString(), Boolean.TRUE);
+            } else if (super.getEnEdicionLeccion()) {
+                int i = this.leccionesAprendidasList.indexOf(this.leccionesAprendidas);
+                leccionesAprendidas.setUsrModificacion(usrSesion.getCodigo());
+                leccionesAprendidas.setFmodificacion(new Date());
+                this.leccionesAprendidasList.set(i, this.leccionesAprendidas);
+                leccionesAprendidasServicio.actualizar(leccionesAprendidas);
+                MensajesGenericos.infoModificar("Lecciones Aprendidas", this.leccionesAprendidas.getPk().toString(), Boolean.TRUE);
+            }
+            super.sinSeleccionLecciones();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            MensajesGenericos.errorGuardar();
+        }
+
+    }
+
+    public void guardarInteresado(ActionEvent evento) {
+        try {
+            if (super.getEnNuevaInteresado()) {
+                this.interesado.setUsrCreacion(usrSesion.getCodigo());
+                this.interesado.setFcreacion(new Date());
+                this.interesado.setProyecto(proyecto.getCodigo());
+                this.interesado.setEmpresa(this.proyecto.getEmpresa());
+                this.interesado.setCodEmpresa(this.proyecto.getEmpresa().getCodigo());
+                this.interesadoServicio.crear(this.interesado);
+                this.interesados.add(this.interesado);
+                MensajesGenericos.infoCrear("Interesado", this.interesado.getCodigo().toString().concat(" - ").concat(this.interesado.getNombre()), Boolean.TRUE);
+                super.sinSeleccionInteresados();
+            } else if (super.getEnEdicionInteresado()) {
+                int i = this.interesados.indexOf(this.interesado);
+                this.interesado.setUsrModificacion(usrSesion.getCodigo());
+                this.interesado.setFmodificacion(new Date());
+                this.interesadoServicio.actualizar(this.interesado);
+                this.interesados.set(i, this.interesado);
+                MensajesGenericos.infoModificar("Interesado", this.interesado.getCodigo().toString().concat(" - ").concat(this.interesado.getNombre()), Boolean.TRUE);
+                super.sinSeleccionInteresados();
+            }
+        } catch (Exception e) {
+            MensajesGenericos.errorGuardar();
+        }
+
+    }
+    
+    public void guardarResponsable(ActionEvent evento) {
+        try {
+            if (super.getEnNuevaResponsable()) {
+                //RESPONSABLES
+                this.actividadEmpleado.setActividad(subActividad);
+                this.actividadEmpleado.getPk().setActividad(subActividad.getCodigo());
+                this.actividadEmpleado.setEmpleado(this.empleadoServicio.findByID(this.actividadEmpleado.getPk().getResponsable()));
+                this.actividadEmpleado.setUsrCreacion(usrSesion.getCodigo());
+                this.actividadEmpleado.setFcreacion(new Date());
+                this.actividadEmpleadoServicio.crear(actividadEmpleado);
+                this.actividadEmpleados.add(this.actividadEmpleado);
+                MensajesGenericos.infoCrear("Responsable", this.actividadEmpleado.getPk().toString(), Boolean.TRUE);
+                super.sinSeleccionResponsables();
+            } else if (super.getEnEdicionResponsable()) {
+                int i = this.actividadEmpleados.indexOf(this.actividadEmpleado);                
+                this.actividadEmpleado.setUsrModificacion(usrSesion.getCodigo());
+                this.actividadEmpleado.setFmodificacion(new Date());                
+                this.actividadEmpleadoServicio.actualizar(actividadEmpleado);
+                this.actividadEmpleados.set(i, this.actividadEmpleado);
+                MensajesGenericos.infoModificar("Responsable", this.actividadEmpleado.getPk().toString(), Boolean.TRUE);
+                super.sinSeleccionResponsables();
+            }
+        } catch (Exception e) {
             MensajesGenericos.errorGuardar();
         }
 
@@ -1117,8 +1574,8 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
             super.sinSeleccion();
         }
     }
-    
-     public void filaSeleccionadaReunion(ActionEvent evento) {
+
+    public void filaSeleccionadaReunion(ActionEvent evento) {
         if (reunionSeleccionado instanceof Reunion) {
             super.seleccionadoUnoReunion();
             try {
@@ -1127,6 +1584,81 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
                 System.out.println("ESTOY AQUI Y SI SELECCIONE LA REUNION");
             } catch (Exception e) {
                 System.out.println("Error en Gasto");
+            }
+        } else {
+            super.sinSeleccion();
+        }
+    }
+
+    public void filaSeleccionadaRiesgo(ActionEvent evento) {
+        if (riesgoSeleccionado instanceof Riesgo) {
+            super.seleccionadoUnoRiesgo();
+            try {
+                this.riesgo = new Riesgo();
+                this.riesgo = (Riesgo) BeanUtils.cloneBean(this.riesgoSeleccionado);
+                System.out.println("ESTOY AQUI Y SI SELECCIONE EL RIESGO");
+            } catch (Exception e) {
+                System.out.println("Error en Riesgo");
+            }
+        } else {
+            super.sinSeleccion();
+        }
+    }
+
+    public void filaSeleccionadaExpectativa(ActionEvent evento) {
+        if (expectativaSeleccionado instanceof Expectativa) {
+            super.seleccionadoUnoExpectativa();
+            try {
+                this.expectativa = new Expectativa();
+                this.expectativa = (Expectativa) BeanUtils.cloneBean(this.expectativaSeleccionado);
+                System.out.println("ESTOY AQUI Y SI SELECCIONE LA EXPECTATIVA");
+            } catch (Exception e) {
+                System.out.println("Error en Expectativa");
+            }
+        } else {
+            super.sinSeleccion();
+        }
+    }
+
+    public void filaSeleccionadaLeccion(ActionEvent evento) {
+        if (leccionesAprendidasSeleccionada instanceof LeccionesAprendidas) {
+            super.seleccionadoUnoLeccion();
+            try {
+                this.leccionesAprendidas = new LeccionesAprendidas();
+                this.leccionesAprendidas = (LeccionesAprendidas) BeanUtils.cloneBean(this.leccionesAprendidasSeleccionada);
+                System.out.println("ESTOY AQUI Y SI SELECCIONE LA LECCION APRENDIDA");
+            } catch (Exception e) {
+                System.out.println("Error en Lección");
+            }
+        } else {
+            super.sinSeleccion();
+        }
+    }
+    
+    public void filaSeleccionadaInteresado(ActionEvent evento) {
+        if (interesadoSeleccionado instanceof Interesado) {
+            super.seleccionadoUnoInteresados();
+            try {
+                this.interesado = new Interesado();
+                this.interesado = (Interesado) BeanUtils.cloneBean(this.interesadoSeleccionado);
+                System.out.println("ESTOY AQUI Y SI SELECCIONE EL INTERESADO");
+            } catch (Exception e) {
+                System.out.println("Error en Interesado");
+            }
+        } else {
+            super.sinSeleccion();
+        }
+    }
+    
+    public void filaSeleccionadaResponsable(ActionEvent evento) {
+        if (actividadEmpleadoSeleccionado instanceof ActividadEmpleado) {
+            super.seleccionadoUnoResponsables();
+            try {
+                this.actividadEmpleado = new ActividadEmpleado();
+                this.actividadEmpleado = (ActividadEmpleado) BeanUtils.cloneBean(this.actividadEmpleadoSeleccionado);
+                System.out.println("ESTOY AQUI Y SI SELECCIONE EL RESPONSABLE");
+            } catch (Exception e) {
+                System.out.println("Error en Responsable");
             }
         } else {
             super.sinSeleccion();
@@ -1547,6 +2079,134 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
 
     public void setReuniones(List<Reunion> reuniones) {
         this.reuniones = reuniones;
+    }
+
+    public RiesgoServicio getRiesgoServicio() {
+        return riesgoServicio;
+    }
+
+    public void setRiesgoServicio(RiesgoServicio riesgoServicio) {
+        this.riesgoServicio = riesgoServicio;
+    }
+
+    public List<Riesgo> getRiesgos() {
+        return riesgos;
+    }
+
+    public void setRiesgos(List<Riesgo> riesgos) {
+        this.riesgos = riesgos;
+    }
+
+    public Riesgo getRiesgo() {
+        return riesgo;
+    }
+
+    public void setRiesgo(Riesgo riesgo) {
+        this.riesgo = riesgo;
+    }
+
+    public Riesgo getRiesgoSeleccionado() {
+        return riesgoSeleccionado;
+    }
+
+    public void setRiesgoSeleccionado(Riesgo riesgoSeleccionado) {
+        this.riesgoSeleccionado = riesgoSeleccionado;
+    }
+
+    public List<Expectativa> getExpectativas() {
+        return expectativas;
+    }
+
+    public void setExpectativas(List<Expectativa> expectativas) {
+        this.expectativas = expectativas;
+    }
+
+    public Expectativa getExpectativa() {
+        return expectativa;
+    }
+
+    public void setExpectativa(Expectativa expectativa) {
+        this.expectativa = expectativa;
+    }
+
+    public Expectativa getExpectativaSeleccionado() {
+        return expectativaSeleccionado;
+    }
+
+    public void setExpectativaSeleccionado(Expectativa expectativaSeleccionado) {
+        this.expectativaSeleccionado = expectativaSeleccionado;
+    }
+
+    public List<LeccionesAprendidas> getLeccionesAprendidasList() {
+        return leccionesAprendidasList;
+    }
+
+    public void setLeccionesAprendidasList(List<LeccionesAprendidas> leccionesAprendidasList) {
+        this.leccionesAprendidasList = leccionesAprendidasList;
+    }
+
+    public LeccionesAprendidas getLeccionesAprendidas() {
+        return leccionesAprendidas;
+    }
+
+    public void setLeccionesAprendidas(LeccionesAprendidas leccionesAprendidas) {
+        this.leccionesAprendidas = leccionesAprendidas;
+    }
+
+    public LeccionesAprendidas getLeccionesAprendidasSeleccionada() {
+        return leccionesAprendidasSeleccionada;
+    }
+
+    public void setLeccionesAprendidasSeleccionada(LeccionesAprendidas leccionesAprendidasSeleccionada) {
+        this.leccionesAprendidasSeleccionada = leccionesAprendidasSeleccionada;
+    }
+
+    public List<Interesado> getInteresados() {
+        return interesados;
+    }
+
+    public void setInteresados(List<Interesado> interesados) {
+        this.interesados = interesados;
+    }
+
+    public Interesado getInteresado() {
+        return interesado;
+    }
+
+    public void setInteresado(Interesado interesado) {
+        this.interesado = interesado;
+    }
+
+    public Interesado getInteresadoSeleccionado() {
+        return interesadoSeleccionado;
+    }
+
+    public void setInteresadoSeleccionado(Interesado interesadoSeleccionado) {
+        this.interesadoSeleccionado = interesadoSeleccionado;
+    }
+
+    public List<ActividadEmpleado> getActividadEmpleados() {
+        return actividadEmpleados;
+    }
+
+    public void setActividadEmpleados(List<ActividadEmpleado> actividadEmpleados) {
+        this.actividadEmpleados = actividadEmpleados;
+    }
+
+    public ActividadEmpleado getActividadEmpleado() {
+        return actividadEmpleado;
+    }
+
+    public void setActividadEmpleado(ActividadEmpleado actividadEmpleado) {
+        this.actividadEmpleado = actividadEmpleado;
+    }
+
+    public ActividadEmpleado getActividadEmpleadoSeleccionado() {
+        return actividadEmpleadoSeleccionado;
+    }
+
+    public void setActividadEmpleadoSeleccionado(ActividadEmpleado actividadEmpleadoSeleccionado) {
+        this.actividadEmpleadoSeleccionado = actividadEmpleadoSeleccionado;
     }
     
     

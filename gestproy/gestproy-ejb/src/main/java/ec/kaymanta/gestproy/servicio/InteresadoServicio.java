@@ -40,8 +40,8 @@ public class InteresadoServicio {
      *
      * @return
      */
-    public List<Interesado> obtenerByEmpresa(Empresa empresa) {
-        return this.interesadoDAO.getByProyecto(empresa);
+    public List<Interesado> obtenerByProyecto(Empresa empresa, Long proyecto) {
+        return this.interesadoDAO.getByProyecto(empresa, proyecto);
     }
 
     /**

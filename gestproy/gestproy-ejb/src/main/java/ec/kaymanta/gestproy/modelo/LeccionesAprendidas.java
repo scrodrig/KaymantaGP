@@ -69,8 +69,9 @@ public class LeccionesAprendidas implements Serializable {
      * Fecha en la que se soluciona el inconveniente.. Representa a la columna
      * FSOLUCION.
      */
+    @Temporal(TemporalType.DATE)
     @Column(name = "FSOLUCION", nullable = false)
-    private Long fsolucion;
+    private Date fsolucion;
     /**
      * Usuario que crea el registro.. Representa a la columna USR_CREACION.
      */
@@ -204,7 +205,7 @@ public class LeccionesAprendidas implements Serializable {
      *
      * @return el valor asignado a la propiedad fsolucion
      */
-    public Long getFsolucion() {
+    public Date getFsolucion() {
         return fsolucion;
     }
 
@@ -214,7 +215,7 @@ public class LeccionesAprendidas implements Serializable {
      *
      * @param fsolucion el valor a ser asignado a la propiedad fsolucion
      */
-    public void setFsolucion(Long fsolucion) {
+    public void setFsolucion(Date fsolucion) {
         this.fsolucion = fsolucion;
     }
 

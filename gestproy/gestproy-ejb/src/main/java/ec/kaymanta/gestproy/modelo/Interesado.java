@@ -77,6 +77,11 @@ public class Interesado implements Serializable {
     @Column(name = "NOTAS", nullable = false, length = 65535)
     private String notas;
     /**
+     * Notas acerca del interesado.. Representa a la columna NOTAS.
+     */
+    @Column(name = "PROYECTO", nullable = false, length = 10)
+    private Long proyecto;
+    /**
      * Usuario que crea el registro.. Representa a la columna USR_CREACION.
      */
     @Column(name = "USR_CREACION", nullable = false, length = 20)
@@ -340,6 +345,28 @@ public class Interesado implements Serializable {
     public void setEmpresa(Empresa empresa) {
         this.empresa = empresa;
     }
+
+    /**
+     * Obtiene el valor de la propiedad empresa relacionado con la entidad
+     * Empresa.
+     *
+     * @return el valor asignado a la propiedad empresa
+     */
+    public Long getProyecto() {
+        return proyecto;
+    }
+
+    /**
+     * Asigna un valor a la propiedad empresa, relacionado con la entidad
+     * Empresa.
+     *
+     * @param proyecto el valor a ser asignado a la propiedad empresa
+     */
+    public void setProyecto(Long proyecto) {
+        this.proyecto = proyecto;
+    }
+    
+    
 
     /**
      * {@inheritDoc}
