@@ -60,16 +60,62 @@ public class ActividadEmpleado implements Serializable {
     @Temporal(TemporalType.DATE)
     @Column(name = "FFIN", nullable = false)
     private Date ffin;
-    /**
-     * Porcentaje de tiempo que se emplea en la actividad o subactividad..
-     * Representa a la columna TIEMPO_EMPLEADO.
+     /**
+     * Avance porcentual del avance del proyecto.. Representa a la columna
+     * AVANCE.
      */
-    @Column(name = "TIEMPO_EMPLEADO", nullable = false)
-    private BigDecimal tiempoEmpleado;
+    @Column(name = "AVANCE", nullable = false)
+    private BigDecimal avance;
+    /**
+     * Horas Diarias Estimadas.. Representa
+     * a la columna HORAS_DIA_EST.
+     */
+    @Column(name = "HORAS_DIA_EST", nullable = false)
+    private Long hDiaEst;
+    
+    /**
+     * Horas Diarias Reales.. Representa
+     * a la columna HORAS_DIA_EST.
+     */
+    @Column(name = "HORAS_DIA_REAL", nullable = false)
+    private Long hDiaReal;
+    
+    /**
+     * Horas Trabajadas Estimadas.. Representa
+     * a la columna HORAS_DIA_EST.
+     */
+    @Column(name = "HORAS_TRAB_EST", nullable = false)
+    private BigDecimal hTrabEst;
+    
+    /**
+     * Horas Trabajadas Real.. Representa
+     * a la columna HORAS_DIA_EST.
+     */
+    @Column(name = "HORAS_TRAB_REAL", nullable = false)
+    private BigDecimal hTrabReal;
+    
+    /**
+     * Trabajo total Estimadas.. Representa
+     * a la columna HORAS_DIA_EST.
+     */
+    @Column(name = "TRABAJO_TOTAL_EST", nullable = false)
+    private Long tTotalEst;
+    
+    /**
+     * Trabajo Total Estimadas.. Representa
+     * a la columna HORAS_DIA_EST.
+     */
+    @Column(name = "TRABAJO_TOTAL_REAL", nullable = false)
+    private Long tTotalReal;
+    
     /**
      * Muestra si el empleado es o no responsable.. Representa a la columna
      * ES_RESPONSABLE.
      */
+    
+    
+    
+    
     @Column(name = "ES_RESPONSABLE", nullable = false, length = 1)
     private String esResponsable;
     /**
@@ -191,21 +237,6 @@ public class ActividadEmpleado implements Serializable {
      *
      * @return el valor asignado a la propiedad tiempoEmpleado
      */
-    public BigDecimal getTiempoEmpleado() {
-        return tiempoEmpleado;
-    }
-
-    /**
-     * Asigna un valor a la propiedad tiempoEmpleado, relacionado con la columna
-     * TIEMPO_EMPLEADO.
-     *
-     * @param tiempoEmpleado el valor a ser asignado a la propiedad
-     * tiempoEmpleado
-     */
-    public void setTiempoEmpleado(BigDecimal tiempoEmpleado) {
-        this.tiempoEmpleado = tiempoEmpleado;
-    }
-
     /**
      * Obtiene el valor de la propiedad esResponsable relacionado con la columna
      * ES_RESPONSABLE.
@@ -246,6 +277,61 @@ public class ActividadEmpleado implements Serializable {
         this.usrCreacion = usrCreacion;
     }
 
+    public BigDecimal getAvance() {
+        return avance;
+    }
+
+    public void setAvance(BigDecimal avance) {
+        this.avance = avance;
+    }
+
+    public Long gethDiaEst() {
+        return hDiaEst;
+    }
+
+    public void sethDiaEst(Long hDiaEst) {
+        this.hDiaEst = hDiaEst;
+    }
+
+    public Long gethDiaReal() {
+        return hDiaReal;
+    }
+
+    public void sethDiaReal(Long hDiaReal) {
+        this.hDiaReal = hDiaReal;
+    }
+
+    public BigDecimal gethTrabEst() {
+        return hTrabEst;
+    }
+
+    public void sethTrabEst(BigDecimal hTrabEst) {
+        this.hTrabEst = hTrabEst;
+    }
+
+    public BigDecimal gethTrabReal() {
+        return hTrabReal;
+    }
+
+    public void sethTrabReal(BigDecimal hTrabReal) {
+        this.hTrabReal = hTrabReal;
+    }
+
+    public Long gettTotalEst() {
+        return tTotalEst;
+    }
+
+    public void settTotalEst(Long tTotalEst) {
+        this.tTotalEst = tTotalEst;
+    }
+
+    public Long gettTotalReal() {
+        return tTotalReal;
+    }
+
+    public void settTotalReal(Long tTotalReal) {
+        this.tTotalReal = tTotalReal;
+    }
     /**
      * Obtiene el valor de la propiedad fcreacion relacionado con la columna
      * FCREACION.

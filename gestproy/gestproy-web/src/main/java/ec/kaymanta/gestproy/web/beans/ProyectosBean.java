@@ -298,7 +298,7 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
         super.crearInteresado();
         this.interesado = new Interesado();
     }
-    
+
     public void nuevoResponsable(ActionEvent evento) {
         super.crearResponsable();
         this.actividadEmpleado = new ActividadEmpleado();
@@ -397,7 +397,7 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
         }
 
     }
-    
+
     public void verAuditoriaResponsable(ActionEvent evento) throws IllegalAccessException {
         try {
             this.actividadEmpleado = new ActividadEmpleado();
@@ -639,12 +639,12 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
 
 
     }
-    
+
     public void verResponsables(ActionEvent evento) {
         try {
             super.verResponsables();
 
-            System.out.println("EN LA PANTALLA DE RESPONSABLES");            
+            System.out.println("EN LA PANTALLA DE RESPONSABLES");
             this.actividadEmpleados = this.actividadEmpleadoServicio.findBySubActividad(subActividad);
             this.actividadEmpleado = new ActividadEmpleado();
         } catch (Exception e) {
@@ -852,7 +852,7 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
             MensajesGenericos.errorCopyProperties();
         }
     }
-    
+
     public void modificarResponsable(ActionEvent evento) {
         this.actividadEmpleado = new ActividadEmpleado();
         try {
@@ -919,6 +919,13 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
                 this.proyecto.setAvance(BigDecimal.ZERO);
                 this.proyecto.setResponsable(empleado);
 
+                this.proyecto.sethDiaEst(0L);
+                this.proyecto.sethDiaReal(0L);
+                this.proyecto.sethTrabEst(BigDecimal.ZERO);
+                this.proyecto.sethTrabReal(BigDecimal.ZERO);
+                this.proyecto.settTotalEst(0L);
+                this.proyecto.settTotalReal(0L);
+
                 this.proyecto.setUsrCreacion(usrSesion.getCodigo());
                 this.proyecto.setFcreacion(new Date());
 
@@ -980,6 +987,14 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
                 this.actividad.setUsrCreacion(usrSesion.getCodigo());
                 this.actividad.setFcreacion(new Date());
                 this.actividad.setAvance(BigDecimal.ZERO);
+
+                this.actividad.sethDiaEst(0L);
+                this.actividad.sethDiaReal(0L);
+                this.actividad.sethTrabEst(BigDecimal.ZERO);
+                this.actividad.sethTrabReal(BigDecimal.ZERO);
+                this.actividad.settTotalEst(0L);
+                this.actividad.settTotalReal(0L);
+
                 System.out.println("Actividad: " + actividad.getNombreActividad());
                 this.actividadServicio.crear(actividad);
                 //--CREAR ACTIVIDAD
@@ -1178,7 +1193,7 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
         }
 
     }
-    
+
     public void guardarResponsable(ActionEvent evento) {
         try {
             if (super.getEnNuevaResponsable()) {
@@ -1188,14 +1203,23 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
                 this.actividadEmpleado.setEmpleado(this.empleadoServicio.findByID(this.actividadEmpleado.getPk().getResponsable()));
                 this.actividadEmpleado.setUsrCreacion(usrSesion.getCodigo());
                 this.actividadEmpleado.setFcreacion(new Date());
+                //MEANWHILE
+                this.actividadEmpleado.setAvance(BigDecimal.ZERO);
+                this.actividadEmpleado.sethDiaEst(0L);
+                this.actividadEmpleado.sethDiaReal(0L);
+                this.actividadEmpleado.sethTrabEst(BigDecimal.ZERO);
+                this.actividadEmpleado.sethTrabReal(BigDecimal.ZERO);
+                this.actividadEmpleado.settTotalEst(0L);
+                this.actividadEmpleado.settTotalReal(0L);
                 this.actividadEmpleadoServicio.crear(actividadEmpleado);
+
                 this.actividadEmpleados.add(this.actividadEmpleado);
                 MensajesGenericos.infoCrear("Responsable", this.actividadEmpleado.getPk().toString(), Boolean.TRUE);
                 super.sinSeleccionResponsables();
             } else if (super.getEnEdicionResponsable()) {
-                int i = this.actividadEmpleados.indexOf(this.actividadEmpleado);                
+                int i = this.actividadEmpleados.indexOf(this.actividadEmpleado);
                 this.actividadEmpleado.setUsrModificacion(usrSesion.getCodigo());
-                this.actividadEmpleado.setFmodificacion(new Date());                
+                this.actividadEmpleado.setFmodificacion(new Date());
                 this.actividadEmpleadoServicio.actualizar(actividadEmpleado);
                 this.actividadEmpleados.set(i, this.actividadEmpleado);
                 MensajesGenericos.infoModificar("Responsable", this.actividadEmpleado.getPk().toString(), Boolean.TRUE);
@@ -1216,6 +1240,12 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
                 this.subActividad.setCodProyecto(proyecto.getCodigo());
                 this.subActividad.setSubactividad(actividad.getCodigo());
                 this.subActividad.setAvance(BigDecimal.ZERO);
+                this.subActividad.sethDiaEst(0L);
+                this.subActividad.sethDiaReal(0L);
+                this.subActividad.sethTrabEst(BigDecimal.ZERO);
+                this.subActividad.sethTrabReal(BigDecimal.ZERO);
+                this.subActividad.settTotalEst(0L);
+                this.subActividad.settTotalReal(0L);
                 this.subActividad.setUsrCreacion(usrSesion.getCodigo());
                 this.subActividad.setFcreacion(new Date());
                 System.out.println("SubActividad: " + subActividad.getNombreActividad());
@@ -1634,7 +1664,7 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
             super.sinSeleccion();
         }
     }
-    
+
     public void filaSeleccionadaInteresado(ActionEvent evento) {
         if (interesadoSeleccionado instanceof Interesado) {
             super.seleccionadoUnoInteresados();
@@ -1649,7 +1679,7 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
             super.sinSeleccion();
         }
     }
-    
+
     public void filaSeleccionadaResponsable(ActionEvent evento) {
         if (actividadEmpleadoSeleccionado instanceof ActividadEmpleado) {
             super.seleccionadoUnoResponsables();
@@ -2208,6 +2238,4 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
     public void setActividadEmpleadoSeleccionado(ActividadEmpleado actividadEmpleadoSeleccionado) {
         this.actividadEmpleadoSeleccionado = actividadEmpleadoSeleccionado;
     }
-    
-    
 }

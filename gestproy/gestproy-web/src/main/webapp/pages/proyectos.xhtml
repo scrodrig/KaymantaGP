@@ -1159,6 +1159,10 @@
                 </p:selectOneMenu>
                 <p:message for="m_resp_esresp" />
 
+                <h:outputLabel for="resp_avance" value="Avance: " />  
+                <p:spinner id="resp_avance" value="#{proyectosBean.actividadEmpleado.avance}" suffix="%" min="0" max="100" required="true" /> 
+                <p:message for="resp_avance" />
+
                 <p:outputLabel for="m_resp_finicio" value="Fecha de Inicio: "/>
                 <p:calendar id="m_resp_finicio" value="#{proyectosBean.actividadEmpleado.finicio}" label="Fecha de Inicio" showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode" required="true"/>
                 <p:message for="m_resp_finicio"/>

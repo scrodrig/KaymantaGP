@@ -112,6 +112,48 @@ public class Proyecto implements Serializable {
     @Column(name = "AVANCE", nullable = false)
     private BigDecimal avance;
     /**
+     * Horas Diarias Estimadas.. Representa
+     * a la columna HORAS_DIA_EST.
+     */
+    @Column(name = "HORAS_DIA_EST", nullable = false)
+    private Long hDiaEst;
+    
+    /**
+     * Horas Diarias Reales.. Representa
+     * a la columna HORAS_DIA_EST.
+     */
+    @Column(name = "HORAS_DIA_REAL", nullable = false)
+    private Long hDiaReal;
+    
+    /**
+     * Horas Trabajadas Estimadas.. Representa
+     * a la columna HORAS_DIA_EST.
+     */
+    @Column(name = "HORAS_TRAB_EST", nullable = false)
+    private BigDecimal hTrabEst;
+    
+    /**
+     * Horas Trabajadas Real.. Representa
+     * a la columna HORAS_DIA_EST.
+     */
+    @Column(name = "HORAS_TRAB_REAL", nullable = false)
+    private BigDecimal hTrabReal;
+    
+    /**
+     * Trabajo total Estimadas.. Representa
+     * a la columna HORAS_DIA_EST.
+     */
+    @Column(name = "TRABAJO_TOTAL_EST", nullable = false)
+    private Long tTotalEst;
+    
+    /**
+     * Trabajo Total Estimadas.. Representa
+     * a la columna HORAS_DIA_EST.
+     */
+    @Column(name = "TRABAJO_TOTAL_REAL", nullable = false)
+    private Long tTotalReal;
+    
+    /**
      * Usuario que crea el registro.. Representa a la columna USR_CREACION.
      */
     @Column(name = "USR_CREACION", nullable = false, length = 20)
@@ -403,6 +445,53 @@ public class Proyecto implements Serializable {
         this.avance = avance;
     }
 
+    public Long gethDiaEst() {
+        return hDiaEst;
+    }
+
+    public void sethDiaEst(Long hDiaEst) {
+        this.hDiaEst = hDiaEst;
+    }
+
+    public Long gethDiaReal() {
+        return hDiaReal;
+    }
+
+    public void sethDiaReal(Long hDiaReal) {
+        this.hDiaReal = hDiaReal;
+    }
+
+    public BigDecimal gethTrabEst() {
+        return hTrabEst;
+    }
+
+    public void sethTrabEst(BigDecimal hTrabEst) {
+        this.hTrabEst = hTrabEst;
+    }
+
+    public BigDecimal gethTrabReal() {
+        return hTrabReal;
+    }
+
+    public void sethTrabReal(BigDecimal hTrabReal) {
+        this.hTrabReal = hTrabReal;
+    }
+
+    public Long gettTotalEst() {
+        return tTotalEst;
+    }
+
+    public void settTotalEst(Long tTotalEst) {
+        this.tTotalEst = tTotalEst;
+    }
+
+    public Long gettTotalReal() {
+        return tTotalReal;
+    }
+
+    public void settTotalReal(Long tTotalReal) {
+        this.tTotalReal = tTotalReal;
+    }     
     /**
      * Obtiene el valor de la propiedad usrCreacion relacionado con la columna
      * USR_CREACION.
