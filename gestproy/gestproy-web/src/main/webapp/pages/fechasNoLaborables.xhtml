@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/templateMantenimiento.xhtml">
+
+    <ui:define name="titulo">Fechas No Laborables</ui:define> 
+
+    <ui:define name="cuerpo">
+        <p:dataTable id="fechasNoLaborables"  value="#{fechasNoLaborablesBean.fechasNoLaborables}" var="fnl" selection="#{fechasNoLaborablesBean.fechaNoLaborableSeleccionada}" selectionMode="single" scrollable="true" 
+                     rowKey="#{fnl.fecha}" style="width: 300px;" scrollWidth="false"
+                     paginator="true" rows="10"   paginatorPosition="bottom"
+                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"  
+                     emptyMessage="No se ha registrado Fechas No Laborables" rendered="#{not (fechasNoLaborablesBean.enRegistro or fechasNoLaborablesBean.enEdicion)}" >
+
+            <p:ajax event="rowSelect" listener="#{fechasNoLaborablesBean.filaSeleccionada(evento)}" update="fechasNoLaborables"/>
+            <p:ajax event="rowUnselect" listener="#{fechasNoLaborablesBean.filaSeleccionada(evento)}" update="fechasNoLaborables"/>
+
+            <f:facet name="header">
+                Días No Laborables
+            </f:facet>
+            <p:column headerText="Fecha" style="width: 150px">
+                <h:outputLabel value="#{fnl.fecha}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputLabel>                   
+            </p:column>
+
+
+
+            <f:facet name="footer">  
+                <p:commandButton  value="Nuevo" update="@form" actionListener="#{fechasNoLaborablesBean.nuevo(evento)}" disabled="#{fechasNoLaborablesBean.disabledNuevo}" icon="ui-icon-document"/>  
+                <p:commandButton value="Modificar" update="@form" actionListener="#{fechasNoLaborablesBean.modificar(evento)}" disabled="#{fechasNoLaborablesBean.disabledModificar}" icon="ui-icon-pencil"/>
+                <p:commandButton value="Eliminar" onclick="confirmation.show();" disabled="#{fechasNoLaborablesBean.disabledEliminar}" icon="ui-icon-close"/>
+            </f:facet>
+
+        </p:dataTable>
+
+        <p:confirmDialog id="confirmDialog" message="¿Seguro desea eliminar?"  
+                         header="Eliminación" severity="alert" widgetVar="confirmation">  
+            <p:commandButton id="confirm" value="Si, seguro" update="@form " oncomplete="confirmation.hide()"  
+                             actionListener="#{fechasNoLaborablesBean.eliminar(evento)}"  />  
+            <p:commandButton id="decline" value="No" onclick="confirmation.hide();" type="button" />   
+
+        </p:confirmDialog> 
+
+        <p:panel id="nuevoRevestimiento" header="Creación de Días No Laborables" rendered="#{fechasNoLaborablesBean.enRegistro}" style="width: 700px">
+            <p:panelGrid columns="3">                
+
+                <p:outputLabel for="fnacimiento" value="Fecha No Laborable:" />
+                <p:calendar id="fnacimiento" showButtonPanel="true" pattern="dd/MM/yyyy" value="#{fechasNoLaborablesBean.fechaNoLaborable.fecha}" effect="explode" label="Fecha" required="true"/> 
+                <p:message for="fnacimiento" />
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{fechasNoLaborablesBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{fechasNoLaborablesBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>
+
+
+        <p:panel id="modificarRevestimiento" header="Modificación de Días No Laborables" rendered="#{fechasNoLaborablesBean.enEdicion}" style="width: 700px">
+            <p:panelGrid columns="3">              
+
+                <p:outputLabel for="m_fnacimiento" value="Fecha No Laborable:" />
+                <p:calendar id="m_fnacimiento" showButtonPanel="true" pattern="dd/MM/yyyy" value="#{fechasNoLaborablesBean.fechaNoLaborable.fecha}" effect="explode" label="Fecha" required="true"/> 
+                <p:message for="m_fnacimiento" />
+
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{fechasNoLaborablesBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{fechasNoLaborablesBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+
+        </p:panel>
+    </ui:define>
+
+</ui:composition>
+
+

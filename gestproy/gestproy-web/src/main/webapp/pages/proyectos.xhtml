@@ -1075,11 +1075,18 @@
             <p:column headerText="Sub-Actividad" style="width: 50px">
                 #{responsable.actividad.nombreActividad}
             </p:column>
-            <p:column headerText="Empleado" style="width: 50px">
+            <p:column headerText="Empleado" style="width: 60px">
                 #{responsable.empleado.nombre}
             </p:column>
-            <p:column headerText="Responsable" style="width: 80px">
-                #{responsable.esResponsable}
+            <p:column headerText="Responsable" style="width: 40px">
+                #{proyectosBean.getEstado(responsable.esResponsable)}
+            </p:column>
+            <p:column headerText="Hor/Día Estimado" style="width: 50px">
+                #{responsable.gethDiaEst()}
+            </p:column>
+            
+            <p:column headerText="Avance" style="width: 50px">
+                #{responsable.avance} %
             </p:column>
             <p:column headerText="Fecha Inicio" style="width: 60px">
                 <h:outputLabel value="#{responsable.finicio}">
@@ -1115,6 +1122,20 @@
                     <f:selectItems value="#{proyectosBean.empleados}" var="empleado" itemValue="#{empleado.codigo}" itemLabel="#{empleado.nombre}"/>
                 </p:selectOneMenu>
                 <p:message for="resp_empleado"/>
+
+                <p:outputLabel for="resp_hdia_est" value="Horas Diarias a Trabajar: "/>
+                <p:selectOneMenu id="resp_hdia_est" value="#{proyectosBean.actividadEmpleado.hDiaEst}" label="Horas Diarias" required="true">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItem itemValue="1" itemLabel="1"/>
+                    <f:selectItem itemValue="2" itemLabel="2"/>
+                    <f:selectItem itemValue="3" itemLabel="3"/>
+                    <f:selectItem itemValue="4" itemLabel="4"/>
+                    <f:selectItem itemValue="5" itemLabel="5"/>
+                    <f:selectItem itemValue="6" itemLabel="6"/>
+                    <f:selectItem itemValue="7" itemLabel="7"/>
+                    <f:selectItem itemValue="8" itemLabel="8"/>
+                </p:selectOneMenu>
+                <p:message for="resp_hdia_est"/>
 
                 <p:outputLabel for="resp_esresp" value="¿Es responsable?"/>                
                 <p:selectOneMenu id="resp_esresp" value="#{proyectosBean.actividadEmpleado.esResponsable}" label="Es Responsable" required="true">
@@ -1162,6 +1183,33 @@
                 <h:outputLabel for="resp_avance" value="Avance: " />  
                 <p:spinner id="resp_avance" value="#{proyectosBean.actividadEmpleado.avance}" suffix="%" min="0" max="100" required="true" /> 
                 <p:message for="resp_avance" />
+
+                <p:outputLabel for="m_resp_ttr" value="Horas Trabajadas: "/>
+                <p:selectOneMenu id="m_resp_ttr" value="#{proyectosBean.actividadEmpleado.tTotalReal}" label="Horas Diarias" required="true">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItem itemValue="1" itemLabel="1"/>
+                    <f:selectItem itemValue="2" itemLabel="2"/>
+                    <f:selectItem itemValue="3" itemLabel="3"/>
+                    <f:selectItem itemValue="4" itemLabel="4"/>
+                    <f:selectItem itemValue="5" itemLabel="5"/>
+                    <f:selectItem itemValue="6" itemLabel="6"/>
+                    <f:selectItem itemValue="7" itemLabel="7"/>
+                    <f:selectItem itemValue="8" itemLabel="8"/>
+                    <f:selectItem itemValue="9" itemLabel="8"/>
+                    <f:selectItem itemValue="10" itemLabel="10"/>
+                    <f:selectItem itemValue="11" itemLabel="11"/>
+                    <f:selectItem itemValue="12" itemLabel="12"/>
+                    <f:selectItem itemValue="13" itemLabel="13"/>
+                    <f:selectItem itemValue="14" itemLabel="14"/>
+                    <f:selectItem itemValue="15" itemLabel="15"/>
+                    <f:selectItem itemValue="16" itemLabel="16"/>
+                    <f:selectItem itemValue="17" itemLabel="17"/>
+                    <f:selectItem itemValue="18" itemLabel="18"/>
+                    <f:selectItem itemValue="19" itemLabel="19"/>
+                    <f:selectItem itemValue="20" itemLabel="20"/>
+                </p:selectOneMenu>               
+                <p:message for="m_resp_ttr"/>
+
 
                 <p:outputLabel for="m_resp_finicio" value="Fecha de Inicio: "/>
                 <p:calendar id="m_resp_finicio" value="#{proyectosBean.actividadEmpleado.finicio}" label="Fecha de Inicio" showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode" required="true"/>
