@@ -62,6 +62,7 @@ import ec.kaymanta.gestproy.web.util.MensajesGenericos;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -1339,7 +1340,7 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
                 this.actividadEmpleado.setUsrModificacion(usrSesion.getCodigo());
                 this.actividadEmpleado.setFmodificacion(new Date());
                 //this.actividadEmpleado.sethTrabReal(BigDecimal.valueOf(this.actividadEmpleado.gettTotalReal()*days));
-                this.actividadEmpleado.sethTrabEst(BigDecimal.valueOf(actividadEmpleado.gethDiaEst()));
+                //this.actividadEmpleado.sethTrabEst(BigDecimal.valueOf(actividadEmpleado.gethDiaEst()));
                 this.actividadEmpleado.settTotalReal(horasAnterior + this.actividadEmpleado.gettTotalReal());
                 days = numeroDias(actividadEmpleado.getFinicio(), new Date());
                 System.out.println("Valor de los dias" + days);
@@ -1350,84 +1351,10 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
                 MensajesGenericos.infoModificar("Responsable", this.actividadEmpleado.getPk().toString(), Boolean.TRUE);
                 super.sinSeleccionResponsables();
 
-                ///////////////////////////////////////PARA SUBACTIVIDADES////////////////////////////////////////////////////////
-                /*AVANCE*/
-//                BigDecimal suma = actividadEmpleados.get(0).getAvance();
-                fechasActividad = this.fechasActividadServicio.findLastByActividad(subActividad);
-                BigDecimal totalDias = BigDecimal.valueOf(numeroDias(fechasActividad.getFinicio(), fechasActividad.getFfin()));
-                BigDecimal diasResp;
-                System.out.println("NUMERO DIAS SUBACT: " + totalDias);
-                BigDecimal suma = BigDecimal.ZERO;
-                BigDecimal dividendo = BigDecimal.ZERO;
-                BigDecimal resultado = BigDecimal.ZERO;
-                for (int j = 0; j < actividadEmpleados.size(); j++) {
-                    diasResp = BigDecimal.valueOf(numeroDias(actividadEmpleados.get(j).getFinicio(), actividadEmpleados.get(j).getFfin()));
-                    suma = actividadEmpleados.get(j).getAvance();
-                    dividendo = diasResp.divide(totalDias, 2, RoundingMode.HALF_UP);
-                    System.out.println("NUMERO DIAS dividendo: " + dividendo);
-                    resultado = resultado.add(suma.multiply(dividendo));
 
-                }
-                System.out.println("NUMERO DIAS SUBACT: " + totalDias);
-                System.out.println("AVANCE SA" + resultado);
-                System.out.println("SUBACTIVIDAD " + subActividad.getNombreActividad());
-                if (resultado.compareTo(BigDecimal.valueOf(100)) <= 0) {
-                    this.subActividad.setAvance(resultado);
-                } else {
-                    this.subActividad.setAvance(BigDecimal.ONE);
-                }
-                /**/
-                /*HORAS ESTIMADAS*/
-                int hDiariasSA = 0;
-                for (int j = 0; j < actividadEmpleados.size(); j++) {
-                    hDiariasSA += actividadEmpleados.get(j).gethDiaEst();
-                }
-                this.subActividad.sethDiaEst(Long.parseLong(String.valueOf(hDiariasSA / (actividadEmpleados.size()))));
-                System.out.println("HORAS ESTIMADAS SA" + subActividad.gethDiaEst());
-                //HORAS REAL//
-                int hDiariasREAL = 0;
-                for (int j = 0; j < actividadEmpleados.size(); j++) {
-                    hDiariasREAL += actividadEmpleados.get(j).gethDiaReal();
-                }
-                this.subActividad.sethDiaReal(Long.parseLong(String.valueOf(hDiariasREAL / (actividadEmpleados.size()))));
-                System.out.println("HORAS REALES SA" + subActividad.gethDiaReal());
-                //HORAS TRABAJO ESTIMADO
-                BigDecimal hTrabEst = BigDecimal.ZERO;
-                for (int j = 0; j < actividadEmpleados.size(); j++) {
-                    hTrabEst = actividadEmpleados.get(j).gethTrabEst();
-                    hTrabEst = hTrabEst.add(hTrabEst);
-                }
-                this.subActividad.sethTrabEst(hTrabEst);
-                System.out.println("HORAS TRABAJO ESTIMADO SA" + hTrabEst);
-                //HORAS TRABAJO REAL
-                BigDecimal hTrabReal = BigDecimal.ZERO;
-                for (int j = 0; j < actividadEmpleados.size(); j++) {
-                    hTrabReal = actividadEmpleados.get(j).gethTrabReal();
-                    hTrabReal = hTrabReal.add(hTrabReal);
-                }
-                this.subActividad.sethTrabReal(hTrabReal);
-                System.out.println("HORAS TRABAJO REAL SA" + hTrabReal);
-
-                //TIEMPO TOTAL ESTIMADO
-                Long tTotEst = 0L;
-                for (int j = 0; j < actividadEmpleados.size(); j++) {
-                    tTotEst += actividadEmpleados.get(j).gettTotalEst();
-                }
-                this.subActividad.settTotalEst(tTotEst);
-                System.out.println("TIEMPO TOTAL ESTIMADO SA" + tTotEst);
-
-
-                //TIEMPO TOTAL REAL
-                Long tTotReal = 0L;
-                for (int j = 0; j < actividadEmpleados.size(); j++) {
-                    tTotReal += actividadEmpleados.get(j).gettTotalReal();
-                }
-                this.subActividad.settTotalEst(tTotReal);
-                System.out.println("TIEMPO TOTAL REAL SA" + tTotReal);
-
-                this.actividadServicio.actualizar(subActividad);
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+                this.actualizarSubActividad(subActividad);
+                this.actualizarActividad(actividad);
+                this.actualizarProyecto(proyecto);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -1435,6 +1362,292 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
             super.sinSeleccionResponsables();
         }
 
+    }
+
+    public void actualizarSubActividad(Actividad subActividad) {
+        ///////////////////////////////////////PARA SUBACTIVIDADES////////////////////////////////////////////////////////
+                /*AVANCE*/
+        fechasActividad = this.fechasActividadServicio.findLastByActividad(subActividad);
+        BigDecimal totalDias = BigDecimal.valueOf(numeroDias(fechasActividad.getFinicio(), fechasActividad.getFfin()));
+        BigDecimal diasResp;
+        System.out.println("NUMERO DIAS SUBACT: " + totalDias);
+        BigDecimal suma = BigDecimal.ZERO;
+        BigDecimal dividendo = BigDecimal.ZERO;
+        BigDecimal resultado = BigDecimal.ZERO;
+        for (int j = 0; j < actividadEmpleados.size(); j++) {
+            diasResp = BigDecimal.valueOf(numeroDias(actividadEmpleados.get(j).getFinicio(), actividadEmpleados.get(j).getFfin()));
+            suma = actividadEmpleados.get(j).getAvance();
+            if (totalDias.compareTo(BigDecimal.ZERO) >= 0) {
+                dividendo = diasResp.divide(totalDias, 2, RoundingMode.HALF_UP);
+                System.out.println("NUMERO DIAS dividendo: " + dividendo);
+                resultado = resultado.add(suma.multiply(dividendo));
+            } else {
+                resultado = BigDecimal.ZERO;
+            }
+        }
+
+        resultado = resultado.divide(BigDecimal.ONE, 2, RoundingMode.UP);
+
+        System.out.println("NUMERO DIAS SUBACT: " + totalDias);
+        System.out.println("AVANCE SA" + resultado);
+        System.out.println("SUBACTIVIDAD " + subActividad.getNombreActividad());
+        if (resultado.compareTo(BigDecimal.valueOf(100)) <= 0) {
+            subActividad.setAvance(resultado);
+        } else {
+            subActividad.setAvance(BigDecimal.valueOf(100));
+        }
+        /**/
+        /*HORAS ESTIMADAS*/
+        int hDiariasSA = 0;
+        for (int j = 0; j < actividadEmpleados.size(); j++) {
+            hDiariasSA += actividadEmpleados.get(j).gethDiaEst();
+        }
+        subActividad.sethDiaEst(Long.parseLong(String.valueOf(hDiariasSA / (actividadEmpleados.size()))));
+        System.out.println("HORAS ESTIMADAS SA" + subActividad.gethDiaEst());
+        //HORAS REAL//
+        int hDiariasREAL = 0;
+        for (int j = 0; j < actividadEmpleados.size(); j++) {
+            hDiariasREAL += actividadEmpleados.get(j).gethDiaReal();
+        }
+        subActividad.sethDiaReal(Long.parseLong(String.valueOf(hDiariasREAL / (actividadEmpleados.size()))));
+        System.out.println("HORAS REALES SA" + subActividad.gethDiaReal());
+        //HORAS TRABAJO ESTIMADO
+        BigDecimal hTrabEst = BigDecimal.ZERO;
+        for (int j = 0; j < actividadEmpleados.size(); j++) {
+            hTrabEst = actividadEmpleados.get(j).gethTrabEst();
+            hTrabEst = hTrabEst.add(hTrabEst);
+        }
+        subActividad.sethTrabEst(hTrabEst);
+        System.out.println("HORAS TRABAJO ESTIMADO SA" + hTrabEst);
+        //HORAS TRABAJO REAL
+        BigDecimal hTrabReal = BigDecimal.ZERO;
+        for (int j = 0; j < actividadEmpleados.size(); j++) {
+            hTrabReal = actividadEmpleados.get(j).gethTrabReal();
+            hTrabReal = hTrabReal.add(hTrabReal);
+        }
+        subActividad.sethTrabReal(hTrabReal);
+        System.out.println("HORAS TRABAJO REAL SA" + hTrabReal);
+
+        //TIEMPO TOTAL ESTIMADO
+        Long tTotEst = 0L;
+        for (int j = 0; j < actividadEmpleados.size(); j++) {
+            tTotEst += actividadEmpleados.get(j).gettTotalEst();
+        }
+        subActividad.settTotalEst(tTotEst);
+        System.out.println("TIEMPO TOTAL ESTIMADO SA" + tTotEst);
+
+
+        //TIEMPO TOTAL REAL
+        Long tTotReal = 0L;
+        for (int j = 0; j < actividadEmpleados.size(); j++) {
+            tTotReal += actividadEmpleados.get(j).gettTotalReal();
+        }
+        subActividad.settTotalEst(tTotReal);
+        System.out.println("TIEMPO TOTAL REAL SA" + tTotReal);
+
+        this.actividadServicio.actualizar(subActividad);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    }
+
+    public void actualizarActividad(Actividad actividad) {
+        ///////////////////////////////////////PARA SUBACTIVIDADES////////////////////////////////////////////////////////
+                /*AVANCE*/
+//        fechasActividad = this.fechasActividadServicio.findLastByActividad(subActividad);
+//        Date dateInicioActividad=new Date();
+//        Date dateFinActividad= new Date();        
+        subActividades = actividadServicio.findByProyectoAndActividad(actividad.getProyecto(), actividad);
+        int index = subActividades.size() - 1;
+        FechasActividad fa1 = this.fechasActividadServicio.findLastByActividad(subActividades.get(0));
+        FechasActividad fa2 = this.fechasActividadServicio.findLastByActividad(subActividades.get(index));
+
+        BigDecimal totalDias = BigDecimal.valueOf(numeroDias(fa1.getFinicio(), fa2.getFfin()));
+        BigDecimal diasResp;
+        System.out.println("NUMERO DIAS ACT: " + totalDias);
+        BigDecimal suma = BigDecimal.ZERO;
+        BigDecimal dividendo = BigDecimal.ZERO;
+        BigDecimal resultado = BigDecimal.ZERO;
+        for (int j = 0; j < subActividades.size(); j++) {
+            fechasActividad = this.fechasActividadServicio.findLastByActividad(subActividades.get(j));
+            diasResp = BigDecimal.valueOf(numeroDias(fechasActividad.getFinicio(), fechasActividad.getFfin()));
+            suma = subActividades.get(j).getAvance();
+            if (totalDias.compareTo(BigDecimal.ZERO) >= 0) {
+
+                dividendo = diasResp.divide(totalDias, 2, RoundingMode.HALF_UP);
+                System.out.println("NUMERO DIAS dividendo: " + dividendo);
+                resultado = resultado.add(suma.multiply(dividendo));
+            } else {
+                resultado = BigDecimal.ZERO;
+            }
+
+
+        }
+
+        resultado = resultado.divide(BigDecimal.ONE, 2, RoundingMode.UP);
+
+
+        System.out.println("NUMERO DIAS ACT: " + totalDias);
+        System.out.println("AVANCE A" + resultado.multiply(BigDecimal.valueOf(100)));
+        System.out.println("ACTIVIDAD " + actividad.getNombreActividad());
+
+        if (resultado.compareTo(BigDecimal.valueOf(100)) <= 0) {
+            actividad.setAvance(resultado);
+        } else {
+            actividad.setAvance(BigDecimal.valueOf(100));
+        }
+        /**/
+        /*HORAS ESTIMADAS*/
+        int hDiariasSA = 0;
+        for (int j = 0; j < subActividades.size(); j++) {
+            hDiariasSA += subActividades.get(j).gethDiaEst();
+        }
+        actividad.sethDiaEst(Long.parseLong(String.valueOf(hDiariasSA / (subActividades.size()))));
+        System.out.println("HORAS ESTIMADAS SA" + actividad.gethDiaEst());
+        //HORAS REAL//
+        int hDiariasREAL = 0;
+        for (int j = 0; j < subActividades.size(); j++) {
+            hDiariasREAL += subActividades.get(j).gethDiaReal();
+        }
+        actividad.sethDiaReal(Long.parseLong(String.valueOf(hDiariasREAL / (subActividades.size()))));
+        System.out.println("HORAS REALES SA" + actividad.gethDiaReal());
+        //HORAS TRABAJO ESTIMADO
+        BigDecimal hTrabEst = BigDecimal.ZERO;
+        for (int j = 0; j < subActividades.size(); j++) {
+            hTrabEst = subActividades.get(j).gethTrabEst();
+            hTrabEst = hTrabEst.add(hTrabEst);
+        }
+        actividad.sethTrabEst(hTrabEst);
+        System.out.println("HORAS TRABAJO ESTIMADO SA" + hTrabEst);
+        //HORAS TRABAJO REAL
+        BigDecimal hTrabReal = BigDecimal.ZERO;
+        for (int j = 0; j < subActividades.size(); j++) {
+            hTrabReal = subActividades.get(j).gethTrabReal();
+            hTrabReal = hTrabReal.add(hTrabReal);
+        }
+        actividad.sethTrabReal(hTrabReal);
+        System.out.println("HORAS TRABAJO REAL SA" + hTrabReal);
+
+        //TIEMPO TOTAL ESTIMADO
+        Long tTotEst = 0L;
+        for (int j = 0; j < subActividades.size(); j++) {
+            tTotEst += subActividades.get(j).gettTotalEst();
+        }
+        actividad.settTotalEst(tTotEst);
+        System.out.println("TIEMPO TOTAL ESTIMADO SA" + tTotEst);
+
+
+        //TIEMPO TOTAL REAL
+        Long tTotReal = 0L;
+        for (int j = 0; j < subActividades.size(); j++) {
+            tTotReal += subActividades.get(j).gettTotalReal();
+        }
+        actividad.settTotalEst(tTotReal);
+        System.out.println("TIEMPO TOTAL REAL SA" + tTotReal);
+
+        this.actividadServicio.actualizar(actividad);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    }
+
+    public void actualizarProyecto(Proyecto proyecto) {
+        ///////////////////////////////////////PARA SUBACTIVIDADES////////////////////////////////////////////////////////
+                /*AVANCE*/
+
+        actividades = actividadServicio.findByProyecto(proyecto);
+        int index = 0;
+        List<Actividad> subAct = new ArrayList<Actividad>();
+        BigDecimal diasResp;
+        BigDecimal totalDias = BigDecimal.ZERO;
+        BigDecimal suma = BigDecimal.ZERO;
+        BigDecimal dividendo = BigDecimal.ZERO;
+        BigDecimal resultado = BigDecimal.ZERO;
+        diasResp = BigDecimal.ZERO;
+        totalDias = BigDecimal.valueOf(numeroDias(proyecto.getFinicio(), proyecto.getFfin()));
+        System.out.println("DIAS TOTAL PROYECTO: " + diasResp);
+        for (int j = 0; j < actividades.size(); j++) {
+
+            subAct = this.actividadServicio.findByProyectoAndActividad(proyecto, actividades.get(j));
+            for (int k = 0; k < subAct.size(); k++) {
+                index = subAct.size() - 1;
+                FechasActividad f1 = this.fechasActividadServicio.findLastByActividad(subAct.get(0));
+                FechasActividad f2 = this.fechasActividadServicio.findLastByActividad(subAct.get(index));
+                diasResp = diasResp.add(BigDecimal.valueOf(numeroDias(f1.getFinicio(), f2.getFfin())));
+                System.out.println("dias Actividades: " + diasResp);
+            }
+
+            suma = actividades.get(j).getAvance();
+            if (totalDias.compareTo(BigDecimal.ZERO) >= 0) {
+                dividendo = diasResp.divide(totalDias, 2, RoundingMode.HALF_UP);
+                System.out.println("NUMERO DIAS dividendo: " + dividendo);
+                resultado = resultado.add(suma.multiply(dividendo));
+            } else {
+                resultado = BigDecimal.ZERO;
+            }
+
+        }
+
+
+        resultado = resultado.divide(BigDecimal.ONE, 2, RoundingMode.UP);
+
+        System.out.println("NUMERO DIAS PROY: " + totalDias);
+        System.out.println("AVANCE P" + resultado);
+        System.out.println("ACTIVIDAD " + actividad.getNombreActividad());
+
+        if (resultado.compareTo(BigDecimal.valueOf(100)) <= 0) {
+            proyecto.setAvance(resultado);
+        } else {
+            proyecto.setAvance(BigDecimal.valueOf(100));
+        }
+        /**/
+        /*HORAS ESTIMADAS*/
+        int hDiariasSA = 0;
+        for (int j = 0; j < actividades.size(); j++) {
+            hDiariasSA += actividades.get(j).gethDiaEst();
+        }
+        proyecto.sethDiaEst(Long.parseLong(String.valueOf(hDiariasSA / (actividades.size()))));
+        System.out.println("HORAS ESTIMADAS SA" + proyecto.gethDiaEst());
+        //HORAS REAL//
+        int hDiariasREAL = 0;
+        for (int j = 0; j < actividades.size(); j++) {
+            hDiariasREAL += actividades.get(j).gethDiaReal();
+        }
+        proyecto.sethDiaReal(Long.parseLong(String.valueOf(hDiariasREAL / (actividades.size()))));
+        System.out.println("HORAS REALES SA" + proyecto.gethDiaReal());
+        //HORAS TRABAJO ESTIMADO
+        BigDecimal hTrabEst = BigDecimal.ZERO;
+        for (int j = 0; j < actividades.size(); j++) {
+            hTrabEst = actividades.get(j).gethTrabEst();
+            hTrabEst = hTrabEst.add(hTrabEst);
+        }
+        proyecto.sethTrabEst(hTrabEst);
+        System.out.println("HORAS TRABAJO ESTIMADO SA" + hTrabEst);
+        //HORAS TRABAJO REAL
+        BigDecimal hTrabReal = BigDecimal.ZERO;
+        for (int j = 0; j < actividades.size(); j++) {
+            hTrabReal = actividades.get(j).gethTrabReal();
+            hTrabReal = hTrabReal.add(hTrabReal);
+        }
+        proyecto.sethTrabReal(hTrabReal);
+        System.out.println("HORAS TRABAJO REAL SA" + hTrabReal);
+
+        //TIEMPO TOTAL ESTIMADO
+        Long tTotEst = 0L;
+        for (int j = 0; j < actividades.size(); j++) {
+            tTotEst += actividades.get(j).gettTotalEst();
+        }
+        proyecto.settTotalEst(tTotEst);
+        System.out.println("TIEMPO TOTAL ESTIMADO SA" + tTotEst);
+
+
+        //TIEMPO TOTAL REAL
+        Long tTotReal = 0L;
+        for (int j = 0; j < actividades.size(); j++) {
+            tTotReal += actividades.get(j).gettTotalReal();
+        }
+        proyecto.settTotalEst(tTotReal);
+        System.out.println("TIEMPO TOTAL REAL SA" + tTotReal);
+
+        this.proyectoServicio.actualizar(proyecto);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
     public void guardarSubActividad(ActionEvent evento) {
@@ -1462,6 +1675,7 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
                 this.fechasActividad.getPk().setActividad(subActividad.getCodigo());
                 this.fechasActividad.getPk().setCodigoFechasActividad(Long.parseLong(String.valueOf(fechasActividadServicio.obtener().size())) + 1);
                 this.fechasActividad.setUsrCreacion(usrSesion.getCodigo());
+                this.fechasActividad.setFfin(fechasActividad.getFestimada());
                 this.fechasActividad.setFcreacion(new Date());
                 System.out.println("FechasActividad: " + fechasActividad.getActividad().getNombreActividad());
                 this.fechasActividadServicio.crear(fechasActividad);
@@ -1512,6 +1726,8 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
                     fechasActividadNueva.setFcreacion(new Date());
                     this.fechasActividadServicio.crear(fechasActividadNueva);
                 }
+
+                actividadServicio.actualizar(actividad);
             }
             super.sinSeleccionSubActividad();
             //CREAR ACTIVIDAD CON RESPONSABLE
