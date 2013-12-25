@@ -988,7 +988,6 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
                 this.proyecto.setCodParroquia(Long.parseLong(codParroquia));
                 this.proyecto.setCodEmpresa(empresa);
                 this.proyecto.setParroquia(parroquia);
-                this.proyecto.setAvance(BigDecimal.ZERO);
                 this.proyecto.setResponsable(empleado);
                 this.proyecto.setUsrModificacion(usrSesion.getCodigo());
                 this.proyecto.setFmodificacion(new Date());
@@ -1341,6 +1340,7 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
                 this.actividadEmpleado.setFmodificacion(new Date());
                 //this.actividadEmpleado.sethTrabReal(BigDecimal.valueOf(this.actividadEmpleado.gettTotalReal()*days));
                 //this.actividadEmpleado.sethTrabEst(BigDecimal.valueOf(actividadEmpleado.gethDiaEst()));
+                System.out.println("HORAS ANTERIOR= "+horasAnterior);
                 this.actividadEmpleado.settTotalReal(horasAnterior + this.actividadEmpleado.gettTotalReal());
                 days = numeroDias(actividadEmpleado.getFinicio(), new Date());
                 System.out.println("Valor de los dias" + days);
@@ -1502,14 +1502,14 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
             hDiariasSA += subActividades.get(j).gethDiaEst();
         }
         actividad.sethDiaEst(Long.parseLong(String.valueOf(hDiariasSA / (subActividades.size()))));
-        System.out.println("HORAS ESTIMADAS SA" + actividad.gethDiaEst());
+        System.out.println("HORAS ESTIMADAS ACTIVIDAD" + actividad.gethDiaEst());
         //HORAS REAL//
         int hDiariasREAL = 0;
         for (int j = 0; j < subActividades.size(); j++) {
             hDiariasREAL += subActividades.get(j).gethDiaReal();
         }
         actividad.sethDiaReal(Long.parseLong(String.valueOf(hDiariasREAL / (subActividades.size()))));
-        System.out.println("HORAS REALES SA" + actividad.gethDiaReal());
+        System.out.println("HORAS REALES ACTIVIDAD" + actividad.gethDiaReal());
         //HORAS TRABAJO ESTIMADO
         BigDecimal hTrabEst = BigDecimal.ZERO;
         for (int j = 0; j < subActividades.size(); j++) {
@@ -1517,7 +1517,7 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
             hTrabEst = hTrabEst.add(hTrabEst);
         }
         actividad.sethTrabEst(hTrabEst);
-        System.out.println("HORAS TRABAJO ESTIMADO SA" + hTrabEst);
+        System.out.println("HORAS TRABAJO ESTIMADO ACTIVIDAD" + hTrabEst);
         //HORAS TRABAJO REAL
         BigDecimal hTrabReal = BigDecimal.ZERO;
         for (int j = 0; j < subActividades.size(); j++) {
@@ -1525,7 +1525,7 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
             hTrabReal = hTrabReal.add(hTrabReal);
         }
         actividad.sethTrabReal(hTrabReal);
-        System.out.println("HORAS TRABAJO REAL SA" + hTrabReal);
+        System.out.println("HORAS TRABAJO REAL ACTIVIDAD" + hTrabReal);
 
         //TIEMPO TOTAL ESTIMADO
         Long tTotEst = 0L;
@@ -1533,7 +1533,7 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
             tTotEst += subActividades.get(j).gettTotalEst();
         }
         actividad.settTotalEst(tTotEst);
-        System.out.println("TIEMPO TOTAL ESTIMADO SA" + tTotEst);
+        System.out.println("TIEMPO TOTAL ESTIMADO ACTIVIDAD" + tTotEst);
 
 
         //TIEMPO TOTAL REAL
@@ -1542,7 +1542,7 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
             tTotReal += subActividades.get(j).gettTotalReal();
         }
         actividad.settTotalEst(tTotReal);
-        System.out.println("TIEMPO TOTAL REAL SA" + tTotReal);
+        System.out.println("TIEMPO TOTAL REAL ACTIVIDAD" + tTotReal);
 
         this.actividadServicio.actualizar(actividad);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1571,13 +1571,13 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
                 FechasActividad f1 = this.fechasActividadServicio.findLastByActividad(subAct.get(0));
                 FechasActividad f2 = this.fechasActividadServicio.findLastByActividad(subAct.get(index));
                 diasResp = diasResp.add(BigDecimal.valueOf(numeroDias(f1.getFinicio(), f2.getFfin())));
-                System.out.println("dias Actividades: " + diasResp);
+                System.out.println("dias Actividades PROYECTO: " + diasResp);
             }
 
             suma = actividades.get(j).getAvance();
             if (totalDias.compareTo(BigDecimal.ZERO) >= 0) {
                 dividendo = diasResp.divide(totalDias, 2, RoundingMode.HALF_UP);
-                System.out.println("NUMERO DIAS dividendo: " + dividendo);
+                System.out.println("NUMERO DIAS dividendo PROYECTO: " + dividendo);
                 resultado = resultado.add(suma.multiply(dividendo));
             } else {
                 resultado = BigDecimal.ZERO;
@@ -1590,7 +1590,7 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
 
         System.out.println("NUMERO DIAS PROY: " + totalDias);
         System.out.println("AVANCE P" + resultado);
-        System.out.println("ACTIVIDAD " + actividad.getNombreActividad());
+        System.out.println("ACTIVIDAD PROYECTO" + actividad.getNombreActividad());
 
         if (resultado.compareTo(BigDecimal.valueOf(100)) <= 0) {
             proyecto.setAvance(resultado);
@@ -1604,14 +1604,14 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
             hDiariasSA += actividades.get(j).gethDiaEst();
         }
         proyecto.sethDiaEst(Long.parseLong(String.valueOf(hDiariasSA / (actividades.size()))));
-        System.out.println("HORAS ESTIMADAS SA" + proyecto.gethDiaEst());
+        System.out.println("HORAS ESTIMADAS PROYECTO" + proyecto.gethDiaEst());
         //HORAS REAL//
         int hDiariasREAL = 0;
         for (int j = 0; j < actividades.size(); j++) {
             hDiariasREAL += actividades.get(j).gethDiaReal();
         }
         proyecto.sethDiaReal(Long.parseLong(String.valueOf(hDiariasREAL / (actividades.size()))));
-        System.out.println("HORAS REALES SA" + proyecto.gethDiaReal());
+        System.out.println("HORAS REALES PROYECTO" + proyecto.gethDiaReal());
         //HORAS TRABAJO ESTIMADO
         BigDecimal hTrabEst = BigDecimal.ZERO;
         for (int j = 0; j < actividades.size(); j++) {
@@ -1619,7 +1619,7 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
             hTrabEst = hTrabEst.add(hTrabEst);
         }
         proyecto.sethTrabEst(hTrabEst);
-        System.out.println("HORAS TRABAJO ESTIMADO SA" + hTrabEst);
+        System.out.println("HORAS TRABAJO ESTIMADO PROYECTO" + hTrabEst);
         //HORAS TRABAJO REAL
         BigDecimal hTrabReal = BigDecimal.ZERO;
         for (int j = 0; j < actividades.size(); j++) {
@@ -1627,7 +1627,7 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
             hTrabReal = hTrabReal.add(hTrabReal);
         }
         proyecto.sethTrabReal(hTrabReal);
-        System.out.println("HORAS TRABAJO REAL SA" + hTrabReal);
+        System.out.println("HORAS TRABAJO REAL PROYECTO" + hTrabReal);
 
         //TIEMPO TOTAL ESTIMADO
         Long tTotEst = 0L;
@@ -1635,7 +1635,7 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
             tTotEst += actividades.get(j).gettTotalEst();
         }
         proyecto.settTotalEst(tTotEst);
-        System.out.println("TIEMPO TOTAL ESTIMADO SA" + tTotEst);
+        System.out.println("TIEMPO TOTAL ESTIMADO PROYECTO" + tTotEst);
 
 
         //TIEMPO TOTAL REAL
@@ -1644,7 +1644,7 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
             tTotReal += actividades.get(j).gettTotalReal();
         }
         proyecto.settTotalEst(tTotReal);
-        System.out.println("TIEMPO TOTAL REAL SA" + tTotReal);
+        System.out.println("TIEMPO TOTAL REAL PROYECTO" + tTotReal);
 
         this.proyectoServicio.actualizar(proyecto);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1692,18 +1692,6 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
                 this.subActividad.setFmodificacion(new Date());
                 this.actividadServicio.actualizar(subActividad);
                 this.subActividades.set(i, this.subActividad);
-
-
-                System.out.println("SubActividad FI: " + fechasActividad.getFinicio());
-                System.out.println("SubActividad FE: " + fechasActividad.getFestimada());
-                System.out.println("SubActividad FF: " + fechasActividad.getFfin());
-                System.out.println("SubActividad COD: " + fechasActividad);
-
-
-                System.out.println(" FI: " + fechasActividadRespaldo.getFinicio());
-                System.out.println(" FE: " + fechasActividadRespaldo.getFestimada());
-                System.out.println(" FF: " + fechasActividadRespaldo.getFfin());
-                System.out.println(" COD: " + fechasActividadRespaldo);
 
                 MensajesGenericos.infoModificar("SubActividad", this.subActividad.getCodigo().toString().concat(" - ").concat(this.subActividad.getNombreActividad()), Boolean.TRUE);
 

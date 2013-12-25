@@ -155,7 +155,7 @@
         </p:dialog>
 
 
-        <p:panel id="panelSeleccion" header="Creación de Proyectos" style="width: 600px"
+        <p:panel id="panelSeleccion" header="Registro de Proyectos" style="width: 600px"
                  rendered="#{proyectosBean.enRegistro}"> 
             <p:focus context="panelSeleccion"/> 
             <p:panelGrid columns="3" >
@@ -204,11 +204,16 @@
                 <p:message for="empleado"/>
 
                 <p:outputLabel for="finicio" value="Fecha de Inicio: "/>
-                <p:calendar id="finicio" value="#{proyectosBean.proyecto.finicio}" label="Fecha de Inicio" showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode" required="true"/>
+                <p:calendar id="finicio" value="#{proyectosBean.proyecto.finicio}" label="Fecha de Inicio" showButtonPanel="true" binding="#{from}" pattern="dd/MM/yyyy" effect="explode" required="true">
+
+                </p:calendar>
                 <p:message for="finicio"/>
 
-                <p:outputLabel for="festimada" value="Fecha de Estimada de Finalización "/>
-                <p:calendar id="festimada" value="#{proyectosBean.proyecto.festimada}" label="Fecha de Estimada de Finalización " showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode" required="true"/>
+                <p:outputLabel for="festimada" value="Fecha de Estimada de Finalización: "/>
+                <p:calendar id="festimada" value="#{proyectosBean.proyecto.festimada}" label="Fecha de Estimada de Finalización " showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode" required="true">
+                    <f:attribute name="fromDate" value="#{from.value}" />
+                    <f:validator validatorId="validator.dateRangeValidator" />
+                </p:calendar>
                 <p:message for="festimada"/>
 
                 <p:outputLabel for="fcreacion" value="Fecha de Finalización: "/>
@@ -279,7 +284,7 @@
                 <p:calendar id="m_finicio" value="#{proyectosBean.proyecto.finicio}" label="Fecha de Inicio" showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode" required="true"/>
                 <p:message for="m_finicio"/>
 
-                <p:outputLabel for="m_festimada" value="Fecha de Estimada de Finalización "/>
+                <p:outputLabel for="m_festimada" value="Fecha de Estimada de Finalización: "/>
                 <p:calendar id="m_festimada" value="#{proyectosBean.proyecto.festimada}" label="Fecha de Estimada de Finalización " showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode" required="true"/>
                 <p:message for="m_festimada"/>
 
@@ -300,7 +305,7 @@
                      rowKey="#{reunion.pk}" style="width: 800px" 
                      paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                     emptyMessage="No se ha registrado ningún gasto" rendered="#{proyectosBean.enReuniones}" >
+                     emptyMessage="No se ha registrado ninguna Reunión" rendered="#{proyectosBean.enReuniones}" >
 
             <p:ajax event="rowSelect" listener="#{proyectosBean.filaSeleccionadaReunion(evento)}" update="reuniones"/>
             <p:ajax event="rowUnselect" listener="#{proyectosBean.filaSeleccionadaReunion(evento)}" update="reuniones"/>
@@ -331,7 +336,7 @@
         </p:dataTable>  
         <!--//PANEL-->
         <!--CREAR REUNION-->
-        <p:panel id="nuevaReunion" header="Nuevo Reunión" style="width: 800px"
+        <p:panel id="nuevaReunion" header="Registro de Reuniones" style="width: 800px"
                  rendered="#{proyectosBean.enNuevaReunion}"> 
             <p:focus context="nuevaReunion"/> 
             <p:panelGrid columns="3" >  
@@ -364,7 +369,7 @@
 
         <!--//CREAR REUNION-->
         <!--EDITAR REUNION-->
-        <p:panel id="editarReunion" header="Editar Reunión" style="width: 800px"
+        <p:panel id="editarReunion" header="Edición de Reuniones" style="width: 800px"
                  rendered="#{proyectosBean.enEdicionReunion}"> 
             <p:focus context="editarReunion"/> 
             <p:panelGrid columns="3" >  
@@ -440,7 +445,7 @@
                      rowKey="#{riesgo.pk}" style="width: 1000px" 
                      paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                     emptyMessage="No se ha registrado ningún gasto" rendered="#{proyectosBean.enRiesgos}" >
+                     emptyMessage="No se ha registrado ningún Riesgo" rendered="#{proyectosBean.enRiesgos}" >
 
             <p:ajax event="rowSelect" listener="#{proyectosBean.filaSeleccionadaRiesgo(evento)}" update="riesgos"/>
             <p:ajax event="rowUnselect" listener="#{proyectosBean.filaSeleccionadaRiesgo(evento)}" update="riesgos"/>
@@ -476,7 +481,7 @@
         </p:dataTable>  
         <!--//PANEL-->
         <!--CREAR REUNION-->
-        <p:panel id="nuevoRiesgo" header="Nuevo Riesgo" style="width: 800px"
+        <p:panel id="nuevoRiesgo" header="Registro de Riesgos" style="width: 800px"
                  rendered="#{proyectosBean.enNuevaRiesgo}"> 
             <p:focus context="nuevoRiesgo"/> 
             <p:panelGrid columns="3" >  
@@ -524,7 +529,7 @@
 
         <!--//CREAR REUNION-->
         <!--EDITAR REUNION-->
-        <p:panel id="editarRiesgo" header="Editar Riesgo" style="width: 800px"
+        <p:panel id="editarRiesgo" header="Edición de Riesgos" style="width: 800px"
                  rendered="#{proyectosBean.enEdicionRiesgo}"> 
             <p:focus context="editarRiesgo"/> 
             <p:panelGrid columns="3" >  
@@ -572,7 +577,7 @@
         <!--//EDITAR REUNION-->
         <!--AUDITORIA-->
         <p:dialog id="risk_picture" widgetVar="dlg7"  
-                  resizable="false" header="Auditoría de Riesgo" modal="true" closable="false" showEffect="clip" hideEffect="clip" style="width: 600px">  
+                  resizable="false" header="Auditoría de Riesgos" modal="true" closable="false" showEffect="clip" hideEffect="clip" style="width: 600px">  
             <p:panelGrid id="risk_mensaje"  columns="2">  
                 <p:graphicImage value="/images/footer.png"/>                    
                 <p:panelGrid columns="2" rendered="#{proyectosBean.enAuditoriaRiesgo}">
@@ -616,7 +621,7 @@
                      rowKey="#{expectativa.pk}" style="width: 1000px" 
                      paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                     emptyMessage="No se ha registrado ningún gasto" rendered="#{proyectosBean.enExpectativas}" >
+                     emptyMessage="No se ha registrado ningúna Expectativa" rendered="#{proyectosBean.enExpectativas}" >
 
             <p:ajax event="rowSelect" listener="#{proyectosBean.filaSeleccionadaExpectativa(evento)}" update="expectativas"/>
             <p:ajax event="rowUnselect" listener="#{proyectosBean.filaSeleccionadaExpectativa(evento)}" update="expectativas"/>
@@ -646,7 +651,7 @@
         </p:dataTable>  
         <!--//PANEL-->
         <!--CREAR EXPECTATIVA-->
-        <p:panel id="nuevoExpectativa" header="Nuevo Expectativa" style="width: 800px"
+        <p:panel id="nuevoExpectativa" header="Registro de Expectativas" style="width: 800px"
                  rendered="#{proyectosBean.enNuevaExpectativa}"> 
             <p:focus context="nuevoExpectativa"/> 
             <p:panelGrid columns="3" >  
@@ -680,7 +685,7 @@
 
         <!--//CREAR EXPECTATIVA-->
         <!--EDITAR EXPECTATIVA-->
-        <p:panel id="editarExpectativa" header="Editar Expectativa" style="width: 800px"
+        <p:panel id="editarExpectativa" header="Edición de Expectativas" style="width: 800px"
                  rendered="#{proyectosBean.enEdicionExpectativa}"> 
             <p:focus context="editarExpectativa"/> 
             <p:panelGrid columns="3" >  
@@ -757,7 +762,7 @@
                      rowKey="#{leccion.pk}" style="width: 1000px" 
                      paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                     emptyMessage="No se ha registrado ninguna lección" rendered="#{proyectosBean.enLecciones}" >
+                     emptyMessage="No se ha registrado ninguna Lección" rendered="#{proyectosBean.enLecciones}" >
 
             <p:ajax event="rowSelect" listener="#{proyectosBean.filaSeleccionadaLeccion(evento)}" update="lecciones"/>
             <p:ajax event="rowUnselect" listener="#{proyectosBean.filaSeleccionadaLeccion(evento)}" update="lecciones"/>
@@ -797,7 +802,7 @@
         </p:dataTable>  
         <!--//PANEL-->
         <!--CREAR EXPECTATIVA-->
-        <p:panel id="nuevaLeccion" header="Nueva Lección" style="width: 800px"
+        <p:panel id="nuevaLeccion" header="Registro de Lecciones" style="width: 800px"
                  rendered="#{proyectosBean.enNuevaLeccion}"> 
             <p:focus context="nuevaLeccion"/> 
             <p:panelGrid columns="3" >  
@@ -833,7 +838,7 @@
 
         <!--//CREAR LECCION-->
         <!--EDITAR LECCION-->
-        <p:panel id="editarLeccion" header="Editar Lección" style="width: 800px"
+        <p:panel id="editarLeccion" header="Edición de Lecciones" style="width: 800px"
                  rendered="#{proyectosBean.enEdicionLeccion}"> 
             <p:focus context="editarLeccion"/> 
             <p:panelGrid columns="3" >  
@@ -868,7 +873,7 @@
         <!--//EDITAR LECCION-->
         <!--AUDITORIA-->
         <p:dialog id="la_picture" widgetVar="dlg9"  
-                  resizable="false" header="Auditoría de Leccion" modal="true" closable="false" showEffect="clip" hideEffect="clip" style="width: 600px">  
+                  resizable="false" header="Auditoría de Lecciones" modal="true" closable="false" showEffect="clip" hideEffect="clip" style="width: 600px">  
             <p:panelGrid id="la_mensaje"  columns="2">  
                 <p:graphicImage value="/images/footer.png"/>                    
                 <p:panelGrid columns="2" rendered="#{proyectosBean.enAuditoriaLeccion}">
@@ -911,7 +916,7 @@
                      rowKey="#{interesado.codigo}" style="width: 800px" scrollWidth="false"
                      paginator="true" rows="10"   paginatorPosition="bottom"
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                     emptyMessage="No se ha registrado ningun Interesado" rendered="#{proyectosBean.enInteresados}" >
+                     emptyMessage="No se ha registrado ningún Interesado" rendered="#{proyectosBean.enInteresados}" >
 
             <p:ajax event="rowSelect" listener="#{proyectosBean.filaSeleccionadaInteresado(evento)}" update="interesados"/>
             <p:ajax event="rowUnselect" listener="#{proyectosBean.filaSeleccionadaInteresado(evento)}" update="interesados"/>
@@ -925,7 +930,7 @@
             <p:column headerText="Empresa" style="width: 50px">
                 #{interesado.empresa.razonSocial}
             </p:column>
-            <p:column headerText="Nombre Empleado" style="width: 80px">
+            <p:column headerText="Empleado" style="width: 80px">
                 #{interesado.nombre}
             </p:column>
             <p:column headerText="Teléfono" style="width: 50px">
@@ -945,7 +950,7 @@
 
         <!--//PANEL-->
         <!--CREAR INTERESADO-->
-        <p:panel id="nuevoInteresado" header="Nuevo Interesado" rendered="#{proyectosBean.enNuevaInteresado}" style="width: 800px">
+        <p:panel id="nuevoInteresado" header="Registro de Interesados" rendered="#{proyectosBean.enNuevaInteresado}" style="width: 800px">
             <p:panelGrid columns="3">
 
                 <p:outputLabel for="inte_proyecto" value="Proyecto: "/>
@@ -981,7 +986,7 @@
         <!--//CREAR INTERESADO-->
 
         <!--EDITAR INTERESADO-->
-        <p:panel id="editarInteresado" header="Edición Interesado" rendered="#{proyectosBean.enEdicionInteresado}" style="width: 800px">
+        <p:panel id="editarInteresado" header="Edición de Interesados" rendered="#{proyectosBean.enEdicionInteresado}" style="width: 800px">
             <p:panelGrid columns="3">
 
                 <p:outputLabel for="m_inte_proyecto" value="Proyecto: "/>
@@ -1017,7 +1022,7 @@
 
         <!--AUDITORIA INTERESADO-->
         <p:dialog id="inte_picture" widgetVar="dlg10"  
-                  resizable="false" header="Auditoría de Interesado" modal="true" closable="false" showEffect="clip" hideEffect="clip" style="width: 600px">  
+                  resizable="false" header="Auditoría de Interesados" modal="true" closable="false" showEffect="clip" hideEffect="clip" style="width: 600px">  
             <p:panelGrid id="inte_mensaje"  columns="2">  
                 <p:graphicImage value="/images/footer.png"/>                    
                 <p:panelGrid columns="2" rendered="#{proyectosBean.enAuditoriaInteresado}">
@@ -1064,7 +1069,7 @@
                      rowKey="#{responsable.pk}" style="width: 1000px" scrollWidth="false"
                      paginator="true" rows="10"   paginatorPosition="bottom"
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                     emptyMessage="No se ha registrado ningun Interesado" rendered="#{proyectosBean.enResponsables}" >
+                     emptyMessage="No se ha registrado ningún Responsable" rendered="#{proyectosBean.enResponsables}" >
 
             <p:ajax event="rowSelect" listener="#{proyectosBean.filaSeleccionadaResponsable(evento)}" update="responsables"/>
             <p:ajax event="rowUnselect" listener="#{proyectosBean.filaSeleccionadaResponsable(evento)}" update="responsables"/>
@@ -1084,7 +1089,7 @@
             <p:column headerText="Hor/Día Estimado" style="width: 50px">
                 #{responsable.gethDiaEst()}
             </p:column>
-            
+
             <p:column headerText="Avance" style="width: 50px">
                 #{responsable.avance} %
             </p:column>
@@ -1109,7 +1114,7 @@
 
         <!--//PANEL-->
         <!--CREAR RESPONSABLES-->
-        <p:panel id="nuevoRevesponsable" header="Nuevo Responsable" rendered="#{proyectosBean.enNuevaResponsable}" style="width: 800px">
+        <p:panel id="nuevoRevesponsable" header="Registro de Responsables" rendered="#{proyectosBean.enNuevaResponsable}" style="width: 800px">
             <p:panelGrid columns="3">
 
                 <p:outputLabel for="resp_subact" value="Sub-Actividad: "/>
@@ -1162,7 +1167,7 @@
         <!--//CREAR RESPONSABLES-->
 
         <!--EDITAR RESPONSABLES-->
-        <p:panel id="editarResponsable" header="Edición Responsable" rendered="#{proyectosBean.enEdicionResponsable}" style="width: 800px">
+        <p:panel id="editarResponsable" header="Edición de Responsables" rendered="#{proyectosBean.enEdicionResponsable}" style="width: 800px">
             <p:panelGrid columns="3">
 
                 <p:outputLabel for="m_resp_subact" value="Sub-Actividad: "/>
@@ -1229,7 +1234,7 @@
 
         <!--AUDITORIA RESPONSABLES-->
         <p:dialog id="resp_picture" widgetVar="dlg11"  
-                  resizable="false" header="Auditoría de Responsable" modal="true" closable="false" showEffect="clip" hideEffect="clip" style="width: 600px">  
+                  resizable="false" header="Auditoría de Responsables" modal="true" closable="false" showEffect="clip" hideEffect="clip" style="width: 600px">  
             <p:panelGrid id="resp_mensaje"  columns="2">  
                 <p:graphicImage value="/images/footer.png"/>                    
                 <p:panelGrid columns="2" rendered="#{proyectosBean.enAuditoriaResponsable}">
@@ -1317,19 +1322,19 @@
 
 
 
-        <p:panel id="nuevoDocumento" header="Nuevos Documentos" style="width: 800px"
+        <p:panel id="nuevoDocumento" header="Registro de Documentos" style="width: 800px"
                  rendered="#{proyectosBean.enNuevoDocumento}"> 
             <p:focus context="nuevoDocumento"/> 
             <p:panelGrid columns="3" >  
 
-                <p:outputLabel for="institucionControl" value="Institucion Control "/>
+                <p:outputLabel for="institucionControl" value="Institucion Control:"/>
                 <p:selectOneMenu id="institucionControl" value="#{proyectosBean.instControl}" requiredMessage="Es obligatorio seleccionar una Institución de Control" label="Institucion de Control" required="true">
                     <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
                     <f:selectItems value="#{proyectosBean.institucionesControl}" var="i" itemValue="#{i.codigo}" itemLabel="#{i.nombre}"/>
                 </p:selectOneMenu>
                 <p:message for="institucionControl"/>
 
-                <p:outputLabel for="tipoDocumento" value="Tipo Documento"/>
+                <p:outputLabel for="tipoDocumento" value="Tipo Documento:"/>
                 <p:selectOneMenu id="tipoDocumento" value="#{proyectosBean.tipoDoc}" label="Tipo Documento" requiredMessage="Es obligatorio seleccionar un tipo de documento" required="true">
                     <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
                     <f:selectItems value="#{proyectosBean.tipoDocumento}" var="td" itemValue="#{td.codigo}" itemLabel="#{td.nombre}"/>
@@ -1355,19 +1360,19 @@
         </p:panel>
 
 
-        <p:panel id="edicionDocumento" header="Nuevos Documentos" style="width: 800px"
+        <p:panel id="edicionDocumento" header="Edición de Documentos" style="width: 800px"
                  rendered="#{proyectosBean.enEdicionDocumento}"> 
             <p:focus context="edicionDocumento"/> 
             <p:panelGrid columns="3" >  
 
-                <p:outputLabel for="m_institucionControl" value="Institucion Control "/>
+                <p:outputLabel for="m_institucionControl" value="Institucion Control:"/>
                 <p:selectOneMenu id="m_institucionControl" value="#{proyectosBean.instControl}" requiredMessage="Es obligatorio seleccionar una Institución de Control" label="Institucion de Control" required="true">
                     <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
                     <f:selectItems value="#{proyectosBean.institucionesControl}" var="i" itemValue="#{i.codigo}" itemLabel="#{i.nombre}"/>
                 </p:selectOneMenu>
                 <p:message for="m_institucionControl"/>
 
-                <p:outputLabel for="m_tipoDocumento" value="Tipo Documento"/>
+                <p:outputLabel for="m_tipoDocumento" value="Tipo Documento:"/>
                 <p:selectOneMenu id="m_tipoDocumento" value="#{proyectosBean.tipoDoc}" label="Tipo Documento" requiredMessage="Es obligatorio seleccionar un tipo de documento" required="true">
                     <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
                     <f:selectItems value="#{proyectosBean.tipoDocumento}" var="td" itemValue="#{td.codigo}" itemLabel="#{td.nombre}"/>
@@ -1406,10 +1411,10 @@
                     <p:outputLabel for="a_d_codigo" value="Código:"/>
                     <p:outputLabel id="a_d_codigo" value="#{proyectosBean.documento.codigo}" />
 
-                    <p:outputLabel for="a_d_empresa" value="Nombre de Documento"/>                
+                    <p:outputLabel for="a_d_empresa" value="Nombre de Documento:"/>                
                     <p:outputLabel id="a_d_empresa" value="#{proyectosBean.documento.nombreDocumento}"/>              
 
-                    <p:outputLabel for="a_d_usrcre" value="Usuario creación"/>                
+                    <p:outputLabel for="a_d_usrcre" value="Usuario creación:"/>                
                     <p:outputLabel id="a_d_usrcre" value="#{proyectosBean.getUsrAuditoria(proyectosBean.documento.usrCreacion)}" />              
 
                     <p:outputLabel for="a_d_usrcref" value="Fecha creación:"/>                
@@ -1451,10 +1456,10 @@
                     <p:outputLabel for="act_d_codigo" value="Código:"/>
                     <p:outputLabel id="act_d_codigo" value="#{proyectosBean.actividad.codigo}" />
 
-                    <p:outputLabel for="act_d_empresa" value="Nombre de Documento"/>                
+                    <p:outputLabel for="act_d_empresa" value="Actividad:"/>                
                     <p:outputLabel id="act_d_empresa" value="#{proyectosBean.actividad.nombreActividad}"/>              
 
-                    <p:outputLabel for="act_d_usrcre" value="Usuario creación"/>                
+                    <p:outputLabel for="act_d_usrcre" value="Usuario creación:"/>                
                     <p:outputLabel id="act_d_usrcre" value="#{proyectosBean.getUsrAuditoria(proyectosBean.actividad.usrCreacion)}" />              
 
                     <p:outputLabel for="act__d_usrcref" value="Fecha creación:"/>                
@@ -1483,10 +1488,10 @@
 
 
         <p:dataTable id="actividades"  value="#{proyectosBean.actividades}" var="actividad" selection="#{proyectosBean.actividadSeleccionada}" selectionMode="single" scrollable="true" 
-                     rowKey="#{actividad.codigo}" style="width: 800px" 
+                     rowKey="#{actividad.codigo}" style="width: 1000px" 
                      paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                     emptyMessage="No se ha registrado ninguna Actividad" rendered="#{proyectosBean.enActividades}" >
+                     emptyMessage="No se ha registrado ninguna Actividades" rendered="#{proyectosBean.enActividades}" >
 
             <p:ajax event="rowSelect" listener="#{proyectosBean.filaSeleccionadaActividad(evento)}" update="actividades"/>
             <p:ajax event="rowUnselect" listener="#{proyectosBean.filaSeleccionadaActividad(evento)}" update="actividades"/>
@@ -1503,7 +1508,16 @@
             <p:column headerText="Avance" style="width: 100px">
                 #{actividad.avance} %
             </p:column>
-            <p:column headerText="Fecha de Carga" style="width: 80px">
+            <p:column headerText="Horas Estimadas" style="width: 100px">
+                #{actividad.gethDiaEst()}
+            </p:column>
+            <p:column headerText="H/Trab Real" style="width: 100px">
+                #{subActividad.gethTrabReal()}
+            </p:column>
+            <p:column headerText="Trabajo Total" style="width: 100px">
+                #{subActividad.gettTotalReal()}
+            </p:column>
+            <p:column headerText="Fecha de Creación" style="width: 80px">
                 <h:outputLabel value="#{actividad.fcreacion}">
                     <f:convertDateTime pattern="dd/MM/yyyy" />
                 </h:outputLabel>
@@ -1522,7 +1536,7 @@
         -->
 
         <!--NUEVA ACTIVIDAD-->
-        <p:panel id="nuevoActividad" header="Nueva Actividad" style="width: 800px"
+        <p:panel id="nuevoActividad" header="Registro de Actividades" style="width: 800px"
                  rendered="#{proyectosBean.enNuevaActividad}"> 
             <p:focus context="nuevoActividad"/> 
             <p:panelGrid columns="3" >  
@@ -1543,7 +1557,7 @@
         <!-- //NUEVA ACTIVIDAD-->
 
         <!--EDITAR ACTIVIDAD-->
-        <p:panel id="editarActividad" header="Edición Actividad" style="width: 800px"
+        <p:panel id="editarActividad" header="Edición de  Actividades" style="width: 800px"
                  rendered="#{proyectosBean.enEdicionActividad}"> 
             <p:focus context="editarActividad"/> 
             <p:panelGrid columns="3" > 
@@ -1610,10 +1624,10 @@
 
 
         <p:dataTable id="subActividades"  value="#{proyectosBean.subActividades}" var="subActividad" selection="#{proyectosBean.subActividadSeleccionada}" selectionMode="single" scrollable="true" 
-                     rowKey="#{subActividad.codigo}" style="width: 800px" 
+                     rowKey="#{subActividad.codigo}" style="width: 1000px" 
                      paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                     emptyMessage="No se ha registrado ninguna Actividad" rendered="#{proyectosBean.enSubActividades}" >
+                     emptyMessage="No se ha registrado ninguna Sub-Actividades" rendered="#{proyectosBean.enSubActividades}" >
 
             <p:ajax event="rowSelect" listener="#{proyectosBean.filaSeleccionadaSubActividad(evento)}" update="subActividades"/>
             <p:ajax event="rowUnselect" listener="#{proyectosBean.filaSeleccionadaSubActividad(evento)}" update="subActividades"/>
@@ -1632,6 +1646,15 @@
             </p:column>
             <p:column headerText="Avance" style="width: 100px">
                 #{subActividad.avance} %
+            </p:column>
+            <p:column headerText="Horas Estimadas" style="width: 100px">
+                #{subActividad.gethDiaEst()}
+            </p:column>
+            <p:column headerText="H/Trab Real" style="width: 100px">
+                #{subActividad.gethTrabReal()}
+            </p:column>
+            <p:column headerText="Trabajo Total" style="width: 100px">
+                #{subActividad.gettTotalReal()}
             </p:column>
             <p:column headerText="Fecha de Inicio" style="width: 80px">
                 <h:outputLabel value="#{subActividad.fcreacion}">
@@ -1653,7 +1676,7 @@
 
 
         <!--CREAR SUB-ACTIVIDAD-->
-        <p:panel id="nuevoSubActividad" header="Nueva Sub-Actividad" style="width: 800px"
+        <p:panel id="nuevoSubActividad" header="Registro de Sub-Actividades" style="width: 800px"
                  rendered="#{proyectosBean.enNuevaSubActividad}"> 
             <p:focus context="nuevoSubActividad"/> 
             <p:panelGrid columns="3" >  
@@ -1689,9 +1712,9 @@
 
 
         <!--CREAR SUB-ACTIVIDAD-->
-        <p:panel id="edicionSubActividad" header="Edición Sub-Actividad" style="width: 800px"
+        <p:panel id="edicionSubActividad" header="Edición de Sub-Actividades" style="width: 800px"
                  rendered="#{proyectosBean.enEdicionSubActividad}"> 
-            <p:focus context="nuevoSubActividad"/> 
+            <p:focus context="edicionSubActividad"/> 
             <p:panelGrid columns="3" >  
 
                 <p:outputLabel for="m_sact_proyecto" value="Proyecto: "/>
@@ -1733,7 +1756,7 @@
                      rowKey="#{gasto.pk}" style="width: 800px" 
                      paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                     emptyMessage="No se ha registrado ningún gasto" rendered="#{proyectosBean.enGastos}" >
+                     emptyMessage="No se ha registrado ningún Gasto" rendered="#{proyectosBean.enGastos}" >
 
             <p:ajax event="rowSelect" listener="#{proyectosBean.filaSeleccionadaGasto(evento)}" update="gastos"/>
             <p:ajax event="rowUnselect" listener="#{proyectosBean.filaSeleccionadaGasto(evento)}" update="gastos"/>
@@ -1812,7 +1835,7 @@
         </p:confirmDialog> 
 
         <!--CREAR Gasto-->
-        <p:panel id="nuevoGasto" header="Nueva Sub-Actividad" style="width: 800px"
+        <p:panel id="nuevoGasto" header="Registro de Gastos" style="width: 800px"
                  rendered="#{proyectosBean.enNuevoGasto}"> 
             <p:focus context="nuevoGasto"/> 
             <p:panelGrid columns="3" >  
@@ -1853,7 +1876,7 @@
 
 
         <!--EDITAR Gasto-->
-        <p:panel id="editarGasto" header="Modificar Gasto" style="width: 800px"
+        <p:panel id="editarGasto" header="Edición de Gastos" style="width: 800px"
                  rendered="#{proyectosBean.enEdicionGasto}"> 
             <p:focus context="editarGasto"/> 
             <p:panelGrid columns="3" >  
@@ -1903,7 +1926,7 @@
                      rowKey="#{entregable.pk}" style="width: 800px" 
                      paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                     emptyMessage="No se ha registrado ningún gasto" rendered="#{proyectosBean.enEntregables}" >
+                     emptyMessage="No se ha registrado ningún Entregable" rendered="#{proyectosBean.enEntregables}" >
 
             <p:ajax event="rowSelect" listener="#{proyectosBean.filaSeleccionadaEntregable(evento)}" update="entregables"/>
             <p:ajax event="rowUnselect" listener="#{proyectosBean.filaSeleccionadaEntregable(evento)}" update="entregables"/>
@@ -1939,7 +1962,7 @@
 
         <!--AUDITORIA ENTREGABLES-->
         <p:dialog id="ent_picture" widgetVar="dlg5"  
-                  resizable="false" header="Auditoría de Entregable" modal="true" closable="false" showEffect="clip" hideEffect="clip" style="width: 600px">  
+                  resizable="false" header="Auditoría de Entregables" modal="true" closable="false" showEffect="clip" hideEffect="clip" style="width: 600px">  
             <p:panelGrid id="ent_mensaje"  columns="2">  
                 <p:graphicImage value="/images/footer.png"/>                    
                 <p:panelGrid columns="2" rendered="#{proyectosBean.enAuditoriaEntregable}">
@@ -1975,7 +1998,7 @@
         </p:dialog>
         <!--//AUDITORIA ENTREGABLE-->
         <!--CREAR ENTREGABLE-->
-        <p:panel id="nuevoEntregable" header="Nuevo Entregable" style="width: 800px"
+        <p:panel id="nuevoEntregable" header="Registro de  Entregables" style="width: 800px"
                  rendered="#{proyectosBean.enNuevoEntregable}"> 
             <p:focus context="nuevoEntregable"/> 
             <p:panelGrid columns="3" >  
@@ -2019,7 +2042,7 @@
         <!--//CREAR ENTREGABLE-->
 
         <!--CREAR ENTREGABLE-->
-        <p:panel id="editarEntregable" header="Editar Entregable" style="width: 800px"
+        <p:panel id="editarEntregable" header="Edición de Entregables" style="width: 800px"
                  rendered="#{proyectosBean.enEdicionEntregable}"> 
             <p:focus context="editarEntregable"/> 
             <p:panelGrid columns="3" >  
@@ -2090,7 +2113,7 @@
             <p:column headerText="Sub-Actividad" style="width: 80px">
                 #{proyectosBean.actividadEntregable.actividad.nombreActividad}
             </p:column>
-            <p:column headerText="Entregable:" style="width: 80px">
+            <p:column headerText="Entregable" style="width: 80px">
                 #{proyectosBean.actividadEntregable.nombreEntregable}
             </p:column>
             <p:column headerText="Documento" style="width: 80px">
@@ -2116,7 +2139,7 @@
         </p:dataTable>
         <!--//PANEL-->
         <!--NUEVO DOC-->
-        <p:panel id="nuevoDoc" header="Nuevo Documento" style="width: 800px"
+        <p:panel id="nuevoDoc" header="Registro de Documentos" style="width: 800px"
                  rendered="#{proyectosBean.enNuevoDoc}"> 
             <p:focus context="nuevoDoc"/> 
             <p:panelGrid columns="3" >  
@@ -2204,7 +2227,7 @@
         </p:dialog>
         <!--//Auditoria Documento-->
         <!--Edicion Documento-->
-        <p:panel id="edicionDoc" header="Nuevos Documentos" style="width: 800px"
+        <p:panel id="edicionDoc" header="Edición de Documentos" style="width: 800px"
                  rendered="#{proyectosBean.enEditarDoc}"> 
             <p:focus context="edicionDoc"/> 
             <p:panelGrid columns="3" >  

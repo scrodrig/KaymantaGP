@@ -45,7 +45,19 @@
 
             <p:menuitem value="Proyectos" url="proyectos.jsf" icon="ui-icon-document" />  
 
-            <p:menuitem value="Inscripción de Equipos" url="inscripcionesTorneo.jsf" icon="ui-icon-document" />  
+            <p:menuitem value="Proyectos" url="panelproyectos.jsf" icon="ui-icon-document" />
+            
+            <p:button outcome="inicio" value="Bookmark" icon="ui-icon-star">  
+                <f:param name="proyectoId" value="#{panelProyectosBean.proyecto.codigo}" />  
+            </p:button> 
+
+            <p:submenu label="Proyectos" >  
+                <p:menuitem value="Expectativa" url="panelexpectativas.jsf" />    
+                <p:menuitem value="Módulos" url="modulos.jsf" />   
+                <p:menuitem value="Funcionalidades" url="funcionalidades.jsf" />  
+                <p:menuitem value="Roles" url="roles.jsf" /> 
+                <p:menuitem value="Roles Funcionalidades" url="rolesfuncionalidades.jsf" />
+            </p:submenu> 
 
             <p:menuitem value="Generación Calendarios" url="generarCalendario.jsf" icon="ui-icon-contact" />
 

@@ -60,12 +60,12 @@ public class InicioBean implements Serializable {
                 }
             } else {
                 FacesContext.getCurrentInstance().addMessage(
-                        null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Login Incorrecto", "No coincide la información!"));
+                        null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Login Incorrecto", "No coincide la información"));
                 return "inicio";
             }
         } else {
             FacesContext.getCurrentInstance().addMessage(
-                    null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Login Incorrecto", "No coincide la información!"));
+                    null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Login Incorrecto", "No coincide la información"));
             return "inicio";
         }
     }

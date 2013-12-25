@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/templateMantenimiento.xhtml">
+
+    <ui:define name="titulo">Proyectos</ui:define> 
+
+    <ui:define name="cuerpo">
+
+
+
+        <p:dataTable id="proyectos"  value="#{panelProyectosBean.proyectos}" var="proyecto" selection="#{panelProyectosBean.proyectoSeleccionado}" selectionMode="single" scrollable="true" 
+                     rowKey="#{proyecto.codigo}" style="width: 1000px" 
+                     paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
+                     paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     emptyMessage="No se ha registrado ningún Proyecto" rendered="#{not(panelProyectosBean.enRegistro or 
+                                                                                    panelProyectosBean.enEdicion or 
+                                                                                    panelProyectosBean.enAuditoria )}" >
+
+            <p:ajax event="rowSelect" listener="#{panelProyectosBean.filaSeleccionada(evento)}" update="proyectos"/>
+            <p:ajax event="rowUnselect" listener="#{panelProyectosBean.filaSeleccionada(evento)}" update="proyectos"/>
+
+            <f:facet name="header">
+
+                Administración de Proyectos
+                <p:toolbar>  
+                    <p:toolbarGroup align="left">  
+                        <p:commandButton  value="Nuevo" update="@form" actionListener="#{panelProyectosBean.nuevo(evento)}" disabled="#{panelProyectosBean.disabledNuevo}" icon="ui-icon-document"/>  
+
+                        <p:commandButton  value="Modificar" update="@form" actionListener="#{panelProyectosBean.modificar(evento)}" disabled="#{panelProyectosBean.disabledModificar}" icon="ui-icon-pencil"/>
+
+                        <p:commandButton  value="Auditoría" update=":form:mensaje" onsuccess="dlg.show()" actionListener="#{panelProyectosBean.verAuditoria(evento)}" disabled="#{panelProyectosBean.disableAuditoria}" icon="ui-icon-document"/>  
+
+                        <p:separator />  
+
+                        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">  
+                            <p:printer target="proyectos" />  
+                        </p:commandButton>
+
+                    </p:toolbarGroup>  
+
+                    <p:toolbarGroup align="right">  
+                        <p:menuButton value="Más.." disabled="#{panelProyectosBean.disableAuditoria}" rendered="#{not empty panelProyectosBean.proyectos}" >  
+                            <p:menuitem value="Expectativas" outcome="panelexpectativas">
+                                <f:param value="#{panelProyectosBean.proyecto.codigo}" name="codProyecto"/>
+                            </p:menuitem>
+
+                            <p:menuitem value="ShowCase"  
+                                        url="http://www.primefaces.org/showcase" />  
+                            <p:menuitem value="TouchFaces"  
+                                        url="http://www.primefaces.org/showcase/touch" />  
+                        </p:menuButton>  
+                    </p:toolbarGroup>  
+
+                </p:toolbar>  
+
+            </f:facet>
+            <p:column headerText="Proyecto" style="width: 130px">
+                #{proyecto.nombreProyecto}
+            </p:column>
+            <p:column headerText="Responsable" style="width: 100px">
+                #{proyecto.empleado.nombre}
+            </p:column>
+            <p:column headerText="Empresa" style="width: 100px">
+                #{proyecto.empresa.razonSocial}
+            </p:column>
+            <p:column headerText="Ubicación Geográfica" style="width: 180px">
+                #{proyecto.parroquia.canton.provincia.nombre}
+                -
+                #{proyecto.parroquia.canton.nombre}
+                -
+                #{proyecto.parroquia.nombre}
+            </p:column>
+            <p:column headerText="Avance" style="width: 50px">
+                #{proyecto.avance} %
+            </p:column>
+            <p:column headerText="Fecha Inicio" style="width: 60px">
+                <h:outputLabel value="#{proyecto.finicio}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputLabel>
+            </p:column>
+            <p:column headerText="Fecha Fin" style="width: 60px">
+                <h:outputLabel value="#{proyecto.ffin}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputLabel>
+            </p:column>
+
+            <f:facet name="footer">  
+
+            </f:facet>
+        </p:dataTable>
+
+
+        <p:dialog id="picture" widgetVar="dlg"  
+                  resizable="false" header="Auditoría de Proyectos" modal="true" closable="false" showEffect="clip" hideEffect="clip" style="width: 600px">  
+            <p:panelGrid id="mensaje"  columns="2">  
+                <p:graphicImage value="/images/footer.png"/>                    
+                <p:panelGrid columns="2" rendered="#{panelProyectosBean.enAuditoria}">
+
+                    <p:outputLabel for="a_codigo" value="Código:"/>
+                    <p:outputLabel id="a_codigo" value="#{panelProyectosBean.proyecto.codigo}" />
+
+                    <p:outputLabel for="a_empresa" value="Nombre de Empresa"/>                
+                    <p:outputLabel id="a_empresa" value="#{panelProyectosBean.proyecto.nombreProyecto}"/>              
+
+                    <p:outputLabel for="usrcre" value="Usuario creación"/>                
+                    <p:outputLabel id="usrcre" value="#{panelProyectosBean.getUsrAuditoria(panelProyectosBean.proyecto.usrCreacion)}" />              
+
+                    <p:outputLabel for="usrcref" value="Fecha creación:"/>                
+                    <h:outputLabel id="usrcref" value="#{panelProyectosBean.proyecto.fcreacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+
+                    <p:outputLabel for="usrmod" value="Usuario modificación:"/>                
+                    <p:outputLabel id="usrmod" value="#{panelProyectosBean.getUsrAuditoria(panelProyectosBean.proyecto.usrModificacion)}"/>              
+
+                    <p:outputLabel for="usrmodf" value="Fecha modificación:"/>                
+                    <h:outputLabel id="usrmodf" value="#{panelProyectosBean.proyecto.fmodificacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+
+                </p:panelGrid> 
+            </p:panelGrid>
+            <p:separator/>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{panelProyectosBean.cancelar()}" value="Volver" update="@form" icon="ui-icon-back"/>
+            </f:facet>
+        </p:dialog>
+
+
+        <p:panel id="panelSeleccion" header="Registro de Proyectos" style="width: 600px"
+                 rendered="#{panelProyectosBean.enRegistro}"> 
+            <p:focus context="panelSeleccion"/> 
+            <p:panelGrid columns="3" >
+
+                <p:outputLabel for="nombre" value="Nombre Proyecto: "/>
+                <p:inputText id="nombre" value="#{panelProyectosBean.proyecto.nombreProyecto}" required="true"/>
+                <p:message for="nombre"/>
+
+                <p:outputLabel for="provinciaB" value="Provincia: " />  
+                <p:selectOneMenu id="provinciaB" value="#{panelProyectosBean.provincia}" label="Provincia" required="true">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItems value="#{panelProyectosBean.provinciasB}" var="i" itemValue="#{i.codigo}" itemLabel="#{i.nombre}" />
+                    <p:ajax update="cantonB"  listener="#{panelProyectosBean.actualizaCantonesB(evento)}" />  
+                </p:selectOneMenu>
+                <p:message for="provinciaB"/>
+
+
+                <p:outputLabel for="cantonB" value="Cantón: " />  
+                <p:selectOneMenu id="cantonB" value="#{panelProyectosBean.canton}" label="Cantón" required="true" >
+                    <f:selectItem itemValue="0" itemLabel="Seleccione uno."/>
+                    <f:selectItems value="#{panelProyectosBean.cantonesB}" var="i" itemValue="#{i.pk.codigoCanton}" itemLabel="#{i.nombre}" />
+                    <p:ajax update="parroquiaB"  listener="#{panelProyectosBean.actualizaParroquiasB(evento)}" />
+                </p:selectOneMenu> 
+                <p:message for="cantonB"/>
+
+                <p:outputLabel for="parroquiaB" value="Parroquia: " />  
+                <p:selectOneMenu id="parroquiaB" value="#{panelProyectosBean.codParroquia}" label="Parroquia" required="true">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItems value="#{panelProyectosBean.parroquiasB}" var="i" itemValue="#{i.pk.codigoParroquia}" itemLabel="#{i.nombre}" />
+                </p:selectOneMenu>
+                <p:message for="parroquiaB"/>
+
+
+                <p:outputLabel for="empresa" value="Empresa: "/>
+                <p:selectOneMenu id="empresa" value="#{panelProyectosBean.empresa}" label="Empresa" required="true" >
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItems value="#{panelProyectosBean.empresas}" var="empresa" itemValue="#{empresa.codigo}" itemLabel="#{empresa.razonSocial}"/>
+                </p:selectOneMenu>
+                <p:message for="empresa"/>
+
+                <p:outputLabel for="empleado" value="Empleado: "/>
+                <p:selectOneMenu id="empleado" value="#{panelProyectosBean.empleado}" label="Empleado" required="true">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItems value="#{panelProyectosBean.empleados}" var="empleado" itemValue="#{empleado.codigo}" itemLabel="#{empleado.nombre}"/>
+                </p:selectOneMenu>
+                <p:message for="empleado"/>
+
+                <p:outputLabel for="finicio" value="Fecha de Inicio: "/>
+                <p:calendar id="finicio" value="#{panelProyectosBean.proyecto.finicio}" label="Fecha de Inicio" showButtonPanel="true" binding="#{from}" pattern="dd/MM/yyyy" effect="explode" required="true">
+
+                </p:calendar>
+                <p:message for="finicio"/>
+
+                <p:outputLabel for="festimada" value="Fecha de Estimada de Finalización: "/>
+                <p:calendar id="festimada" value="#{panelProyectosBean.proyecto.festimada}" label="Fecha de Estimada de Finalización " showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode" required="true">
+                    <f:attribute name="fromDate" value="#{from.value}" />
+                    <f:validator validatorId="validator.dateRangeValidator" />
+                </p:calendar>
+                <p:message for="festimada"/>
+
+                <p:outputLabel for="fcreacion" value="Fecha de Finalización: "/>
+                <p:calendar id="fcreacion" value="#{panelProyectosBean.proyecto.ffin}" label="Fecha de Finalización: " showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode" required="true"/>
+                <p:message for="fcreacion"/>
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{panelProyectosBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{panelProyectosBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>
+
+
+
+
+
+        <p:panel id="panelEdicion" header="Edición de Proyectos" style="width: 600px"
+                 rendered="#{panelProyectosBean.enEdicion}"> 
+            <p:focus context="panelEdicion"/> 
+            <p:panelGrid columns="3">
+
+                <p:outputLabel for="m_nombre" value="Nombre Proyecto: "/>
+                <p:inputText id="m_nombre" value="#{panelProyectosBean.proyecto.nombreProyecto}" required="true"/>
+                <p:message for="m_nombre"/>
+
+                <p:outputLabel for="m_provinciaB" value="Provincia: " />  
+                <p:selectOneMenu id="m_provinciaB" value="#{panelProyectosBean.provincia}" label="Provincia" required="true">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItems value="#{panelProyectosBean.provinciasB}" var="i" itemValue="#{i.codigo}" itemLabel="#{i.nombre}" />
+                    <p:ajax update="m_cantonB"  listener="#{panelProyectosBean.actualizaCantonesB(evento)}" />  
+                </p:selectOneMenu>
+                <p:message for="m_provinciaB"/>
+
+
+                <p:outputLabel for="m_cantonB" value="Cantón: " />  
+                <p:selectOneMenu id="m_cantonB" value="#{panelProyectosBean.canton}" label="Cantón" required="true">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione uno."/>
+                    <f:selectItems value="#{panelProyectosBean.cantonesB}" var="i" itemValue="#{i.pk.codigoCanton}" itemLabel="#{i.nombre}" />
+                    <p:ajax update="m_parroquiaB"  listener="#{panelProyectosBean.actualizaParroquiasB(evento)}" />
+                </p:selectOneMenu>
+                <p:message for="m_cantonB"/>
+
+                <p:outputLabel for="m_parroquiaB" value="Parroquia: " />  
+                <p:selectOneMenu id="m_parroquiaB" value="#{panelProyectosBean.codParroquia}" label="Parroquia" required="true">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItems value="#{panelProyectosBean.parroquiasB}" var="i" itemValue="#{i.pk.codigoParroquia}" itemLabel="#{i.nombre}" />
+                </p:selectOneMenu>
+                <p:message for="m_parroquiaB"/>
+
+
+                <p:outputLabel for="m_empresa" value="Empresa: "/>
+                <p:selectOneMenu id="m_empresa" value="#{panelProyectosBean.empresa}" label="Empresa" required="true">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItems value="#{panelProyectosBean.empresas}" var="empresa" itemValue="#{empresa.codigo}" itemLabel="#{empresa.razonSocial}"/>
+                </p:selectOneMenu>
+                <p:message for="m_empresa"/>
+
+                <p:outputLabel for="m_empleado" value="Empleado: "/>
+                <p:selectOneMenu id="m_empleado" value="#{panelProyectosBean.empleado}" label="Empleado" required="true">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItems value="#{panelProyectosBean.empleados}" var="empleado" itemValue="#{empleado.codigo}" itemLabel="#{empleado.nombre}"/>
+                </p:selectOneMenu>                                
+                <p:message for="m_empleado"/>
+
+
+                <p:outputLabel for="m_finicio" value="Fecha de Inicio: "/>
+                <p:calendar id="m_finicio" value="#{panelProyectosBean.proyecto.finicio}" label="Fecha de Inicio" showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode" required="true"/>
+                <p:message for="m_finicio"/>
+
+                <p:outputLabel for="m_festimada" value="Fecha de Estimada de Finalización: "/>
+                <p:calendar id="m_festimada" value="#{panelProyectosBean.proyecto.festimada}" label="Fecha de Estimada de Finalización " showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode" required="true"/>
+                <p:message for="m_festimada"/>
+
+                <p:outputLabel for="m_fcreacion" value="Fecha de Finalización: "/>
+                <p:calendar id="m_fcreacion" value="#{panelProyectosBean.proyecto.ffin}" label="Fecha de Finalización: " showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode" required="true"/>
+                <p:message for="m_fcreacion"/>
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{panelProyectosBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{panelProyectosBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>
+
+    </ui:define>
+
+</ui:composition>

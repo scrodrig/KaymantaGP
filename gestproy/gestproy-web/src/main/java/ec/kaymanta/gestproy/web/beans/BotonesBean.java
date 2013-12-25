@@ -38,7 +38,6 @@ public class BotonesBean {
         this.noSeleccionados = Boolean.TRUE;
         this.disableAuditoria = Boolean.TRUE;
         this.disableCargaDocumentos = Boolean.TRUE;
-
         this.uno = Boolean.FALSE;
     }
 
@@ -74,11 +73,23 @@ public class BotonesBean {
 
     }
 
+//    public void cancelar() {
+//        this.reset();
+//
+//        this.disabledModificar = Boolean.TRUE;
+//        this.disabledEliminar = Boolean.TRUE;
+//        this.disableAuditoria = Boolean.TRUE;
+//        this.enAuditoria = Boolean.FALSE;
+//        this.disableCargaDocumentos = Boolean.TRUE;
+//        this.soloLectura = Boolean.FALSE;
+//    }
+    
     public void cancelar() {
         this.reset();
         this.disabledModificar = Boolean.TRUE;
         this.disabledEliminar = Boolean.TRUE;
         this.disableAuditoria = Boolean.TRUE;
+
         this.enAuditoria = Boolean.FALSE;
         this.disableCargaDocumentos = Boolean.TRUE;
         this.soloLectura = Boolean.FALSE;
