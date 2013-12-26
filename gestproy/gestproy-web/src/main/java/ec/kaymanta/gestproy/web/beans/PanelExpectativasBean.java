@@ -4,6 +4,7 @@
  */
 package ec.kaymanta.gestproy.web.beans;
 
+import ec.kaymanta.gestproy.modelo.Empleado;
 import ec.kaymanta.gestproy.modelo.Expectativa;
 import ec.kaymanta.gestproy.modelo.Proyecto;
 import ec.kaymanta.gestproy.modelo.Usuario;
@@ -12,7 +13,6 @@ import ec.kaymanta.gestproy.servicio.ProyectoServicio;
 import ec.kaymanta.gestproy.servicio.UsuarioServicio;
 import ec.kaymanta.gestproy.web.util.MensajesGenericos;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -22,9 +22,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.inject.Inject;
 import org.apache.commons.beanutils.BeanUtils;
-import org.primefaces.component.chart.pie.PieChart;
 import org.primefaces.model.chart.PieChartModel;
 
 /**
@@ -44,16 +42,16 @@ public class PanelExpectativasBean extends BotonesBean implements Serializable {
     private UsuarioServicio usuarioServicio;
     @EJB
     private ProyectoServicio proyectoServicio;
+    private String ENTIDAD = "Panel de Expectativas";
     private Usuario usrSesion;
+    private Empleado emplSesion;
     private Expectativa expectativa;
     private Expectativa expectativaSeleccionado;
     private Expectativa respaldo;
     private List<Expectativa> expectativas;
     private Proyecto proyecto;
     private String codProyecto;
-    
     //ELEMENTO DE VISTA
-    
     private PieChartModel pieModel;
 
     @PostConstruct
@@ -65,6 +63,8 @@ public class PanelExpectativasBean extends BotonesBean implements Serializable {
         System.out.println("PROYECTO: " + codProyecto);
         this.usrSesion = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario");
         System.out.println("USUARIO: " + usrSesion);
+        this.emplSesion = (Empleado) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Empleado");
+
         FacesContext context = FacesContext.getCurrentInstance();
         Map<String, String> parametros = context.getExternalContext().getRequestParameterMap();
         if (this.proyecto == null) {
@@ -77,12 +77,12 @@ public class PanelExpectativasBean extends BotonesBean implements Serializable {
         this.expectativa = new Expectativa();
     }
 
-    private void createPieModel() {  
-        pieModel = new PieChartModel();  
-        pieModel.set("Avance", proyecto.getAvance().floatValue());  
-        pieModel.set("Restante", 100-proyecto.getAvance().floatValue());   
-    }  
-    
+    private void createPieModel() {
+        pieModel = new PieChartModel();
+        pieModel.set("Avance", proyecto.getAvance().floatValue());
+        pieModel.set("Restante", 100 - proyecto.getAvance().floatValue());
+    }
+
     public String getEstado(String estado) {
         if (estado == null || "".equals(estado)) {
             return "";
@@ -242,6 +242,20 @@ public class PanelExpectativasBean extends BotonesBean implements Serializable {
     public void setPieModel(PieChartModel pieModel) {
         this.pieModel = pieModel;
     }
-    
-    
+
+    public Empleado getEmplSesion() {
+        return emplSesion;
+    }
+
+    public void setEmplSesion(Empleado emplSesion) {
+        this.emplSesion = emplSesion;
+    }
+
+    public String getENTIDAD() {
+        return ENTIDAD;
+    }
+
+    public void setENTIDAD(String ENTIDAD) {
+        this.ENTIDAD = ENTIDAD;
+    }
 }

@@ -17,36 +17,33 @@
 
                 <div>
                     <img src="#{facesContext.externalContext.requestContextPath}/images/footer.png"/>
-                </div>
-                <br/>
-                <br/>
+                </div>              
                 <ui:include src="/pages/cabecera.xhtml"/>
 
                 <div id="cuerpo">
                     <br/>
 
                     <div id="contenido">
-                            <h:form id="form" prependId="false">                            
-                                <table align="center" border="0" width="1024px">
-                                    <tr align="center">
-                                        <td align="center" width="324px">
-                                    <ui:insert name="tabla"/>
-                                    </td>
+                        <h:form id="form" prependId="false">                            
+                            <table align="center" width="1024px">
+                                <tr align="center">
+                                    <td align="center" valign="top" width="324px" rowspan="2">
+                                <ui:insert name="tabla"/>
+                                </td>
+                                <td align="center" height="100px" width="700px">    
+                                <ui:insert name="sitio"/>
+                                </td>
+                                </tr>
+                                <tr align="center">
                                     <td align="center" width="700px">    
-                                    <ui:insert name="cuerpo"/>
-                                    </td>
-                                    </tr>
-                                </table>
-                                <p:messages id="messages" showDetail="true"  autoUpdate="true"  severity="info,error" globalOnly="true"/>
-                            </h:form>
+                                <ui:insert name="cuerpo"/>
+                                </td>
+                                </tr>
+                            </table>
+                            <p:messages id="messages" showDetail="true"  autoUpdate="true"  severity="info,error" globalOnly="true"/>
+                        </h:form>
                     </div>
 
-                </div>
-
-
-                <div id="pie">
-                    <br/>
-                    <img src="#{facesContext.externalContext.requestContextPath}/images/footer.png"/>
                 </div>
             </div>
         </f:view>

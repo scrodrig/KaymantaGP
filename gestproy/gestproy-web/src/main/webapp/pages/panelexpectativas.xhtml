@@ -31,7 +31,7 @@
                 <p:column colspan="6" style="font-weight: bold;">
 
                     <p:pieChart id="sample" value="#{panelExpectativasBean.pieModel}"  
-                                 style="width:300px;height:200px" showDataLabels="true"  sliceMargin="5" /> 
+                                style="width:300px;height:200px" showDataLabels="true"  sliceMargin="5" /> 
 
                 </p:column>                                  
             </p:row>  
@@ -42,23 +42,38 @@
                 </p:column>  
             </p:row>  
 
-              
-            
+
+
             <p:row>  
                 <p:column colspan="2" style="font-weight: bold;">Fecha Inicio</p:column>  
                 <p:column colspan="4" style="font-weight: bold;">
-                    #{panelExpectativasBean.proyecto.finicio}
-                
+                    <h:outputLabel value="#{panelExpectativasBean.proyecto.finicio}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
                 </p:column>             
             </p:row>
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Fecha Estimada</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">
+                    <h:outputLabel value="#{panelExpectativasBean.proyecto.festimada}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                </p:column>             
+            </p:row>
+
             <p:row>  
                 <p:column colspan="2" style="font-weight: bold;">Fecha Fin</p:column>  
-                <p:column colspan="4" style="font-weight: bold;">#{panelExpectativasBean.proyecto.ffin}</p:column>             
+                <p:column colspan="4" style="font-weight: bold;">
+                    <h:outputLabel value="#{panelExpectativasBean.proyecto.ffin}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                </p:column>             
             </p:row>
 
             <f:facet name="footer">  
                 <p:row>  
-                    <p:column  colspan="1" style="text-align: right">  
+                    <p:column  colspan="1" style="text-align: left">  
                         Responsable 
                     </p:column>  
                     <p:column  colspan="5">  
@@ -71,10 +86,11 @@
 
     </ui:define> 
 
+    <ui:define name="sitio">
+        <h3> #{panelExpectativasBean.emplSesion.nombre}, Usted está en #{panelExpectativasBean.ENTIDAD} </h3>
+    </ui:define>
+
     <ui:define name="cuerpo">
-
-
-
         <!--PANEL-->
         <p:dataTable id="expectativas"  value="#{panelExpectativasBean.expectativas}" var="expectativa" selection="#{panelExpectativasBean.expectativaSeleccionado}" selectionMode="single" scrollable="true" 
                      rowKey="#{expectativa.pk}" style="width: 650px" 
@@ -88,7 +104,32 @@
             <p:ajax event="rowUnselect" listener="#{panelExpectativasBean.filaSeleccionadaExpectativa(evento)}" update="expectativas"/>
 
             <f:facet name="header">
-                Expectativas
+
+                Administración de Expectativas
+
+                <p:toolbar>  
+                    <p:toolbarGroup align="left">  
+                        <p:commandButton  value="Nuevo" update="@form" actionListener="#{panelExpectativasBean.nuevaExpectativa(evento)}" disabled="#{panelExpectativasBean.disabledNuevo}" icon="ui-icon-document"/>  
+
+                        <p:commandButton  value="Modificar" update="@form" actionListener="#{panelExpectativasBean.modificarExpectativa(evento)}" disabled="#{panelExpectativasBean.disabledModificar}" icon="ui-icon-pencil"/>
+
+                        <p:commandButton  value="Auditoría" update=":form:exp_mensaje" onsuccess="dlg8.show()" actionListener="#{panelExpectativasBean.verAuditoriaExpectativa(evento)}" disabled="#{panelExpectativasBean.disableAuditoria}" icon="ui-icon-document"/>
+
+                        <p:separator />  
+
+                        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">  
+                            <p:printer target="expectativas" />  
+                        </p:commandButton>
+
+                    </p:toolbarGroup>  
+
+                    <p:toolbarGroup align="right">             
+                        <p:commandButton action="panelproyectos?faces-redirect=true" ajax="false" icon="ui-icon-back" value="Volver" immediate="true"/>                
+                    </p:toolbarGroup>  
+
+                </p:toolbar>  
+
+
             </f:facet>              
             <p:column headerText="Descripción" style="width: 300px">
                 #{expectativa.requerimiento} 
@@ -97,12 +138,6 @@
                 #{panelExpectativasBean.getEstado(expectativa.estado)} 
             </p:column>
 
-            <f:facet name="footer">  
-                <p:commandButton  value="Nuevo" update="@form" actionListener="#{panelExpectativasBean.nuevaExpectativa(evento)}" icon="ui-icon-document"/>  
-                <p:commandButton value="Modificar" update="@form" actionListener="#{panelExpectativasBean.modificarExpectativa(evento)}" disabled="#{panelExpectativasBean.disabledModificar}" icon="ui-icon-pencil"/>
-                <p:commandButton  value="Auditoría" update=":form:exp_mensaje" onsuccess="dlg8.show()" actionListener="#{panelExpectativasBean.verAuditoriaExpectativa(evento)}" disabled="#{panelExpectativasBean.disableAuditoria}" icon="ui-icon-document"/>
-                <p:commandButton value="Volver" update="@form" actionListener="#{panelExpectativasBean.cancelar()}" icon="ui-icon-back"/>
-            </f:facet>
         </p:dataTable>  
         <!--//PANEL-->
         <!--CREAR EXPECTATIVA-->

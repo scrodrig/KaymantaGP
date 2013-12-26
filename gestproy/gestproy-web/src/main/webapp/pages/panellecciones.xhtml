@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/templateElementosProyecto.xhtml">
+
+    <f:metadata>  
+        <f:viewParam id="codProyecto" name="codProyecto" value="#{panelLeccionesBean.codProyecto}" />            
+    </f:metadata>
+
+    <ui:define name="titulo">Aprendizaje</ui:define> 
+
+    <!--EXPECTATIVA-->
+
+    <ui:define name="tabla">
+        <p:panelGrid style="margin-top:20px">  
+            <f:facet name="header">  
+                <p:row>  
+                    <p:column colspan="6">#{panelLeccionesBean.proyecto.nombreProyecto}</p:column>  
+                </p:row>  
+            </f:facet>  
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Avance</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">#{panelLeccionesBean.proyecto.avance}%</p:column>  
+            </p:row>  
+            <p:row>  
+                <p:column colspan="6" style="font-weight: bold;">
+
+                    <p:pieChart id="sample" value="#{panelLeccionesBean.pieModel}"  
+                                style="width:300px;height:200px" showDataLabels="true"  sliceMargin="5" /> 
+
+                </p:column>                                  
+            </p:row>  
+
+            <p:row>  
+                <p:column colspan="6" styleClass="ui-widget-header">  
+                    <p:spacer height="0"/>  
+                </p:column>  
+            </p:row>  
+
+
+
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Fecha Inicio</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">
+                    <h:outputLabel value="#{panelLeccionesBean.proyecto.finicio}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                </p:column>             
+            </p:row>
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Fecha Estimada</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">
+                    <h:outputLabel value="#{panelLeccionesBean.proyecto.festimada}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                </p:column>             
+            </p:row>
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Fecha Fin</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">
+                    <h:outputLabel value="#{panelLeccionesBean.proyecto.ffin}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                </p:column>             
+            </p:row>
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Empresa</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">#{panelLeccionesBean.proyecto.empresa.razonSocial}</p:column>  
+            </p:row> 
+
+            <f:facet name="footer">  
+                <p:row>  
+                    <p:column  colspan="1" style="text-align: left">  
+                        Responsable 
+                    </p:column>  
+                    <p:column  colspan="5">  
+                        #{panelLeccionesBean.proyecto.empleado.nombre} 
+                    </p:column>  
+                </p:row>    
+            </f:facet>  
+        </p:panelGrid>  
+
+
+    </ui:define> 
+
+    <ui:define name="sitio">
+        <h3> #{panelLeccionesBean.emplSesion.nombre}, Usted está en #{panelLeccionesBean.ENTIDAD} </h3>
+    </ui:define>
+    <ui:define name="cuerpo">
+
+        <!--LECCIONES-->
+        <!--PANEL-->
+        <p:dataTable id="lecciones"  value="#{panelLeccionesBean.leccionesAprendidasList}" var="leccion" selection="#{panelLeccionesBean.leccionesAprendidasSeleccionada}" selectionMode="single" scrollable="true" 
+                     rowKey="#{leccion.pk}" style="width: 650px" 
+                     paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
+                     paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     emptyMessage="No se ha registrado ninguna Lección" rendered="#{not(panelLeccionesBean.enRegistro or 
+                                                                                        panelLeccionesBean.enEdicion or 
+                                                                                        panelLeccionesBean.enAuditoria )}" >
+
+            <p:ajax event="rowSelect" listener="#{panelLeccionesBean.filaSeleccionadaLeccion(evento)}" update="lecciones"/>
+            <p:ajax event="rowUnselect" listener="#{panelLeccionesBean.filaSeleccionadaLeccion(evento)}" update="lecciones"/>
+
+            <f:facet name="header">
+                Administración de Base del Conocimiento
+
+                <p:toolbar>  
+                    <p:toolbarGroup align="left">  
+                        <p:commandButton  value="Nuevo" update="@form" actionListener="#{panelLeccionesBean.nuevaLeccion(evento)}" icon="ui-icon-document"/>  
+                        <p:commandButton value="Modificar" update="@form" actionListener="#{panelLeccionesBean.modificarLeccion(evento)}" disabled="#{panelLeccionesBean.disabledModificar}" icon="ui-icon-pencil"/>
+                        <p:commandButton  value="Auditoría" update=":form:la_mensaje" onsuccess="dlg9.show()" actionListener="#{panelLeccionesBean.verAuditoriaLeccion(evento)}" disabled="#{panelLeccionesBean.disableAuditoria}" icon="ui-icon-document"/>
+
+                        <p:separator />  
+                        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">  
+                            <p:printer target="lecciones" />  
+                        </p:commandButton>
+                    </p:toolbarGroup>  
+                    <p:toolbarGroup align="right">             
+                        <p:commandButton action="panelproyectos?faces-redirect=true" ajax="false" icon="ui-icon-back" value="Volver" immediate="true"/>                
+                    </p:toolbarGroup>  
+                </p:toolbar> 
+
+            </f:facet>  
+            <p:column headerText="Problema" style="width: 200px">
+                #{leccion.problema} 
+            </p:column>
+            <p:column headerText="F.Problema" style="width: 70px">
+                <h:outputLabel value="#{leccion.fproblema}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputLabel>
+            </p:column>
+
+            <p:column headerText="Solución" style="width: 200px">
+                #{leccion.solucion} 
+            </p:column>
+
+            <p:column headerText="F.Solución" style="width: 70px">
+                <h:outputLabel value="#{leccion.fsolucion}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputLabel>
+            </p:column>
+
+        </p:dataTable>  
+        <!--//PANEL-->
+        <!--CREAR EXPECTATIVA-->
+        <p:panel id="nuevaLeccion" header="Registro de Lecciones" style="width: 600px"
+                 rendered="#{panelLeccionesBean.enRegistro}"> 
+            <p:focus context="nuevaLeccion"/> 
+            <p:panelGrid columns="3" >  
+
+                <p:outputLabel for="la_proyecto" value="Proyecto: "/>
+                <p:inputText id="la_proyecto" value="#{panelLeccionesBean.proyecto.nombreProyecto}" required="true" readonly="true"/>
+                <p:message for="la_proyecto"/>
+
+                <p:outputLabel for="la_problema" value="Problema: "/>
+                <p:inputTextarea id="la_problema" rows="8" cols="40" autoResize="false" value="#{panelLeccionesBean.leccionesAprendidas.problema}" required="true"/>
+                <p:message for="la_problema"/>
+
+                <p:outputLabel for="la_fp" value="Fecha del Problema: "/>
+                <p:calendar id="la_fp" value="#{panelLeccionesBean.leccionesAprendidas.fproblema}" label="Fecha del Problema" showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode" required="true"/>
+                <p:message for="la_fp"/>
+
+
+                <p:outputLabel for="la_solucion" value="Solución: "/>
+                <p:inputTextarea id="la_solucion" rows="8" cols="40" autoResize="false" value="#{panelLeccionesBean.leccionesAprendidas.solucion}"/>
+                <p:message for="la_solucion"/>
+
+                <p:outputLabel for="la_fs" value="Fecha de la Solución: "/>
+                <p:calendar id="la_fs" value="#{panelLeccionesBean.leccionesAprendidas.fsolucion}" label="Fecha de la Solucion" showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode"/>
+                <p:message for="la_fs"/>
+
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{panelLeccionesBean.guardarLeccion(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{panelLeccionesBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>
+
+        <!--//CREAR LECCION-->
+        <!--EDITAR LECCION-->
+        <p:panel id="editarLeccion" header="Edición de Lecciones" style="width: 600px"
+                 rendered="#{panelLeccionesBean.enEdicion}"> 
+            <p:focus context="editarLeccion"/> 
+            <p:panelGrid columns="3" >  
+
+                <p:outputLabel for="m_la_proyecto" value="Proyecto: "/>
+                <p:inputText id="m_la_proyecto" value="#{panelLeccionesBean.leccionesAprendidas.proyecto.nombreProyecto}" required="true" readonly="true"/>
+                <p:message for="m_la_proyecto"/>
+
+                <p:outputLabel for="m_la_problema" value="Problema: "/>
+                <p:inputTextarea id="m_la_problema" rows="8" cols="40" autoResize="false" value="#{panelLeccionesBean.leccionesAprendidas.problema}" required="true"/>
+                <p:message for="m_la_problema"/>
+
+                <p:outputLabel for="m_la_fp" value="Fecha del Problema: "/>
+                <p:calendar id="m_la_fp" value="#{panelLeccionesBean.leccionesAprendidas.fproblema}" label="Fecha del Problema" showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode" required="true"/>
+                <p:message for="m_la_fp"/>
+
+
+                <p:outputLabel for="m_la_solucion" value="Solución: "/>
+                <p:inputTextarea id="m_la_solucion" rows="8" cols="40" autoResize="false" value="#{panelLeccionesBean.leccionesAprendidas.solucion}"/>
+                <p:message for="m_la_solucion"/>
+
+                <p:outputLabel for="m_la_fs" value="Fecha de la Solución: "/>
+                <p:calendar id="m_la_fs" value="#{panelLeccionesBean.leccionesAprendidas.fsolucion}" label="Fecha de la Solucion" showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode"/>
+                <p:message for="m_la_fs"/>
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{panelLeccionesBean.guardarLeccion(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{panelLeccionesBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>        
+        <!--//EDITAR LECCION-->
+        <!--AUDITORIA-->
+        <p:dialog id="la_picture" widgetVar="dlg9"  
+                  resizable="false" header="Auditoría de Lecciones" modal="true" closable="false" showEffect="clip" hideEffect="clip" style="width: 600px">  
+            <p:panelGrid id="la_mensaje"  columns="2">  
+                <p:graphicImage value="/images/footer.png"/>                    
+                <p:panelGrid columns="2" rendered="#{panelLeccionesBean.enAuditoria}">
+
+                    <p:outputLabel for="a_la_codigo" value="Código:"/>
+                    <p:outputLabel id="a_la_codigo" value="#{panelLeccionesBean.leccionesAprendidas.pk.codigoLeccionesAprendidas}" />
+
+                    <p:outputLabel for="a_la_empresa" value="Proyecto:"/>                
+                    <p:outputLabel id="a_la_empresa" value="#{panelLeccionesBean.leccionesAprendidas.proyecto.nombreProyecto}"/>              
+
+                    <p:outputLabel for="a_la_usrcre" value="Usuario creación"/>                
+                    <p:outputLabel id="a_la_usrcre" value="#{panelLeccionesBean.getUsrAuditoria(panelLeccionesBean.leccionesAprendidas.usrCreacion)}" />              
+
+                    <p:outputLabel for="a_la_usrcref" value="Fecha creación:"/>                
+                    <h:outputLabel id="a_la_usrcref" value="#{panelLeccionesBean.leccionesAprendidas.fcreacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+
+                    <p:outputLabel for="a_la_usrmod" value="Usuario modificación:"/>                
+                    <p:outputLabel id="a_la_usrmod" value="#{panelLeccionesBean.getUsrAuditoria(panelLeccionesBean.leccionesAprendidas.usrModificacion)}"/>              
+
+                    <p:outputLabel for="a_la_usrmodf" value="Fecha modificación:"/>                
+                    <h:outputLabel id="a_la_usrmodf" value="#{panelLeccionesBean.leccionesAprendidas.fmodificacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+
+                </p:panelGrid> 
+            </p:panelGrid>
+            <p:separator/>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{panelLeccionesBean.cancelar()}" value="Volver" update="@form" icon="ui-icon-back"/>
+            </f:facet>
+        </p:dialog>
+        <!--//AUDITORIA-->
+        <!--//LECCIONES-->
+
+    </ui:define>
+</ui:composition>

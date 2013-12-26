@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/templateElementosProyecto.xhtml">
+
+    <f:metadata>  
+        <f:viewParam id="codProyecto" name="codProyecto" value="#{panelDocumentosBean.codProyecto}" />            
+    </f:metadata>
+
+    <ui:define name="titulo">Documentos</ui:define> 
+
+    <!--EXPECTATIVA-->
+
+    <ui:define name="tabla">
+        <p:panelGrid style="margin-top:20px">  
+            <f:facet name="header">  
+                <p:row>  
+                    <p:column colspan="6">#{panelDocumentosBean.proyecto.nombreProyecto}</p:column>  
+                </p:row>  
+            </f:facet>  
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Avance</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">#{panelDocumentosBean.proyecto.avance}%</p:column>  
+            </p:row>  
+            <p:row>  
+                <p:column colspan="6" style="font-weight: bold;">
+
+                    <p:pieChart id="sample" value="#{panelDocumentosBean.pieModel}"  
+                                style="width:300px;height:200px" showDataLabels="true"  sliceMargin="5" /> 
+
+                </p:column>                                  
+            </p:row>  
+
+            <p:row>  
+                <p:column colspan="6" styleClass="ui-widget-header">  
+                    <p:spacer height="0"/>  
+                </p:column>  
+            </p:row>  
+
+
+
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Fecha Inicio</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">
+                    <h:outputLabel value="#{panelDocumentosBean.proyecto.finicio}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                </p:column>             
+            </p:row>
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Fecha Estimada</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">
+                    <h:outputLabel value="#{panelDocumentosBean.proyecto.festimada}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                </p:column>             
+            </p:row>
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Fecha Fin</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">
+                    <h:outputLabel value="#{panelDocumentosBean.proyecto.ffin}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                </p:column>             
+            </p:row>
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Empresa</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">#{panelDocumentosBean.proyecto.empresa.razonSocial}</p:column>  
+            </p:row> 
+
+            <f:facet name="footer">  
+                <p:row>  
+                    <p:column  colspan="1" style="text-align: left">  
+                        Responsable 
+                    </p:column>  
+                    <p:column  colspan="5">  
+                        #{panelDocumentosBean.proyecto.empleado.nombre} 
+                    </p:column>  
+                </p:row>    
+            </f:facet>  
+        </p:panelGrid>  
+
+
+    </ui:define> 
+
+    <ui:define name="sitio">
+        <h3> #{panelDocumentosBean.emplSesion.nombre}, Usted está en #{panelDocumentosBean.ENTIDAD} </h3>
+    </ui:define>
+    <ui:define name="cuerpo">
+    
+        
+        <!--
+        DOCUMENTOS
+        -->
+
+        <p:dataTable id="documentos"  value="#{panelDocumentosBean.documentos}" var="documento" selection="#{panelDocumentosBean.documentoSeleccionado}" selectionMode="single" scrollable="true" 
+                     rowKey="#{documento.codigo}" style="width: 650px" 
+                     paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
+                     paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     emptyMessage="No se ha registrado ningún Documento" rendered="#{not(panelDocumentosBean.enRegistro or 
+                                                                                        panelDocumentosBean.enEdicion or 
+                                                                                        panelDocumentosBean.enAuditoria )}" >
+
+            <p:ajax event="rowSelect" listener="#{panelDocumentosBean.filaSeleccionadaDocumento(evento)}" update="documentos"/>
+            <p:ajax event="rowUnselect" listener="#{panelDocumentosBean.filaSeleccionadaDocumento(evento)}" update="documentos"/>
+
+            <f:facet name="header">
+                Documentos
+            </f:facet>
+            <p:column headerText="Documento" style="width: 200px">
+                #{documento.nombreDocumento}
+            </p:column>
+            <p:column headerText="Inst. Control" style="width: 150px">
+                #{documento.institucionControl.nombre}
+            </p:column>
+            <p:column headerText="Tipo" style="width: 100px">
+                #{documento.tipoDocumento.nombre}
+            </p:column>  
+            <p:column headerText="F. Carga" style="width: 80px">
+                <h:outputLabel value="#{documento.fcreacion}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputLabel>
+            </p:column>
+            <f:facet name="footer">  
+                <p:commandButton  value="Nuevo" update="@form" actionListener="#{panelDocumentosBean.nuevoDocumento(evento)}" disabled="#{panelDocumentosBean.disabledNuevo}" icon="ui-icon-document"/>  
+                <p:commandButton value="Modificar" update="@form" actionListener="#{panelDocumentosBean.modificarDocumento(evento)}" disabled="#{panelDocumentosBean.disabledModificar}" icon="ui-icon-pencil"/>
+                <p:commandButton  value="Auditoría" update=":form:d_mensaje" onsuccess="dlg1.show()" actionListener="#{panelDocumentosBean.verAuditoriaDocumento(evento)}" disabled="#{panelDocumentosBean.disableAuditoria}" icon="ui-icon-document"/>
+                <p:commandButton value="Volver" update="@form" actionListener="#{panelDocumentosBean.cancelar()}" icon="ui-icon-back"/>
+            </f:facet>
+        </p:dataTable>
+
+
+
+
+        <p:panel id="nuevoDocumento" header="Registro de Documentos" style="width: 500px"
+                 rendered="#{panelDocumentosBean.enRegistro}"> 
+            <p:focus context="nuevoDocumento"/> 
+            <p:panelGrid columns="3" >  
+
+                <p:outputLabel for="institucionControl" value="Institucion Control:"/>
+                <p:selectOneMenu id="institucionControl" value="#{panelDocumentosBean.instControl}" requiredMessage="Es obligatorio seleccionar una Institución de Control" label="Institucion de Control" required="true">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItems value="#{panelDocumentosBean.institucionesControl}" var="i" itemValue="#{i.codigo}" itemLabel="#{i.nombre}"/>
+                </p:selectOneMenu>
+                <p:message for="institucionControl"/>
+
+                <p:outputLabel for="tipoDocumento" value="Tipo Documento:"/>
+                <p:selectOneMenu id="tipoDocumento" value="#{panelDocumentosBean.tipoDoc}" label="Tipo Documento" requiredMessage="Es obligatorio seleccionar un tipo de documento" required="true">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItems value="#{panelDocumentosBean.tipoDocumento}" var="td" itemValue="#{td.codigo}" itemLabel="#{td.nombre}"/>
+                </p:selectOneMenu>
+                <p:message for="tipoDocumento"/>
+
+                <p:outputLabel for="archivoUP" value="Archivo:"/>
+                <p:column>
+                    <p:fileUpload id="archivoUP" multiple="false" invalidFileMessage="Este archivo no esta soportado para este documento" invalidSizeMessage="El tamaño del documento ha exedido los límites" fileUploadListener="#{panelDocumentosBean.subirDocumento}"       
+                                  mode="advanced"  sizeLimit="90000000" dragDropSupport="true"  auto="false" required="true" 
+                                  label="Selección de Archivo" update="guardarDoc" cancelLabel="Cancelar" uploadLabel="Subir"  style="width: 400px; font-size: 12px" allowTypes="/(\.|\/)(doc|docx|pdf|png)$/"/>
+                    <p:growl id="msgError" showDetail="true"/> 
+                </p:column>
+                <p:message for="archivoUP"/>
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton id="guardarDoc" value="Guardar" update="@form"  icon="ui-icon-disk" 
+                                 actionListener="#{panelDocumentosBean.cargarDocumento(evento)}" disabled="#{panelDocumentosBean.disableCargaDocumentos}" />
+                <p:commandButton value="Cancelar" update="@form" icon="ui-icon-cancel"
+                                 actionListener="#{panelDocumentosBean.cancelar()}" immediate="true"/>
+            </f:facet>
+
+        </p:panel>
+
+
+        <p:panel id="edicionDocumento" header="Edición de Documentos" style="width: 500px"
+                 rendered="#{panelDocumentosBean.enEdicion}"> 
+            <p:focus context="edicionDocumento"/> 
+            <p:panelGrid columns="3" >  
+
+                <p:outputLabel for="m_institucionControl" value="Institucion Control:"/>
+                <p:selectOneMenu id="m_institucionControl" value="#{panelDocumentosBean.instControl}" requiredMessage="Es obligatorio seleccionar una Institución de Control" label="Institucion de Control" required="true">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItems value="#{panelDocumentosBean.institucionesControl}" var="i" itemValue="#{i.codigo}" itemLabel="#{i.nombre}"/>
+                </p:selectOneMenu>
+                <p:message for="m_institucionControl"/>
+
+                <p:outputLabel for="m_tipoDocumento" value="Tipo Documento:"/>
+                <p:selectOneMenu id="m_tipoDocumento" value="#{panelDocumentosBean.tipoDoc}" label="Tipo Documento" requiredMessage="Es obligatorio seleccionar un tipo de documento" required="true">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItems value="#{panelDocumentosBean.tipoDocumento}" var="td" itemValue="#{td.codigo}" itemLabel="#{td.nombre}"/>
+                </p:selectOneMenu>
+                <p:message for="m_tipoDocumento"/>
+
+                <p:outputLabel for="m_nom_documento" value="Documento Cargado: "/>
+                <p:outputLabel id="m_nom_documento" value="#{panelDocumentosBean.documento.nombreDocumento}"/>
+                <p:message for="m_nom_documento"/>
+
+                <p:outputLabel for="m_archivoUP" value="Nueva Versión Documento:"/>
+                <p:column>
+                    <p:fileUpload id="m_archivoUP" multiple="false" invalidFileMessage="Este archivo no esta soportado para este documento" invalidSizeMessage="El tamaño del documento ha exedido los límites" fileUploadListener="#{panelDocumentosBean.subirDocumentoModificado}"       
+                                  mode="advanced"  sizeLimit="90000000" dragDropSupport="true"  auto="false" required="true" 
+                                  label="Selección de Archivo" update="m_guardarDoc" cancelLabel="Cancelar" uploadLabel="Subir"  style="width: 400px; font-size: 12px" allowTypes="/(\.|\/)(doc|docx|pdf|png)$/"/>
+                    <p:growl id="m_msgError" showDetail="true"/> 
+                </p:column>
+                <p:message for="m_archivoUP"/>
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton id="m_guardarDoc" value="Guardar" update="@form"  icon="ui-icon-disk" 
+                                 actionListener="#{panelDocumentosBean.cargarDocumento(evento)}" disabled="#{panelDocumentosBean.disableCargaDocumentos}" />
+                <p:commandButton value="Cancelar" update="@form" icon="ui-icon-cancel"
+                                 actionListener="#{panelDocumentosBean.cancelar()}" immediate="true"/>
+            </f:facet>
+
+        </p:panel>
+
+        <!--AUDITORIA-->
+        <p:dialog id="d_picture" widgetVar="dlg1"  
+                  resizable="false" header="Auditoría de Documentos" modal="true" closable="false" showEffect="clip" hideEffect="clip" style="width: 600px">  
+            <p:panelGrid id="d_mensaje"  columns="2">  
+                <p:graphicImage value="/images/footer.png"/>                    
+                <p:panelGrid columns="2" rendered="#{panelDocumentosBean.enAuditoria}">
+
+                    <p:outputLabel for="a_d_codigo" value="Código:"/>
+                    <p:outputLabel id="a_d_codigo" value="#{panelDocumentosBean.documento.codigo}" />
+
+                    <p:outputLabel for="a_d_empresa" value="Nombre de Documento:"/>                
+                    <p:outputLabel id="a_d_empresa" value="#{panelDocumentosBean.documento.nombreDocumento}"/>              
+
+                    <p:outputLabel for="a_d_usrcre" value="Usuario creación:"/>                
+                    <p:outputLabel id="a_d_usrcre" value="#{panelDocumentosBean.getUsrAuditoria(panelDocumentosBean.documento.usrCreacion)}" />              
+
+                    <p:outputLabel for="a_d_usrcref" value="Fecha creación:"/>                
+                    <h:outputLabel id="a_d_usrcref" value="#{panelDocumentosBean.documento.fcreacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+
+                    <p:outputLabel for="a_d_usrmod" value="Usuario modificación:"/>                
+                    <p:outputLabel id="a_d_usrmod" value="#{panelDocumentosBean.getUsrAuditoria(panelDocumentosBean.documento.usrModificacion)}"/>              
+
+                    <p:outputLabel for="a_d_usrmodf" value="Fecha modificación:"/>                
+                    <h:outputLabel id="a_d_usrmodf" value="#{panelDocumentosBean.documento.fmodificacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+
+                </p:panelGrid> 
+            </p:panelGrid>
+            <p:separator/>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{panelDocumentosBean.cancelar()}" value="Volver" update="@form" icon="ui-icon-back"/>
+            </f:facet>
+        </p:dialog>
+        <!--
+       DOCUMENTOS
+        -->
+        
+    </ui:define>
+</ui:composition>

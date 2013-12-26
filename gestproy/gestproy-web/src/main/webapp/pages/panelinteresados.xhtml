@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/templateElementosProyecto.xhtml">
+
+    <f:metadata>  
+        <f:viewParam id="codProyecto" name="codProyecto" value="#{panelInteresadosBean.codProyecto}" />            
+    </f:metadata>
+
+    <ui:define name="titulo">Interesados</ui:define> 
+
+    <!--EXPECTATIVA-->
+
+    <ui:define name="tabla">
+        <p:panelGrid style="margin-top:20px">  
+            <f:facet name="header">  
+                <p:row>  
+                    <p:column colspan="6">#{panelInteresadosBean.proyecto.nombreProyecto}</p:column>  
+                </p:row>  
+            </f:facet>  
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Avance</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">#{panelInteresadosBean.proyecto.avance}%</p:column>  
+            </p:row>  
+            <p:row>  
+                <p:column colspan="6" style="font-weight: bold;">
+
+                    <p:pieChart id="sample" value="#{panelInteresadosBean.pieModel}"  
+                                style="width:300px;height:200px" showDataLabels="true"  sliceMargin="5" /> 
+
+                </p:column>                                  
+            </p:row>  
+
+            <p:row>  
+                <p:column colspan="6" styleClass="ui-widget-header">  
+                    <p:spacer height="0"/>  
+                </p:column>  
+            </p:row>  
+
+
+
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Fecha Inicio</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">
+                    <h:outputLabel value="#{panelInteresadosBean.proyecto.finicio}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                </p:column>             
+            </p:row>
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Fecha Estimada</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">
+                    <h:outputLabel value="#{panelInteresadosBean.proyecto.festimada}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                </p:column>             
+            </p:row>
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Fecha Fin</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">
+                    <h:outputLabel value="#{panelInteresadosBean.proyecto.ffin}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                </p:column>             
+            </p:row>
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Empresa</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">#{panelInteresadosBean.proyecto.empresa.razonSocial}</p:column>  
+            </p:row> 
+
+            <f:facet name="footer">  
+                <p:row>  
+                    <p:column  colspan="1" style="text-align: left">  
+                        Responsable 
+                    </p:column>  
+                    <p:column  colspan="5">  
+                        #{panelInteresadosBean.proyecto.empleado.nombre} 
+                    </p:column>  
+                </p:row>    
+            </f:facet>  
+        </p:panelGrid>  
+
+
+    </ui:define> 
+
+    <ui:define name="sitio">
+        <h3> #{panelInteresadosBean.emplSesion.nombre}, Usted está en #{panelInteresadosBean.ENTIDAD} </h3>
+    </ui:define>
+    <ui:define name="cuerpo">
+
+        <!--INTERESADO-->
+        <!--PANEL-->
+        <p:dataTable id="interesados"  value="#{panelInteresadosBean.interesados}" var="interesado" selection="#{panelInteresadosBean.interesadoSeleccionado}" selectionMode="single" scrollable="true" 
+                     rowKey="#{interesado.codigo}" style="width: 650px" scrollWidth="false"
+                     paginator="true" rows="10"   paginatorPosition="bottom"
+                     paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     emptyMessage="No se ha registrado ningún Interesado" rendered="#{not(panelInteresadosBean.enRegistro or 
+                                                                                      panelInteresadosBean.enEdicion or 
+                                                                                      panelInteresadosBean.enAuditoria )}" >
+
+            <p:ajax event="rowSelect" listener="#{panelInteresadosBean.filaSeleccionadaInteresado(evento)}" update="interesados"/>
+            <p:ajax event="rowUnselect" listener="#{panelInteresadosBean.filaSeleccionadaInteresado(evento)}" update="interesados"/>
+
+            <f:facet name="header">
+                Administración de Interesados
+                <p:toolbar>  
+                    <p:toolbarGroup align="left">  
+                        <p:commandButton  value="Nuevo" update="@form" actionListener="#{panelInteresadosBean.nuevoInteresado(evento)}" icon="ui-icon-document"/>  
+                        <p:commandButton value="Modificar" update="@form" actionListener="#{panelInteresadosBean.modificarInteresado(evento)}" disabled="#{panelInteresadosBean.disabledModificar}" icon="ui-icon-pencil"/>
+                        <p:commandButton  value="Auditoría" update=":form:inte_mensaje" onsuccess="dlg10.show()" actionListener="#{panelInteresadosBean.verAuditoriaInteresado(evento)}" disabled="#{panelInteresadosBean.disableAuditoria}" icon="ui-icon-document"/>  
+
+                        <p:separator />  
+                        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">  
+                            <p:printer target="interesados" />  
+                        </p:commandButton>
+                    </p:toolbarGroup>  
+                    <p:toolbarGroup align="right">             
+                        <p:commandButton action="panelproyectos?faces-redirect=true" ajax="false" icon="ui-icon-back" value="Volver" immediate="true"/>                
+                    </p:toolbarGroup>  
+                </p:toolbar> 
+            </f:facet>
+            <p:column headerText="Empleado" style="width: 80px">
+                #{interesado.nombre}
+            </p:column>
+            <p:column headerText="Teléfono" style="width: 50px">
+                #{interesado.telefono}
+            </p:column>
+            <p:column headerText="Email" style="width: 120px">
+                #{interesado.email}
+            </p:column>
+
+        </p:dataTable>
+
+
+        <!--//PANEL-->
+        <!--CREAR INTERESADO-->
+        <p:panel id="nuevoInteresado" header="Registro de Interesados" rendered="#{panelInteresadosBean.enRegistro}" style="width: 500px">
+            <p:panelGrid columns="3">
+
+                <p:outputLabel for="inte_proyecto" value="Proyecto: "/>
+                <p:inputText id="inte_proyecto" value="#{panelInteresadosBean.proyecto.nombreProyecto}" required="true" readonly="true"/>
+                <p:message for="inte_proyecto"/>
+
+                <p:outputLabel for="inte_interesado" value="Interesado:"/>                
+                <p:inputText id="inte_interesado" value="#{panelInteresadosBean.interesado.nombre}" label="NombreInteresado" required="true">
+                </p:inputText>
+                <p:message for="inte_interesado" />
+
+                <p:outputLabel for="inte_telef" value="Telefono:" />
+                <p:inputMask  id="inte_telef" value="#{panelInteresadosBean.interesado.telefono}" mask="9999999999" label="Telefono" required="true"/> 
+                <p:message for="inte_telef" />                
+
+                <p:outputLabel for="inte_email" value="Email:" />
+                <p:inputText id="inte_email" value="#{panelInteresadosBean.interesado.email}" label="Email" required="true" validatorMessage="Dirección de correo inválida">
+                    <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                </p:inputText>
+                <p:message for="inte_email" />
+
+                <p:outputLabel for="inte_ws" value="Notas:" />
+                <p:inputTextarea id="inte_ws" rows="8" cols="40" autoResize="false" value="#{panelInteresadosBean.interesado.notas}" label="Notas"/> 
+                <p:message for="inte_ws" />
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{panelInteresadosBean.guardarInteresado(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{panelInteresadosBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>
+
+        <!--//CREAR INTERESADO-->
+
+        <!--EDITAR INTERESADO-->
+        <p:panel id="editarInteresado" header="Edición de Interesados" rendered="#{panelInteresadosBean.enEdicion}" style="width: 500px">
+            <p:panelGrid columns="3">
+
+                <p:outputLabel for="m_inte_proyecto" value="Proyecto: "/>
+                <p:inputText id="m_inte_proyecto" value="#{panelInteresadosBean.proyecto.nombreProyecto}" required="true" readonly="true"/>
+                <p:message for="m_inte_proyecto"/>
+
+                <p:outputLabel for="m_inte_interesado" value="Interesado:"/>                
+                <p:inputText id="m_inte_interesado" value="#{panelInteresadosBean.interesado.nombre}" label="NombreInteresado" required="true">
+                </p:inputText>
+                <p:message for="m_inte_interesado" />
+
+                <p:outputLabel for="m_inte_telef" value="Telefono:" />
+                <p:inputMask  id="m_inte_telef" value="#{panelInteresadosBean.interesado.telefono}" mask="9999999999" label="Telefono" required="true"/> 
+                <p:message for="m_inte_telef" />                
+
+                <p:outputLabel for="m_inte_email" value="Email:" />
+                <p:inputText id="m_inte_email" value="#{panelInteresadosBean.interesado.email}" label="Email" required="true" validatorMessage="Dirección de correo inválida">
+                    <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                </p:inputText>
+                <p:message for="m_inte_email" />
+
+                <p:outputLabel for="m_inte_ws" value="Notas:" />
+                <p:inputTextarea id="m_inte_ws" rows="8" cols="40" autoResize="false" value="#{panelInteresadosBean.interesado.notas}" label="Notas"/> 
+                <p:message for="m_inte_ws" />
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{panelInteresadosBean.guardarInteresado(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{panelInteresadosBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>
+        <!--//EDITAR INTERESADO-->
+
+        <!--AUDITORIA INTERESADO-->
+        <p:dialog id="inte_picture" widgetVar="dlg10"  
+                  resizable="false" header="Auditoría de Interesados" modal="true" closable="false" showEffect="clip" hideEffect="clip" style="width: 600px">  
+            <p:panelGrid id="inte_mensaje"  columns="2">  
+                <p:graphicImage value="/images/footer.png"/>                    
+                <p:panelGrid columns="2" rendered="#{panelInteresadosBean.enAuditoria}">
+
+                    <p:outputLabel for="a_inte_codigo" value="Código:"/>
+                    <p:outputLabel id="a_inte_codigo" value="#{panelInteresadosBean.interesado.codigo}"/>
+
+                    <p:outputLabel for="a_inte_empresa" value="Empresa:"/>
+                    <p:outputLabel id="a_inte_empresa" value="#{panelInteresadosBean.interesado.empresa.razonSocial}" />
+
+                    <p:outputLabel for="a_inte_interesado" value="Interesado:"/>                
+                    <p:outputLabel id="a_inte_interesado" value="#{panelInteresadosBean.interesado.nombre}"/>              
+
+                    <p:outputLabel for="a_inte_usrcre" value="Usuario creación"/>                
+                    <p:outputLabel id="a_inte_usrcre" value="#{panelInteresadosBean.getUsrAuditoria(panelInteresadosBean.interesado.usrCreacion)}" />              
+
+                    <p:outputLabel for="a_inte_usrcref" value="Fecha creación:"/>                
+                    <h:outputLabel id="a_inte_usrcref" value="#{panelInteresadosBean.interesado.fmodificacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                    <p:outputLabel for="a_inte_usrmod" value="Usuario modificación:"/>                
+                    <p:outputLabel id="a_inte_usrmod" value="#{panelInteresadosBean.getUsrAuditoria(panelInteresadosBean.interesado.usrModificacion)}" />              
+
+                    <p:outputLabel for="a_inte_usrmodf" value="Fecha modificación:"/>                
+                    <h:outputLabel id="a_inte_usrmodf" value="#{panelInteresadosBean.interesado.fmodificacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                </p:panelGrid> 
+            </p:panelGrid>
+            <p:separator/>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{panelInteresadosBean.cancelar()}" value="Volver" update="@form" icon="ui-icon-back"/>
+            </f:facet>
+        </p:dialog>
+
+        <!--//AUDITORIA INTERESADO-->
+
+        <!--//INTERESADO-->
+
+    </ui:define>
+</ui:composition>

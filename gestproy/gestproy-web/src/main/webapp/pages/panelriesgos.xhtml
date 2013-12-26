@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/templateElementosProyecto.xhtml">
+
+    <f:metadata>  
+        <f:viewParam id="codProyecto" name="codProyecto" value="#{panelRiesgosBean.codProyecto}" />            
+    </f:metadata>
+
+    <ui:define name="titulo">Riesgos</ui:define> 
+
+    <!--EXPECTATIVA-->
+
+    <ui:define name="tabla">
+        <p:panelGrid style="margin-top:20px">  
+            <f:facet name="header">  
+                <p:row>  
+                    <p:column colspan="6">#{panelRiesgosBean.proyecto.nombreProyecto}</p:column>  
+                </p:row>  
+            </f:facet>  
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Avance</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">#{panelRiesgosBean.proyecto.avance}%</p:column>  
+            </p:row>  
+            <p:row>  
+                <p:column colspan="6" style="font-weight: bold;">
+
+                    <p:pieChart id="sample" value="#{panelRiesgosBean.pieModel}"  
+                                style="width:300px;height:200px" showDataLabels="true"  sliceMargin="5" /> 
+                </p:column>                                  
+            </p:row>  
+            <p:row>  
+                <p:column colspan="6" styleClass="ui-widget-header">  
+                    <p:spacer height="0"/>  
+                </p:column>  
+            </p:row>  
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Fecha Inicio</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">
+                    <h:outputLabel value="#{panelRiesgosBean.proyecto.finicio}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                </p:column>             
+            </p:row>
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Fecha Estimada</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">
+                    <h:outputLabel value="#{panelRiesgosBean.proyecto.festimada}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                </p:column>             
+            </p:row>
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Fecha Fin</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">
+                    <h:outputLabel value="#{panelRiesgosBean.proyecto.ffin}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                </p:column>             
+            </p:row>
+            <f:facet name="footer">  
+                <p:row>  
+                    <p:column  colspan="1" style="text-align: left">  
+                        Responsable 
+                    </p:column>  
+                    <p:column  colspan="5">  
+                        #{panelRiesgosBean.proyecto.empleado.nombre} 
+                    </p:column>  
+                </p:row>    
+            </f:facet>  
+        </p:panelGrid>  
+    </ui:define> 
+
+    <ui:define name="sitio">
+        <h3> #{panelRiesgosBean.emplSesion.nombre}, Usted está en #{panelRiesgosBean.ENTIDAD} </h3>
+    </ui:define>
+
+    <ui:define name="cuerpo">
+
+        <!--RIESGOS-->
+        <!--PANEL-->
+        <p:dataTable id="riesgos"  value="#{panelRiesgosBean.riesgos}" var="riesgo" selection="#{panelRiesgosBean.riesgoSeleccionado}" selectionMode="single" scrollable="true" 
+                     rowKey="#{riesgo.pk}" style="width: 650px" 
+                     paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
+                     paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     emptyMessage="No se ha registrado ningún Riesgo" rendered="#{not(panelRiesgosBean.enRegistro or 
+                                                                                  panelRiesgosBean.enEdicion or 
+                                                                                  panelRiesgosBean.enAuditoria )}" >
+
+            <p:ajax event="rowSelect" listener="#{panelRiesgosBean.filaSeleccionadaRiesgo(evento)}" update="riesgos"/>
+            <p:ajax event="rowUnselect" listener="#{panelRiesgosBean.filaSeleccionadaRiesgo(evento)}" update="riesgos"/>
+
+            <f:facet name="header">
+                Administración de Riesgos                
+                <p:toolbar>  
+                    <p:toolbarGroup align="left">  
+                        <p:commandButton  value="Nuevo" update="@form" actionListener="#{panelRiesgosBean.nuevaRiesgo(evento)}" disabled="#{panelRiesgosBean.disabledNuevo}" icon="ui-icon-document"/>  
+                        <p:commandButton  value="Modificar" update="@form" actionListener="#{panelRiesgosBean.modificarRiesgo(evento)}" disabled="#{panelRiesgosBean.disabledModificar}" icon="ui-icon-pencil"/>
+                        <p:commandButton  value="Auditoría" update=":form:risk_mensaje" onsuccess="dlg7.show()" actionListener="#{panelRiesgosBean.verAuditoriaRiesgo(evento)}" disabled="#{panelRiesgosBean.disableAuditoria}" icon="ui-icon-document"/>
+                        <p:separator />  
+                        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">  
+                            <p:printer target="riesgos" />  
+                        </p:commandButton>
+                    </p:toolbarGroup>  
+                    <p:toolbarGroup align="right">             
+                        <p:commandButton action="panelproyectos?faces-redirect=true" ajax="false" icon="ui-icon-back" value="Volver" immediate="true"/>                
+                    </p:toolbarGroup>  
+                </p:toolbar>                 
+            </f:facet>
+            
+            <p:column headerText="Riesgo" style="width: 100px">
+                #{riesgo.nombre}
+            </p:column>        
+            <p:column headerText="Impacto" style="width: 100px">
+                #{panelRiesgosBean.getImpacto(riesgo.impacto)} 
+            </p:column>
+            <p:column headerText="Estado" style="width: 100px">
+                #{panelRiesgosBean.getEstado(riesgo.estado)} 
+            </p:column>
+
+        </p:dataTable>  
+        <!--//PANEL-->
+        <!--CREAR REUNION-->
+        <p:panel id="nuevoRiesgo" header="Registro de Riesgos" style="width: 500px"
+                 rendered="#{panelRiesgosBean.enRegistro}"> 
+            <p:focus context="nuevoRiesgo"/> 
+            <p:panelGrid columns="3" >  
+
+                <p:outputLabel for="risk_proyecto" value="Proyecto: "/>
+                <p:inputText id="risk_proyecto" value="#{panelRiesgosBean.proyecto.nombreProyecto}" required="true" readonly="true"/>
+                <p:message for="risk_proyecto"/>
+
+                <p:outputLabel for="risk_nombre" value="Riesgo: "/>
+                <p:inputText id="risk_nombre" size="40" value="#{panelRiesgosBean.riesgo.nombre}" required="true"/>
+                <p:message for="risk_nombre"/>
+
+
+                <p:outputLabel for="risk_impacto" value="Impacto:"/>                
+                <p:selectOneMenu id="risk_impacto" value="#{panelRiesgosBean.riesgo.impacto}" label="Impacto" required="true">
+                    <f:selectItem itemLabel="Bajo" itemValue="B"/>
+                    <f:selectItem itemLabel="Medio" itemValue="M"/>
+                    <f:selectItem itemLabel="Alto" itemValue="A"/>
+                </p:selectOneMenu>
+                <p:message for="risk_impacto" />
+
+                <p:outputLabel for="risk_estado" value="Estado:"/>                
+                <p:selectOneMenu id="risk_estado" value="#{panelRiesgosBean.riesgo.estado}" label="Estado" required="true">
+                    <f:selectItem itemLabel="Pendiente" itemValue="I"/>
+                    <f:selectItem itemLabel="Mitigado" itemValue="M"/>
+                </p:selectOneMenu>
+                <p:message for="risk_estado" />
+
+                <p:outputLabel for="risk_descripcion" value="Descripción: "/>
+                <p:inputTextarea id="risk_descripcion" rows="8" cols="40" autoResize="false" value="#{panelRiesgosBean.riesgo.descripcion}" required="true"/>
+                <p:message for="risk_descripcion"/>
+
+
+
+                <p:outputLabel for="risk_accion" value="Acción: "/>
+                <p:inputTextarea id="risk_accion" rows="8" cols="40" autoResize="false" value="#{panelRiesgosBean.riesgo.accion}" required="true"/>
+                <p:message for="risk_accion"/>
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{panelRiesgosBean.guardarRiesgo(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{panelRiesgosBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>
+
+        <!--//CREAR REUNION-->
+        <!--EDITAR REUNION-->
+        <p:panel id="editarRiesgo" header="Edición de Riesgos" style="width: 500px"
+                 rendered="#{panelRiesgosBean.enEdicion}"> 
+            <p:focus context="editarRiesgo"/> 
+            <p:panelGrid columns="3" >  
+
+                <p:outputLabel for="m_risk_proyecto" value="Proyecto: "/>
+                <p:inputText id="m_risk_proyecto" value="#{panelRiesgosBean.proyecto.nombreProyecto}" required="true" readonly="true"/>
+                <p:message for="m_risk_proyecto"/>
+
+                <p:outputLabel for="m_risk_nombre" value="Riesgo: "/>
+                <p:inputText id="m_risk_nombre" size="40" value="#{panelRiesgosBean.riesgo.nombre}" required="true"/>
+                <p:message for="m_risk_nombre"/>
+
+
+                <p:outputLabel for="m_risk_impacto" value="Impacto:"/>                
+                <p:selectOneMenu id="m_risk_impacto" value="#{panelRiesgosBean.riesgo.impacto}" label="Impacto" required="true">
+                    <f:selectItem itemLabel="Bajo" itemValue="B"/>
+                    <f:selectItem itemLabel="Medio" itemValue="M"/>
+                    <f:selectItem itemLabel="Alto" itemValue="A"/>
+                </p:selectOneMenu>
+                <p:message for="m_risk_impacto" />
+
+                <p:outputLabel for="m_risk_estado" value="Estado:"/>                
+                <p:selectOneMenu id="m_risk_estado" value="#{panelRiesgosBean.riesgo.estado}" label="Estado" required="true">
+                    <f:selectItem itemLabel="Pendiente" itemValue="I"/>
+                    <f:selectItem itemLabel="Mitigado" itemValue="M"/>
+                </p:selectOneMenu>
+                <p:message for="m_risk_estado" />
+
+                <p:outputLabel for="m_risk_descripcion" value="Descripción: "/>
+                <p:inputTextarea id="m_risk_descripcion" rows="8" cols="40" autoResize="false" value="#{panelRiesgosBean.riesgo.descripcion}" required="true"/>
+                <p:message for="m_risk_descripcion"/>
+
+
+
+                <p:outputLabel for="m_risk_accion" value="Acción: "/>
+                <p:inputTextarea id="m_risk_accion" rows="8" cols="40" autoResize="false" value="#{panelRiesgosBean.riesgo.accion}" required="true"/>
+                <p:message for="m_risk_accion"/>
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{panelRiesgosBean.guardarRiesgo(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{panelRiesgosBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>        
+        <!--//EDITAR REUNION-->
+        <!--AUDITORIA-->
+        <p:dialog id="risk_picture" widgetVar="dlg7"  
+                  resizable="false" header="Auditoría de Riesgos" modal="true" closable="false" showEffect="clip" hideEffect="clip" style="width: 600px">  
+            <p:panelGrid id="risk_mensaje"  columns="2">  
+                <p:graphicImage value="/images/footer.png"/>                    
+                <p:panelGrid columns="2" rendered="#{panelRiesgosBean.enAuditoria}">
+
+                    <p:outputLabel for="a_risk_codigo" value="Código:"/>
+                    <p:outputLabel id="a_risk_codigo" value="#{panelRiesgosBean.riesgo.pk.codigoRiesgo}" />
+
+                    <p:outputLabel for="a_risk_empresa" value="Proyecto:"/>                
+                    <p:outputLabel id="a_risk_empresa" value="#{panelRiesgosBean.riesgo.proyecto.nombreProyecto}"/>              
+
+                    <p:outputLabel for="a_risk_usrcre" value="Usuario creación"/>                
+                    <p:outputLabel id="a_risk_usrcre" value="#{panelRiesgosBean.getUsrAuditoria(panelRiesgosBean.riesgo.usrCreacion)}" />              
+
+                    <p:outputLabel for="a_risk_usrcref" value="Fecha creación:"/>                
+                    <h:outputLabel id="a_risk_usrcref" value="#{panelRiesgosBean.riesgo.fcreacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+
+                    <p:outputLabel for="a_risk_usrmod" value="Usuario modificación:"/>                
+                    <p:outputLabel id="a_risk_usrmod" value="#{panelRiesgosBean.getUsrAuditoria(panelRiesgosBean.riesgo.usrModificacion)}"/>              
+
+                    <p:outputLabel for="a_risk_usrmodf" value="Fecha modificación:"/>                
+                    <h:outputLabel id="a_risk_usrmodf" value="#{panelRiesgosBean.riesgo.fmodificacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+
+                </p:panelGrid> 
+            </p:panelGrid>
+            <p:separator/>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{panelRiesgosBean.cancelar()}" value="Volver" update="@form" icon="ui-icon-back"/>
+            </f:facet>
+        </p:dialog>
+        <!--//AUDITORIA-->
+        <!--//RIESGOS-->
+
+
+    </ui:define>
+</ui:composition>

@@ -48,11 +48,27 @@
                             <p:menuitem value="Expectativas" outcome="panelexpectativas">
                                 <f:param value="#{panelProyectosBean.proyecto.codigo}" name="codProyecto"/>
                             </p:menuitem>
-
-                            <p:menuitem value="ShowCase"  
-                                        url="http://www.primefaces.org/showcase" />  
-                            <p:menuitem value="TouchFaces"  
-                                        url="http://www.primefaces.org/showcase/touch" />  
+                            
+                            <p:menuitem value="Reuniones" outcome="panelreuniones">
+                                <f:param value="#{panelProyectosBean.proyecto.codigo}" name="codProyecto"/>
+                            </p:menuitem>
+                            
+                            <p:menuitem value="Riesgos" outcome="panelriesgos">
+                                <f:param value="#{panelProyectosBean.proyecto.codigo}" name="codProyecto"/>
+                            </p:menuitem>
+                            
+                            <p:menuitem value="Interesados" outcome="panelinteresados">
+                                <f:param value="#{panelProyectosBean.proyecto.codigo}" name="codProyecto"/>
+                            </p:menuitem>
+                            
+                            <p:menuitem value="Aprendizaje" outcome="panellecciones">
+                                <f:param value="#{panelProyectosBean.proyecto.codigo}" name="codProyecto"/>
+                            </p:menuitem>
+                            
+                            <p:menuitem value="Documentos" outcome="paneldocumentos">
+                                <f:param value="#{panelProyectosBean.proyecto.codigo}" name="codProyecto"/>
+                            </p:menuitem>
+                            
                         </p:menuButton>  
                     </p:toolbarGroup>  
 
