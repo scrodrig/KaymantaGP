@@ -31,7 +31,7 @@
                 <p:column colspan="6" style="font-weight: bold;">
 
                     <p:pieChart id="sample" value="#{panelDocumentosBean.pieModel}"  
-                                style="width:300px;height:200px" showDataLabels="true"  sliceMargin="5" /> 
+                                style="width:300px;height:200px" showDataLabels="true" seriesColors="2288AA,AAAAAA" sliceMargin="5" /> 
 
                 </p:column>                                  
             </p:row>  
@@ -96,8 +96,8 @@
         <h3> #{panelDocumentosBean.emplSesion.nombre}, Usted está en #{panelDocumentosBean.ENTIDAD} </h3>
     </ui:define>
     <ui:define name="cuerpo">
-    
-        
+
+
         <!--
         DOCUMENTOS
         -->
@@ -107,14 +107,30 @@
                      paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                      emptyMessage="No se ha registrado ningún Documento" rendered="#{not(panelDocumentosBean.enRegistro or 
-                                                                                        panelDocumentosBean.enEdicion or 
-                                                                                        panelDocumentosBean.enAuditoria )}" >
+                                                                                     panelDocumentosBean.enEdicion or 
+                                                                                     panelDocumentosBean.enAuditoria )}" >
 
             <p:ajax event="rowSelect" listener="#{panelDocumentosBean.filaSeleccionadaDocumento(evento)}" update="documentos"/>
             <p:ajax event="rowUnselect" listener="#{panelDocumentosBean.filaSeleccionadaDocumento(evento)}" update="documentos"/>
 
             <f:facet name="header">
-                Documentos
+                Administración de Documentos
+                <p:toolbar>
+                    <p:toolbarGroup align="left">  
+                        <p:commandButton  value="Nuevo" update="@form" actionListener="#{panelDocumentosBean.nuevoDocumento(evento)}" disabled="#{panelDocumentosBean.disabledNuevo}" icon="ui-icon-document"/>  
+                        <p:commandButton value="Modificar" update="@form" actionListener="#{panelDocumentosBean.modificarDocumento(evento)}" disabled="#{panelDocumentosBean.disabledModificar}" icon="ui-icon-pencil"/>
+                        <p:commandButton  value="Auditoría" update=":form:d_mensaje" onsuccess="dlg1.show()" actionListener="#{panelDocumentosBean.verAuditoriaDocumento(evento)}" disabled="#{panelDocumentosBean.disableAuditoria}" icon="ui-icon-document"/>
+
+                        <p:separator />  
+                        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">  
+                            <p:printer target="documentos" />  
+                        </p:commandButton>
+                    </p:toolbarGroup>  
+                    <p:toolbarGroup align="right">             
+                        <p:commandButton action="panelproyectos?faces-redirect=true" ajax="false" icon="ui-icon-back" value="Volver" immediate="true"/>                
+                    </p:toolbarGroup>  
+                </p:toolbar> 
+
             </f:facet>
             <p:column headerText="Documento" style="width: 200px">
                 #{documento.nombreDocumento}
@@ -130,12 +146,6 @@
                     <f:convertDateTime pattern="dd/MM/yyyy" />
                 </h:outputLabel>
             </p:column>
-            <f:facet name="footer">  
-                <p:commandButton  value="Nuevo" update="@form" actionListener="#{panelDocumentosBean.nuevoDocumento(evento)}" disabled="#{panelDocumentosBean.disabledNuevo}" icon="ui-icon-document"/>  
-                <p:commandButton value="Modificar" update="@form" actionListener="#{panelDocumentosBean.modificarDocumento(evento)}" disabled="#{panelDocumentosBean.disabledModificar}" icon="ui-icon-pencil"/>
-                <p:commandButton  value="Auditoría" update=":form:d_mensaje" onsuccess="dlg1.show()" actionListener="#{panelDocumentosBean.verAuditoriaDocumento(evento)}" disabled="#{panelDocumentosBean.disableAuditoria}" icon="ui-icon-document"/>
-                <p:commandButton value="Volver" update="@form" actionListener="#{panelDocumentosBean.cancelar()}" icon="ui-icon-back"/>
-            </f:facet>
         </p:dataTable>
 
 
@@ -164,7 +174,7 @@
                 <p:column>
                     <p:fileUpload id="archivoUP" multiple="false" invalidFileMessage="Este archivo no esta soportado para este documento" invalidSizeMessage="El tamaño del documento ha exedido los límites" fileUploadListener="#{panelDocumentosBean.subirDocumento}"       
                                   mode="advanced"  sizeLimit="90000000" dragDropSupport="true"  auto="false" required="true" 
-                                  label="Selección de Archivo" update="guardarDoc" cancelLabel="Cancelar" uploadLabel="Subir"  style="width: 400px; font-size: 12px" allowTypes="/(\.|\/)(doc|docx|pdf|png)$/"/>
+                                  label="Selección de Archivo" update="guardarDoc" cancelLabel="Cancelar" uploadLabel="Subir"  style="width: 300px; font-size: 12px" allowTypes="/(\.|\/)(doc|docx|pdf|png)$/"/>
                     <p:growl id="msgError" showDetail="true"/> 
                 </p:column>
                 <p:message for="archivoUP"/>
@@ -206,7 +216,7 @@
                 <p:column>
                     <p:fileUpload id="m_archivoUP" multiple="false" invalidFileMessage="Este archivo no esta soportado para este documento" invalidSizeMessage="El tamaño del documento ha exedido los límites" fileUploadListener="#{panelDocumentosBean.subirDocumentoModificado}"       
                                   mode="advanced"  sizeLimit="90000000" dragDropSupport="true"  auto="false" required="true" 
-                                  label="Selección de Archivo" update="m_guardarDoc" cancelLabel="Cancelar" uploadLabel="Subir"  style="width: 400px; font-size: 12px" allowTypes="/(\.|\/)(doc|docx|pdf|png)$/"/>
+                                  label="Selección de Archivo" update="m_guardarDoc" cancelLabel="Cancelar" uploadLabel="Subir"  style="width: 350px; font-size: 12px" allowTypes="/(\.|\/)(doc|docx|pdf|png)$/"/>
                     <p:growl id="m_msgError" showDetail="true"/> 
                 </p:column>
                 <p:message for="m_archivoUP"/>
@@ -259,6 +269,6 @@
         <!--
        DOCUMENTOS
         -->
-        
+
     </ui:define>
 </ui:composition>
