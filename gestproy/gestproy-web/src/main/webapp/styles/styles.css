@@ -37,6 +37,10 @@ p{ font-size: 10pt; font-weight: normal;}
   margin-right: auto;
 }
 
+.ui-icon-download{
+    background-image: url(../images/download.png);
+}
+
 
 /* Componentes PrimeFaces */
 .ui-widget{

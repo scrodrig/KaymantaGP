@@ -20,6 +20,8 @@ import ec.kaymanta.gestproy.servicio.ProyectoServicio;
 import ec.kaymanta.gestproy.servicio.TipoDocumentoServicio;
 import ec.kaymanta.gestproy.servicio.UsuarioServicio;
 import ec.kaymanta.gestproy.web.util.MensajesGenericos;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -35,6 +37,8 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 import org.primefaces.model.chart.PieChartModel;
 
@@ -44,7 +48,7 @@ import org.primefaces.model.chart.PieChartModel;
  */
 @ManagedBean
 @ViewScoped
-public class PanelDocumentosBean extends BotonesBean implements Serializable{
+public class PanelDocumentosBean extends BotonesBean implements Serializable {
 
     /**
      * Creates a new instance of PanelDocumentosBean
@@ -63,7 +67,6 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable{
     private InstitucionControlServicio institucionControlServicio;
     @EJB
     private TipoDocumentoServicio tipoDocumentoServicio;
-    
     private String ENTIDAD = "Panel de Documentos";
     private Usuario usrSesion;
     private Empleado emplSesion;
@@ -82,7 +85,7 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable{
     private PieChartModel pieModel;
     private String instControl;
     private String tipoDoc;
-    
+
     @PostConstruct
     @Override
     public void postConstructor() {
@@ -108,16 +111,20 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable{
         this.documento = new Documento();
     }
 
-    
-    
+    public StreamedContent download(Long codigo) {
+        Documento archivo = this.documentoServicio.findByID(codigo);
+        InputStream stream = new ByteArrayInputStream(ArrayUtils.toPrimitive(archivo.getDocumento()));
+        StreamedContent file = new DefaultStreamedContent(stream, "application/octet-stream", archivo.getNombreDocumento());
+        return file;
+    }
+
     private void createPieModel() {
         pieModel = new PieChartModel();
         pieModel.set("Avance", proyecto.getAvance().floatValue());
         pieModel.set("Restante", 100 - proyecto.getAvance().floatValue());
     }
-    
-    
-     public String getUsrAuditoria(String usr) {
+
+    public String getUsrAuditoria(String usr) {
         if (usr == null || "".equals(usr)) {
             return "";
         } else {
@@ -131,13 +138,13 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable{
             }
         }
     }
-     
-     public void nuevoDocumento(ActionEvent evento) {
+
+    public void nuevoDocumento(ActionEvent evento) {
         super.crear();
         this.documento = new Documento();
     }
-     
-     public void modificarDocumento(ActionEvent evento) {
+
+    public void modificarDocumento(ActionEvent evento) {
         this.documento = new Documento();
         try {
             this.documento = (Documento) BeanUtils.cloneBean(this.documentoSeleccionado);
@@ -147,8 +154,8 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable{
         }
         super.modificar();
     }
-     
-      public void verAuditoriaDocumento(ActionEvent evento) throws IllegalAccessException {
+
+    public void verAuditoriaDocumento(ActionEvent evento) throws IllegalAccessException {
         try {
             this.documento = new Documento();
             this.documento = (Documento) BeanUtils.cloneBean(this.documentoSeleccionado);
@@ -158,8 +165,8 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable{
         }
 
     }
-      
-       public void subirDocumento(FileUploadEvent event) {
+
+    public void subirDocumento(FileUploadEvent event) {
         this.documento = new Documento();
         System.out.println("Inicar carga: ");
         String resultado = "";
@@ -204,8 +211,8 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable{
 
         }
     }
-      
-      public void cargarDocumento(ActionEvent evento) {
+
+    public void cargarDocumento(ActionEvent evento) {
         try {
             if (super.getEnRegistro()) {
                 this.documento.setInstitucionControl(institucionControlServicio.findByID(Long.parseLong(instControl)));
@@ -271,11 +278,18 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable{
         }
 
     }
-     
-     public void filaSeleccionadaDocumento(ActionEvent evento) {
+
+    public void filaSeleccionadaDocumento(ActionEvent evento) {
         if (documentoSeleccionado instanceof Documento) {
-            super.seleccionadoUno();
-            System.out.println("ESTOY AQUI Y SI SELECCIONE");
+            try {
+                super.seleccionadoUno();
+                documento=new Documento();
+                documento = (Documento) BeanUtils.cloneBean(this.documentoSeleccionado);
+
+                System.out.println("ESTOY AQUI Y SI SELECCIONE");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else {
             super.sinSeleccion();
             System.out.println("ESTOY ACA Y NO SELECCIONE");
@@ -424,5 +438,5 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable{
 
     public void setTipoDoc(String tipoDoc) {
         this.tipoDoc = tipoDoc;
-    }              
+    }
 }

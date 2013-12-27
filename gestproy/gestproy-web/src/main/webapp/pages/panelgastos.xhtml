@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/templateElementosProyecto.xhtml">
+
+    <f:metadata>  
+        <f:viewParam id="codProyecto" name="codProyecto" value="#{panelGastosBean.codProyecto}" />
+        <f:viewParam id="codActividad" name="codActividad" value="#{panelGastosBean.codActividad}" />
+        <f:viewParam id="codSubActividad" name="codActividad" value="#{panelGastosBean.codSubActividad}" />
+    </f:metadata>
+
+    <ui:define name="titulo">Gastos</ui:define>
+
+    <ui:define name="tabla">
+        <p:panelGrid style="margin-top:20px">  
+            <f:facet name="header">  
+                <p:row>  
+                    <p:column colspan="6">#{panelGastosBean.proyecto.nombreProyecto}</p:column>  
+                </p:row> 
+                <p:row>  
+                    <p:column colspan="2" style="font-weight: bold;">Actividad</p:column>  
+                    <p:column colspan="4" style="font-weight: bold;">#{panelGastosBean.actividad.nombreActividad}</p:column>  
+                </p:row>
+                <p:row>  
+                    <p:column colspan="2" style="font-weight: bold;">Sub-Actividad</p:column>  
+                    <p:column colspan="4" style="font-weight: bold;">#{panelGastosBean.subActividad.nombreActividad}</p:column>  
+                </p:row>
+
+            </f:facet>  
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Avance Proyecto</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">#{panelGastosBean.proyecto.avance}%</p:column>  
+            </p:row>
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Avance Actividad</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">#{panelGastosBean.actividad.avance}%</p:column>  
+            </p:row>
+
+            <p:row>  
+                <p:column colspan="6" styleClass="ui-widget-header">  
+                    <p:spacer height="0"/>  
+                </p:column>  
+            </p:row>  
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Avance Sub-Actividad</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">#{panelGastosBean.subActividad.avance}%</p:column>  
+            </p:row>
+
+
+            <p:row>  
+                <p:column colspan="6" style="font-weight: bold;">
+
+                    <p:pieChart id="sample2" value="#{panelGastosBean.pieModel}"  
+                                style="width:300px;height:200px" showDataLabels="true" seriesColors="2288AA,AAAAAA" sliceMargin="5" /> 
+
+                </p:column>                                  
+            </p:row> 
+
+
+
+            <p:row>  
+                <p:column colspan="6" styleClass="ui-widget-header">  
+                    <p:spacer height="0"/>  
+                </p:column>  
+            </p:row>  
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Fecha Inicio</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">
+                    <h:outputLabel value="#{panelGastosBean.proyecto.finicio}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                </p:column>             
+            </p:row>
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Fecha Estimada</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">
+                    <h:outputLabel value="#{panelGastosBean.proyecto.festimada}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                </p:column>             
+            </p:row>
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Fecha Fin</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">
+                    <h:outputLabel value="#{panelGastosBean.proyecto.ffin}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                </p:column>             
+            </p:row>
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Empresa</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">#{panelGastosBean.proyecto.empresa.razonSocial}</p:column>  
+            </p:row> 
+
+            <f:facet name="footer">  
+                <p:row>  
+                    <p:column  colspan="1" style="text-align: left">  
+                        Responsable 
+                    </p:column>  
+                    <p:column  colspan="5">  
+                        #{panelGastosBean.proyecto.empleado.nombre} 
+                    </p:column>  
+                </p:row>    
+            </f:facet>  
+        </p:panelGrid>  
+
+
+    </ui:define> 
+
+    <ui:define name="sitio">
+        <h3> #{panelGastosBean.emplSesion.nombre}, Usted está en #{panelGastosBean.ENTIDAD} </h3>
+    </ui:define>
+    <ui:define name="cuerpo">
+
+
+        <!--GASTOS-->
+        <!--PANEL GASTOS-->
+        <p:dataTable id="gastos"  value="#{panelGastosBean.gastos}" var="gasto" selection="#{panelGastosBean.gastoSeleccionado}" selectionMode="single" scrollable="true" 
+                     rowKey="#{gasto.pk}" style="width: 650px" 
+                     paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
+                     paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     emptyMessage="No se ha registrado ningún Gasto" rendered="#{not(panelGastosBean.enRegistro or 
+                                                                                 panelGastosBean.enEdicion or                                                                                            
+                                                                                 panelGastosBean.enAuditoria )}" >
+
+            <p:ajax event="rowSelect" listener="#{panelGastosBean.filaSeleccionadaGasto(evento)}" update="gastos"/>
+            <p:ajax event="rowUnselect" listener="#{panelGastosBean.filaSeleccionadaGasto(evento)}" update="gastos"/>
+
+            <f:facet name="header">
+                Administración de Gastos
+
+                <p:toolbar>
+                    <p:toolbarGroup align="left">  
+                        <p:commandButton  value="Nuevo" update="@form" actionListener="#{panelGastosBean.nuevoGasto(evento)}" icon="ui-icon-document"/>  
+                        <p:commandButton value="Modificar" update="@form" actionListener="#{panelGastosBean.modificarGasto(evento)}" disabled="#{panelGastosBean.disabledModificar}" icon="ui-icon-pencil"/>
+                        <p:commandButton  value="Auditoría" update=":form:g_mensaje" onsuccess="dlg4.show()" actionListener="#{panelGastosBean.verAuditoriaGastos(evento)}" disabled="#{panelGastosBean.disableAuditoria}" icon="ui-icon-document"/>
+                        <p:commandButton value="Eliminar" onclick="confirmation.show();" disabled="#{panelGastosBean.disabledModificar}" icon="ui-icon-close"/>
+                        <p:separator />  
+                        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">  
+                            <p:printer target="gastos" />  
+                        </p:commandButton>
+                    </p:toolbarGroup>  
+                    <p:toolbarGroup align="right">             
+                        <p:commandButton value="Volver" action="panelsubactividades?faces-redirect=true&amp;includeViewParams=true" icon="ui-icon-back" >  
+                            <f:param value="#{panelGastosBean.proyecto.codigo}" name="codProyecto"/>
+                            <f:param value="#{panelGastosBean.actividad.codigo}" name="codActividad"/> 
+                            <f:param value="#{panelGastosBean.subActividad.codigo}" name="codSubActividad"/> 
+                        </p:commandButton>
+                    </p:toolbarGroup>  
+                </p:toolbar>
+
+            </f:facet>
+            <p:column headerText="Tipo de Gasto" style="width: 80px">
+                #{gasto.tipoGasto.nombre}
+            </p:column>
+            <p:column headerText="Valor Planificado" style="width: 100px">
+                $#{gasto.valorPlan}
+            </p:column>        
+            <p:column headerText="Valor Real" style="width: 100px">
+                $#{gasto.valorReal} 
+            </p:column>
+
+        </p:dataTable>         
+        <!--//PANEL GASTOS-->
+        <!--AUDITORIA GASTOS-->
+        <p:dialog id="g_picture" widgetVar="dlg4"  
+                  resizable="false" header="Auditoría de Gastos" modal="true" closable="false" showEffect="clip" hideEffect="clip" style="width: 600px">  
+            <p:panelGrid id="g_mensaje"  columns="2">  
+                <p:graphicImage value="/images/footer.png"/>                    
+                <p:panelGrid columns="2" rendered="#{panelGastosBean.enAuditoria}">
+
+                    <p:outputLabel for="g_codigo" value="Código:"/>
+                    <p:outputLabel id="g_codigo" value="#{panelGastosBean.gasto.pk.codigoGasto}" />
+
+                    <p:outputLabel for="g_empresa" value="Nombre de Sub-Actividad"/>                
+                    <p:outputLabel id="g_empresa" value="#{panelGastosBean.gasto.actividad.nombreActividad}"/>              
+
+                    <p:outputLabel for="g_usrcre" value="Usuario creación"/>                
+                    <p:outputLabel id="g_usrcre" value="#{panelGastosBean.getUsrAuditoria(panelGastosBean.gasto.usrCreacion)}" />              
+
+                    <p:outputLabel for="g_usrcref" value="Fecha creación:"/>                
+                    <h:outputLabel id="g_usrcref" value="#{panelGastosBean.gasto.fcreacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+
+                    <p:outputLabel for="g_usrmod" value="Usuario modificación:"/>                
+                    <p:outputLabel id="g_usrmod" value="#{panelGastosBean.getUsrAuditoria(panelGastosBean.gasto.usrModificacion)}"/>              
+
+                    <p:outputLabel for="g_usrmodf" value="Fecha modificación:"/>                
+                    <h:outputLabel id="g_usrmodf" value="#{panelGastosBean.gasto.fmodificacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+
+                </p:panelGrid> 
+            </p:panelGrid>
+            <p:separator/>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{panelGastosBean.cancelar()}" value="Volver" update="@form" icon="ui-icon-back"/>
+            </f:facet>
+        </p:dialog>
+
+
+        <!--//AUDITORIA GASTOS-->
+
+        <p:confirmDialog id="confirmDialog" message="¿Seguro desea eliminar?"  
+                         header="Eliminación" severity="alert" widgetVar="confirmation">  
+            <p:commandButton id="confirm" value="Si, seguro" update="@form " oncomplete="confirmation.hide()"  
+                             actionListener="#{panelGastosBean.eliminar(evento)}"  />  
+            <p:commandButton id="decline" value="No" onclick="confirmation.hide();" type="button" />   
+
+        </p:confirmDialog> 
+
+        <!--CREAR Gasto-->
+        <p:panel id="nuevoGasto" header="Registro de Gastos" style="width: 500px"
+                 rendered="#{panelGastosBean.enRegistro}"> 
+            <p:focus context="nuevoGasto"/> 
+            <p:panelGrid columns="3" >  
+
+                <p:outputLabel for="g_proyecto" value="Proyecto: "/>
+                <p:inputText id="g_proyecto" value="#{panelGastosBean.proyecto.nombreProyecto}" required="true" readonly="true"/>
+                <p:message for="g_proyecto"/>
+
+                <p:outputLabel for="g_actividad" value="Actividad: "/>
+                <p:inputText id="g_actividad" value="#{panelGastosBean.actividad.nombreActividad}" required="true" readonly="true"/>
+                <p:message for="g_actividad"/>
+
+                <p:outputLabel for="g_nombre" value="Sub-Actividad: "/>
+                <p:inputText id="g_nombre" value="#{panelGastosBean.subActividad.nombreActividad}" required="true" readonly="true"/>
+                <p:message for="g_nombre"/>
+
+                <p:outputLabel for="g_tipo" value="Tipo Gasto:"/>
+                <p:selectOneMenu id="g_tipo" value="#{panelGastosBean.tipoGasto}" label="Tipo Gasto" requiredMessage="Es obligatorio seleccionar un tipo de gasto" required="true">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItems value="#{panelGastosBean.tiposGasto}" var="tg" itemValue="#{tg.codigo}" itemLabel="#{tg.nombre}"/>
+                </p:selectOneMenu>
+                <p:message for="g_tipo"/>
+
+
+                <p:outputLabel for="g_plan" value="Gasto Planeado ($):" />
+                <p:inputText id="g_plan"  value="#{panelGastosBean.gasto.valorPlan}"  label="Gasto Planeado" required="true">
+                </p:inputText>
+                <p:message for="g_plan" />
+
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{panelGastosBean.guardarGasto(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{panelGastosBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>
+        <!--//CREAR Gasto-->
+
+
+        <!--EDITAR Gasto-->
+        <p:panel id="editarGasto" header="Edición de Gastos" style="width: 500px"
+                 rendered="#{panelGastosBean.enEdicion}"> 
+            <p:focus context="editarGasto"/> 
+            <p:panelGrid columns="3" >  
+
+                <p:outputLabel for="m_g_proyecto" value="Proyecto: "/>
+                <p:inputText id="m_g_proyecto" value="#{panelGastosBean.gasto.actividad.actividad.proyecto.nombreProyecto}" required="true" readonly="true"/>
+                <p:message for="m_g_proyecto"/>
+
+                <p:outputLabel for="m_g_actividad" value="Actividad: "/>
+                <p:inputText id="m_g_actividad" value="#{panelGastosBean.gasto.actividad.actividad.nombreActividad}" required="true" readonly="true"/>
+                <p:message for="m_g_actividad"/>
+
+                <p:outputLabel for="m_g_nombre" value="Sub-Actividad: "/>
+                <p:inputText id="m_g_nombre" value="#{panelGastosBean.gasto.actividad.nombreActividad}" required="true" readonly="true"/>
+                <p:message for="m_g_nombre"/>
+
+                <p:outputLabel for="m_g_tipo" value="Tipo Gasto:"/>
+                <p:selectOneMenu id="m_g_tipo" value="#{panelGastosBean.tipoGasto}" label="Tipo Gasto" requiredMessage="Es obligatorio seleccionar un tipo de gasto" required="true">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItems value="#{panelGastosBean.tiposGasto}" var="tg" itemValue="#{tg.codigo}" itemLabel="#{tg.nombre}"/>
+                </p:selectOneMenu>
+                <p:message for="m_g_tipo"/>
+
+
+                <p:outputLabel for="m_g_plan" value="Gasto Planeado ($):" />
+                <p:inputText id="m_g_plan"  value="#{panelGastosBean.gasto.valorPlan}"  label="Gasto Planeado" required="true">
+                </p:inputText>
+                <p:message for="m_g_plan" />
+
+                <p:outputLabel for="m_g_real" value="Gasto Real ($):" />
+                <p:inputText id="m_g_real"  value="#{panelGastosBean.gasto.valorReal}"  label="Gasto Real" required="true">
+                </p:inputText>
+                <p:message for="m_g_real" />
+
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{panelGastosBean.guardarGasto(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{panelGastosBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>
+        <!--//EDITAR Gasto-->
+        <!--//GASTOS-->
+
+    </ui:define>
+</ui:composition>

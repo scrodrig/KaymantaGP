@@ -30,17 +30,15 @@
                 <p:toolbar>  
                     <p:toolbarGroup align="left">  
                         <p:commandButton  value="Nuevo" update="@form" actionListener="#{panelProyectosBean.nuevo(evento)}" disabled="#{panelProyectosBean.disabledNuevo}" icon="ui-icon-document"/>  
-
                         <p:commandButton  value="Modificar" update="@form" actionListener="#{panelProyectosBean.modificar(evento)}" disabled="#{panelProyectosBean.disabledModificar}" icon="ui-icon-pencil"/>
-
                         <p:commandButton  value="Auditoría" update=":form:mensaje" onsuccess="dlg.show()" actionListener="#{panelProyectosBean.verAuditoria(evento)}" disabled="#{panelProyectosBean.disableAuditoria}" icon="ui-icon-document"/>  
-
                         <p:separator />  
-
                         <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">  
                             <p:printer target="proyectos" />  
+                        </p:commandButton>                        
+                        <p:commandButton value="Actividades" action="panelactividades" icon="ui-icon-document" disabled="#{panelProyectosBean.disableAuditoria}">  
+                            <f:param value="#{panelProyectosBean.proyecto.codigo}" name="codProyecto"/>
                         </p:commandButton>
-
                     </p:toolbarGroup>  
 
                     <p:toolbarGroup align="right">  
@@ -48,27 +46,27 @@
                             <p:menuitem value="Expectativas" outcome="panelexpectativas">
                                 <f:param value="#{panelProyectosBean.proyecto.codigo}" name="codProyecto"/>
                             </p:menuitem>
-                            
+
                             <p:menuitem value="Reuniones" outcome="panelreuniones">
                                 <f:param value="#{panelProyectosBean.proyecto.codigo}" name="codProyecto"/>
                             </p:menuitem>
-                            
+
                             <p:menuitem value="Riesgos" outcome="panelriesgos">
                                 <f:param value="#{panelProyectosBean.proyecto.codigo}" name="codProyecto"/>
                             </p:menuitem>
-                            
+
                             <p:menuitem value="Interesados" outcome="panelinteresados">
                                 <f:param value="#{panelProyectosBean.proyecto.codigo}" name="codProyecto"/>
                             </p:menuitem>
-                            
+
                             <p:menuitem value="Aprendizaje" outcome="panellecciones">
                                 <f:param value="#{panelProyectosBean.proyecto.codigo}" name="codProyecto"/>
                             </p:menuitem>
-                            
+
                             <p:menuitem value="Documentos" outcome="paneldocumentos">
                                 <f:param value="#{panelProyectosBean.proyecto.codigo}" name="codProyecto"/>
                             </p:menuitem>
-                            
+
                         </p:menuButton>  
                     </p:toolbarGroup>  
 

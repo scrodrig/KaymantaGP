@@ -141,13 +141,19 @@
             <p:column headerText="Tipo" style="width: 100px">
                 #{documento.tipoDocumento.nombre}
             </p:column>  
-            <p:column headerText="F. Carga" style="width: 80px">
+            <p:column headerText="F. Carga" style="width: 80px" rendered="false">
                 <h:outputLabel value="#{documento.fcreacion}">
                     <f:convertDateTime pattern="dd/MM/yyyy" />
                 </h:outputLabel>
             </p:column>
-        </p:dataTable>
+            <p:column headerText="Descargar" style="width: 80px">  
+                <p:commandButton id="downloadLink" ajax="false" 
+                                 icon="ui-icon-arrowthichk-s">  
+                    <p:fileDownload value="#{panelDocumentosBean.download(documento.codigo)}" />  
+                </p:commandButton>
 
+            </p:column>
+        </p:dataTable>
 
 
 

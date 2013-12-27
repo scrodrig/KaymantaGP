@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/templateElementosProyecto.xhtml">
+
+    <f:metadata>  
+        <f:viewParam id="codProyecto" name="codProyecto" value="#{panelActividadesBean.codProyecto}" />            
+    </f:metadata>
+
+    <ui:define name="titulo">Actividades</ui:define> 
+
+    <!--EXPECTATIVA-->
+
+    <ui:define name="tabla">
+        <p:panelGrid style="margin-top:20px">  
+            <f:facet name="header">  
+                <p:row>  
+                    <p:column colspan="6">#{panelActividadesBean.proyecto.nombreProyecto}</p:column>  
+                </p:row>  
+            </f:facet>  
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Avance</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">#{panelActividadesBean.proyecto.avance}%</p:column>  
+            </p:row>  
+            <p:row>  
+                <p:column colspan="6" style="font-weight: bold;">
+
+                    <p:pieChart id="sample" value="#{panelActividadesBean.pieModel}"  
+                                style="width:300px;height:200px" showDataLabels="true" seriesColors="2288AA,AAAAAA" sliceMargin="5" /> 
+
+                </p:column>                                  
+            </p:row>  
+
+            <p:row>  
+                <p:column colspan="6" styleClass="ui-widget-header">  
+                    <p:spacer height="0"/>  
+                </p:column>  
+            </p:row>  
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Fecha Inicio</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">
+                    <h:outputLabel value="#{panelActividadesBean.proyecto.finicio}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                </p:column>             
+            </p:row>
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Fecha Estimada</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">
+                    <h:outputLabel value="#{panelActividadesBean.proyecto.festimada}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                </p:column>             
+            </p:row>
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Fecha Fin</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">
+                    <h:outputLabel value="#{panelActividadesBean.proyecto.ffin}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                </p:column>             
+            </p:row>
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Empresa</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">#{panelActividadesBean.proyecto.empresa.razonSocial}</p:column>  
+            </p:row> 
+
+            <f:facet name="footer">  
+                <p:row>  
+                    <p:column  colspan="1" style="text-align: left">  
+                        Responsable 
+                    </p:column>  
+                    <p:column  colspan="5">  
+                        #{panelActividadesBean.proyecto.empleado.nombre} 
+                    </p:column>  
+                </p:row>    
+            </f:facet>  
+        </p:panelGrid>  
+
+
+    </ui:define> 
+
+    <ui:define name="sitio">
+        <h3> #{panelActividadesBean.emplSesion.nombre}, Usted está en #{panelActividadesBean.ENTIDAD} </h3>
+    </ui:define>
+    <ui:define name="cuerpo">
+
+        <!--
+        ACTIVIDADES N1
+        -->
+
+        <!--AUDITORIA-->
+        <p:dialog id="act_picture" widgetVar="dlg2"  
+                  resizable="false" header="Auditoría de Actividades" modal="true" closable="false" showEffect="clip" hideEffect="clip" style="width: 600px">  
+            <p:panelGrid id="act_mensaje"  columns="2">  
+                <p:graphicImage value="/images/footer.png"/>                    
+                <p:panelGrid columns="2" rendered="#{panelActividadesBean.enAuditoria}">
+
+                    <p:outputLabel for="act_d_codigo" value="Código:"/>
+                    <p:outputLabel id="act_d_codigo" value="#{panelActividadesBean.actividad.codigo}" />
+
+                    <p:outputLabel for="act_d_empresa" value="Actividad:"/>                
+                    <p:outputLabel id="act_d_empresa" value="#{panelActividadesBean.actividad.nombreActividad}"/>              
+
+                    <p:outputLabel for="act_d_usrcre" value="Usuario creación:"/>                
+                    <p:outputLabel id="act_d_usrcre" value="#{panelActividadesBean.getUsrAuditoria(panelActividadesBean.actividad.usrCreacion)}" />              
+
+                    <p:outputLabel for="act__d_usrcref" value="Fecha creación:"/>                
+                    <h:outputLabel id="act__d_usrcref" value="#{panelActividadesBean.actividad.fcreacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+
+                    <p:outputLabel for="act__d_usrmod" value="Usuario modificación:"/>                
+                    <p:outputLabel id="act__d_usrmod" value="#{panelActividadesBean.getUsrAuditoria(panelActividadesBean.actividad.usrModificacion)}"/>              
+
+                    <p:outputLabel for="act__d_usrmodf" value="Fecha modificación:"/>                
+                    <h:outputLabel id="act__d_usrmodf" value="#{panelActividadesBean.actividad.fmodificacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+
+                </p:panelGrid> 
+            </p:panelGrid>
+            <p:separator/>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{panelActividadesBean.cancelar()}" value="Volver" update="@form" icon="ui-icon-back"/>
+            </f:facet>
+        </p:dialog>
+        <!--Auditoria Actividades-->
+
+        <!--ACTIVIDADES-->
+
+
+        <p:dataTable id="actividades"  value="#{panelActividadesBean.actividades}" var="actividad" selection="#{panelActividadesBean.actividadSeleccionada}" selectionMode="single" scrollable="true" 
+                     rowKey="#{actividad.codigo}" style="width: 650px" 
+                     paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
+                     paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     emptyMessage="No se ha registrado ninguna Actividades" rendered="#{not(panelActividadesBean.enRegistro or 
+                                                                                        panelActividadesBean.enEdicion or 
+                                                                                        panelActividadesBean.enAuditoria )}" >
+
+            <p:ajax event="rowSelect" listener="#{panelActividadesBean.filaSeleccionadaActividad(evento)}" update="actividades"/>
+            <p:ajax event="rowUnselect" listener="#{panelActividadesBean.filaSeleccionadaActividad(evento)}" update="actividades"/>
+
+            <f:facet name="header">
+                Administración de Actividades
+
+                <p:toolbar>
+                    <p:toolbarGroup align="left">  
+                        <p:commandButton  value="Nuevo" update="@form" actionListener="#{panelActividadesBean.nuevoActividad(evento)}" disabled="#{panelActividadesBean.disabledNuevo}" icon="ui-icon-document"/>  
+                        <p:commandButton value="Modificar" update="@form" actionListener="#{panelActividadesBean.modificarActividad(evento)}" disabled="#{panelActividadesBean.disabledModificar}" icon="ui-icon-pencil"/>
+                        <p:commandButton  value="Auditoría" update=":form:act_mensaje" onsuccess="dlg2.show()" actionListener="#{panelActividadesBean.verAuditoriaActividad(evento)}" disabled="#{panelActividadesBean.disableAuditoria}" icon="ui-icon-document"/>
+
+                        <p:separator />  
+                        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">  
+                            <p:printer target="actividades" />  
+                        </p:commandButton>
+                        <p:commandButton value="Sub-Actividades" action="panelsubactividades" icon="ui-icon-document" disabled="#{panelActividadesBean.disableAuditoria}">  
+                            <f:param value="#{panelActividadesBean.actividad.proyecto.codigo}" name="codProyecto"/>
+                            <f:param value="#{panelActividadesBean.actividad.codigo}" name="codActividad"/>
+                        </p:commandButton>
+                    </p:toolbarGroup>  
+                    <p:toolbarGroup align="right">             
+                        <p:commandButton action="panelproyectos?faces-redirect=true" ajax="false" icon="ui-icon-back" value="Volver" immediate="true"/>                
+                    </p:toolbarGroup>  
+                </p:toolbar>
+
+            </f:facet>
+            <p:column headerText="Actividad" style="width: 100px; font-size: 8pt">
+                #{actividad.nombreActividad}
+            </p:column>                  
+            <p:column headerText="Avance" style="width:50px; font-size: 8pt">
+                #{actividad.avance} %
+            </p:column>
+            <p:column headerText="Hor. Estimadas" style="width: 70px; font-size: 8pt">
+                #{actividad.gethDiaEst()}
+            </p:column>
+            <p:column headerText="H/Trab Real" style="width: 70px; font-size: 8pt">
+                #{subActividad.gethTrabReal()}
+            </p:column>
+            <p:column headerText="Tra. Total" style="width: 70px; font-size: 8pt">
+                #{subActividad.gettTotalReal()}
+            </p:column>
+            <p:column headerText="F.Creación" style="width: 80px; font-size: 8pt">
+                <h:outputLabel value="#{actividad.fcreacion}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputLabel>
+            </p:column>
+        </p:dataTable>        
+        <!--
+       ACTIVIDADES N1
+        -->
+
+        <!--NUEVA ACTIVIDAD-->
+        <p:panel id="nuevoActividad" header="Registro de Actividades" style="width: 500px"
+                 rendered="#{panelActividadesBean.enRegistro}"> 
+            <p:focus context="nuevoActividad"/> 
+            <p:panelGrid columns="3" >  
+
+                <p:outputLabel for="act_proyecto" value="Proyecto: "/>
+                <p:inputText id="act_proyecto" value="#{panelActividadesBean.proyecto.nombreProyecto}" required="true" readonly="true"/>
+                <p:message for="act_proyecto"/>
+
+                <p:outputLabel for="act_nombre" value="Nombre Actividad: "/>
+                <p:inputText id="act_nombre" value="#{panelActividadesBean.actividad.nombreActividad}" required="true"/>
+                <p:message for="act_nombre"/>
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{panelActividadesBean.guardarActividad(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{panelActividadesBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>
+        <!-- //NUEVA ACTIVIDAD-->
+
+        <!--EDITAR ACTIVIDAD-->
+        <p:panel id="editarActividad" header="Edición de  Actividades" style="width: 500px"
+                 rendered="#{panelActividadesBean.enEdicion}"> 
+            <p:focus context="editarActividad"/> 
+            <p:panelGrid columns="3" > 
+
+                <p:outputLabel for="act_m_proyecto" value="Proyecto: "/>
+                <p:inputText id="act_m_proyecto" value="#{panelActividadesBean.actividad.proyecto.nombreProyecto}" readonly="true"/>
+                <p:message for="act_m_proyecto"/> 
+
+                <p:outputLabel for="act_m_nombre" value="Nombre Actividad: "/>
+                <p:inputText id="act_m_nombre" value="#{panelActividadesBean.actividad.nombreActividad}" required="true"/>
+                <p:message for="act_m_nombre"/>
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{panelActividadesBean.guardarActividad(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{panelActividadesBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>
+        <!-- //EDITAR ACTIVIDAD-->
+
+        <!--//ACTIVIDADES-->
+
+    </ui:define>
+</ui:composition>
+
