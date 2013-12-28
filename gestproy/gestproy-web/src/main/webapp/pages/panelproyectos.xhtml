@@ -256,8 +256,8 @@
                 <p:message for="m_parroquiaB"/>
 
 
-                <p:outputLabel for="m_empresa" value="Empresa: "/>
-                <p:selectOneMenu id="m_empresa" value="#{panelProyectosBean.empresa}" label="Empresa" required="true">
+                <p:outputLabel for="m_empresa" value="Empresa: " />
+                <p:selectOneMenu id="m_empresa" value="#{panelProyectosBean.empresa}" readonly="true" label="Empresa" required="true">
                     <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
                     <f:selectItems value="#{panelProyectosBean.empresas}" var="empresa" itemValue="#{empresa.codigo}" itemLabel="#{empresa.razonSocial}"/>
                 </p:selectOneMenu>

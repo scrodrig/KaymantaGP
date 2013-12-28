@@ -56,6 +56,10 @@ public class ActividadEntregableServicio {
     public List<ActividadEntregable> findBySubActividad(Actividad actividad) {
         return this.actividadEntregableDAO.findBySubActividad(actividad);
     }
+    
+    public ActividadEntregable findBySubActividadAndEntregable(Actividad subActividad, Long codActividadEntregable) {
+        return this.actividadEntregableDAO.findBySubActividadAndEntregable(subActividad,codActividadEntregable);
+    }
 
     /**
      * Función para crear nuevos registros

@@ -43,4 +43,12 @@ public class ActividadEntregableDAO extends DefaultGenericDAOImple<ActividadEntr
         qry.setParameter(1, subActividad);
         return qry.getResultList();
     }
+    
+    public ActividadEntregable findBySubActividadAndEntregable(Actividad subActividad, Long codActividadEntregable) {
+        String sql = "SELECT obj FROM ActividadEntregable obj WHERE obj.pk.actividad=?1 AND obj.pk.codigoActividadEntregable=?2";
+        Query qry = this.getEntityManager().createQuery(sql);
+        qry.setParameter(1, subActividad.getCodigo());
+        qry.setParameter(2, codActividadEntregable);
+        return (ActividadEntregable) qry.getSingleResult();
+    }
 }

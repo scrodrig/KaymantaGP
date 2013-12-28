@@ -4,16 +4,22 @@
  */
 package ec.kaymanta.gestproy.web.beans;
 
+import ec.kaymanta.gestproy.modelo.Actividad;
+import ec.kaymanta.gestproy.modelo.ActividadEntregable;
 import ec.kaymanta.gestproy.modelo.Documento;
 import ec.kaymanta.gestproy.modelo.DocumentosProyecto;
 import ec.kaymanta.gestproy.modelo.Empleado;
+import ec.kaymanta.gestproy.modelo.EntregableDocumento;
 import ec.kaymanta.gestproy.modelo.HistorialDocumento;
 import ec.kaymanta.gestproy.modelo.InstitucionControl;
 import ec.kaymanta.gestproy.modelo.Proyecto;
 import ec.kaymanta.gestproy.modelo.TipoDocumento;
 import ec.kaymanta.gestproy.modelo.Usuario;
+import ec.kaymanta.gestproy.servicio.ActividadEntregableServicio;
+import ec.kaymanta.gestproy.servicio.ActividadServicio;
 import ec.kaymanta.gestproy.servicio.DocumentoServicio;
 import ec.kaymanta.gestproy.servicio.DocumentosProyectoServicio;
+import ec.kaymanta.gestproy.servicio.EntregableDocumentoServicio;
 import ec.kaymanta.gestproy.servicio.HistorialDocumentoServicio;
 import ec.kaymanta.gestproy.servicio.InstitucionControlServicio;
 import ec.kaymanta.gestproy.servicio.ProyectoServicio;
@@ -48,11 +54,8 @@ import org.primefaces.model.chart.PieChartModel;
  */
 @ManagedBean
 @ViewScoped
-public class PanelDocumentosBean extends BotonesBean implements Serializable {
+public class PanelDocsBean extends BotonesBean implements Serializable {
 
-    /**
-     * Creates a new instance of PanelDocumentosBean
-     */
     @EJB
     private DocumentoServicio documentoServicio;
     @EJB
@@ -60,11 +63,17 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
     @EJB
     private ProyectoServicio proyectoServicio;
     @EJB
+    private ActividadServicio actividadServicio;
+    @EJB
+    private ActividadEntregableServicio actividadEntregableServicio;
+    @EJB
     private DocumentosProyectoServicio documentosProyectoServicio;
     @EJB
     private HistorialDocumentoServicio historialDocumentoServicio;
     @EJB
     private InstitucionControlServicio institucionControlServicio;
+    @EJB
+    private EntregableDocumentoServicio entregableDocumentoServicio;
     @EJB
     private TipoDocumentoServicio tipoDocumentoServicio;
     private String ENTIDAD = "Panel de Documentos";
@@ -79,8 +88,15 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
     private DocumentosProyecto documentosProyecto;
     private HistorialDocumento historialDocumento;
     private Proyecto proyecto;
+    private Actividad actividad;
+    private Actividad subActividad;
+    private ActividadEntregable actividadEntregable;
     private String codProyecto;
+    private String codActividad;
+    private String codSubActividad;
+    private String codActividadEntregable;
     private UploadedFile file;
+    private EntregableDocumento entregableDocumento;
     //ELEMENTO DE VISTA
     private PieChartModel pieModel;
     private String instControl;
@@ -101,14 +117,27 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
         Map<String, String> parametros = context.getExternalContext().getRequestParameterMap();
         if (this.proyecto == null) {
             this.codProyecto = parametros.get("codProyecto");
+            this.codActividad = parametros.get("codActividad");
+            this.codSubActividad = parametros.get("codSubActividad");
+            this.codActividadEntregable = parametros.get("codActividadEntregable");
             this.proyecto = this.proyectoServicio.findByID(Long.parseLong(codProyecto));
+            this.actividad = this.actividadServicio.findByID(Long.parseLong(codActividad));
+            this.subActividad = this.actividadServicio.findByID(Long.parseLong(codSubActividad));
+            this.actividadEntregable = this.actividadEntregableServicio.findBySubActividadAndEntregable(subActividad, Long.parseLong(codActividadEntregable));
+
         }
-        System.out.println("PROYECTO: " + proyecto.getNombreProyecto());
-        this.documentos = this.documentoServicio.findByProyecto(proyecto);
+        System.out.println("PROYECTO: " + proyecto.getNombreProyecto() + " ACTIVIDAD " + actividad.getNombreActividad());
+        this.documentos = this.documentoServicio.findBySubActividad(actividadEntregable);
         this.institucionesControl = this.institucionControlServicio.obtener();
         this.tipoDocumento = this.tipoDocumentoServicio.obtener();
         createPieModel();
         this.documento = new Documento();
+    }
+
+    private void createPieModel() {
+        pieModel = new PieChartModel();
+        pieModel.set("Avance", subActividad.getAvance().floatValue());
+        pieModel.set("Restante", 100 - subActividad.getAvance().floatValue());
     }
 
     public StreamedContent download(Long codigo) {
@@ -117,55 +146,27 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
         StreamedContent file = new DefaultStreamedContent(stream, "application/octet-stream", archivo.getNombreDocumento());
         return file;
     }
+    
+    public String getEstado(String estado) {
 
-    private void createPieModel() {
-        pieModel = new PieChartModel();
-        pieModel.set("Avance", proyecto.getAvance().floatValue());
-        pieModel.set("Restante", 100 - proyecto.getAvance().floatValue());
-    }
-
-    public String getUsrAuditoria(String usr) {
-        if (usr == null || "".equals(usr)) {
+        if (estado == null || "".equals(estado)) {
             return "";
         } else {
-            System.out.println(usr);
-            System.out.println(usuarioServicio.findByID(usr));
-            try {
-                usuarioServicio.findByID(usr);
-                return usuarioServicio.findByID(usr).getUsuario();
-            } catch (NullPointerException e) {
-                return "";
+            System.out.println(estado);
+            if (estado.equals("I")) {
+                return "Inicial";
+            } else if (estado.equals("P")) {
+                return "Procesando";
+            } else if (estado.equals("F")) {
+                return "Finalizado";
+            } else if (estado.equals("R")) {
+                return "Revisado";
             }
+            return "Desconocido";
+
         }
     }
-
-    public void nuevoDocumento(ActionEvent evento) {
-        super.crear();
-        this.documento = new Documento();
-    }
-
-    public void modificarDocumento(ActionEvent evento) {
-        this.documento = new Documento();
-        try {
-            this.documento = (Documento) BeanUtils.cloneBean(this.documentoSeleccionado);
-            this.instControl = this.documento.getInstitucionControl().getCodigo().toString();
-            this.tipoDoc = this.documento.getTipoDocumento().getCodigo().toString();
-        } catch (Exception e) {
-        }
-        super.modificar();
-    }
-
-    public void verAuditoriaDocumento(ActionEvent evento) throws IllegalAccessException {
-        try {
-            this.documento = new Documento();
-            this.documento = (Documento) BeanUtils.cloneBean(this.documentoSeleccionado);
-            super.verAuditoria();
-        } catch (Exception ex) {
-            MensajesGenericos.errorCopyProperties();
-        }
-
-    }
-
+    
     public void subirDocumento(FileUploadEvent event) {
         this.documento = new Documento();
         System.out.println("Inicar carga: ");
@@ -212,10 +213,52 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
         }
     }
 
-    public void cargarDocumento(ActionEvent evento) {
+    public String getUsrAuditoria(String usr) {
+        if (usr == null || "".equals(usr)) {
+            return "";
+        } else {
+            System.out.println(usr);
+            System.out.println(usuarioServicio.findByID(usr));
+            try {
+                usuarioServicio.findByID(usr);
+                return usuarioServicio.findByID(usr).getUsuario();
+            } catch (NullPointerException e) {
+                return "";
+            }
+        }
+    }
+
+    public void nuevoDoc(ActionEvent evento) {
+        super.crear();
+        this.documento = new Documento();
+    }
+
+    public void verAuditoriaDoc(ActionEvent evento) throws IllegalAccessException {
+        try {
+            this.documento = new Documento();
+            this.documento = (Documento) BeanUtils.cloneBean(this.documentoSeleccionado);
+            super.verAuditoria();
+        } catch (Exception ex) {
+            MensajesGenericos.errorCopyProperties();
+        }
+
+    }
+
+    public void modificarDoc(ActionEvent evento) {
+        this.documento = new Documento();
+        try {
+            this.documento = (Documento) BeanUtils.cloneBean(this.documentoSeleccionado);
+            this.instControl = this.documento.getInstitucionControl().getCodigo().toString();
+            this.tipoDoc = this.documento.getTipoDocumento().getCodigo().toString();
+        } catch (Exception e) {
+        }
+        super.modificar();
+    }
+
+    public void guardarDocumento(ActionEvent evento) {
         try {
             if (super.getEnRegistro()) {
-                if(instControl!=null or instControl!="" or instControl=="0")
+if(instControl!=null or instControl!="" or instControl=="0")
                 {
                 this.documento.setInstitucionControl(institucionControlServicio.findByID(Long.parseLong(instControl)));
                 this.documento.setCodInstitucionControl(Long.parseLong(instControl));
@@ -226,23 +269,18 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
                 this.documento.setFcreacion(new Date());
                 this.documentoServicio.crear(documento);
                 this.documentos.add(documento);
-                //CREACIÖN TABLA DOCUMENTOS PROYECTO
-                System.out.println("EL PROYECTO ES: " + proyecto.getNombreProyecto() + " Y EK DOCUMENTO ES: " + documento.getNombreDocumento());
-                System.out.println("EL PROYECTO ES: " + proyecto.getCodigo() + " Y EK DOCUMENTO ES: " + documento.getCodigo());
-                this.documentosProyecto = new DocumentosProyecto();
-                this.documentosProyecto.getPk().setDocumento(documento.getCodigo());
-                this.documentosProyecto.getPk().setProyecto(proyecto.getCodigo());
-                this.documentosProyecto.setFecha(new Date());
-                this.documentosProyecto.setDocumento(documento);
-                this.documentosProyecto.setProyecto(proyecto);
-                this.documentosProyecto.setFcreacion(new Date());
-                this.documentosProyecto.setUsrCreacion(usrSesion.getCodigo());
-                this.documentosProyectoServicio.crear(documentosProyecto);
-                //_____CREACIÓN DE DOCUMENTOS
+                //CREACIÓN TABLA ENTREGABLE DOCUMENTOS 
+                this.entregableDocumento = new EntregableDocumento();
+                this.entregableDocumento.getPk().setActividad(actividadEntregable.getPk().getActividad());
+                this.entregableDocumento.getPk().setEntregable(actividadEntregable.getPk().getCodigoActividadEntregable());
+                this.entregableDocumento.getPk().setDocumento(documento.getCodigo());
+                this.entregableDocumento.setActividadEntregable(actividadEntregable);
+                this.entregableDocumento.setDocumento(documento);
+                this.entregableDocumento.setFecha(new Date());
+                this.entregableDocumento.setUsrCreacion(usrSesion.getCodigo());
+                this.entregableDocumento.setFcreacion(new Date());
+                this.entregableDocumentoServicio.crear(entregableDocumento);
                 MensajesGenericos.infoCargado("Se ha cargado el archivo " + documento.getNombreDocumento());
-                super.sinSeleccion();
-                this.instControl = new String();
-                this.tipoDoc = new String();
             } else if (super.getEnEdicion()) {
                 System.out.println("EN EDICIÓN DE DOCUMENTO");
                 int i = this.documentos.indexOf(this.documento);
@@ -255,12 +293,7 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
                 this.documento.setCodTipoDocumento(Long.parseLong(tipoDoc));
                 this.documento.setUsrModificacion(usrSesion.getCodigo());
                 this.documento.setFmodificacion(new Date());
-                System.out.println("Código documento en guardar la actualizacion documento modificado " + documento.getCodigo());
                 this.documentoServicio.actualizar(documento);
-                System.out.println("El valor de I es:" + documentos.get(i).getNombreDocumento());
-                System.out.println("EL PROYECTO ES: " + proyecto.getNombreProyecto() + " Y EK DOCUMENTO ES: " + documento.getNombreDocumento());
-                System.out.println("EL PROYECTO ES: " + proyecto.getCodigo() + " Y EK DOCUMENTO ES: " + documento.getCodigo());
-
                 //CREACION DE HISTORIAL DE DOCUMENTO
                 this.historialDocumento = new HistorialDocumento();
                 this.historialDocumento.getPk().setDocumento(documentoAnt.getCodigo());
@@ -273,33 +306,48 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
                 System.out.println("Codigo documento en guardar la actualizacion documento modificado " + historialDocumento.getPk().getCodigoHistorialDocumento() + "," + historialDocumento.getPk().getDocumento());
                 this.historialDocumentoServicio.crear(historialDocumento);
                 documentos.set(i, this.documento);
-                ////CREACION DE HISTORIAL DE DOCUMENTO
-                MensajesGenericos.infoModificar("Proyecto", this.proyecto.getCodigo().toString().concat(" - ").concat(this.proyecto.getNombreProyecto()), Boolean.TRUE);
-                super.sinSeleccion();
-                MensajesGenericos.infoModificar("Documento", this.documento.getCodigo().toString().concat(" - ").concat(this.documento.getNombreDocumento()), Boolean.TRUE);
+                MensajesGenericos.infoCargado("Se ha cargado el archivo " + documento.getNombreDocumento());
             }
+            super.sinSeleccion();
         } catch (Exception e) {
             e.printStackTrace();
             MensajesGenericos.errorGuardar();
         }
-
     }
 
-    public void filaSeleccionadaDocumento(ActionEvent evento) {
+    public void filaSeleccionadaDoc(ActionEvent evento) {
         if (documentoSeleccionado instanceof Documento) {
-            try {
-                super.seleccionadoUno();
-                documento=new Documento();
-                documento = (Documento) BeanUtils.cloneBean(this.documentoSeleccionado);
+            super.seleccionadoUno();
+            System.out.println("ESTOY AQUI Y SI SELECCIONE, LA ACTIVIDAD ES: " + subActividad.getNombreActividad());
 
-                System.out.println("ESTOY AQUI Y SI SELECCIONE");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         } else {
             super.sinSeleccion();
             System.out.println("ESTOY ACA Y NO SELECCIONE");
         }
+    }
+
+    public DocumentoServicio getDocumentoServicio() {
+        return documentoServicio;
+    }
+
+    public void setDocumentoServicio(DocumentoServicio documentoServicio) {
+        this.documentoServicio = documentoServicio;
+    }
+
+    public ActividadServicio getActividadServicio() {
+        return actividadServicio;
+    }
+
+    public void setActividadServicio(ActividadServicio actividadServicio) {
+        this.actividadServicio = actividadServicio;
+    }
+
+    public HistorialDocumentoServicio getHistorialDocumentoServicio() {
+        return historialDocumentoServicio;
+    }
+
+    public void setHistorialDocumentoServicio(HistorialDocumentoServicio historialDocumentoServicio) {
+        this.historialDocumentoServicio = historialDocumentoServicio;
     }
 
     public InstitucionControlServicio getInstitucionControlServicio() {
@@ -406,6 +454,30 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
         this.proyecto = proyecto;
     }
 
+    public Actividad getActividad() {
+        return actividad;
+    }
+
+    public void setActividad(Actividad actividad) {
+        this.actividad = actividad;
+    }
+
+    public Actividad getSubActividad() {
+        return subActividad;
+    }
+
+    public void setSubActividad(Actividad subActividad) {
+        this.subActividad = subActividad;
+    }
+
+    public ActividadEntregable getActividadEntregable() {
+        return actividadEntregable;
+    }
+
+    public void setActividadEntregable(ActividadEntregable actividadEntregable) {
+        this.actividadEntregable = actividadEntregable;
+    }
+
     public String getCodProyecto() {
         return codProyecto;
     }
@@ -414,12 +486,44 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
         this.codProyecto = codProyecto;
     }
 
+    public String getCodActividad() {
+        return codActividad;
+    }
+
+    public void setCodActividad(String codActividad) {
+        this.codActividad = codActividad;
+    }
+
+    public String getCodSubActividad() {
+        return codSubActividad;
+    }
+
+    public void setCodSubActividad(String codSubActividad) {
+        this.codSubActividad = codSubActividad;
+    }
+
+    public String getCodActividadEntregable() {
+        return codActividadEntregable;
+    }
+
+    public void setCodActividadEntregable(String codActividadEntregable) {
+        this.codActividadEntregable = codActividadEntregable;
+    }
+
     public UploadedFile getFile() {
         return file;
     }
 
     public void setFile(UploadedFile file) {
         this.file = file;
+    }
+
+    public EntregableDocumento getEntregableDocumento() {
+        return entregableDocumento;
+    }
+
+    public void setEntregableDocumento(EntregableDocumento entregableDocumento) {
+        this.entregableDocumento = entregableDocumento;
     }
 
     public PieChartModel getPieModel() {
@@ -445,4 +549,7 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
     public void setTipoDoc(String tipoDoc) {
         this.tipoDoc = tipoDoc;
     }
+    
+    
+    
 }

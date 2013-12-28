@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/templateElementosProyecto.xhtml">
+
+    <f:metadata>  
+        <f:viewParam id="codProyecto" name="codProyecto" value="#{panelEntregablesBean.codProyecto}" />
+        <f:viewParam id="codActividad" name="codActividad" value="#{panelEntregablesBean.codActividad}" />
+        <f:viewParam id="codSubActividad" name="codActividad" value="#{panelEntregablesBean.codSubActividad}" />
+    </f:metadata>
+
+    <ui:define name="titulo">Entregables</ui:define>
+
+    <ui:define name="tabla">
+        <p:panelGrid style="margin-top:20px">  
+            <f:facet name="header">  
+                <p:row>  
+                    <p:column colspan="6">#{panelEntregablesBean.proyecto.nombreProyecto}</p:column>  
+                </p:row> 
+                <p:row>  
+                    <p:column colspan="2" style="font-weight: bold;">Actividad</p:column>  
+                    <p:column colspan="4" style="font-weight: bold;">#{panelEntregablesBean.actividad.nombreActividad}</p:column>  
+                </p:row>
+                <p:row>  
+                    <p:column colspan="2" style="font-weight: bold;">Sub-Actividad</p:column>  
+                    <p:column colspan="4" style="font-weight: bold;">#{panelEntregablesBean.subActividad.nombreActividad}</p:column>  
+                </p:row>
+
+            </f:facet>  
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Avance Proyecto</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">#{panelEntregablesBean.proyecto.avance}%</p:column>  
+            </p:row>
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Avance Actividad</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">#{panelEntregablesBean.actividad.avance}%</p:column>  
+            </p:row>
+
+            <p:row>  
+                <p:column colspan="6" styleClass="ui-widget-header">  
+                    <p:spacer height="0"/>  
+                </p:column>  
+            </p:row>  
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Avance Sub-Actividad</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">#{panelEntregablesBean.subActividad.avance}%</p:column>  
+            </p:row>
+
+
+            <p:row>  
+                <p:column colspan="6" style="font-weight: bold;">
+
+                    <p:pieChart id="sample2" value="#{panelEntregablesBean.pieModel}"  
+                                style="width:300px;height:200px" showDataLabels="true" seriesColors="2288AA,AAAAAA" sliceMargin="5" /> 
+
+                </p:column>                                  
+            </p:row> 
+
+
+
+            <p:row>  
+                <p:column colspan="6" styleClass="ui-widget-header">  
+                    <p:spacer height="0"/>  
+                </p:column>  
+            </p:row>  
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Fecha Inicio</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">
+                    <h:outputLabel value="#{panelEntregablesBean.proyecto.finicio}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                </p:column>             
+            </p:row>
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Fecha Estimada</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">
+                    <h:outputLabel value="#{panelEntregablesBean.proyecto.festimada}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                </p:column>             
+            </p:row>
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Fecha Fin</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">
+                    <h:outputLabel value="#{panelEntregablesBean.proyecto.ffin}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                </p:column>             
+            </p:row>
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Empresa</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">#{panelEntregablesBean.proyecto.empresa.razonSocial}</p:column>  
+            </p:row> 
+
+            <f:facet name="footer">  
+                <p:row>  
+                    <p:column  colspan="1" style="text-align: left">  
+                        Responsable 
+                    </p:column>  
+                    <p:column  colspan="5">  
+                        #{panelEntregablesBean.proyecto.empleado.nombre} 
+                    </p:column>  
+                </p:row>    
+            </f:facet>  
+        </p:panelGrid>  
+
+
+    </ui:define> 
+
+    <ui:define name="sitio">
+        <h3> #{panelEntregablesBean.emplSesion.nombre}, Usted está en #{panelEntregablesBean.ENTIDAD} </h3>
+    </ui:define>
+    <ui:define name="cuerpo">
+
+        <!--ENTREGABLES-->
+        <!--ACTIVIDAD ENTREGABLE PANEL-->
+        <p:dataTable id="entregables"  value="#{panelEntregablesBean.actividadEntregables}" var="entregable" selection="#{panelEntregablesBean.actividadEntregableSeleccionado}" selectionMode="single" scrollable="true" 
+                     rowKey="#{entregable.pk}" style="width: 650px" 
+                     paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
+                     paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     emptyMessage="No se ha registrado ningún Entregable" rendered="#{not(panelEntregablesBean.enRegistro or 
+                                                                                      panelEntregablesBean.enEdicion or                                                                                            
+                                                                                      panelEntregablesBean.enAuditoria )}" >
+
+            <p:ajax event="rowSelect" listener="#{panelEntregablesBean.filaSeleccionadaEntregable(evento)}" update="entregables"/>
+            <p:ajax event="rowUnselect" listener="#{panelEntregablesBean.filaSeleccionadaEntregable(evento)}" update="entregables"/>
+
+            <f:facet name="header">
+                Administración de Entregables
+
+                <p:toolbar>
+                    <p:toolbarGroup align="left">  
+                        <p:commandButton  value="Nuevo" update="@form" actionListener="#{panelEntregablesBean.nuevaActividadEntregable(evento)}" icon="ui-icon-document"/>  
+                        <p:commandButton value="Modificar" update="@form" actionListener="#{panelEntregablesBean.modificarEntregable(evento)}" disabled="#{panelEntregablesBean.disabledModificar}" icon="ui-icon-pencil"/>
+                        <p:commandButton  value="Auditoría" update=":form:ent_mensaje" onsuccess="dlg5.show()" actionListener="#{panelEntregablesBean.verAuditoriaEntregables(evento)}" disabled="#{panelEntregablesBean.disableAuditoria}" icon="ui-icon-document"/>
+
+                        <p:separator />  
+                        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">  
+                            <p:printer target="entregables" />  
+                        </p:commandButton>
+                        <p:commandButton value="Documentos" action="paneldocs" icon="ui-icon-document" disabled="#{panelEntregablesBean.disableAuditoria}">  
+                            <f:param value="#{panelEntregablesBean.actividad.proyecto.codigo}" name="codProyecto"/>
+                            <f:param value="#{panelEntregablesBean.actividad.codigo}" name="codActividad"/>
+                            <f:param value="#{panelEntregablesBean.subActividad.codigo}" name="codSubActividad"/> 
+                            <f:param value="#{panelEntregablesBean.actividadEntregable.pk.codigoActividadEntregable}" name="codActividadEntregable"/> 
+
+                        </p:commandButton>
+                    </p:toolbarGroup>  
+                    <p:toolbarGroup align="right">             
+                        <p:commandButton value="Volver" action="panelsubactividades?faces-redirect=true&amp;includeViewParams=true" icon="ui-icon-back" >  
+                            <f:param value="#{panelEntregablesBean.proyecto.codigo}" name="codProyecto"/>
+                            <f:param value="#{panelEntregablesBean.actividad.codigo}" name="codActividad"/> 
+                            <f:param value="#{panelEntregablesBean.subActividad.codigo}" name="codSubActividad"/> 
+                        </p:commandButton>
+                    </p:toolbarGroup>  
+                </p:toolbar>
+
+            </f:facet>            
+            <p:column headerText="Entregable" style="width: 120px">
+                #{entregable.nombreEntregable}
+            </p:column> 
+            <p:column headerText="Institución Control" style="width: 100px">
+                #{entregable.institucionControl.nombre}
+            </p:column>                   
+            <p:column headerText="Tipo" style="width: 80px">
+                #{entregable.tipoEntregable.nombre} 
+            </p:column>
+            <p:column headerText="Estado" style="width: 40px">
+                #{panelEntregablesBean.getEstado(entregable.estado)}  
+            </p:column>
+        </p:dataTable> 
+        <!--//PANEL-->
+
+        <!--AUDITORIA ENTREGABLES-->
+        <p:dialog id="ent_picture" widgetVar="dlg5"  
+                  resizable="false" header="Auditoría de Entregables" modal="true" closable="false" showEffect="clip" hideEffect="clip" style="width: 600px">  
+            <p:panelGrid id="ent_mensaje"  columns="2">  
+                <p:graphicImage value="/images/footer.png"/>                    
+                <p:panelGrid columns="2" rendered="#{panelEntregablesBean.enAuditoria}">
+
+                    <p:outputLabel for="ent_codigo" value="Código:"/>
+                    <p:outputLabel id="ent_codigo" value="#{panelEntregablesBean.actividadEntregable.pk.codigoActividadEntregable}" />
+
+                    <p:outputLabel for="ent_empresa" value="Nombre de Sub-Actividad"/>                
+                    <p:outputLabel id="ent_empresa" value="#{panelEntregablesBean.actividadEntregable.actividad.nombreActividad}"/>              
+
+                    <p:outputLabel for="ent_usrcre" value="Usuario creación"/>                
+                    <p:outputLabel id="ent_usrcre" value="#{panelEntregablesBean.getUsrAuditoria(panelEntregablesBean.actividadEntregable.usrCreacion)}" />              
+
+                    <p:outputLabel for="ent_usrcref" value="Fecha creación:"/>                
+                    <h:outputLabel id="ent_usrcref" value="#{panelEntregablesBean.actividadEntregable.fcreacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+
+                    <p:outputLabel for="ent_usrmod" value="Usuario modificación:"/>                
+                    <p:outputLabel id="ent_usrmod" value="#{panelEntregablesBean.getUsrAuditoria(panelEntregablesBean.actividadEntregable.usrModificacion)}"/>              
+
+                    <p:outputLabel for="ent_usrmodf" value="Fecha modificación:"/>                
+                    <h:outputLabel id="ent_usrmodf" value="#{panelEntregablesBean.actividadEntregable.fmodificacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+
+                </p:panelGrid> 
+            </p:panelGrid>
+            <p:separator/>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{panelEntregablesBean.cancelar()}" value="Volver" update="@form" icon="ui-icon-back"/>
+            </f:facet>
+        </p:dialog>
+        <!--//AUDITORIA ENTREGABLE-->
+        <!--CREAR ENTREGABLE-->
+        <p:panel id="nuevoEntregable" header="Registro de  Entregables" style="width: 500px"
+                 rendered="#{panelEntregablesBean.enRegistro}"> 
+            <p:focus context="nuevoEntregable"/> 
+            <p:panelGrid columns="3" >  
+
+                <p:outputLabel for="ent_proyecto" value="Proyecto: "/>
+                <p:inputText id="ent_proyecto" value="#{panelEntregablesBean.proyecto.nombreProyecto}" required="true" readonly="true"/>
+                <p:message for="ent_proyecto"/>
+
+                <p:outputLabel for="ent_actividad" value="Actividad: "/>
+                <p:inputText id="ent_actividad" value="#{panelEntregablesBean.actividad.nombreActividad}" required="true" readonly="true"/>
+                <p:message for="ent_actividad"/>
+
+                <p:outputLabel for="ent_nombre" value="Sub-Actividad: "/>
+                <p:inputText id="ent_nombre" value="#{panelEntregablesBean.subActividad.nombreActividad}" required="true" readonly="true"/>
+                <p:message for="ent_nombre"/>
+
+                <p:outputLabel for="ent_icontrol" value="Institución de Control:"/>
+                <p:selectOneMenu id="ent_icontrol" value="#{panelEntregablesBean.instControl}" label="Institución Control" requiredMessage="Es obligatorio seleccionar una Institución de Control" required="true">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItems value="#{panelEntregablesBean.institucionesControl}" var="ic" itemValue="#{ic.codigo}" itemLabel="#{ic.nombre}"/>
+                </p:selectOneMenu>
+                <p:message for="ent_icontrol"/>
+
+                <p:outputLabel for="ent_tipo" value="Tipo: "/>
+                <p:selectOneMenu id="ent_tipo" value="#{panelEntregablesBean.tipoEntregable}" label="Tipo" requiredMessage="Es obligatorio seleccionar un Tipo del entregable" required="true">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItems value="#{panelEntregablesBean.tiposEntregable}" var="te" itemValue="#{te.codigo}" itemLabel="#{te.nombre}"/>
+                </p:selectOneMenu>
+                <p:message for="ent_tipo"/>
+
+                <p:outputLabel for="ent_entregable" value="Entregable: "/>
+                <p:inputText id="ent_entregable" value="#{panelEntregablesBean.actividadEntregable.nombreEntregable}" required="true"/>
+                <p:message for="ent_entregable"/>
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{panelEntregablesBean.guardarEntregables(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{panelEntregablesBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>
+        <!--//CREAR ENTREGABLE-->
+
+        <!--CREAR ENTREGABLE-->
+        <p:panel id="editarEntregable" header="Edición de Entregables" style="width: 800px"
+                 rendered="#{panelEntregablesBean.enEdicion}"> 
+            <p:focus context="editarEntregable"/> 
+            <p:panelGrid columns="3" >  
+
+                <p:outputLabel for="m_ent_proyecto" value="Proyecto: "/>
+                <p:inputText id="m_ent_proyecto" value="#{panelEntregablesBean.actividadEntregable.actividad.actividad.proyecto.nombreProyecto}" required="true" readonly="true"/>
+                <p:message for="m_ent_proyecto"/>
+
+                <p:outputLabel for="m_ent_actividad" value="Actividad: "/>
+                <p:inputText id="m_ent_actividad" value="#{panelEntregablesBean.actividadEntregable.actividad.actividad.nombreActividad}" required="true" readonly="true"/>
+                <p:message for="m_ent_actividad"/>
+
+                <p:outputLabel for="m_ent_nombre" value="Sub-Actividad: "/>
+                <p:inputText id="m_ent_nombre" value="#{panelEntregablesBean.actividadEntregable.actividad.nombreActividad}" required="true" readonly="true"/>
+                <p:message for="m_ent_nombre"/>
+
+                <p:outputLabel for="m_ent_icontrol" value="Institución de Control:"/>
+                <p:selectOneMenu id="m_ent_icontrol" value="#{panelEntregablesBean.instControl}" label="Institución Control" requiredMessage="Es obligatorio seleccionar una Institución de Control" required="true">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItems value="#{panelEntregablesBean.institucionesControl}" var="ic" itemValue="#{ic.codigo}" itemLabel="#{ic.nombre}"/>
+                </p:selectOneMenu>
+                <p:message for="m_ent_icontrol"/>
+
+                <p:outputLabel for="m_ent_tipo" value="Tipo: "/>
+                <p:selectOneMenu id="m_ent_tipo" value="#{panelEntregablesBean.tipoEntregable}" label="Tipo" requiredMessage="Es obligatorio seleccionar un Tipo del entregable" required="true">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItems value="#{panelEntregablesBean.tiposEntregable}" var="te" itemValue="#{te.codigo}" itemLabel="#{te.nombre}"/>
+                </p:selectOneMenu>
+                <p:message for="m_ent_tipo"/>
+
+                <p:outputLabel for="m_ent_entregable" value="Entregable: "/>
+                <p:inputText id="m_ent_entregable" size="20" value="#{panelEntregablesBean.actividadEntregable.nombreEntregable}" required="true"/>
+                <p:message for="m_ent_entregable"/>
+
+                <p:outputLabel for="m_estado" value="Estado:"/>                
+                <p:selectOneMenu id="m_estado" value="#{panelEntregablesBean.actividadEntregable.estado}" label="Estado" required="true">
+                    <f:selectItem itemLabel="Inicial" itemValue="I"/>
+                    <f:selectItem itemLabel="En proceso" itemValue="P"/>
+                    <f:selectItem itemLabel="Finalizado" itemValue="F"/>
+                    <f:selectItem itemLabel="Revisado" itemValue="R"/>
+                </p:selectOneMenu>
+                <p:message for="m_estado" />
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{panelEntregablesBean.guardarEntregables(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{panelEntregablesBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>
+
+
+    </ui:define>
+</ui:composition>

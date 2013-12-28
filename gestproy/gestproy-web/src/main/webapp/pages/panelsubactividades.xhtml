@@ -191,6 +191,11 @@
                                 <f:param value="#{panelSubActividadesBean.actividad.codigo}" name="codActividad"/>
                                 <f:param value="#{panelSubActividadesBean.subActividad.codigo}" name="codSubActividad"/>
                             </p:menuitem>
+                            <p:menuitem value="Entregables" outcome="panelentregables">
+                                <f:param value="#{panelSubActividadesBean.proyecto.codigo}" name="codProyecto"/>
+                                <f:param value="#{panelSubActividadesBean.actividad.codigo}" name="codActividad"/>
+                                <f:param value="#{panelSubActividadesBean.subActividad.codigo}" name="codSubActividad"/>
+                            </p:menuitem>
                         </p:menuButton>
                     </p:toolbarGroup>
                 </p:toolbar>
