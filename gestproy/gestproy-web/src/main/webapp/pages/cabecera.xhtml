@@ -43,7 +43,7 @@
                 <p:menuitem value="Roles Funcionalidades" url="rolesfuncionalidades.jsf" />
             </p:submenu> 
 
-            <p:menuitem value="Proyectos" url="proyectos.jsf" icon="ui-icon-document" />  
+            <p:menuitem value="Proyectos" url="proyectos.jsf" icon="ui-icon-document" rendered="false" />  
 
             <p:menuitem value="Proyectos" url="panelproyectos.jsf" icon="ui-icon-document" />
             
@@ -51,28 +51,10 @@
                 <f:param name="proyectoId" value="#{panelProyectosBean.proyecto.codigo}" />  
             </p:button> 
 
-            <p:submenu label="Proyectos" >  
-                <p:menuitem value="Expectativa" url="panelexpectativas.jsf" />    
-                <p:menuitem value="Módulos" url="modulos.jsf" />   
-                <p:menuitem value="Funcionalidades" url="funcionalidades.jsf" />  
-                <p:menuitem value="Roles" url="roles.jsf" /> 
-                <p:menuitem value="Roles Funcionalidades" url="rolesfuncionalidades.jsf" />
-            </p:submenu> 
-
-            <p:menuitem value="Generación Calendarios" url="generarCalendario.jsf" icon="ui-icon-contact" />
+            
+            <p:menuitem value="Buscador de Documentos" url="buscadordocumentos.jsf" icon="ui-icon-search" />
 
 
-            <p:submenu label="Detalles" icon="ui-icon-pencil">  
-
-                <p:column>  
-                    <p:submenu label="REDEFINIR ENCUENTRO">  
-                        <p:menuitem value="Detallar Encuentro" url="actualizarEncuentro.jsf" icon="ui-icon-pencil" />
-                    </p:submenu>  
-                    <p:submenu label="INGRESAR NOVEDAD">  
-                        <p:menuitem value="Ingresar" url="detalles.jsf" icon="ui-icon-document"/>  
-                    </p:submenu>  
-                </p:column>
-            </p:submenu> 
 
             <p:submenu label="Reportes" icon="ui-icon-pencil">  
 

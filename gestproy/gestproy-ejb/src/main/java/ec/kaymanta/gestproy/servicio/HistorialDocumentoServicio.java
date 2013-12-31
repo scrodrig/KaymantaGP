@@ -44,6 +44,16 @@ public class HistorialDocumentoServicio {
     public HistorialDocumento findByID(HistorialDocumentoPK codigo) {
         return this.historialDocumentoDAO.findById(codigo, false);
     }
+    
+    /**
+     * Función para obtener los historiales de un Documento
+     *
+     * @param codigo
+     * @return
+     */
+    public List<HistorialDocumento> findByDocumento(Long codigo) {
+        return this.historialDocumentoDAO.findByDocumento(codigo);
+    }
 
     /**
      * Función para crear nuevos registros

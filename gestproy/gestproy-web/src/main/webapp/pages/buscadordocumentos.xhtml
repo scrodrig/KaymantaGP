@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/templateMantenimiento.xhtml">
+
+    <ui:define name="titulo">Buscador de Documentos</ui:define> 
+
+    <ui:define name="cuerpo">
+
+
+        <!--
+        DOCUMENTOS
+        -->
+
+        <p:dataTable id="documentos"  value="#{buscadorDocumentosBean.documentos}" var="documento" selection="#{buscadorDocumentosBean.documentoSeleccionado}" selectionMode="single" scrollable="true" 
+                     rowKey="#{documento.codigo}" style="width: 750px" 
+                     paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
+                     paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     emptyMessage="No se ha registrado ningún Documento" rendered="#{not(buscadorDocumentosBean.enRegistro or 
+                                                                                     buscadorDocumentosBean.enEdicion or 
+                                                                                     buscadorDocumentosBean.enAuditoria )}" >
+
+            <p:ajax event="rowSelect" listener="#{buscadorDocumentosBean.filaSeleccionadaDocumento(evento)}" update="documentos"/>
+            <p:ajax event="rowUnselect" listener="#{buscadorDocumentosBean.filaSeleccionadaDocumento(evento)}" update="documentos"/>
+
+            <f:facet name="header">
+                Búsqueda de Documentos
+                <p:toolbar>
+                    <p:toolbarGroup align="left">  
+                        <p:commandButton  value="Versiones Previas" update="@form" actionListener="#{buscadorDocumentosBean.nuevoDocumento(evento)}" disabled="#{buscadorDocumentosBean.disabledModificar}" icon="ui-icon-document"/>  
+                        <p:separator />  
+                        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">  
+                            <p:printer target="documentos" />  
+                        </p:commandButton>
+                    </p:toolbarGroup>  
+                    <p:toolbarGroup align="right">             
+                        <p:commandButton action="panelproyectos?faces-redirect=true" ajax="false" icon="ui-icon-back" value="Volver" immediate="true"/>                
+                    </p:toolbarGroup>  
+                </p:toolbar> 
+
+            </f:facet>
+            <p:column headerText="Documento" style="width: 200px" sortBy="#{documento.nombreDocumento}" filterBy="#{documento.nombreDocumento}">
+                #{documento.nombreDocumento}
+            </p:column>
+            <p:column headerText="Inst. Control" style="width: 150px" sortBy="#{documento.institucionControl.nombre}" filterBy="#{documento.institucionControl.nombre}">                      
+                #{documento.institucionControl.nombre}
+            </p:column>
+            <p:column headerText="Tipo" style="width: 100px" sortBy="#{documento.tipoDocumento.nombre}" filterBy="#{documento.tipoDocumento.nombre}">
+                #{documento.tipoDocumento.nombre}
+            </p:column>                          
+            <p:column headerText="F. Carga" style="width: 80px" rendered="false">
+                <h:outputLabel value="#{documento.fcreacion}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputLabel>
+            </p:column>
+            <p:column headerText="Descargar" style="width: 60px">  
+                <p:commandButton id="downloadLink" ajax="false" 
+                                 icon="ui-icon-arrowthichk-s">  
+                    <p:fileDownload value="#{buscadorDocumentosBean.download(documento.codigo)}" />  
+                </p:commandButton>
+
+            </p:column>
+        </p:dataTable>
+
+        <!--VERSIONES ANTERIORES DE DOCUMENTO-->
+
+
+        <p:dataTable id="historiales"  value="#{buscadorDocumentosBean.historialDocumentos}" var="historial" selection="#{buscadorDocumentosBean.historialDocumentoSeleccionado}" selectionMode="single" scrollable="true" 
+                     rowKey="#{documento.codigo}" style="width: 750px"
+                     paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
+                     paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     emptyMessage="No existen versiones previas del documento" rendered="#{buscadorDocumentosBean.enRegistro}" >
+
+            <p:ajax event="rowSelect" listener="#{buscadorDocumentosBean.filaSeleccionadaHistorial(evento)}" update="historiales"/>
+            <p:ajax event="rowUnselect" listener="#{buscadorDocumentosBean.filaSeleccionadaHistorial(evento)}" update="historiales"/>
+
+            <f:facet name="header">
+                Busqueda Versiones Previas de Documentos
+                <p:toolbar>
+                    <p:toolbarGroup align="left">                          
+                        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">  
+                            <p:printer target="historiales" />  
+                        </p:commandButton>
+                    </p:toolbarGroup>  
+                    <p:toolbarGroup align="right">             
+                        <p:commandButton actionListener="#{buscadorDocumentosBean.cancelar()}" ajax="false" icon="ui-icon-back" value="Volver" immediate="true"/>                
+                    </p:toolbarGroup>  
+                </p:toolbar> 
+
+            </f:facet>
+            <p:column headerText="Documento" style="width: 200px" sortBy="#{historial.nombre}" filterBy="#{historial.nombre}">
+                #{historial.nombre}
+            </p:column>
+            <p:column headerText="Inst. Control" style="width: 150px" sortBy="#{historial.documento.institucionControl.nombre}" filterBy="#{historial.documento.institucionControl.nombre}">
+                #{historial.documento.institucionControl.nombre}
+            </p:column>
+            <p:column headerText="Tipo" style="width: 100px" sortBy="#{historial.documento.tipoDocumento.nombre}" filterBy="#{historial.documento.tipoDocumento.nombre}">
+                #{historial.documento.tipoDocumento.nombre}
+            </p:column>                          
+            <p:column headerText="F. Carga" style="width: 80px" rendered="false">
+                <h:outputLabel value="#{historial.fcreacion}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputLabel>
+            </p:column>
+            <p:column headerText="Descargar" style="width: 60x">  
+                <p:commandButton id="downloadLink1" ajax="false" 
+                                 icon="ui-icon-arrowthichk-s">  
+                    <p:fileDownload value="#{buscadorDocumentosBean.downloadHistorial(historial.respaldoDocumento,historial.nombre)}" />  
+                </p:commandButton>
+
+            </p:column>
+        </p:dataTable>
+
+
+        <!--AUDITORIA-->
+        <p:dialog id="d_picture" widgetVar="dlg1"  
+                  resizable="false" header="Auditoría de Documentos" modal="true" closable="false" showEffect="clip" hideEffect="clip" style="width: 600px">  
+            <p:panelGrid id="d_mensaje"  columns="2">  
+                <p:graphicImage value="/images/footer.png"/>                    
+                <p:panelGrid columns="2" rendered="#{buscadorDocumentosBean.enAuditoria}">
+
+                    <p:outputLabel for="a_d_codigo" value="Código:"/>
+                    <p:outputLabel id="a_d_codigo" value="#{buscadorDocumentosBean.documento.codigo}" />
+
+                    <p:outputLabel for="a_d_empresa" value="Nombre de Documento:"/>                
+                    <p:outputLabel id="a_d_empresa" value="#{buscadorDocumentosBean.documento.nombreDocumento}"/>              
+
+                    <p:outputLabel for="a_d_usrcre" value="Usuario creación:"/>                
+                    <p:outputLabel id="a_d_usrcre" value="#{buscadorDocumentosBean.getUsrAuditoria(buscadorDocumentosBean.documento.usrCreacion)}" />              
+
+                    <p:outputLabel for="a_d_usrcref" value="Fecha creación:"/>                
+                    <h:outputLabel id="a_d_usrcref" value="#{buscadorDocumentosBean.documento.fcreacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+
+                    <p:outputLabel for="a_d_usrmod" value="Usuario modificación:"/>                
+                    <p:outputLabel id="a_d_usrmod" value="#{buscadorDocumentosBean.getUsrAuditoria(buscadorDocumentosBean.documento.usrModificacion)}"/>              
+
+                    <p:outputLabel for="a_d_usrmodf" value="Fecha modificación:"/>                
+                    <h:outputLabel id="a_d_usrmodf" value="#{buscadorDocumentosBean.documento.fmodificacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+
+                </p:panelGrid> 
+            </p:panelGrid>
+            <p:separator/>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{buscadorDocumentosBean.cancelar()}" value="Volver" update="@form" icon="ui-icon-back"/>
+            </f:facet>
+        </p:dialog>
+        <!--
+       DOCUMENTOS
+        -->
+
+
+    </ui:define>
+
+
+</ui:composition>

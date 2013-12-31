@@ -15,13 +15,16 @@ package ec.kaymanta.gestproy.dao;
 import com.persist.common.dao.DefaultGenericDAOImple;
 import ec.kaymanta.gestproy.modelo.HistorialDocumento;
 import ec.kaymanta.gestproy.modelo.HistorialDocumentoPK;
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
 
 /**
- * La Clase HistorialDocumentoDAO especifica e implementa las operaciones de 
+ * La Clase HistorialDocumentoDAO especifica e implementa las operaciones de
  * acceso a datos relacionadas con la entidad HistorialDocumento.
- * 
+ *
  * @author JPA Generator
  * @version 1.0
  */
@@ -29,10 +32,24 @@ import javax.ejb.Stateless;
 @LocalBean
 public class HistorialDocumentoDAO extends DefaultGenericDAOImple<HistorialDocumento, HistorialDocumentoPK> {
 
-      public HistorialDocumentoDAO()
-    {
+    public HistorialDocumentoDAO() {
         super(HistorialDocumento.class);
-    
+
     }
     
+    public List<HistorialDocumento> findByDocumento(Long documento) {
+        System.out.println("ESTOY EN DAO y EL DOCUMENTO ES "+ documento);
+
+        try {
+            String sql = "SELECT obj FROM HistorialDocumento obj WHERE obj.pk.documento=?1";
+            Query qry = this.getEntityManager().createQuery(sql);
+            qry.setParameter(1, documento);
+            System.out.println(qry.toString());
+             System.out.println("La dimensión del arreglo 0 es: "+qry.getResultList().size());
+            return qry.getResultList();
+            
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 }
