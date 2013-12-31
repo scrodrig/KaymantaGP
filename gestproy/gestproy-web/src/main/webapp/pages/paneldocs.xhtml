@@ -222,7 +222,7 @@
                 <p:message for="doc_nombre"/>
 
                 <p:outputLabel for="doc_institucionControl" value="Institucion Control "/>
-                <p:selectOneMenu id="doc_institucionControl" value="#{panelDocsBean.instControl}" requiredMessage="Es obligatorio seleccionar una Institución de Control" label="Institucion de Control" required="true">
+                <p:selectOneMenu id="doc_institucionControl" value="#{panelDocsBean.instControl}" requiredMessage="Es obligatorio seleccionar una Institución de Control" label="Institucion de Control" required="false">
                     <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
                     <f:selectItems value="#{panelDocsBean.institucionesControl}" var="i" itemValue="#{i.codigo}" itemLabel="#{i.nombre}"/>
                 </p:selectOneMenu>
@@ -309,7 +309,7 @@
                 <p:message for="m_doc_nombre"/>
 
                 <p:outputLabel for="m_doc_institucionControl" value="Institucion Control "/>
-                <p:selectOneMenu id="m_doc_institucionControl" value="#{panelDocsBean.instControl}" requiredMessage="Es obligatorio seleccionar una Institución de Control" label="Institucion de Control" required="true">
+                <p:selectOneMenu id="m_doc_institucionControl" value="#{panelDocsBean.instControl}" requiredMessage="Es obligatorio seleccionar una Institución de Control" label="Institucion de Control" required="false">
                     <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
                     <f:selectItems value="#{panelDocsBean.institucionesControl}" var="i" itemValue="#{i.codigo}" itemLabel="#{i.nombre}"/>
                 </p:selectOneMenu>

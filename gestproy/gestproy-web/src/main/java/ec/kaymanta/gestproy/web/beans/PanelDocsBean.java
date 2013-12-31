@@ -146,7 +146,7 @@ public class PanelDocsBean extends BotonesBean implements Serializable {
         StreamedContent file = new DefaultStreamedContent(stream, "application/octet-stream", archivo.getNombreDocumento());
         return file;
     }
-    
+
     public String getEstado(String estado) {
 
         if (estado == null || "".equals(estado)) {
@@ -166,7 +166,7 @@ public class PanelDocsBean extends BotonesBean implements Serializable {
 
         }
     }
-    
+
     public void subirDocumento(FileUploadEvent event) {
         this.documento = new Documento();
         System.out.println("Inicar carga: ");
@@ -258,10 +258,9 @@ public class PanelDocsBean extends BotonesBean implements Serializable {
     public void guardarDocumento(ActionEvent evento) {
         try {
             if (super.getEnRegistro()) {
-if(instControl!=null or instControl!="" or instControl=="0")
-                {
-                this.documento.setInstitucionControl(institucionControlServicio.findByID(Long.parseLong(instControl)));
-                this.documento.setCodInstitucionControl(Long.parseLong(instControl));
+                if (instControl != null || !!"".equals(instControl) || !"0".equals(instControl)) {
+                    this.documento.setInstitucionControl(institucionControlServicio.findByID(Long.parseLong(instControl)));
+                    this.documento.setCodInstitucionControl(Long.parseLong(instControl));
                 }
                 this.documento.setTipoDocumento(tipoDocumentoServicio.findByID(Long.parseLong(tipoDoc)));
                 this.documento.setCodTipoDocumento(Long.parseLong(tipoDoc));
@@ -284,10 +283,9 @@ if(instControl!=null or instControl!="" or instControl=="0")
             } else if (super.getEnEdicion()) {
                 System.out.println("EN EDICIÓN DE DOCUMENTO");
                 int i = this.documentos.indexOf(this.documento);
-                if(instControl!=null or instControl!="" or instControl=="0")
-                {
-                this.documento.setInstitucionControl(institucionControlServicio.findByID(Long.parseLong(instControl)));
-                this.documento.setCodInstitucionControl(Long.parseLong(instControl));
+                if (instControl != null || !"".equals(instControl) || !"0".equals(instControl)) {
+                    this.documento.setInstitucionControl(institucionControlServicio.findByID(Long.parseLong(instControl)));
+                    this.documento.setCodInstitucionControl(Long.parseLong(instControl));
                 }
                 this.documento.setTipoDocumento(tipoDocumentoServicio.findByID(Long.parseLong(tipoDoc)));
                 this.documento.setCodTipoDocumento(Long.parseLong(tipoDoc));
@@ -549,7 +547,4 @@ if(instControl!=null or instControl!="" or instControl=="0")
     public void setTipoDoc(String tipoDoc) {
         this.tipoDoc = tipoDoc;
     }
-    
-    
-    
 }

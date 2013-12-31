@@ -177,16 +177,16 @@
                 #{actividad.nombreActividad}
             </p:column>                  
             <p:column headerText="Avance" style="width:50px; font-size: 8pt">
-                #{actividad.avance} %
+                <h:outputLabel value="#{actividad.avance} %" style="color: #{panelActividadesBean.getColor(actividad.avance)}"/>
             </p:column>
             <p:column headerText="Hor. Estimadas" style="width: 70px; font-size: 8pt">
                 #{actividad.gethDiaEst()}
             </p:column>
             <p:column headerText="H/Trab Real" style="width: 70px; font-size: 8pt">
-                #{subActividad.gethTrabReal()}
+                #{actividad.gethTrabReal()}
             </p:column>
             <p:column headerText="Tra. Total" style="width: 70px; font-size: 8pt">
-                #{subActividad.gettTotalReal()}
+                #{actividad.gettTotalReal()}
             </p:column>
             <p:column headerText="F.Creación" style="width: 80px; font-size: 8pt">
                 <h:outputLabel value="#{actividad.fcreacion}">

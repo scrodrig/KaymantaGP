@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/templateElementosProyecto.xhtml">
+
+    <f:metadata>  
+        <f:viewParam id="codProyecto" name="codProyecto" value="#{panelResponsablesBean.codProyecto}" />
+        <f:viewParam id="codActividad" name="codActividad" value="#{panelResponsablesBean.codActividad}" />
+        <f:viewParam id="codSubActividad" name="codActividad" value="#{panelResponsablesBean.codSubActividad}" />
+    </f:metadata>
+
+    <ui:define name="titulo">Responsables</ui:define>
+
+    <ui:define name="tabla">
+        <p:panelGrid style="margin-top:20px">  
+            <f:facet name="header">  
+                <p:row>  
+                    <p:column colspan="6">#{panelResponsablesBean.proyecto.nombreProyecto}</p:column>  
+                </p:row> 
+                <p:row>  
+                    <p:column colspan="2" style="font-weight: bold;">Actividad</p:column>  
+                    <p:column colspan="4" style="font-weight: bold;">#{panelResponsablesBean.actividad.nombreActividad}</p:column>  
+                </p:row>
+                <p:row>  
+                    <p:column colspan="2" style="font-weight: bold;">Sub-Actividad</p:column>  
+                    <p:column colspan="4" style="font-weight: bold;">#{panelResponsablesBean.subActividad.nombreActividad}</p:column>  
+                </p:row>
+
+            </f:facet>  
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Avance Proyecto</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">#{panelResponsablesBean.proyecto.avance}%</p:column>  
+            </p:row>
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Avance Actividad</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">#{panelResponsablesBean.actividad.avance}%</p:column>  
+            </p:row>
+
+            <p:row>  
+                <p:column colspan="6" styleClass="ui-widget-header">  
+                    <p:spacer height="0"/>  
+                </p:column>  
+            </p:row>  
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Avance Sub-Actividad</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">#{panelResponsablesBean.subActividad.avance}%</p:column>  
+            </p:row>
+
+
+            <p:row>  
+                <p:column colspan="6" style="font-weight: bold;">
+
+                    <p:pieChart id="sample2" value="#{panelResponsablesBean.pieModel}"  
+                                style="width:300px;height:200px" showDataLabels="true" seriesColors="2288AA,AAAAAA" sliceMargin="5" /> 
+
+                </p:column>                                  
+            </p:row> 
+
+
+
+            <p:row>  
+                <p:column colspan="6" styleClass="ui-widget-header">  
+                    <p:spacer height="0"/>  
+                </p:column>  
+            </p:row>  
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Fecha Inicio</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">
+                    <h:outputLabel value="#{panelResponsablesBean.proyecto.finicio}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                </p:column>             
+            </p:row>
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Fecha Estimada</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">
+                    <h:outputLabel value="#{panelResponsablesBean.proyecto.festimada}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                </p:column>             
+            </p:row>
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Fecha Fin</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">
+                    <h:outputLabel value="#{panelResponsablesBean.proyecto.ffin}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                </p:column>             
+            </p:row>
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Empresa</p:column>  
+                <p:column colspan="4" style="font-weight: bold;">#{panelResponsablesBean.proyecto.empresa.razonSocial}</p:column>  
+            </p:row> 
+
+            <f:facet name="footer">  
+                <p:row>  
+                    <p:column  colspan="1" style="text-align: left">  
+                        Responsable 
+                    </p:column>  
+                    <p:column  colspan="5">  
+                        #{panelResponsablesBean.proyecto.empleado.nombre} 
+                    </p:column>  
+                </p:row>    
+            </f:facet>  
+        </p:panelGrid>  
+
+
+    </ui:define> 
+
+    <ui:define name="sitio">
+        <h3> #{panelResponsablesBean.emplSesion.nombre}, Usted está en #{panelResponsablesBean.ENTIDAD} </h3>
+    </ui:define>
+    <ui:define name="cuerpo">
+
+        <!--RESPONSABLES-->
+        <!--PANEL-->
+        <p:dataTable id="responsables"  value="#{panelResponsablesBean.actividadEmpleados}" var="responsable" selection="#{panelResponsablesBean.actividadEmpleadoSeleccionado}" selectionMode="single" scrollable="true" 
+                     rowKey="#{responsable.pk}" style="width: 650px" scrollWidth="false"
+                     paginator="true" rows="10"   paginatorPosition="bottom"
+                     paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     emptyMessage="No se ha registrado ningún Responsable" rendered="#{not(panelResponsablesBean.enRegistro or 
+                                                                                       panelResponsablesBean.enEdicion or                                                                                            
+                                                                                       panelResponsablesBean.enAuditoria )}" >
+
+            <p:ajax event="rowSelect" listener="#{panelResponsablesBean.filaSeleccionadaResponsable(evento)}" update="responsables"/>
+            <p:ajax event="rowUnselect" listener="#{panelResponsablesBean.filaSeleccionadaResponsable(evento)}" update="responsables"/>
+
+            <f:facet name="header">
+                Administración de Responsables
+
+                <p:toolbar>
+                    <p:toolbarGroup align="left">  
+                        <p:commandButton  value="Nuevo" update="@form" actionListener="#{panelResponsablesBean.nuevoResponsable(evento)}" icon="ui-icon-document"/>  
+                        <p:commandButton value="Modificar" update="@form" actionListener="#{panelResponsablesBean.modificarResponsable(evento)}" disabled="#{panelResponsablesBean.disabledModificar}" icon="ui-icon-pencil"/>
+                        <p:commandButton  value="Auditoría" update=":form:resp_mensaje" onsuccess="dlg11.show()" actionListener="#{panelResponsablesBean.verAuditoriaResponsable(evento)}" disabled="#{panelResponsablesBean.disableAuditoria}" icon="ui-icon-document"/>  
+
+                        <p:separator />  
+                        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">  
+                            <p:printer target="responsables" />  
+                        </p:commandButton>
+                    </p:toolbarGroup>  
+                    <p:toolbarGroup align="right">             
+                        <p:commandButton value="Volver" action="panelsubactividades?faces-redirect=true&amp;includeViewParams=true" icon="ui-icon-back" >  
+                            <f:param value="#{panelGastosBean.proyecto.codigo}" name="codProyecto"/>
+                            <f:param value="#{panelGastosBean.actividad.codigo}" name="codActividad"/> 
+                            <f:param value="#{panelGastosBean.subActividad.codigo}" name="codSubActividad"/> 
+                        </p:commandButton>
+                    </p:toolbarGroup>  
+                </p:toolbar>
+
+            </f:facet>           
+            <p:column headerText="Empleado" style="width: 100px">
+                #{responsable.empleado.nombre}
+            </p:column>
+            <p:column headerText="Responsable" style="width: 40px">
+                #{panelResponsablesBean.getEstado(responsable.esResponsable)}
+            </p:column>
+            <p:column headerText="Hor/Día Estimado" style="width: 50px">
+                #{responsable.gethDiaEst()}
+            </p:column>
+            <p:column headerText="Avance" style="width: 50px">
+                <h:outputLabel value="#{responsable.avance} %" style="color: #{panelResponsablesBean.getColor(responsable.avance)}"/>
+            </p:column>
+            <p:column headerText="Fecha Inicio" style="width: 80px">
+                <h:outputLabel value="#{responsable.finicio}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputLabel>
+            </p:column>
+            <p:column headerText="Fecha Fin" style="width: 80px">
+                <h:outputLabel value="#{responsable.ffin}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputLabel>
+            </p:column>
+        </p:dataTable>
+
+
+        <!--//PANEL-->
+        <!--CREAR RESPONSABLES-->
+        <p:panel id="nuevoRevesponsable" header="Registro de Responsables" rendered="#{panelResponsablesBean.enRegistro}" style="width: 500px">
+            <p:panelGrid columns="3">
+
+                <p:outputLabel for="resp_subact" value="Sub-Actividad: "/>
+                <p:inputText id="resp_subact" value="#{panelResponsablesBean.subActividad.nombreActividad}" required="true" readonly="true"/>
+                <p:message for="resp_subact"/>
+
+                <p:outputLabel for="resp_empleado" value="Empleado: "/>
+                <p:selectOneMenu id="resp_empleado" value="#{panelResponsablesBean.actividadEmpleado.pk.responsable}" label="Empleado" required="true">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItems value="#{panelResponsablesBean.empleados}" var="empleado" itemValue="#{empleado.codigo}" itemLabel="#{empleado.nombre}"/>
+                </p:selectOneMenu>
+                <p:message for="resp_empleado"/>
+
+                <p:outputLabel for="resp_hdia_est" value="Horas Diarias a Trabajar: "/>
+                <p:selectOneMenu id="resp_hdia_est" value="#{panelResponsablesBean.actividadEmpleado.hDiaEst}" label="Horas Diarias" required="true">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItem itemValue="1" itemLabel="1"/>
+                    <f:selectItem itemValue="2" itemLabel="2"/>
+                    <f:selectItem itemValue="3" itemLabel="3"/>
+                    <f:selectItem itemValue="4" itemLabel="4"/>
+                    <f:selectItem itemValue="5" itemLabel="5"/>
+                    <f:selectItem itemValue="6" itemLabel="6"/>
+                    <f:selectItem itemValue="7" itemLabel="7"/>
+                    <f:selectItem itemValue="8" itemLabel="8"/>
+                </p:selectOneMenu>
+                <p:message for="resp_hdia_est"/>
+
+                <p:outputLabel for="resp_esresp" value="¿Es responsable?"/>                
+                <p:selectOneMenu id="resp_esresp" value="#{panelResponsablesBean.actividadEmpleado.esResponsable}" label="Es Responsable" required="true">
+                    <f:selectItem itemLabel="No" itemValue="N"/>
+                    <f:selectItem itemLabel="Si" itemValue="S"/>
+                </p:selectOneMenu>
+                <p:message for="resp_esresp" />
+
+                <p:outputLabel for="resp_finicio" value="Fecha de Inicio: "/>
+                <p:calendar id="resp_finicio" value="#{panelResponsablesBean.actividadEmpleado.finicio}" label="Fecha de Inicio" showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode" required="true"/>
+                <p:message for="resp_finicio"/>
+
+                <p:outputLabel for="resp_ffin" value="Fecha de Finalización "/>
+                <p:calendar id="resp_ffin" value="#{panelResponsablesBean.actividadEmpleado.ffin}" label="Fecha de Finalización " showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode" required="true"/>
+                <p:message for="resp_ffin"/>
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{panelResponsablesBean.guardarResponsable(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{panelResponsablesBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>
+
+        <!--//CREAR RESPONSABLES-->
+
+        <!--EDITAR RESPONSABLES-->
+        <p:panel id="editarResponsable" header="Edición de Responsables" rendered="#{panelResponsablesBean.enEdicion}" style="width: 500px">
+            <p:panelGrid columns="3">
+
+                <p:outputLabel for="m_resp_subact" value="Sub-Actividad: "/>
+                <p:inputText id="m_resp_subact" value="#{panelResponsablesBean.subActividad.nombreActividad}" required="true" readonly="true"/>
+                <p:message for="m_resp_subact"/>
+
+                <p:outputLabel for="m_resp_emple" value="Empleado: "/>
+                <p:inputText id="m_resp_emple" value="#{panelResponsablesBean.actividadEmpleado.empleado.nombre}" required="true" readonly="true"/>
+                <p:message for="m_resp_emple"/>
+
+                <p:outputLabel for="m_resp_esresp" value="¿Es responsable?"/>                
+                <p:selectOneMenu id="m_resp_esresp" value="#{panelResponsablesBean.actividadEmpleado.esResponsable}" label="Es Responsable" required="true">
+                    <f:selectItem itemLabel="No" itemValue="N"/>
+                    <f:selectItem itemLabel="Si" itemValue="S"/>
+                </p:selectOneMenu>
+                <p:message for="m_resp_esresp" />
+
+                <p:outputLabel for="resp_avance" value="Avance: " />  
+                <p:spinner id="resp_avance" value="#{panelResponsablesBean.actividadEmpleado.avance}" suffix="%" min="0" max="100" required="true" /> 
+                <p:message for="resp_avance" />
+                
+                <p:outputLabel for="resp_desc_avance" value="Descripción: " />  
+                <p:inputTextarea id="resp_desc_avance" value="#{panelResponsablesBean.actividadSegumiento.descripcion}" rows="8" cols="40" autoResize="false" required="true" /> 
+                <p:message for="resp_desc_avance" />
+
+                <p:outputLabel for="m_resp_ttr" value="Horas Trabajadas: "/>
+                <p:selectOneMenu id="m_resp_ttr" value="#{panelResponsablesBean.actividadEmpleado.tTotalReal}" label="Horas Diarias" required="true">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItem itemValue="1" itemLabel="1"/>
+                    <f:selectItem itemValue="2" itemLabel="2"/>
+                    <f:selectItem itemValue="3" itemLabel="3"/>
+                    <f:selectItem itemValue="4" itemLabel="4"/>
+                    <f:selectItem itemValue="5" itemLabel="5"/>
+                    <f:selectItem itemValue="6" itemLabel="6"/>
+                    <f:selectItem itemValue="7" itemLabel="7"/>
+                    <f:selectItem itemValue="8" itemLabel="8"/>
+                    <f:selectItem itemValue="9" itemLabel="8"/>
+                    <f:selectItem itemValue="10" itemLabel="10"/>
+                    <f:selectItem itemValue="11" itemLabel="11"/>
+                    <f:selectItem itemValue="12" itemLabel="12"/>
+                    <f:selectItem itemValue="13" itemLabel="13"/>
+                    <f:selectItem itemValue="14" itemLabel="14"/>
+                    <f:selectItem itemValue="15" itemLabel="15"/>
+                    <f:selectItem itemValue="16" itemLabel="16"/>
+                    <f:selectItem itemValue="17" itemLabel="17"/>
+                    <f:selectItem itemValue="18" itemLabel="18"/>
+                    <f:selectItem itemValue="19" itemLabel="19"/>
+                    <f:selectItem itemValue="20" itemLabel="20"/>
+                </p:selectOneMenu>               
+                <p:message for="m_resp_ttr"/>
+
+
+                <p:outputLabel for="m_resp_finicio" value="Fecha de Inicio: "/>
+                <p:calendar id="m_resp_finicio" value="#{panelResponsablesBean.actividadEmpleado.finicio}" label="Fecha de Inicio" showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode" required="true"/>
+                <p:message for="m_resp_finicio"/>
+
+                <p:outputLabel for="m_resp_ffin" value="Fecha de Finalización: "/>
+                <p:calendar id="m_resp_ffin" value="#{panelResponsablesBean.actividadEmpleado.ffin}" label="Fecha de Finalización " showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode" required="true"/>
+                <p:message for="m_resp_ffin"/>
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{panelResponsablesBean.guardarResponsable(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{panelResponsablesBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>
+        <!--//EDITAR RESPONSABLES-->
+
+        <!--AUDITORIA RESPONSABLES-->
+        <p:dialog id="resp_picture" widgetVar="dlg11"  
+                  resizable="false" header="Auditoría de Responsables" modal="true" closable="false" showEffect="clip" hideEffect="clip" style="width: 600px">  
+            <p:panelGrid id="resp_mensaje"  columns="2">  
+                <p:graphicImage value="/images/footer.png"/>                    
+                <p:panelGrid columns="2" rendered="#{panelResponsablesBean.enAuditoria}">
+
+                    <p:outputLabel for="a_resp_codigo" value="Código:"/>
+                    <p:outputLabel id="a_resp_codigo" value="#{panelResponsablesBean.actividadEmpleado.pk.responsable}"/>
+
+                    <p:outputLabel for="a_resp_empresa" value="Empleado:"/>
+                    <p:outputLabel id="a_resp_empresa" value="#{panelResponsablesBean.actividadEmpleado.empleado.nombre}" />
+
+                    <p:outputLabel for="a_resp_interesado" value="Responsable"/>                
+                    <p:outputLabel id="a_resp_interesado" value="#{panelResponsablesBean.actividadEmpleado.esResponsable}"/>              
+
+                    <p:outputLabel for="a_resp_usrcre" value="Usuario creación"/>                
+                    <p:outputLabel id="a_resp_usrcre" value="#{panelResponsablesBean.getUsrAuditoria(panelResponsablesBean.actividadEmpleado.usrCreacion)}" />              
+
+                    <p:outputLabel for="a_resp_usrcref" value="Fecha creación:"/>                
+                    <h:outputLabel id="a_resp_usrcref" value="#{panelResponsablesBean.actividadEmpleado.fmodificacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                    <p:outputLabel for="a_resp_usrmod" value="Usuario modificación:"/>                
+                    <p:outputLabel id="a_resp_usrmod" value="#{panelResponsablesBean.getUsrAuditoria(panelResponsablesBean.actividadEmpleado.usrModificacion)}" />              
+
+                    <p:outputLabel for="a_resp_usrmodf" value="Fecha modificación:"/>                
+                    <h:outputLabel id="a_resp_usrmodf" value="#{panelResponsablesBean.actividadEmpleado.fmodificacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+                </p:panelGrid> 
+            </p:panelGrid>
+            <p:separator/>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{panelResponsablesBean.cancelar()}" value="Volver" update="@form" icon="ui-icon-back"/>
+            </f:facet>
+        </p:dialog>
+
+        <!--//AUDITORIA RESPONSABLES-->
+
+        <!--//RESPONSABLES-->
+
+
+
+    </ui:define>
+</ui:composition>

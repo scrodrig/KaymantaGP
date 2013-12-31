@@ -25,6 +25,7 @@ import ec.kaymanta.gestproy.servicio.UsuarioServicio;
 import ec.kaymanta.gestproy.web.util.MensajesGenericos;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -258,12 +259,37 @@ public class PanelProyectosBean extends BotonesBean implements Serializable {
         }
     }
 
+    public String getColor(BigDecimal avance) {
+        if (avance.compareTo(BigDecimal.valueOf(100)) < 0 && avance.compareTo(BigDecimal.valueOf(60)) > 0) {
+            return "darkgreen";
+        } else if (avance.compareTo(BigDecimal.valueOf(60)) < 0 && avance.compareTo(BigDecimal.valueOf(10)) > 0) {
+            return "yellowgreen";
+        } else if (avance.compareTo(BigDecimal.valueOf(10)) < 0) {
+            return "red";
+        }
+        return "navy";
+
+
+    }
+
+    public String getColorFecha(Date d1) {
+        Date d2=new Date();
+        System.out.println(d1);
+        System.out.println(d2);
+        if (d1.before(d2)) {
+            return "red";
+        } else {
+            return "green";
+        }
+    }
+    
+    
     public void filaSeleccionada(ActionEvent evento) {
         if (proyectoSeleccionado instanceof Proyecto) {
             super.seleccionadoUno();
             try {
                 this.proyecto = (Proyecto) BeanUtils.cloneBean(this.proyectoSeleccionado);
-                System.out.println("Proyecto: "+proyecto.getNombreProyecto());
+                System.out.println("Proyecto: " + proyecto.getNombreProyecto());
             } catch (Exception e) {
                 System.out.println("Error en Proyecto");
             }
@@ -450,4 +476,6 @@ public class PanelProyectosBean extends BotonesBean implements Serializable {
     public void setCodigoUsuario(String codigoUsuario) {
         this.codigoUsuario = codigoUsuario;
     }
+
+   
 }

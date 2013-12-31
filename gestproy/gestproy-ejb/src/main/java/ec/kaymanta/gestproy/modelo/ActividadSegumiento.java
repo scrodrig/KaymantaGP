@@ -56,12 +56,25 @@ public class ActividadSegumiento implements Serializable {
      * Estado de la actividad.. Representa a la columna ESTADO.
      */
     @Column(name = "ESTADO", nullable = false, length = 1)
-    private String estado;
+    private String estado;    
+    /**
+     * Avance porcentual de una actividad.. Representa a la columna AVANCE.
+     */
+    @Column(name = "RESPONSABLE", nullable = false, length = 10)
+    private String responsable;
+    
     /**
      * Avance porcentual de una actividad.. Representa a la columna AVANCE.
      */
     @Column(name = "AVANCE", nullable = false)
     private BigDecimal avance;
+    
+    /**
+     * Campo para describir lo que se hizo en el avance.. Representa a la columna AVANCE.
+     */
+    @Column(name = "DESCRIPCION", nullable = false, length = 500)
+    private String descripcion;
+    
     /**
      * Usuario que crea el registro.. Representa a la columna USR_CREACION.
      */
@@ -295,6 +308,22 @@ public class ActividadSegumiento implements Serializable {
         this.empleado = empleado;
     }
 
+    public String getResponsable() {
+        return responsable;
+    }
+
+    public void setResponsable(String responsable) {
+        this.responsable = responsable;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+    
     /**
      * Obtiene el valor de la propiedad actividad relacionado con la entidad
      * Actividad.

@@ -196,6 +196,12 @@
                                 <f:param value="#{panelSubActividadesBean.actividad.codigo}" name="codActividad"/>
                                 <f:param value="#{panelSubActividadesBean.subActividad.codigo}" name="codSubActividad"/>
                             </p:menuitem>
+                            <p:menuitem value="Responsables" outcome="panelresponsables">
+                                <f:param value="#{panelSubActividadesBean.proyecto.codigo}" name="codProyecto"/>
+                                <f:param value="#{panelSubActividadesBean.actividad.codigo}" name="codActividad"/>
+                                <f:param value="#{panelSubActividadesBean.subActividad.codigo}" name="codSubActividad"/>
+                            </p:menuitem>
+                            
                         </p:menuButton>
                     </p:toolbarGroup>
                 </p:toolbar>
@@ -205,7 +211,7 @@
                 #{subActividad.nombreActividad}
             </p:column>
             <p:column headerText="Avance" style="width: 70px">
-                #{subActividad.avance} %
+                <h:outputLabel value="#{subActividad.avance} %" style="color: #{panelSubActividadesBean.getColor(subActividad.avance)}"/>
             </p:column>
             <p:column headerText="H. Estimadas" style="width: 100px">
                 #{subActividad.gethDiaEst()}

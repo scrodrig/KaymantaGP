@@ -73,13 +73,13 @@
                 </p:toolbar>  
 
             </f:facet>
-            <p:column headerText="Proyecto" style="width: 130px">
-                #{proyecto.nombreProyecto}
+            <p:column headerText="Proyecto" style="width: 130px" sortBy="#{proyecto.nombreProyecto}" filterBy="#{proyecto.nombreProyecto}">
+                <h:outputText value="#{proyecto.nombreProyecto}" />
             </p:column>
-            <p:column headerText="Responsable" style="width: 100px">
+            <p:column headerText="Responsable" style="width: 100px" sortBy="#{proyecto.empleado.nombre}" filterBy="#{proyecto.empleado.nombre}">
                 #{proyecto.empleado.nombre}
             </p:column>
-            <p:column headerText="Empresa" style="width: 100px">
+            <p:column headerText="Empresa" style="width: 100px" sortBy="#{proyecto.empresa.razonSocial}" filterBy="#{proyecto.empresa.razonSocial}">
                 #{proyecto.empresa.razonSocial}
             </p:column>
             <p:column headerText="Ubicación Geográfica" style="width: 180px">
@@ -89,23 +89,21 @@
                 -
                 #{proyecto.parroquia.nombre}
             </p:column>
-            <p:column headerText="Avance" style="width: 50px">
-                #{proyecto.avance} %
+
+            <p:column headerText="Avance" style="width: 50px" sortBy="#{proyecto.avance}">
+                <h:outputLabel value="#{proyecto.avance} %" style="color: #{panelProyectosBean.getColor(proyecto.avance)}"/>
             </p:column>
-            <p:column headerText="Fecha Inicio" style="width: 60px">
+
+            <p:column headerText="F. Inicio" style="width: 60px" sortBy="#{proyecto.finicio}">
                 <h:outputLabel value="#{proyecto.finicio}">
                     <f:convertDateTime pattern="dd/MM/yyyy" />
                 </h:outputLabel>
             </p:column>
-            <p:column headerText="Fecha Fin" style="width: 60px">
-                <h:outputLabel value="#{proyecto.ffin}">
+            <p:column headerText="F. Fin" style="width: 60px" sortBy="#{proyecto.ffin}">
+                <h:outputLabel value="#{proyecto.ffin}" style="color: #{panelProyectosBean.getColorFecha(proyecto.ffin)}">
                     <f:convertDateTime pattern="dd/MM/yyyy" />
                 </h:outputLabel>
             </p:column>
-
-            <f:facet name="footer">  
-
-            </f:facet>
         </p:dataTable>
 
 
@@ -256,12 +254,12 @@
                 <p:message for="m_parroquiaB"/>
 
 
-                <p:outputLabel for="m_empresa" value="Empresa: " />
-                <p:selectOneMenu id="m_empresa" value="#{panelProyectosBean.empresa}" readonly="true" label="Empresa" required="true">
+                <p:outputLabel for="m_empresa" value="Empresa: " rendered="false"/>
+                <p:selectOneMenu id="m_empresa" value="#{panelProyectosBean.empresa}" rendered="false" label="Empresa" required="true">
                     <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
                     <f:selectItems value="#{panelProyectosBean.empresas}" var="empresa" itemValue="#{empresa.codigo}" itemLabel="#{empresa.razonSocial}"/>
                 </p:selectOneMenu>
-                <p:message for="m_empresa"/>
+                <p:message for="m_empresa" rendered="false"/>
 
                 <p:outputLabel for="m_empleado" value="Empleado: "/>
                 <p:selectOneMenu id="m_empleado" value="#{panelProyectosBean.empleado}" label="Empleado" required="true">

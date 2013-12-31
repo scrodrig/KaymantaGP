@@ -207,7 +207,7 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
             System.out.println("Carga: " + msg.getSummary() + " - " + event.getComponent().getClientId());
         } catch (Exception e) {
             e.printStackTrace();
-            FacesMessage msg1 = new FacesMessage("Error", event.getFile().getFileName() + " no se cargo. " + resultado);
+            FacesMessage msg1 = new FacesMessage("Error", event.getFile().getFileName() + " no ha sido cargo. " + resultado);
 
         }
     }
@@ -215,11 +215,11 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
     public void cargarDocumento(ActionEvent evento) {
         try {
             if (super.getEnRegistro()) {
-                if(instControl!=null or instControl!="" or instControl=="0")
-                {
-                this.documento.setInstitucionControl(institucionControlServicio.findByID(Long.parseLong(instControl)));
-                this.documento.setCodInstitucionControl(Long.parseLong(instControl));
+                if (instControl != null || !"".equals(instControl) || !"0".equals(instControl)) {
+                    this.documento.setInstitucionControl(institucionControlServicio.findByID(Long.parseLong(instControl)));
+                    this.documento.setCodInstitucionControl(Long.parseLong(instControl));
                 }
+                System.out.println("INST CONTROL: " + instControl);
                 this.documento.setTipoDocumento(tipoDocumentoServicio.findByID(Long.parseLong(tipoDoc)));
                 this.documento.setCodTipoDocumento(Long.parseLong(tipoDoc));
                 this.documento.setUsrCreacion(usrSesion.getCodigo());
@@ -246,10 +246,9 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
             } else if (super.getEnEdicion()) {
                 System.out.println("EN EDICIÓN DE DOCUMENTO");
                 int i = this.documentos.indexOf(this.documento);
-                if(instControl!=null or instControl!="" or instControl=="0")
-                {
-                this.documento.setInstitucionControl(institucionControlServicio.findByID(Long.parseLong(instControl)));
-                this.documento.setCodInstitucionControl(Long.parseLong(instControl));
+                if (instControl != null || !"".equals(instControl) || !"0".equals(instControl)) {
+                    this.documento.setInstitucionControl(institucionControlServicio.findByID(Long.parseLong(instControl)));
+                    this.documento.setCodInstitucionControl(Long.parseLong(instControl));
                 }
                 this.documento.setTipoDocumento(tipoDocumentoServicio.findByID(Long.parseLong(tipoDoc)));
                 this.documento.setCodTipoDocumento(Long.parseLong(tipoDoc));
@@ -289,7 +288,7 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
         if (documentoSeleccionado instanceof Documento) {
             try {
                 super.seleccionadoUno();
-                documento=new Documento();
+                documento = new Documento();
                 documento = (Documento) BeanUtils.cloneBean(this.documentoSeleccionado);
 
                 System.out.println("ESTOY AQUI Y SI SELECCIONE");

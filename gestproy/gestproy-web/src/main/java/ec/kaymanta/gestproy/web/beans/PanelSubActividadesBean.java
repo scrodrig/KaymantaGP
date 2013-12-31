@@ -129,6 +129,19 @@ public class PanelSubActividadesBean extends BotonesBean implements Serializable
             }
         }
     }
+    
+     public String getColor(BigDecimal avance) {
+        if (avance.compareTo(BigDecimal.valueOf(100)) < 0 && avance.compareTo(BigDecimal.valueOf(60)) > 0) {
+            return "darkgreen";
+        } else if (avance.compareTo(BigDecimal.valueOf(60)) < 0 && avance.compareTo(BigDecimal.valueOf(10)) > 0) {
+            return "yellowgreen";
+        } else if (avance.compareTo(BigDecimal.valueOf(10)) < 0) {
+            return "red";
+        }
+        return "navy";
+
+
+    }
 
     public void modificarSubActividad(ActionEvent evento) {
         this.subActividad = new Actividad();

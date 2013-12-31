@@ -59,8 +59,8 @@ public class Documento implements Serializable {
     /**
      * Llave foránea que referencia a la institución de control del documento..
      * Representa a la columna INSTITUCION_CONTROL.
-     */
-    @Column(name = "INSTITUCION_CONTROL", nullable = false)
+     */    
+    @Column(name = "INSTITUCION_CONTROL", nullable = true)
     private Long codInstitucionControl;
     /**
      * Nombre del documento.. Representa a la columna NOMBRE_DOCUMENTO.
