@@ -10,7 +10,7 @@
 
     <ui:define name="cuerpo">
         <p:dataTable id="usuarioRoles"  value="#{usuariosRolBean.usuarioRoles}" var="usrRol" selection="#{usuariosRolBean.usuarioRolSeleccionado}" selectionMode="single" scrollable="true" 
-                     rowKey="#{usrRol.pk.usuario}" style="width: 1000px" 
+                     rowKey="#{usrRol.pk.usuario}" style="width:600px" 
                      paginator="true" rows="10"  scrollWidth="false" paginatorPosition="bottom"
                      paginatorTemplate=" {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                       emptyMessage="No se ha registrado ningún Usuarios-Roles" rendered="#{not (usuariosRolBean.enRegistro or usuariosRolBean.enEdicion or usuariosRolBean.enAuditoria)}" >
@@ -48,7 +48,7 @@
         </p:confirmDialog> 
 
      
-        <p:panel id="nuevoUsr" header="Administración de Usuarios-Roles" rendered="#{usuariosRolBean.enRegistro or usuariosRolBean.enEdicion}" style="width: 1000px">
+        <p:panel id="nuevoUsr" header="Administración de Usuarios-Roles" rendered="#{usuariosRolBean.enRegistro or usuariosRolBean.enEdicion}" style="width: 600px">
             <p:panelGrid columns="3">
                 <p:outputLabel for="codigo" value="Usuario"/>
                 <p:selectOneMenu id="codigo" value="#{usuariosRolBean.usuario}" label="Usuario" required="true">

@@ -59,11 +59,13 @@ import ec.kaymanta.gestproy.servicio.TipoEntregableServicio;
 import ec.kaymanta.gestproy.servicio.TipoGastoServicio;
 import ec.kaymanta.gestproy.servicio.UsuarioServicio;
 import ec.kaymanta.gestproy.web.util.MensajesGenericos;
+import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -73,6 +75,13 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.ArrayUtils;
@@ -254,6 +263,17 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
         this.documento = new Documento();
     }
 
+    public void pruebaReportJasper(ActionEvent evento) throws JRException, IOException {
+        System.out.println("PROYECTOS= "+ proyectos.size());
+        JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(proyectos);
+        JasperPrint jasperPrint = JasperFillManager.fillReport("/Users/schubert_david/reports/proyectos.jasper", new HashMap(), beanCollectionDataSource);
+        //HttpServletResponse httpServletResponse=(HttpServletResponse)FacesContext.getCurrentInstance().getExternalContext().getResponse();
+        //httpServletResponse.setHeader("Content-disposition", "attachment; filename=report.pdf");
+        //ServletOutputStream servletOutputStream= httpServletResponse.getOutputStream();
+        JasperExportManager.exportReportToPdfFile(jasperPrint, "report.pdf"); 
+        
+    }
+    
     public void nuevo(ActionEvent evento) {
         super.crear();
         this.proyecto = new Proyecto();

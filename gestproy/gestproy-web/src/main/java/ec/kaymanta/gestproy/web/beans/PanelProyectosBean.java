@@ -25,12 +25,10 @@ import ec.kaymanta.gestproy.servicio.UsuarioServicio;
 import ec.kaymanta.gestproy.web.util.MensajesGenericos;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -273,7 +271,7 @@ public class PanelProyectosBean extends BotonesBean implements Serializable {
     }
 
     public String getColorFecha(Date d1) {
-        Date d2=new Date();
+        Date d2 = new Date();
         System.out.println(d1);
         System.out.println(d2);
         if (d1.before(d2)) {
@@ -282,8 +280,7 @@ public class PanelProyectosBean extends BotonesBean implements Serializable {
             return "green";
         }
     }
-    
-    
+
     public void filaSeleccionada(ActionEvent evento) {
         if (proyectoSeleccionado instanceof Proyecto) {
             super.seleccionadoUno();
@@ -296,9 +293,6 @@ public class PanelProyectosBean extends BotonesBean implements Serializable {
         } else {
             super.sinSeleccion();
         }
-    }
-
-    public void irExpectativas() {
     }
 
     public List<Proyecto> getProyectos() {
@@ -476,6 +470,4 @@ public class PanelProyectosBean extends BotonesBean implements Serializable {
     public void setCodigoUsuario(String codigoUsuario) {
         this.codigoUsuario = codigoUsuario;
     }
-
-   
 }

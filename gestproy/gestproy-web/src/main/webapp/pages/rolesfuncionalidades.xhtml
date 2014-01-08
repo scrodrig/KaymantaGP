@@ -11,7 +11,7 @@
 
     <ui:define name="cuerpo">
         <p:dataTable id="rolesFuncionalidad"  value="#{rolesFuncionalidadBean.rolesFuncionalidad}" var="rlfun" selection="#{rolesFuncionalidadBean.rolFuncionalidadSeleccionado}" selectionMode="single" scrollable="true" 
-                     rowKey="#{rlfun.pk.funcionalidad}" style="width: 1000px" 
+                     rowKey="#{rlfun.pk.funcionalidad}" style="width: 500px" 
                      paginator="true" rows="10"  scrollWidth="false" paginatorPosition="bottom"
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                      emptyMessage="No se ha registrado ningún Roles-Funcionalidades" rendered="#{not (rolesFuncionalidadBean.enRegistro or rolesFuncionalidadBean.enEdicion or rolesFuncionalidadBean.enAuditoria)}" >
@@ -54,7 +54,7 @@
         </p:confirmDialog> 
 
 
-        <p:panel id="nuevoUsr" header="Creación de Roles-Funcionalidades" rendered="#{rolesFuncionalidadBean.enRegistro or rolesFuncionalidadBean.enEdicion}" style="width: 1000px">
+        <p:panel id="nuevoUsr" header="Creación de Roles-Funcionalidades" rendered="#{rolesFuncionalidadBean.enRegistro or rolesFuncionalidadBean.enEdicion}" style="width: 600px">
             <p:panelGrid columns="3">
                 <p:outputLabel for="codigo" value="Funcionalidad"/>
                 <p:selectOneMenu id="codigo" value="#{rolesFuncionalidadBean.funcionalidad}" label="Funcionalidad" required="true">

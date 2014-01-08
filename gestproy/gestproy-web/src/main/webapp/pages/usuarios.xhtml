@@ -94,7 +94,7 @@
 
 
 
-        <p:panel id="nuevoUsr" header="Creación de Usuario" rendered="#{usuariosBean.enRegistro}" style="width: 800px">
+        <p:panel id="nuevoUsr" header="Registro de Usuario" rendered="#{usuariosBean.enRegistro}" style="width: 800px">
             <p:panelGrid columns="3">
                 <p:outputLabel for="codigo" value="Cédula"/>
                 <p:inputText id="codigo" value="#{usuariosBean.usuario.codigo}" label="Cédula" required="true">
@@ -135,7 +135,7 @@
 
 
 
-        <p:panel id="modificarUsr" header="Modificación de Usuario" rendered="#{usuariosBean.enEdicion}" style="width: 800px">
+        <p:panel id="modificarUsr" header="Edición de Usuario" rendered="#{usuariosBean.enEdicion}" style="width: 800px">
             <p:panelGrid columns="3">
 
                 <p:outputLabel for="m_codigo" value="Código:"/>

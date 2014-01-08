@@ -11,7 +11,7 @@
 
     <ui:define name="cuerpo">
         <p:dataTable id="fechasNoLaborables"  value="#{fechasNoLaborablesBean.fechasNoLaborables}" var="fnl" selection="#{fechasNoLaborablesBean.fechaNoLaborableSeleccionada}" selectionMode="single" scrollable="true" 
-                     rowKey="#{fnl.fecha}" style="width: 300px;" scrollWidth="false"
+                     rowKey="#{fnl.fecha}" style="width: 400px;" scrollWidth="false"
                      paginator="true" rows="10"   paginatorPosition="bottom"
                      paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"  
                      emptyMessage="No se ha registrado Fechas No Laborables" rendered="#{not (fechasNoLaborablesBean.enRegistro or fechasNoLaborablesBean.enEdicion)}" >

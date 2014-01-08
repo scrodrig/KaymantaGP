@@ -11,7 +11,7 @@
 
     <ui:define name="cuerpo">
         <p:dataTable id="empleados"  value="#{empleadosBean.empleados}" var="empleado" selection="#{empleadosBean.empleadoSeleccionado}" selectionMode="single" scrollable="true" 
-                     rowKey="#{empleado.codigo}" style="width: 1000px" 
+                     rowKey="#{empleado.codigo}" style="width: 800px" 
                      paginator="true" rows="10"  scrollWidth="false" paginatorPosition="bottom"
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                      emptyMessage="No se ha registrado ningún Empleado" rendered="#{not (empleadosBean.enRegistro or empleadosBean.enEdicion or empleadosBean.enAuditoria)}" >
@@ -106,7 +106,7 @@
 
 
 
-        <p:panel id="nuevoUsr" header="Registro de Empleado" rendered="#{empleadosBean.enRegistro}" style="width: 1000px">
+        <p:panel id="nuevoUsr" header="Registro de Empleado" rendered="#{empleadosBean.enRegistro}" style="width: 800px">
             <p:panelGrid columns="3">
                 <p:outputLabel for="codigo" value="Usuario"/>
                 <p:selectOneMenu id="codigo" value="#{empleadosBean.codigoUsuario}" label="Usuario" required="true">
@@ -148,7 +148,7 @@
 
 
 
-        <p:panel id="modificarUsr" header="Modificación de Empleado" rendered="#{empleadosBean.enEdicion}" style="width: 1000px">
+        <p:panel id="modificarUsr" header="Modificación de Empleado" rendered="#{empleadosBean.enEdicion}" style="width: 800px">
             <p:panelGrid columns="3">
                 <p:outputLabel for="m_codigo" value="Usuario"/>
                 <p:inputText id="m_codigo" value="#{empleadosBean.empleado.codigo}" readonly="true" label="NombreEmpleado" required="true">

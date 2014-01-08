@@ -29,10 +29,7 @@
             </p:row>  
             <p:row>  
                 <p:column colspan="6" style="font-weight: bold;">
-
-                    <p:pieChart id="sample" value="#{panelReunionesBean.pieModel}"  
-                                style="width:300px;height:200px" showDataLabels="true"  sliceMargin="5" /> 
-
+                    <p:meterGaugeChart id="sample" value="#{panelReunionesBean.meterGaugeChartModel}" seriesColors="cc6666, E7E658, 93b75f, 66cc66" style="width:330px;height:200px"/>  
                 </p:column>                                  
             </p:row>  
 
@@ -41,6 +38,21 @@
                     <p:spacer height="0"/>  
                 </p:column>  
             </p:row>  
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Salubridad</p:column>  
+                <p:column colspan="4" style="font-weight: bold;" rendered="#{panelReunionesBean.holguera(panelReunionesBean.numeroDias(panelReunionesBean.proyecto.festimada))}"> #{-panelReunionesBean.numeroDias(panelReunionesBean.proyecto.festimada)} día(s) de Holgura</p:column>  
+                <p:column colspan="4" style="font-weight: bold;" rendered="#{!panelReunionesBean.holguera(panelReunionesBean.numeroDias(panelReunionesBean.proyecto.festimada))}"> #{panelReunionesBean.numeroDias(panelReunionesBean.proyecto.festimada)} día(s) de Retraso</p:column>  
+
+            </p:row> 
+
+            <p:row>  
+                <p:column colspan="6" style="font-weight: bold;">
+
+                    <p:meterGaugeChart id="salud" value="#{panelReunionesBean.meterGaugeChartModelSalud}" min="-100" max="100" seriesColors="93b75f, E7E658, E7E658, cc6666" style="width:330px;height:200px"/>  
+
+                </p:column>                                  
+            </p:row> 
 
 
 
@@ -94,7 +106,7 @@
         <!--REUNIONES-->
         <!--PANEL-->
         <p:dataTable id="reuniones"  value="#{panelReunionesBean.reuniones}" var="reunion" selection="#{panelReunionesBean.reunionSeleccionado}" selectionMode="single" scrollable="true" 
-                     rowKey="#{reunion.pk}" style="width: 650px" 
+                     rowKey="#{reunion.pk}" style="width: 600px" 
                      paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                      emptyMessage="No se ha registrado ninguna Reunión" rendered="#{not(panelReunionesBean.enRegistro or 
@@ -113,7 +125,7 @@
 
                         <p:commandButton  value="Modificar" update="@form" actionListener="#{panelReunionesBean.modificarReunion(evento)}" disabled="#{panelReunionesBean.disabledModificar}" icon="ui-icon-pencil"/>
 
-                <p:commandButton  value="Auditoría" update=":form:reu_mensaje" onsuccess="dlg6.show()" actionListener="#{panelReunionesBean.verAuditoriaReunion(evento)}" disabled="#{panelReunionesBean.disableAuditoria}" icon="ui-icon-document"/>
+                        <p:commandButton  value="Auditoría" update=":form:reu_mensaje" onsuccess="dlg6.show()" actionListener="#{panelReunionesBean.verAuditoriaReunion(evento)}" disabled="#{panelReunionesBean.disableAuditoria}" icon="ui-icon-document"/>
 
                         <p:separator />  
 

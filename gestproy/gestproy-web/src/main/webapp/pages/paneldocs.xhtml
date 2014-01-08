@@ -192,12 +192,11 @@
             </p:column>
             
             <p:column headerText="Descargar" style="width: 80px">  
-                <p:commandButton id="downloadLink" ajax="false" 
-                                 icon="ui-icon-arrowthichk-s">  
-                    <p:fileDownload value="#{panelDocsBean.download(documento.codigo)}" />  
-                </p:commandButton>
-
-            </p:column>
+                <p:commandLink ajax="false">
+                    <p:graphicImage value="/images/download.png" height="16px" width="16px"/>
+                    <p:fileDownload value="#{buscadorDocumentosBean.download(documento.codigo)}" />  
+                </p:commandLink>                 
+            </p:column>  
             <f:facet name="footer">  
             </f:facet>
         </p:dataTable>

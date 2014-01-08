@@ -11,7 +11,7 @@
 
     <ui:define name="cuerpo">
         <p:dataTable id="empresas"  value="#{empresasBean.empresas}" var="empresa" selection="#{empresasBean.empresaSeleccionado}" selectionMode="single" scrollable="true" 
-                     rowKey="#{empresa.codigo}" style="width: 1000px" 
+                     rowKey="#{empresa.codigo}" style="width: 800px" 
                      paginator="true" rows="10"  scrollWidth="false" paginatorPosition="bottom"
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                       emptyMessage="No se ha registrado ninguna Empresa" rendered="#{not (empresasBean.enRegistro or empresasBean.enEdicion or empresasBean.enAuditoria)}" >
@@ -97,7 +97,7 @@
 
 
 
-        <p:panel id="nuevoUsr" header="Registro de Empresa" rendered="#{empresasBean.enRegistro}" style="width: 1000px">
+        <p:panel id="nuevoUsr" header="Registro de Empresa" rendered="#{empresasBean.enRegistro}" style="width: 800px">
             <p:panelGrid columns="3">
                 <p:outputLabel for="codigo" value="Ruc:"/>
                 <p:inputText id="codigo" value="#{empresasBean.empresa.codigo}" label="Ruc:" required="true">
@@ -136,7 +136,7 @@
 
 
 
-        <p:panel id="modificarUsr" header="Modificación de Empresa" rendered="#{empresasBean.enEdicion}" style="width: 1000px">
+        <p:panel id="modificarUsr" header="Modificación de Empresa" rendered="#{empresasBean.enEdicion}" style="width: 800px">
             <p:panelGrid columns="3">
                 <p:outputLabel for="m_codigo" value="Ruc:"/>
                 <p:inputText id="m_codigo" value="#{empresasBean.empresa.codigo}" label="Ruc:" required="true" readonly="true">

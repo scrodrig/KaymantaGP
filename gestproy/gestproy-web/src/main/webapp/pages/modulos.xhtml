@@ -11,7 +11,7 @@
 
     <ui:define name="cuerpo">
         <p:dataTable id="modulos"  value="#{modulosBean.modulos}" var="modulo" selection="#{modulosBean.moduloSeleccionado}" selectionMode="single" scrollable="true" 
-                     rowKey="#{modulo.codigo}" style="width: 700px" scrollWidth="false"
+                     rowKey="#{modulo.codigo}" style="width: 500px" scrollWidth="false"
                      paginator="true" rows="10"   paginatorPosition="bottom"
                      paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                      emptyMessage="No se ha registrado ninguna Región" rendered="#{not (modulosBean.enRegistro or modulosBean.enEdicion)}" >
@@ -48,7 +48,7 @@
 
         </p:confirmDialog> 
 
-        <p:panel id="nuevoRevestimiento" header="Creación de Módulos" rendered="#{modulosBean.enRegistro}" style="width: 700px">
+        <p:panel id="nuevoRevestimiento" header="Creación de Módulos" rendered="#{modulosBean.enRegistro}" style="width: 500px">
             <p:panelGrid columns="3">                
 
                 <p:outputLabel for="nombre" value="Nombre:"/>
@@ -63,7 +63,7 @@
         </p:panel>
 
 
-        <p:panel id="modificarRevestimiento" header="Modificación de Módulos" rendered="#{modulosBean.enEdicion}" style="width: 700px">
+        <p:panel id="modificarRevestimiento" header="Modificación de Módulos" rendered="#{modulosBean.enEdicion}" style="width: 500px">
             <p:panelGrid columns="3">              
 
                 <p:outputLabel for="m_codigo" value="Código Revestimiento:"/>

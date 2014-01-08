@@ -57,12 +57,11 @@
                     <f:convertDateTime pattern="dd/MM/yyyy" />
                 </h:outputLabel>
             </p:column>
-            <p:column headerText="Descargar" style="width: 60px">  
-                <p:commandButton id="downloadLink" ajax="false" 
-                                 icon="ui-icon-arrowthichk-s">  
+            <p:column headerText="Descargar" style="width: 80px">  
+                <p:commandLink ajax="false">
+                    <p:graphicImage value="/images/download.png" height="16px" width="16px"/>
                     <p:fileDownload value="#{buscadorDocumentosBean.download(documento.codigo)}" />  
-                </p:commandButton>
-
+                </p:commandLink>                 
             </p:column>
         </p:dataTable>
 
@@ -92,13 +91,13 @@
                 </p:toolbar> 
 
             </f:facet>
-            <p:column headerText="Documento" style="width: 200px" sortBy="#{historial.nombre}" filterBy="#{historial.nombre}">
+            <p:column headerText="Documento" style="width: 200px" >
                 #{historial.nombre}
             </p:column>
-            <p:column headerText="Inst. Control" style="width: 150px" sortBy="#{historial.documento.institucionControl.nombre}" filterBy="#{historial.documento.institucionControl.nombre}">
+            <p:column headerText="Inst. Control" style="width: 150px">
                 #{historial.documento.institucionControl.nombre}
             </p:column>
-            <p:column headerText="Tipo" style="width: 100px" sortBy="#{historial.documento.tipoDocumento.nombre}" filterBy="#{historial.documento.tipoDocumento.nombre}">
+            <p:column headerText="Tipo" style="width: 100px" >
                 #{historial.documento.tipoDocumento.nombre}
             </p:column>                          
             <p:column headerText="F. Carga" style="width: 80px" rendered="false">
@@ -106,12 +105,11 @@
                     <f:convertDateTime pattern="dd/MM/yyyy" />
                 </h:outputLabel>
             </p:column>
-            <p:column headerText="Descargar" style="width: 60x">  
-                <p:commandButton id="downloadLink1" ajax="false" 
-                                 icon="ui-icon-arrowthichk-s">  
+            <p:column headerText="Descargar" style="width: 60px">  
+                <p:commandLink ajax="false">
+                    <p:graphicImage value="/images/download.png" height="16px" width="16px"/>  
                     <p:fileDownload value="#{buscadorDocumentosBean.downloadHistorial(historial.respaldoDocumento,historial.nombre)}" />  
-                </p:commandButton>
-
+                </p:commandLink>                 
             </p:column>
         </p:dataTable>
 

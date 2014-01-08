@@ -52,7 +52,7 @@
 
         </p:confirmDialog> 
 
-        <p:panel id="nuevoRevestimiento" header="Creación de Funcionalidades" rendered="#{funcionalidadBean.enRegistro}" style="width: 1000px">
+        <p:panel id="nuevoRevestimiento" header="Registro de Funcionalidades" rendered="#{funcionalidadBean.enRegistro}" style="width: 1000px">
             <p:panelGrid columns="3">                
 
                 <p:outputLabel for="nombre" value="Nombre:"/>
@@ -67,7 +67,7 @@
                 <p:message for="modulo" />
                 
                 <p:outputLabel for="descripcion" value="Descripción:"/>
-                <p:inputTextarea id="descripcion" cols="20" rows="10" value="#{funcionalidadBean.funcionalidad.descripcion}" label="Descripción"/>
+                <p:inputTextarea id="descripcion" rows="8" cols="40" autoResize="false" value="#{funcionalidadBean.funcionalidad.descripcion}" label="Descripción"/>
                 <p:message for="descripcion" />
                 
 
@@ -79,7 +79,7 @@
         </p:panel>
 
 
-        <p:panel id="modificarRevestimiento" header="Modificación de Funcionalidades" rendered="#{funcionalidadBean.enEdicion}" style="width: 1000px">
+        <p:panel id="modificarRevestimiento" header="Edición de Funcionalidades" rendered="#{funcionalidadBean.enEdicion}" style="width: 1000px">
             <p:panelGrid columns="3">              
 
                 <p:outputLabel for="m_codigo" value="Código Revestimiento:"/>
@@ -98,7 +98,7 @@
                 <p:message for="m_modulo" />
                 
                  <p:outputLabel for="m_descripcion" value="Descripción:"/>
-                <p:inputTextarea id="m_descripcion" cols="20" rows="10" value="#{funcionalidadBean.funcionalidad.descripcion}" label="Descripción"/>
+                <p:inputTextarea id="m_descripcion" rows="8" cols="40" autoResize="false" value="#{funcionalidadBean.funcionalidad.descripcion}" label="Descripción"/>
                 <p:message for="m_descripcion" />
 
 

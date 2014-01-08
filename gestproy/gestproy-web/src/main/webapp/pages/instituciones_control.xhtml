@@ -11,7 +11,7 @@
 
     <ui:define name="cuerpo">
         <p:dataTable id="instituciones"  value="#{institucionesControlBean.instituciones}" var="institucionControl" selection="#{institucionesControlBean.institucionSeleccionado}" selectionMode="single" scrollable="true" 
-                     rowKey="#{institucionControl.codigo}" style="width: 1000px" scrollWidth="false" 
+                     rowKey="#{institucionControl.codigo}" style="width: 800px" scrollWidth="false" 
                      paginator="true" rows="10"  paginatorPosition="bottom" 
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                      emptyMessage="No se ha registrado ninguna Empresa" rendered="#{not (institucionesControlBean.enRegistro or institucionesControlBean.enEdicion or institucionesControlBean.enAuditoria)}" >
@@ -102,7 +102,7 @@
 
 
 
-        <p:panel id="nuevoUsr" header="Creación de Institución Control" rendered="#{institucionesControlBean.enRegistro}" style="width: 1000px">
+        <p:panel id="nuevoUsr" header="Creación de Institución Control" rendered="#{institucionesControlBean.enRegistro}" style="width: 800px">
             <p:panelGrid columns="3">
 
                 <p:outputLabel for="institucionControl" value="Nombre:"/>                
@@ -140,7 +140,7 @@
 
 
 
-        <p:panel id="modificarUsr" header="Modificación de Empresa" rendered="#{institucionesControlBean.enEdicion}" style="width: 1000px">
+        <p:panel id="modificarUsr" header="Modificación de Empresa" rendered="#{institucionesControlBean.enEdicion}" style="width: 800px">
             <p:panelGrid columns="3">
 
                 <p:outputLabel for="m_institucionControl" value="Nombre:"/>                

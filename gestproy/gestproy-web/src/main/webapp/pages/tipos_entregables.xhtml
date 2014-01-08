@@ -11,7 +11,7 @@
 
     <ui:define name="cuerpo">
         <p:dataTable id="tipos"  value="#{tiposEntregableBean.tipos}" var="tipoEntregable" selection="#{tiposEntregableBean.tipoEntregableSeleccionado}" selectionMode="single" scrollable="true" 
-                     rowKey="#{tipoEntregable.codigo}" style="width: 700px" scrollWidth="false"
+                     rowKey="#{tipoEntregable.codigo}" style="width: 600px" scrollWidth="false"
                      paginator="true" rows="10" paginatorPosition="bottom"  
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                       emptyMessage="No se ha registrado ninguna Región" rendered="#{not (tiposEntregableBean.enRegistro or tiposEntregableBean.enEdicion)}" >
@@ -48,7 +48,7 @@
 
         </p:confirmDialog> 
 
-        <p:panel id="nuevoRevestimiento" header="Creación de Tipos Gasto" rendered="#{tiposEntregableBean.enRegistro}" style="width: 700px">
+        <p:panel id="nuevoRevestimiento" header="Creación de Tipos Gasto" rendered="#{tiposEntregableBean.enRegistro}" style="width: 600px">
             <p:panelGrid columns="3">                
 
                 <p:outputLabel for="nombre" value="Nombre:"/>
@@ -67,7 +67,7 @@
         </p:panel>
 
 
-        <p:panel id="modificarRevestimiento" header="Modificación de Tipos Gasto" rendered="#{tiposEntregableBean.enEdicion}" style="width: 700px">
+        <p:panel id="modificarRevestimiento" header="Modificación de Tipos Gasto" rendered="#{tiposEntregableBean.enEdicion}" style="width: 600px">
             <p:panelGrid columns="3">              
 
                 <p:outputLabel for="m_codigo" value="Código Revestimiento:"/>

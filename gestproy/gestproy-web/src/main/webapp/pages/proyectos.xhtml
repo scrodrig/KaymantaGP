@@ -113,6 +113,7 @@
                 <p:commandButton value="Actividades" update="@form" actionListener="#{proyectosBean.verActividades(evento)}" disabled="#{proyectosBean.disableAuditoria}" icon="ui-icon-close"/>
                 <p:commandButton  value="Auditoría" update=":form:mensaje" onsuccess="dlg.show()" actionListener="#{proyectosBean.verAuditoria(evento)}" disabled="#{proyectosBean.disableAuditoria}" icon="ui-icon-document"/>  
                 <p:commandButton value="Documentos" update="@form" actionListener="#{proyectosBean.cargaDeDocumentos(evento)}" disabled="#{proyectosBean.disableCargaDocumentos}" icon="ui-icon-document"/>
+                <h:commandButton value="Reporte" actionListener="#{proyectosBean.pruebaReportJasper(evento)}" />
 
             </f:facet>
         </p:dataTable>
