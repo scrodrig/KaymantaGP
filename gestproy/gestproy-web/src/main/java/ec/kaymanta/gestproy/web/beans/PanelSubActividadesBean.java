@@ -16,6 +16,7 @@ import ec.kaymanta.gestproy.servicio.UsuarioServicio;
 import ec.kaymanta.gestproy.web.util.MensajesGenericos;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,9 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import org.apache.commons.beanutils.BeanUtils;
-import org.primefaces.model.chart.PieChartModel;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.primefaces.model.chart.MeterGaugeChartModel;
 
 /**
  *
@@ -63,7 +66,9 @@ public class PanelSubActividadesBean extends BotonesBean implements Serializable
     private FechasActividad fechasActividad;
     private FechasActividad fechasActividadRespaldo;
     //ELEMENTO DE VISTA
-    private PieChartModel pieModel;
+    private MeterGaugeChartModel meterGaugeChartModel;
+    //ELEMENTO DE VISTA
+    private MeterGaugeChartModel meterGaugeChartModelSalud;
    
 
     @PostConstruct
@@ -71,12 +76,8 @@ public class PanelSubActividadesBean extends BotonesBean implements Serializable
     public void postConstructor() {
 
         super.sinSeleccion();
-
-        System.out.println("PROYECTO: " + codProyecto);
         this.usrSesion = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario");
-        System.out.println("USUARIO: " + usrSesion);
         this.emplSesion = (Empleado) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Empleado");
-
         FacesContext context = FacesContext.getCurrentInstance();
         Map<String, String> parametros = context.getExternalContext().getRequestParameterMap();
         if (this.proyecto == null) {
@@ -85,16 +86,66 @@ public class PanelSubActividadesBean extends BotonesBean implements Serializable
             this.proyecto = this.proyectoServicio.findByID(Long.parseLong(codProyecto));
             this.actividad = this.actividadServicio.findByID(Long.parseLong(codActividad));
         }
-        System.out.println("PROYECTO: " + proyecto.getNombreProyecto() + " ACTIVIDAD " + actividad.getNombreActividad());
         this.subActividades = this.actividadServicio.findByProyectoAndActividad(proyecto, actividad);
-        createPieModel();
+        createMeterGaugeChart();
+        createMeterGaugeChartSalubridad();
         this.subActividad = new Actividad();
     }
 
-    private void createPieModel() {
-        pieModel = new PieChartModel();
-        pieModel.set("Avance", actividad.getAvance().floatValue());
-        pieModel.set("Restante", 100 - actividad.getAvance().floatValue());
+  private void createMeterGaugeChart() {
+        meterGaugeChartModel = new MeterGaugeChartModel();
+        List<Number> intervals = new ArrayList<Number>() {
+            {
+                add(25);
+                add(50);
+                add(75);
+                add(100);
+            }
+        };
+        meterGaugeChartModel = new MeterGaugeChartModel(actividad.getAvance(), intervals);
+    }
+
+    private void createMeterGaugeChartSalubridad() {
+        List<Number> intervals = new ArrayList<Number>() {
+            {
+                add(-10);
+                add(0);
+                add(10);
+                add(100);
+            }
+        };
+
+        meterGaugeChartModelSalud = new MeterGaugeChartModel(numeroDias(proyecto.getFestimada()), intervals);
+    }
+
+    public int numeroDias(Date d2) {
+        try {
+            Date d1 = new Date();
+            if (d1.before(d2)) {
+                DateTime dt1 = new DateTime(d1);
+                DateTime dt2 = new DateTime(d2);
+                Days daysBetween = Days.daysBetween(dt1, dt2);
+                return -daysBetween.getDays();
+            } else if (d1.after(d2)) {
+                DateTime dt1 = new DateTime(d2);
+                DateTime dt2 = new DateTime(d1);
+                Days daysBetween = Days.daysBetween(dt1, dt2);
+                return daysBetween.getDays();
+            } else if (d1.compareTo(d2) == 0) {
+                return 0;
+            }
+        } catch (Exception e) {
+            return 0;
+        }
+        return 0;
+    }
+
+    public boolean holgura(int dias) {
+        if (dias <= 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
     
    
@@ -175,7 +226,6 @@ public class PanelSubActividadesBean extends BotonesBean implements Serializable
                 this.subActividad.settTotalReal(0L);
                 this.subActividad.setUsrCreacion(usrSesion.getCodigo());
                 this.subActividad.setFcreacion(new Date());
-                System.out.println("SubActividad: " + subActividad.getNombreActividad());
                 this.actividadServicio.crear(subActividad);
                 this.subActividades.add(this.subActividad);
                 //CREAR  FECHAS ACTIVIDAD
@@ -185,7 +235,6 @@ public class PanelSubActividadesBean extends BotonesBean implements Serializable
                 this.fechasActividad.setUsrCreacion(usrSesion.getCodigo());
                 this.fechasActividad.setFfin(fechasActividad.getFestimada());
                 this.fechasActividad.setFcreacion(new Date());
-                System.out.println("FechasActividad: " + fechasActividad.getActividad().getNombreActividad());
                 this.fechasActividadServicio.crear(fechasActividad);
                 MensajesGenericos.infoCrear("Sub-Actividad", this.subActividad.getCodigo().toString().concat(" - ").concat(this.subActividad.getNombreActividad()), Boolean.TRUE);
 
@@ -206,14 +255,10 @@ public class PanelSubActividadesBean extends BotonesBean implements Serializable
 
                 if (fechasActividad.getFinicio().compareTo(fechasActividadRespaldo.getFinicio()) == 0
                         && fechasActividad.getFestimada().compareTo(fechasActividadRespaldo.getFestimada()) == 0) {
-                    System.out.println("NO GUARDO FECHAS YA QUE SON LAS MISMOS");
                 } else {
                     FechasActividad fechasActividadNueva = new FechasActividad();
                     fechasActividadNueva.getPk().setActividad(subActividad.getCodigo());
-                    System.out.println("CLAVE AUTOSUMA: " + Long.parseLong(String.valueOf(fechasActividadServicio.obtener().size())) + 1);
-
                     fechasActividadNueva.getPk().setCodigoFechasActividad(Long.parseLong(String.valueOf(fechasActividadServicio.obtener().size())) + 1);
-
                     fechasActividadNueva.setActividad(subActividad);
                     fechasActividadNueva.setFinicio(fechasActividad.getFinicio());
                     fechasActividadNueva.setFestimada(fechasActividad.getFestimada());
@@ -239,13 +284,10 @@ public class PanelSubActividadesBean extends BotonesBean implements Serializable
             try {
                 this.subActividad = new Actividad();
                 this.subActividad = (Actividad) BeanUtils.cloneBean(this.subActividadSeleccionada);
-                System.out.println("ESTOY AQUI Y SI SELECCIONE, LA ACTIVIDAD ES: " + subActividad.getNombreActividad());
             } catch (Exception e) {
-                System.out.println("Error en Sub-actividad");
             }
         } else {
             super.sinSeleccion();
-            System.out.println("ESTOY ACA Y NO SELECCIONE");
         }
     }
 
@@ -353,14 +395,19 @@ public class PanelSubActividadesBean extends BotonesBean implements Serializable
         this.fechasActividadRespaldo = fechasActividadRespaldo;
     }
 
-    public PieChartModel getPieModel() {
-        return pieModel;
+    public MeterGaugeChartModel getMeterGaugeChartModel() {
+        return meterGaugeChartModel;
     }
 
-    public void setPieModel(PieChartModel pieModel) {
-        this.pieModel = pieModel;
+    public void setMeterGaugeChartModel(MeterGaugeChartModel meterGaugeChartModel) {
+        this.meterGaugeChartModel = meterGaugeChartModel;
     }
 
- 
-    
+    public MeterGaugeChartModel getMeterGaugeChartModelSalud() {
+        return meterGaugeChartModelSalud;
+    }
+
+    public void setMeterGaugeChartModelSalud(MeterGaugeChartModel meterGaugeChartModelSalud) {
+        this.meterGaugeChartModelSalud = meterGaugeChartModelSalud;
+    }
 }

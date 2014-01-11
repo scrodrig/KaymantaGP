@@ -5,7 +5,7 @@
                 xmlns:f="http://java.sun.com/jsf/core" 
                 xmlns:ui="http://java.sun.com/jsf/facelets" 
                 xmlns:p="http://primefaces.org/ui"
-                template="/templates/templateElementosProyecto.xhtml">
+                template="/templates/templateElementosProyecto1.xhtml">
 
     <f:metadata>  
         <f:viewParam id="codProyecto" name="codProyecto" value="#{panelReunionesBean.codProyecto}" />            
@@ -13,6 +13,7 @@
 
     <ui:define name="titulo">Reuniones</ui:define> 
 
+    <ui:define name="arbol">#{panelReunionesBean.emplSesion.nombre} &#8594; #{panelReunionesBean.proyecto.nombreProyecto} &#8594; #{panelReunionesBean.ENTIDAD} </ui:define> 
     <!--EXPECTATIVA-->
 
     <ui:define name="tabla">
@@ -25,7 +26,7 @@
 
             <p:row>  
                 <p:column colspan="2" style="font-weight: bold;">Avance</p:column>  
-                <p:column colspan="4" style="font-weight: bold;">#{panelReunionesBean.proyecto.avance}%</p:column>  
+                <p:column colspan="4" style="font-weight: bold; text-align: right">#{panelReunionesBean.proyecto.avance}%</p:column>  
             </p:row>  
             <p:row>  
                 <p:column colspan="6" style="font-weight: bold;">
@@ -41,8 +42,8 @@
 
             <p:row>  
                 <p:column colspan="2" style="font-weight: bold;">Salubridad</p:column>  
-                <p:column colspan="4" style="font-weight: bold;" rendered="#{panelReunionesBean.holguera(panelReunionesBean.numeroDias(panelReunionesBean.proyecto.festimada))}"> #{-panelReunionesBean.numeroDias(panelReunionesBean.proyecto.festimada)} día(s) de Holgura</p:column>  
-                <p:column colspan="4" style="font-weight: bold;" rendered="#{!panelReunionesBean.holguera(panelReunionesBean.numeroDias(panelReunionesBean.proyecto.festimada))}"> #{panelReunionesBean.numeroDias(panelReunionesBean.proyecto.festimada)} día(s) de Retraso</p:column>  
+                <p:column colspan="4" style="font-weight: bold;" rendered="#{panelReunionesBean.holgura(panelReunionesBean.numeroDias(panelReunionesBean.proyecto.festimada))}"> #{-panelReunionesBean.numeroDias(panelReunionesBean.proyecto.festimada)} día(s) de Holgura</p:column>  
+                <p:column colspan="4" style="font-weight: bold;" rendered="#{!panelReunionesBean.holgura(panelReunionesBean.numeroDias(panelReunionesBean.proyecto.festimada))}"> #{panelReunionesBean.numeroDias(panelReunionesBean.proyecto.festimada)} día(s) de Retraso</p:column>  
 
             </p:row> 
 
@@ -53,9 +54,29 @@
 
                 </p:column>                                  
             </p:row> 
+                       
+            <f:facet name="footer">  
+                <p:row>  
+                    <p:column  colspan="1" style="text-align: left">  
+                        Empresa 
+                    </p:column>  
+                    <p:column  colspan="5">  
+                        #{panelReunionesBean.proyecto.empresa.razonSocial} 
+                    </p:column>  
+                </p:row>    
+            </f:facet>  
+        </p:panelGrid>  
 
 
+    </ui:define> 
 
+    <ui:define name="sitio">
+        <p:panelGrid style="margin-top:20px; width: 500px">  
+            <f:facet name="header">  
+                <p:row>  
+                    <p:column colspan="6">#{panelReunionesBean.proyecto.nombreProyecto}</p:column>  
+                </p:row>  
+            </f:facet>  
             <p:row>  
                 <p:column colspan="2" style="font-weight: bold;">Fecha Inicio</p:column>  
                 <p:column colspan="4" style="font-weight: bold;">
@@ -82,7 +103,7 @@
                     </h:outputLabel>
                 </p:column>             
             </p:row>
-
+            
             <f:facet name="footer">  
                 <p:row>  
                     <p:column  colspan="1" style="text-align: left">  
@@ -92,14 +113,8 @@
                         #{panelReunionesBean.proyecto.empleado.nombre} 
                     </p:column>  
                 </p:row>    
-            </f:facet>  
-        </p:panelGrid>  
-
-
-    </ui:define> 
-
-    <ui:define name="sitio">
-        <h3> #{panelReunionesBean.emplSesion.nombre}, Usted está en #{panelReunionesBean.ENTIDAD} </h3>
+            </f:facet> 
+        </p:panelGrid>                
     </ui:define>
     <ui:define name="cuerpo">
 

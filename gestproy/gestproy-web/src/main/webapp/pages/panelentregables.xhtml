@@ -5,7 +5,7 @@
                 xmlns:f="http://java.sun.com/jsf/core" 
                 xmlns:ui="http://java.sun.com/jsf/facelets" 
                 xmlns:p="http://primefaces.org/ui"
-                template="/templates/templateElementosProyecto.xhtml">
+                template="/templates/templateElementosProyecto1.xhtml">
 
     <f:metadata>  
         <f:viewParam id="codProyecto" name="codProyecto" value="#{panelEntregablesBean.codProyecto}" />
@@ -15,32 +15,34 @@
 
     <ui:define name="titulo">Entregables</ui:define>
 
+    <ui:define name="arbol">#{panelEntregablesBean.emplSesion.nombre} &#8594; #{panelEntregablesBean.proyecto.nombreProyecto} &#8594; #{panelEntregablesBean.actividad.nombreActividad} &#8594; #{panelEntregablesBean.subActividad.nombreActividad} &#8594; #{panelEntregablesBean.ENTIDAD} </ui:define> 
+    <!--EXPECTATIVA-->
+
     <ui:define name="tabla">
         <p:panelGrid style="margin-top:20px">  
             <f:facet name="header">  
                 <p:row>  
                     <p:column colspan="6">#{panelEntregablesBean.proyecto.nombreProyecto}</p:column>  
-                </p:row> 
-                <p:row>  
-                    <p:column colspan="2" style="font-weight: bold;">Actividad</p:column>  
-                    <p:column colspan="4" style="font-weight: bold;">#{panelEntregablesBean.actividad.nombreActividad}</p:column>  
-                </p:row>
-                <p:row>  
-                    <p:column colspan="2" style="font-weight: bold;">Sub-Actividad</p:column>  
-                    <p:column colspan="4" style="font-weight: bold;">#{panelEntregablesBean.subActividad.nombreActividad}</p:column>  
-                </p:row>
-
+                </p:row>  
             </f:facet>  
 
             <p:row>  
-                <p:column colspan="2" style="font-weight: bold;">Avance Proyecto</p:column>  
-                <p:column colspan="4" style="font-weight: bold;">#{panelEntregablesBean.proyecto.avance}%</p:column>  
-            </p:row>
-
+                <p:column colspan="2" style="font-weight: bold;">Av. Proyecto</p:column>  
+                <p:column colspan="4" style="font-weight: bold; text-align: right">#{panelEntregablesBean.proyecto.avance}%</p:column>  
+            </p:row>  
             <p:row>  
-                <p:column colspan="2" style="font-weight: bold;">Avance Actividad</p:column>  
-                <p:column colspan="4" style="font-weight: bold;">#{panelEntregablesBean.actividad.avance}%</p:column>  
-            </p:row>
+                <p:column colspan="2" style="font-weight: bold;">Av. Actividad</p:column>  
+                <p:column colspan="4" style="font-weight: bold; text-align: right">#{panelEntregablesBean.actividad.avance}%</p:column>  
+            </p:row> 
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Avance</p:column>  
+                <p:column colspan="4" style="font-weight: bold; text-align: right">#{panelEntregablesBean.subActividad.avance}%</p:column>  
+            </p:row> 
+            <p:row>  
+                <p:column colspan="6" style="font-weight: bold;">
+                    <p:meterGaugeChart id="sample" value="#{panelEntregablesBean.meterGaugeChartModel}" seriesColors="cc6666, E7E658, 93b75f, 66cc66" style="width:330px;height:200px"/>  
+                </p:column>                                  
+            </p:row>  
 
             <p:row>  
                 <p:column colspan="6" styleClass="ui-widget-header">  
@@ -49,27 +51,42 @@
             </p:row>  
 
             <p:row>  
-                <p:column colspan="2" style="font-weight: bold;">Avance Sub-Actividad</p:column>  
-                <p:column colspan="4" style="font-weight: bold;">#{panelEntregablesBean.subActividad.avance}%</p:column>  
-            </p:row>
+                <p:column colspan="2" style="font-weight: bold;">Salubridad</p:column>  
+                <p:column colspan="4" style="font-weight: bold;" rendered="#{panelEntregablesBean.holgura(panelEntregablesBean.numeroDias(panelEntregablesBean.fechasActividad.festimada))}"> #{-panelEntregablesBean.numeroDias(panelEntregablesBean.fechasActividad.festimada)} día(s) de Holgura</p:column>  
+                <p:column colspan="4" style="font-weight: bold;" rendered="#{!panelEntregablesBean.holgura(panelEntregablesBean.numeroDias(panelEntregablesBean.fechasActividad.festimada))}"> #{panelEntregablesBean.numeroDias(panelEntregablesBean.fechasActividad.festimada)} día(s) de Retraso</p:column>  
 
+            </p:row> 
 
             <p:row>  
                 <p:column colspan="6" style="font-weight: bold;">
 
-                    <p:pieChart id="sample2" value="#{panelEntregablesBean.pieModel}"  
-                                style="width:300px;height:200px" showDataLabels="true" seriesColors="2288AA,AAAAAA" sliceMargin="5" /> 
+                    <p:meterGaugeChart id="salud" value="#{panelEntregablesBean.meterGaugeChartModelSalud}" min="-100" max="100" seriesColors="93b75f, E7E658, E7E658, cc6666" style="width:330px;height:200px"/>  
 
                 </p:column>                                  
             </p:row> 
 
+            <f:facet name="footer">  
+                <p:row>  
+                    <p:column  colspan="1" style="text-align: left">  
+                        Empresa 
+                    </p:column>  
+                    <p:column  colspan="5">  
+                        #{panelEntregablesBean.proyecto.empresa.razonSocial} 
+                    </p:column>  
+                </p:row>    
+            </f:facet>  
+        </p:panelGrid>  
 
 
-            <p:row>  
-                <p:column colspan="6" styleClass="ui-widget-header">  
-                    <p:spacer height="0"/>  
-                </p:column>  
-            </p:row>  
+    </ui:define> 
+
+    <ui:define name="sitio">
+        <p:panelGrid style="margin-top:20px; width: 500px">  
+            <f:facet name="header">  
+                <p:row>  
+                    <p:column colspan="6">#{panelEntregablesBean.proyecto.nombreProyecto}</p:column>  
+                </p:row>  
+            </f:facet>  
             <p:row>  
                 <p:column colspan="2" style="font-weight: bold;">Fecha Inicio</p:column>  
                 <p:column colspan="4" style="font-weight: bold;">
@@ -97,11 +114,6 @@
                 </p:column>             
             </p:row>
 
-            <p:row>  
-                <p:column colspan="2" style="font-weight: bold;">Empresa</p:column>  
-                <p:column colspan="4" style="font-weight: bold;">#{panelEntregablesBean.proyecto.empresa.razonSocial}</p:column>  
-            </p:row> 
-
             <f:facet name="footer">  
                 <p:row>  
                     <p:column  colspan="1" style="text-align: left">  
@@ -111,21 +123,15 @@
                         #{panelEntregablesBean.proyecto.empleado.nombre} 
                     </p:column>  
                 </p:row>    
-            </f:facet>  
-        </p:panelGrid>  
-
-
-    </ui:define> 
-
-    <ui:define name="sitio">
-        <h3> #{panelEntregablesBean.emplSesion.nombre}, Usted está en #{panelEntregablesBean.ENTIDAD} </h3>
+            </f:facet> 
+        </p:panelGrid>                
     </ui:define>
     <ui:define name="cuerpo">
 
         <!--ENTREGABLES-->
         <!--ACTIVIDAD ENTREGABLE PANEL-->
         <p:dataTable id="entregables"  value="#{panelEntregablesBean.actividadEntregables}" var="entregable" selection="#{panelEntregablesBean.actividadEntregableSeleccionado}" selectionMode="single" scrollable="true" 
-                     rowKey="#{entregable.pk}" style="width: 650px" 
+                     rowKey="#{entregable.pk}" style="width: 600px" 
                      paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                      emptyMessage="No se ha registrado ningún Entregable" rendered="#{not(panelEntregablesBean.enRegistro or 
@@ -148,7 +154,7 @@
                         <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">  
                             <p:printer target="entregables" />  
                         </p:commandButton>
-                        <p:commandButton value="Documentos" action="paneldocs" icon="ui-icon-document" disabled="#{panelEntregablesBean.disableAuditoria}">  
+                        <p:commandButton value="Documentos" action="paneldocs?faces-redirect=true&amp;includeViewParams=true" icon="ui-icon-document" disabled="#{panelEntregablesBean.disableAuditoria}">  
                             <f:param value="#{panelEntregablesBean.actividad.proyecto.codigo}" name="codProyecto"/>
                             <f:param value="#{panelEntregablesBean.actividad.codigo}" name="codActividad"/>
                             <f:param value="#{panelEntregablesBean.subActividad.codigo}" name="codSubActividad"/> 

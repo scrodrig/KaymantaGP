@@ -60,19 +60,14 @@ public class PanelReunionesBean extends BotonesBean implements Serializable {
     public void postConstructor() {
 
         super.sinSeleccion();
-
-        System.out.println("PROYECTO: " + codProyecto);
         this.usrSesion = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario");
-        System.out.println("USUARIO: " + usrSesion);
         this.emplSesion = (Empleado) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Empleado");
-
         FacesContext context = FacesContext.getCurrentInstance();
         Map<String, String> parametros = context.getExternalContext().getRequestParameterMap();
         if (this.proyecto == null) {
             this.codProyecto = parametros.get("codProyecto");
             this.proyecto = this.proyectoServicio.findByID(Long.parseLong(codProyecto));
         }
-        System.out.println("PROYECTO: " + proyecto.getNombreProyecto());
         this.reuniones = this.reunionServicio.findByProyecto(proyecto);
         createMeterGaugeChart();
         createMeterGaugeChartSalubridad();
@@ -107,41 +102,32 @@ public class PanelReunionesBean extends BotonesBean implements Serializable {
 
     public int numeroDias(Date d2) {
         try {
-            Date d1= new Date();
+            Date d1 = new Date();
             if (d1.before(d2)) {
                 DateTime dt1 = new DateTime(d1);
                 DateTime dt2 = new DateTime(d2);
                 Days daysBetween = Days.daysBetween(dt1, dt2);
-                if (daysBetween.getDays() < 100) {
-                    return -daysBetween.getDays();
-                } else {
-                    return -100;
-                }
+                return -daysBetween.getDays();
             } else if (d1.after(d2)) {
                 DateTime dt1 = new DateTime(d2);
                 DateTime dt2 = new DateTime(d1);
                 Days daysBetween = Days.daysBetween(dt1, dt2);
-                if (daysBetween.getDays() < 100) {
-                    return daysBetween.getDays();
-                } else {
-                    return 100;
-                }
-
+                return daysBetween.getDays();
             } else if (d1.compareTo(d2) == 0) {
                 return 0;
             }
         } catch (Exception e) {
             return 0;
         }
-        return 0;        
+        return 0;
     }
-    
-    public boolean holguera(int dias)
-    {
-        if(dias<=0)
+
+    public boolean holgura(int dias) {
+        if (dias <= 0) {
             return true;
-        else 
+        } else {
             return false;
+        }
     }
 
     public String getUsrAuditoria(String usr) {

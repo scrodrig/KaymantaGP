@@ -10,6 +10,7 @@ import ec.kaymanta.gestproy.modelo.Documento;
 import ec.kaymanta.gestproy.modelo.DocumentosProyecto;
 import ec.kaymanta.gestproy.modelo.Empleado;
 import ec.kaymanta.gestproy.modelo.EntregableDocumento;
+import ec.kaymanta.gestproy.modelo.FechasActividad;
 import ec.kaymanta.gestproy.modelo.HistorialDocumento;
 import ec.kaymanta.gestproy.modelo.InstitucionControl;
 import ec.kaymanta.gestproy.modelo.Proyecto;
@@ -20,6 +21,7 @@ import ec.kaymanta.gestproy.servicio.ActividadServicio;
 import ec.kaymanta.gestproy.servicio.DocumentoServicio;
 import ec.kaymanta.gestproy.servicio.DocumentosProyectoServicio;
 import ec.kaymanta.gestproy.servicio.EntregableDocumentoServicio;
+import ec.kaymanta.gestproy.servicio.FechasActividadServicio;
 import ec.kaymanta.gestproy.servicio.HistorialDocumentoServicio;
 import ec.kaymanta.gestproy.servicio.InstitucionControlServicio;
 import ec.kaymanta.gestproy.servicio.ProyectoServicio;
@@ -29,6 +31,7 @@ import ec.kaymanta.gestproy.web.util.MensajesGenericos;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -42,10 +45,13 @@ import javax.faces.event.ActionEvent;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.ArrayUtils;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
+import org.primefaces.model.chart.MeterGaugeChartModel;
 import org.primefaces.model.chart.PieChartModel;
 
 /**
@@ -67,6 +73,8 @@ public class PanelDocsBean extends BotonesBean implements Serializable {
     @EJB
     private ActividadEntregableServicio actividadEntregableServicio;
     @EJB
+    private FechasActividadServicio fechasActividadServicio;
+    @EJB
     private DocumentosProyectoServicio documentosProyectoServicio;
     @EJB
     private HistorialDocumentoServicio historialDocumentoServicio;
@@ -85,6 +93,7 @@ public class PanelDocsBean extends BotonesBean implements Serializable {
     private Documento documento;
     private Documento documentoSeleccionado;
     private Documento documentoAnt;
+    private FechasActividad fechasActividad;
     private DocumentosProyecto documentosProyecto;
     private HistorialDocumento historialDocumento;
     private Proyecto proyecto;
@@ -98,7 +107,10 @@ public class PanelDocsBean extends BotonesBean implements Serializable {
     private UploadedFile file;
     private EntregableDocumento entregableDocumento;
     //ELEMENTO DE VISTA
-    private PieChartModel pieModel;
+    //ELEMENTO DE VISTA
+    private MeterGaugeChartModel meterGaugeChartModel;
+    //ELEMENTO DE VISTA
+    private MeterGaugeChartModel meterGaugeChartModelSalud;
     private String instControl;
     private String tipoDoc;
 
@@ -130,14 +142,66 @@ public class PanelDocsBean extends BotonesBean implements Serializable {
         this.documentos = this.documentoServicio.findBySubActividad(actividadEntregable);
         this.institucionesControl = this.institucionControlServicio.obtener();
         this.tipoDocumento = this.tipoDocumentoServicio.obtener();
-        createPieModel();
+        this.fechasActividad = this.fechasActividadServicio.findLastByActividad(subActividad);
+        createMeterGaugeChart();
+        createMeterGaugeChartSalubridad();
         this.documento = new Documento();
     }
 
-    private void createPieModel() {
-        pieModel = new PieChartModel();
-        pieModel.set("Avance", subActividad.getAvance().floatValue());
-        pieModel.set("Restante", 100 - subActividad.getAvance().floatValue());
+    private void createMeterGaugeChart() {
+        meterGaugeChartModel = new MeterGaugeChartModel();
+        List<Number> intervals = new ArrayList<Number>() {
+            {
+                add(25);
+                add(50);
+                add(75);
+                add(100);
+            }
+        };
+        meterGaugeChartModel = new MeterGaugeChartModel(subActividad.getAvance(), intervals);
+    }
+
+    private void createMeterGaugeChartSalubridad() {
+        List<Number> intervals = new ArrayList<Number>() {
+            {
+                add(-10);
+                add(0);
+                add(10);
+                add(100);
+            }
+        };
+
+        meterGaugeChartModelSalud = new MeterGaugeChartModel(numeroDias(fechasActividad.getFestimada()), intervals);
+    }
+
+    public int numeroDias(Date d2) {
+        try {
+            Date d1 = new Date();
+            if (d1.before(d2)) {
+                DateTime dt1 = new DateTime(d1);
+                DateTime dt2 = new DateTime(d2);
+                Days daysBetween = Days.daysBetween(dt1, dt2);
+                return -daysBetween.getDays();
+            } else if (d1.after(d2)) {
+                DateTime dt1 = new DateTime(d2);
+                DateTime dt2 = new DateTime(d1);
+                Days daysBetween = Days.daysBetween(dt1, dt2);
+                return daysBetween.getDays();
+            } else if (d1.compareTo(d2) == 0) {
+                return 0;
+            }
+        } catch (Exception e) {
+            return 0;
+        }
+        return 0;
+    }
+
+    public boolean holgura(int dias) {
+        if (dias <= 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public StreamedContent download(Long codigo) {
@@ -258,7 +322,7 @@ public class PanelDocsBean extends BotonesBean implements Serializable {
     public void guardarDocumento(ActionEvent evento) {
         try {
             if (super.getEnRegistro()) {
-                if (instControl != null || !!"".equals(instControl) || !"0".equals(instControl)) {
+                if (instControl != null || ! !"".equals(instControl) || !"0".equals(instControl)) {
                     this.documento.setInstitucionControl(institucionControlServicio.findByID(Long.parseLong(instControl)));
                     this.documento.setCodInstitucionControl(Long.parseLong(instControl));
                 }
@@ -524,12 +588,28 @@ public class PanelDocsBean extends BotonesBean implements Serializable {
         this.entregableDocumento = entregableDocumento;
     }
 
-    public PieChartModel getPieModel() {
-        return pieModel;
+    public FechasActividad getFechasActividad() {
+        return fechasActividad;
     }
 
-    public void setPieModel(PieChartModel pieModel) {
-        this.pieModel = pieModel;
+    public void setFechasActividad(FechasActividad fechasActividad) {
+        this.fechasActividad = fechasActividad;
+    }
+
+    public MeterGaugeChartModel getMeterGaugeChartModel() {
+        return meterGaugeChartModel;
+    }
+
+    public void setMeterGaugeChartModel(MeterGaugeChartModel meterGaugeChartModel) {
+        this.meterGaugeChartModel = meterGaugeChartModel;
+    }
+
+    public MeterGaugeChartModel getMeterGaugeChartModelSalud() {
+        return meterGaugeChartModelSalud;
+    }
+
+    public void setMeterGaugeChartModelSalud(MeterGaugeChartModel meterGaugeChartModelSalud) {
+        this.meterGaugeChartModelSalud = meterGaugeChartModelSalud;
     }
 
     public String getInstControl() {

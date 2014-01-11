@@ -5,7 +5,7 @@
                 xmlns:f="http://java.sun.com/jsf/core" 
                 xmlns:ui="http://java.sun.com/jsf/facelets" 
                 xmlns:p="http://primefaces.org/ui"
-                template="/templates/templateElementosProyecto.xhtml">
+                template="/templates/templateElementosProyecto1.xhtml">
 
     <f:metadata>  
         <f:viewParam id="codProyecto" name="codProyecto" value="#{panelResponsablesBean.codProyecto}" />
@@ -15,32 +15,34 @@
 
     <ui:define name="titulo">Responsables</ui:define>
 
+    <ui:define name="arbol">#{panelResponsablesBean.emplSesion.nombre} &#8594; #{panelResponsablesBean.proyecto.nombreProyecto} &#8594; #{panelResponsablesBean.actividad.nombreActividad} &#8594; #{panelResponsablesBean.subActividad.nombreActividad} &#8594; #{panelResponsablesBean.ENTIDAD} </ui:define> 
+    <!--EXPECTATIVA-->
+
     <ui:define name="tabla">
         <p:panelGrid style="margin-top:20px">  
             <f:facet name="header">  
                 <p:row>  
                     <p:column colspan="6">#{panelResponsablesBean.proyecto.nombreProyecto}</p:column>  
-                </p:row> 
-                <p:row>  
-                    <p:column colspan="2" style="font-weight: bold;">Actividad</p:column>  
-                    <p:column colspan="4" style="font-weight: bold;">#{panelResponsablesBean.actividad.nombreActividad}</p:column>  
-                </p:row>
-                <p:row>  
-                    <p:column colspan="2" style="font-weight: bold;">Sub-Actividad</p:column>  
-                    <p:column colspan="4" style="font-weight: bold;">#{panelResponsablesBean.subActividad.nombreActividad}</p:column>  
-                </p:row>
-
+                </p:row>  
             </f:facet>  
 
             <p:row>  
-                <p:column colspan="2" style="font-weight: bold;">Avance Proyecto</p:column>  
-                <p:column colspan="4" style="font-weight: bold;">#{panelResponsablesBean.proyecto.avance}%</p:column>  
-            </p:row>
-
+                <p:column colspan="2" style="font-weight: bold;">Av. Proyecto</p:column>  
+                <p:column colspan="4" style="font-weight: bold; text-align: right">#{panelResponsablesBean.proyecto.avance}%</p:column>  
+            </p:row>  
             <p:row>  
-                <p:column colspan="2" style="font-weight: bold;">Avance Actividad</p:column>  
-                <p:column colspan="4" style="font-weight: bold;">#{panelResponsablesBean.actividad.avance}%</p:column>  
-            </p:row>
+                <p:column colspan="2" style="font-weight: bold;">Av. Actividad</p:column>  
+                <p:column colspan="4" style="font-weight: bold; text-align: right">#{panelResponsablesBean.actividad.avance}%</p:column>  
+            </p:row> 
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Avance</p:column>  
+                <p:column colspan="4" style="font-weight: bold; text-align: right">#{panelResponsablesBean.subActividad.avance}%</p:column>  
+            </p:row> 
+            <p:row>  
+                <p:column colspan="6" style="font-weight: bold;">
+                    <p:meterGaugeChart id="sample" value="#{panelResponsablesBean.meterGaugeChartModel}" seriesColors="cc6666, E7E658, 93b75f, 66cc66" style="width:330px;height:200px"/>  
+                </p:column>                                  
+            </p:row>  
 
             <p:row>  
                 <p:column colspan="6" styleClass="ui-widget-header">  
@@ -49,27 +51,42 @@
             </p:row>  
 
             <p:row>  
-                <p:column colspan="2" style="font-weight: bold;">Avance Sub-Actividad</p:column>  
-                <p:column colspan="4" style="font-weight: bold;">#{panelResponsablesBean.subActividad.avance}%</p:column>  
-            </p:row>
+                <p:column colspan="2" style="font-weight: bold;">Salubridad</p:column>  
+                <p:column colspan="4" style="font-weight: bold;" rendered="#{panelResponsablesBean.holgura(panelResponsablesBean.numeroDias(panelResponsablesBean.fechasActividadRespaldo.festimada))}"> #{-panelResponsablesBean.numeroDias(panelResponsablesBean.fechasActividadRespaldo.festimada)} día(s) de Holgura</p:column>  
+                <p:column colspan="4" style="font-weight: bold;" rendered="#{!panelResponsablesBean.holgura(panelResponsablesBean.numeroDias(panelResponsablesBean.fechasActividadRespaldo.festimada))}"> #{panelResponsablesBean.numeroDias(panelResponsablesBean.fechasActividadRespaldo.festimada)} día(s) de Retraso</p:column>  
 
+            </p:row> 
 
             <p:row>  
                 <p:column colspan="6" style="font-weight: bold;">
 
-                    <p:pieChart id="sample2" value="#{panelResponsablesBean.pieModel}"  
-                                style="width:300px;height:200px" showDataLabels="true" seriesColors="2288AA,AAAAAA" sliceMargin="5" /> 
+                    <p:meterGaugeChart id="salud" value="#{panelResponsablesBean.meterGaugeChartModelSalud}" min="-100" max="100" seriesColors="93b75f, E7E658, E7E658, cc6666" style="width:330px;height:200px"/>  
 
                 </p:column>                                  
             </p:row> 
 
+            <f:facet name="footer">  
+                <p:row>  
+                    <p:column  colspan="1" style="text-align: left">  
+                        Empresa 
+                    </p:column>  
+                    <p:column  colspan="5">  
+                        #{panelResponsablesBean.proyecto.empresa.razonSocial} 
+                    </p:column>  
+                </p:row>    
+            </f:facet>  
+        </p:panelGrid>  
 
 
-            <p:row>  
-                <p:column colspan="6" styleClass="ui-widget-header">  
-                    <p:spacer height="0"/>  
-                </p:column>  
-            </p:row>  
+    </ui:define> 
+
+    <ui:define name="sitio">
+        <p:panelGrid style="margin-top:20px; width: 500px">  
+            <f:facet name="header">  
+                <p:row>  
+                    <p:column colspan="6">#{panelResponsablesBean.proyecto.nombreProyecto}</p:column>  
+                </p:row>  
+            </f:facet>  
             <p:row>  
                 <p:column colspan="2" style="font-weight: bold;">Fecha Inicio</p:column>  
                 <p:column colspan="4" style="font-weight: bold;">
@@ -97,11 +114,6 @@
                 </p:column>             
             </p:row>
 
-            <p:row>  
-                <p:column colspan="2" style="font-weight: bold;">Empresa</p:column>  
-                <p:column colspan="4" style="font-weight: bold;">#{panelResponsablesBean.proyecto.empresa.razonSocial}</p:column>  
-            </p:row> 
-
             <f:facet name="footer">  
                 <p:row>  
                     <p:column  colspan="1" style="text-align: left">  
@@ -111,14 +123,8 @@
                         #{panelResponsablesBean.proyecto.empleado.nombre} 
                     </p:column>  
                 </p:row>    
-            </f:facet>  
-        </p:panelGrid>  
-
-
-    </ui:define> 
-
-    <ui:define name="sitio">
-        <h3> #{panelResponsablesBean.emplSesion.nombre}, Usted está en #{panelResponsablesBean.ENTIDAD} </h3>
+            </f:facet> 
+        </p:panelGrid>                
     </ui:define>
     <ui:define name="cuerpo">
 
@@ -151,9 +157,9 @@
                     </p:toolbarGroup>  
                     <p:toolbarGroup align="right">             
                         <p:commandButton value="Volver" action="panelsubactividades?faces-redirect=true&amp;includeViewParams=true" icon="ui-icon-back" >  
-                            <f:param value="#{panelGastosBean.proyecto.codigo}" name="codProyecto"/>
-                            <f:param value="#{panelGastosBean.actividad.codigo}" name="codActividad"/> 
-                            <f:param value="#{panelGastosBean.subActividad.codigo}" name="codSubActividad"/> 
+                            <f:param value="#{panelResponsablesBean.proyecto.codigo}" name="codProyecto"/>
+                            <f:param value="#{panelResponsablesBean.actividad.codigo}" name="codActividad"/> 
+                            <f:param value="#{panelResponsablesBean.subActividad.codigo}" name="codSubActividad"/> 
                         </p:commandButton>
                     </p:toolbarGroup>  
                 </p:toolbar>
@@ -260,7 +266,7 @@
                 <p:outputLabel for="resp_avance" value="Avance: " />  
                 <p:spinner id="resp_avance" value="#{panelResponsablesBean.actividadEmpleado.avance}" suffix="%" min="0" max="100" required="true" /> 
                 <p:message for="resp_avance" />
-                
+
                 <p:outputLabel for="resp_desc_avance" value="Descripción: " />  
                 <p:inputTextarea id="resp_desc_avance" value="#{panelResponsablesBean.actividadSegumiento.descripcion}" rows="8" cols="40" autoResize="false" required="true" /> 
                 <p:message for="resp_desc_avance" />

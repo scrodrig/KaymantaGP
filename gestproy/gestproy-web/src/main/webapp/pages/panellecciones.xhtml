@@ -5,7 +5,7 @@
                 xmlns:f="http://java.sun.com/jsf/core" 
                 xmlns:ui="http://java.sun.com/jsf/facelets" 
                 xmlns:p="http://primefaces.org/ui"
-                template="/templates/templateElementosProyecto.xhtml">
+                template="/templates/templateElementosProyecto1.xhtml">
 
     <f:metadata>  
         <f:viewParam id="codProyecto" name="codProyecto" value="#{panelLeccionesBean.codProyecto}" />            
@@ -13,6 +13,7 @@
 
     <ui:define name="titulo">Aprendizaje</ui:define> 
 
+    <ui:define name="arbol">#{panelLeccionesBean.emplSesion.nombre} &#8594; #{panelLeccionesBean.proyecto.nombreProyecto} &#8594; #{panelLeccionesBean.ENTIDAD} </ui:define> 
     <!--EXPECTATIVA-->
 
     <ui:define name="tabla">
@@ -25,14 +26,11 @@
 
             <p:row>  
                 <p:column colspan="2" style="font-weight: bold;">Avance</p:column>  
-                <p:column colspan="4" style="font-weight: bold;">#{panelLeccionesBean.proyecto.avance}%</p:column>  
+                <p:column colspan="4" style="font-weight: bold; text-align: right">#{panelLeccionesBean.proyecto.avance}%</p:column>  
             </p:row>  
             <p:row>  
                 <p:column colspan="6" style="font-weight: bold;">
-
-                    <p:pieChart id="sample" value="#{panelLeccionesBean.pieModel}"  
-                                style="width:300px;height:200px" showDataLabels="true"  sliceMargin="5" /> 
-
+                    <p:meterGaugeChart id="sample" value="#{panelLeccionesBean.meterGaugeChartModel}" seriesColors="cc6666, E7E658, 93b75f, 66cc66" style="width:330px;height:200px"/>  
                 </p:column>                                  
             </p:row>  
 
@@ -42,9 +40,43 @@
                 </p:column>  
             </p:row>  
 
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Salubridad</p:column>  
+                <p:column colspan="4" style="font-weight: bold;" rendered="#{panelLeccionesBean.holgura(panelLeccionesBean.numeroDias(panelLeccionesBean.proyecto.festimada))}"> #{-panelLeccionesBean.numeroDias(panelLeccionesBean.proyecto.festimada)} día(s) de Holgura</p:column>  
+                <p:column colspan="4" style="font-weight: bold;" rendered="#{!panelLeccionesBean.holgura(panelLeccionesBean.numeroDias(panelLeccionesBean.proyecto.festimada))}"> #{panelLeccionesBean.numeroDias(panelLeccionesBean.proyecto.festimada)} día(s) de Retraso</p:column>  
+
+            </p:row> 
+
+            <p:row>  
+                <p:column colspan="6" style="font-weight: bold;">
+
+                    <p:meterGaugeChart id="salud" value="#{panelLeccionesBean.meterGaugeChartModelSalud}" min="-100" max="100" seriesColors="93b75f, E7E658, E7E658, cc6666" style="width:330px;height:200px"/>  
+
+                </p:column>                                  
+            </p:row> 
+                       
+            <f:facet name="footer">  
+                <p:row>  
+                    <p:column  colspan="1" style="text-align: left">  
+                        Empresa 
+                    </p:column>  
+                    <p:column  colspan="5">  
+                        #{panelLeccionesBean.proyecto.empresa.razonSocial} 
+                    </p:column>  
+                </p:row>    
+            </f:facet>  
+        </p:panelGrid>  
 
 
+    </ui:define> 
 
+    <ui:define name="sitio">
+        <p:panelGrid style="margin-top:20px; width: 500px">  
+            <f:facet name="header">  
+                <p:row>  
+                    <p:column colspan="6">#{panelLeccionesBean.proyecto.nombreProyecto}</p:column>  
+                </p:row>  
+            </f:facet>  
             <p:row>  
                 <p:column colspan="2" style="font-weight: bold;">Fecha Inicio</p:column>  
                 <p:column colspan="4" style="font-weight: bold;">
@@ -71,12 +103,7 @@
                     </h:outputLabel>
                 </p:column>             
             </p:row>
-
-            <p:row>  
-                <p:column colspan="2" style="font-weight: bold;">Empresa</p:column>  
-                <p:column colspan="4" style="font-weight: bold;">#{panelLeccionesBean.proyecto.empresa.razonSocial}</p:column>  
-            </p:row> 
-
+            
             <f:facet name="footer">  
                 <p:row>  
                     <p:column  colspan="1" style="text-align: left">  
@@ -86,14 +113,8 @@
                         #{panelLeccionesBean.proyecto.empleado.nombre} 
                     </p:column>  
                 </p:row>    
-            </f:facet>  
-        </p:panelGrid>  
-
-
-    </ui:define> 
-
-    <ui:define name="sitio">
-        <h3> #{panelLeccionesBean.emplSesion.nombre}, Usted está en #{panelLeccionesBean.ENTIDAD} </h3>
+            </f:facet> 
+        </p:panelGrid>                
     </ui:define>
     <ui:define name="cuerpo">
 

@@ -5,7 +5,7 @@
                 xmlns:f="http://java.sun.com/jsf/core" 
                 xmlns:ui="http://java.sun.com/jsf/facelets" 
                 xmlns:p="http://primefaces.org/ui"
-                template="/templates/templateElementosProyecto.xhtml">
+                template="/templates/templateElementosProyecto1.xhtml">
 
     <f:metadata>  
         <f:viewParam id="codProyecto" name="codProyecto" value="#{panelActividadesBean.codProyecto}" />            
@@ -13,6 +13,7 @@
 
     <ui:define name="titulo">Actividades</ui:define> 
 
+    <ui:define name="arbol">#{panelActividadesBean.emplSesion.nombre} &#8594; #{panelActividadesBean.proyecto.nombreProyecto} &#8594; #{panelActividadesBean.ENTIDAD} </ui:define> 
     <!--EXPECTATIVA-->
 
     <ui:define name="tabla">
@@ -25,14 +26,11 @@
 
             <p:row>  
                 <p:column colspan="2" style="font-weight: bold;">Avance</p:column>  
-                <p:column colspan="4" style="font-weight: bold;">#{panelActividadesBean.proyecto.avance}%</p:column>  
+                <p:column colspan="4" style="font-weight: bold; text-align: right">#{panelActividadesBean.proyecto.avance}%</p:column>  
             </p:row>  
             <p:row>  
                 <p:column colspan="6" style="font-weight: bold;">
-
-                    <p:pieChart id="sample" value="#{panelActividadesBean.pieModel}"  
-                                style="width:300px;height:200px" showDataLabels="true" seriesColors="2288AA,AAAAAA" sliceMargin="5" /> 
-
+                    <p:meterGaugeChart id="sample" value="#{panelActividadesBean.meterGaugeChartModel}" seriesColors="cc6666, E7E658, 93b75f, 66cc66" style="width:330px;height:200px"/>  
                 </p:column>                                  
             </p:row>  
 
@@ -41,6 +39,44 @@
                     <p:spacer height="0"/>  
                 </p:column>  
             </p:row>  
+
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Salubridad</p:column>  
+                <p:column colspan="4" style="font-weight: bold;" rendered="#{panelActividadesBean.holgura(panelActividadesBean.numeroDias(panelActividadesBean.proyecto.festimada))}"> #{-panelActividadesBean.numeroDias(panelActividadesBean.proyecto.festimada)} día(s) de Holgura</p:column>  
+                <p:column colspan="4" style="font-weight: bold;" rendered="#{!panelActividadesBean.holgura(panelActividadesBean.numeroDias(panelActividadesBean.proyecto.festimada))}"> #{panelActividadesBean.numeroDias(panelActividadesBean.proyecto.festimada)} día(s) de Retraso</p:column>  
+
+            </p:row> 
+
+            <p:row>  
+                <p:column colspan="6" style="font-weight: bold;">
+
+                    <p:meterGaugeChart id="salud" value="#{panelActividadesBean.meterGaugeChartModelSalud}" min="-100" max="100" seriesColors="93b75f, E7E658, E7E658, cc6666" style="width:330px;height:200px"/>  
+
+                </p:column>                                  
+            </p:row> 
+                       
+            <f:facet name="footer">  
+                <p:row>  
+                    <p:column  colspan="1" style="text-align: left">  
+                        Empresa 
+                    </p:column>  
+                    <p:column  colspan="5">  
+                        #{panelActividadesBean.proyecto.empresa.razonSocial} 
+                    </p:column>  
+                </p:row>    
+            </f:facet>  
+        </p:panelGrid>  
+
+
+    </ui:define> 
+
+    <ui:define name="sitio">
+        <p:panelGrid style="margin-top:20px; width: 500px">  
+            <f:facet name="header">  
+                <p:row>  
+                    <p:column colspan="6">#{panelActividadesBean.proyecto.nombreProyecto}</p:column>  
+                </p:row>  
+            </f:facet>  
             <p:row>  
                 <p:column colspan="2" style="font-weight: bold;">Fecha Inicio</p:column>  
                 <p:column colspan="4" style="font-weight: bold;">
@@ -67,12 +103,7 @@
                     </h:outputLabel>
                 </p:column>             
             </p:row>
-
-            <p:row>  
-                <p:column colspan="2" style="font-weight: bold;">Empresa</p:column>  
-                <p:column colspan="4" style="font-weight: bold;">#{panelActividadesBean.proyecto.empresa.razonSocial}</p:column>  
-            </p:row> 
-
+            
             <f:facet name="footer">  
                 <p:row>  
                     <p:column  colspan="1" style="text-align: left">  
@@ -82,14 +113,8 @@
                         #{panelActividadesBean.proyecto.empleado.nombre} 
                     </p:column>  
                 </p:row>    
-            </f:facet>  
-        </p:panelGrid>  
-
-
-    </ui:define> 
-
-    <ui:define name="sitio">
-        <h3> #{panelActividadesBean.emplSesion.nombre}, Usted está en #{panelActividadesBean.ENTIDAD} </h3>
+            </f:facet> 
+        </p:panelGrid>                
     </ui:define>
     <ui:define name="cuerpo">
 
@@ -139,7 +164,7 @@
 
 
         <p:dataTable id="actividades"  value="#{panelActividadesBean.actividades}" var="actividad" selection="#{panelActividadesBean.actividadSeleccionada}" selectionMode="single" scrollable="true" 
-                     rowKey="#{actividad.codigo}" style="width: 650px" 
+                     rowKey="#{actividad.codigo}" style="width: 600px" 
                      paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                      emptyMessage="No se ha registrado ninguna Actividades" rendered="#{not(panelActividadesBean.enRegistro or 
@@ -162,7 +187,7 @@
                         <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">  
                             <p:printer target="actividades" />  
                         </p:commandButton>
-                        <p:commandButton value="Sub-Actividades" action="panelsubactividades" icon="ui-icon-document" disabled="#{panelActividadesBean.disableAuditoria}">  
+                        <p:commandButton value="Sub-Actividades" action="panelsubactividades?faces-redirect=true&amp;includeViewParams=true" icon="ui-icon-document" disabled="#{panelActividadesBean.disableAuditoria}">  
                             <f:param value="#{panelActividadesBean.actividad.proyecto.codigo}" name="codProyecto"/>
                             <f:param value="#{panelActividadesBean.actividad.codigo}" name="codActividad"/>
                         </p:commandButton>

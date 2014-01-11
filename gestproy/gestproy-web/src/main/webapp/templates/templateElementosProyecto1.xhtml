@@ -20,10 +20,12 @@
                 </div> 
 
                 <br/>
+                <div align="right" style="font-size: 8pt">
+                    <ui:insert name="arbol"/>
+                </div>
                 <ui:include src="/pages/cabecera.xhtml"/>
 
                 <div id="cuerpo">
-                    <br/>
 
                     <div id="contenido">
                         <h:form id="form" prependId="false">                            
@@ -41,12 +43,12 @@
                                         <br/>
                                         <br/>
                                 <ui:insert name="cuerpo"/>
-                                <br/>
-                                <br/>
                                 </td>
                                 </tr>
                             </table>
+                            <!--
                             <p:messages id="messages" showDetail="true"  autoUpdate="true"  severity="info,error" globalOnly="true"/>
+                            -->
                         </h:form>
                     </div>
 

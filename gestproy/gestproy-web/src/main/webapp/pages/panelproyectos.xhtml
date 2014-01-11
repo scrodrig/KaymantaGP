@@ -36,7 +36,7 @@
                         <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">  
                             <p:printer target="proyectos" />  
                         </p:commandButton>                        
-                        <p:commandButton value="Actividades" action="panelactividades" icon="ui-icon-document" disabled="#{panelProyectosBean.disableAuditoria}">  
+                        <p:commandButton value="Actividades" action="panelactividades?faces-redirect=true&amp;includeViewParams=true" icon="ui-icon-document" disabled="#{panelProyectosBean.disableAuditoria}">  
                             <f:param value="#{panelProyectosBean.proyecto.codigo}" name="codProyecto"/>
                         </p:commandButton>
                     </p:toolbarGroup>  

@@ -5,7 +5,7 @@
                 xmlns:f="http://java.sun.com/jsf/core" 
                 xmlns:ui="http://java.sun.com/jsf/facelets" 
                 xmlns:p="http://primefaces.org/ui"
-                template="/templates/templateElementosProyecto.xhtml">
+                template="/templates/templateElementosProyecto1.xhtml">
 
     <f:metadata>  
         <f:viewParam id="codProyecto" name="codProyecto" value="#{panelExpectativasBean.codProyecto}" />            
@@ -13,6 +13,7 @@
 
     <ui:define name="titulo">Expectativas</ui:define> 
 
+    <ui:define name="arbol">#{panelExpectativasBean.emplSesion.nombre} &#8594; #{panelExpectativasBean.proyecto.nombreProyecto} &#8594; #{panelExpectativasBean.ENTIDAD} </ui:define> 
     <!--EXPECTATIVA-->
 
     <ui:define name="tabla">
@@ -25,14 +26,11 @@
 
             <p:row>  
                 <p:column colspan="2" style="font-weight: bold;">Avance</p:column>  
-                <p:column colspan="4" style="font-weight: bold;">#{panelExpectativasBean.proyecto.avance}%</p:column>  
+                <p:column colspan="4" style="font-weight: bold; text-align: right">#{panelExpectativasBean.proyecto.avance}%</p:column>  
             </p:row>  
             <p:row>  
                 <p:column colspan="6" style="font-weight: bold;">
-
-                    <p:pieChart id="sample" value="#{panelExpectativasBean.pieModel}"  
-                                style="width:300px;height:200px" showDataLabels="true"  sliceMargin="5" /> 
-
+                    <p:meterGaugeChart id="sample" value="#{panelExpectativasBean.meterGaugeChartModel}" seriesColors="cc6666, E7E658, 93b75f, 66cc66" style="width:330px;height:200px"/>  
                 </p:column>                                  
             </p:row>  
 
@@ -42,8 +40,43 @@
                 </p:column>  
             </p:row>  
 
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Salubridad</p:column>  
+                <p:column colspan="4" style="font-weight: bold;" rendered="#{panelExpectativasBean.holgura(panelExpectativasBean.numeroDias(panelExpectativasBean.proyecto.festimada))}"> #{-panelExpectativasBean.numeroDias(panelExpectativasBean.proyecto.festimada)} día(s) de Holgura</p:column>  
+                <p:column colspan="4" style="font-weight: bold;" rendered="#{!panelExpectativasBean.holgura(panelExpectativasBean.numeroDias(panelExpectativasBean.proyecto.festimada))}"> #{panelExpectativasBean.numeroDias(panelExpectativasBean.proyecto.festimada)} día(s) de Retraso</p:column>  
+
+            </p:row> 
+
+            <p:row>  
+                <p:column colspan="6" style="font-weight: bold;">
+
+                    <p:meterGaugeChart id="salud" value="#{panelExpectativasBean.meterGaugeChartModelSalud}" min="-100" max="100" seriesColors="93b75f, E7E658, E7E658, cc6666" style="width:330px;height:200px"/>  
+
+                </p:column>                                  
+            </p:row> 
+                       
+            <f:facet name="footer">  
+                <p:row>  
+                    <p:column  colspan="1" style="text-align: left">  
+                        Empresa 
+                    </p:column>  
+                    <p:column  colspan="5">  
+                        #{panelExpectativasBean.proyecto.empresa.razonSocial} 
+                    </p:column>  
+                </p:row>    
+            </f:facet>  
+        </p:panelGrid>  
 
 
+    </ui:define> 
+
+    <ui:define name="sitio">
+        <p:panelGrid style="margin-top:20px; width: 500px">  
+            <f:facet name="header">  
+                <p:row>  
+                    <p:column colspan="6">#{panelExpectativasBean.proyecto.nombreProyecto}</p:column>  
+                </p:row>  
+            </f:facet>  
             <p:row>  
                 <p:column colspan="2" style="font-weight: bold;">Fecha Inicio</p:column>  
                 <p:column colspan="4" style="font-weight: bold;">
@@ -70,7 +103,7 @@
                     </h:outputLabel>
                 </p:column>             
             </p:row>
-
+            
             <f:facet name="footer">  
                 <p:row>  
                     <p:column  colspan="1" style="text-align: left">  
@@ -80,20 +113,14 @@
                         #{panelExpectativasBean.proyecto.empleado.nombre} 
                     </p:column>  
                 </p:row>    
-            </f:facet>  
-        </p:panelGrid>  
-
-
-    </ui:define> 
-
-    <ui:define name="sitio">
-        <h3> #{panelExpectativasBean.emplSesion.nombre}, Usted está en #{panelExpectativasBean.ENTIDAD} </h3>
+            </f:facet> 
+        </p:panelGrid>                
     </ui:define>
 
     <ui:define name="cuerpo">
         <!--PANEL-->
         <p:dataTable id="expectativas"  value="#{panelExpectativasBean.expectativas}" var="expectativa" selection="#{panelExpectativasBean.expectativaSeleccionado}" selectionMode="single" scrollable="true" 
-                     rowKey="#{expectativa.pk}" style="width: 650px" 
+                     rowKey="#{expectativa.pk}" style="width: 600px" 
                      paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                      emptyMessage="No se ha registrado ningúna Expectativa" rendered="#{not(panelExpectativasBean.enRegistro or 

@@ -5,43 +5,44 @@
                 xmlns:f="http://java.sun.com/jsf/core" 
                 xmlns:ui="http://java.sun.com/jsf/facelets" 
                 xmlns:p="http://primefaces.org/ui"
-                template="/templates/templateElementosProyecto.xhtml">
+                template="/templates/templateElementosProyecto1.xhtml">
 
     <f:metadata>  
         <f:viewParam id="codProyecto" name="codProyecto" value="#{panelDocsBean.codProyecto}" />
         <f:viewParam id="codActividad" name="codActividad" value="#{panelDocsBean.codActividad}" />
-        <f:viewParam id="codSubActividad" name="codActividad" value="#{panelDocsBean.codSubActividad}" />
+        <f:viewParam id="codSubActividad" name="codSubActividad" value="#{panelDocsBean.codSubActividad}" />
         <f:viewParam id="codActividadEntregable" name="codActividadEntregable" value="#{panelDocsBean.codActividadEntregable}" />
     </f:metadata>
 
     <ui:define name="titulo">Documentos</ui:define>
+    <ui:define name="arbol">#{panelDocsBean.emplSesion.nombre} &#8594; #{panelDocsBean.proyecto.nombreProyecto} &#8594; #{panelDocsBean.actividad.nombreActividad} &#8594; #{panelDocsBean.subActividad.nombreActividad} &#8594; #{panelDocsBean.actividadEntregable.nombreEntregable} &#8594; #{panelDocsBean.ENTIDAD} </ui:define> 
+    <!--EXPECTATIVA-->
 
     <ui:define name="tabla">
         <p:panelGrid style="margin-top:20px">  
             <f:facet name="header">  
                 <p:row>  
                     <p:column colspan="6">#{panelDocsBean.proyecto.nombreProyecto}</p:column>  
-                </p:row> 
-                <p:row>  
-                    <p:column colspan="2" style="font-weight: bold;">Actividad</p:column>  
-                    <p:column colspan="4" style="font-weight: bold;">#{panelDocsBean.actividad.nombreActividad}</p:column>  
-                </p:row>
-                <p:row>  
-                    <p:column colspan="2" style="font-weight: bold;">Sub-Actividad</p:column>  
-                    <p:column colspan="4" style="font-weight: bold;">#{panelDocsBean.subActividad.nombreActividad}</p:column>  
-                </p:row>
-
+                </p:row>  
             </f:facet>  
 
             <p:row>  
-                <p:column colspan="2" style="font-weight: bold;">Avance Proyecto</p:column>  
-                <p:column colspan="4" style="font-weight: bold;">#{panelDocsBean.proyecto.avance}%</p:column>  
-            </p:row>
-
+                <p:column colspan="2" style="font-weight: bold;">Av. Proyecto</p:column>  
+                <p:column colspan="4" style="font-weight: bold; text-align: right">#{panelDocsBean.proyecto.avance}%</p:column>  
+            </p:row>  
             <p:row>  
-                <p:column colspan="2" style="font-weight: bold;">Avance Actividad</p:column>  
-                <p:column colspan="4" style="font-weight: bold;">#{panelDocsBean.actividad.avance}%</p:column>  
-            </p:row>
+                <p:column colspan="2" style="font-weight: bold;">Av. Actividad</p:column>  
+                <p:column colspan="4" style="font-weight: bold; text-align: right">#{panelDocsBean.actividad.avance}%</p:column>  
+            </p:row> 
+            <p:row>  
+                <p:column colspan="2" style="font-weight: bold;">Avance</p:column>  
+                <p:column colspan="4" style="font-weight: bold; text-align: right">#{panelDocsBean.subActividad.avance}%</p:column>  
+            </p:row> 
+            <p:row>  
+                <p:column colspan="6" style="font-weight: bold;">
+                    <p:meterGaugeChart id="sample" value="#{panelDocsBean.meterGaugeChartModel}" seriesColors="cc6666, E7E658, 93b75f, 66cc66" style="width:330px;height:200px"/>  
+                </p:column>                                  
+            </p:row>  
 
             <p:row>  
                 <p:column colspan="6" styleClass="ui-widget-header">  
@@ -50,43 +51,42 @@
             </p:row>  
 
             <p:row>  
-                <p:column colspan="2" style="font-weight: bold;">Avance Sub-Actividad</p:column>  
-                <p:column colspan="4" style="font-weight: bold;">#{panelDocsBean.subActividad.avance}%</p:column>  
-            </p:row>
+                <p:column colspan="2" style="font-weight: bold;">Salubridad</p:column>  
+                <p:column colspan="4" style="font-weight: bold;" rendered="#{panelDocsBean.holgura(panelDocsBean.numeroDias(panelDocsBean.fechasActividad.festimada))}"> #{-panelDocsBean.numeroDias(panelDocsBean.fechasActividad.festimada)} día(s) de Holgura</p:column>  
+                <p:column colspan="4" style="font-weight: bold;" rendered="#{!panelDocsBean.holgura(panelDocsBean.numeroDias(panelDocsBean.fechasActividad.festimada))}"> #{panelDocsBean.numeroDias(panelDocsBean.fechasActividad.festimada)} día(s) de Retraso</p:column>  
 
+            </p:row> 
 
             <p:row>  
                 <p:column colspan="6" style="font-weight: bold;">
 
-                    <p:pieChart id="sample2" value="#{panelDocsBean.pieModel}"  
-                                style="width:300px;height:200px" showDataLabels="true" seriesColors="2288AA,AAAAAA" sliceMargin="5" /> 
+                    <p:meterGaugeChart id="salud" value="#{panelDocsBean.meterGaugeChartModelSalud}" min="-100" max="100" seriesColors="93b75f, E7E658, E7E658, cc6666" style="width:330px;height:200px"/>  
 
                 </p:column>                                  
             </p:row> 
 
-            <p:row>  
-                <p:column colspan="1" style="font-weight: bold;">Entregable</p:column>  
-                <p:column colspan="5" style="font-weight: bold;">#{panelDocsBean.actividadEntregable.nombreEntregable}</p:column>  
-            </p:row>
-            
-            <p:row>  
-                <p:column colspan="1" style="font-weight: bold;">Estado</p:column>  
-                <p:column colspan="5" style="font-weight: bold;">#{panelDocsBean.getEstado(panelDocsBean.actividadEntregable.estado)}</p:column>  
-            </p:row>
-            
-            <p:row>  
-                <p:column colspan="6" styleClass="ui-widget-header">  
-                    <p:spacer height="0"/>  
-                </p:column>  
-            </p:row>
-            
-            
+            <f:facet name="footer">  
+                <p:row>  
+                    <p:column  colspan="1" style="text-align: left">  
+                        Empresa 
+                    </p:column>  
+                    <p:column  colspan="5">  
+                        #{panelDocsBean.proyecto.empresa.razonSocial} 
+                    </p:column>  
+                </p:row>    
+            </f:facet>  
+        </p:panelGrid>  
 
-            <p:row>  
-                <p:column colspan="6" styleClass="ui-widget-header">  
-                    <p:spacer height="0"/>  
-                </p:column>  
-            </p:row>  
+
+    </ui:define> 
+
+    <ui:define name="sitio">
+        <p:panelGrid style="margin-top:20px; width: 500px">  
+            <f:facet name="header">  
+                <p:row>  
+                    <p:column colspan="6">#{panelDocsBean.proyecto.nombreProyecto}</p:column>  
+                </p:row>  
+            </f:facet>  
             <p:row>  
                 <p:column colspan="2" style="font-weight: bold;">Fecha Inicio</p:column>  
                 <p:column colspan="4" style="font-weight: bold;">
@@ -114,11 +114,6 @@
                 </p:column>             
             </p:row>
 
-            <p:row>  
-                <p:column colspan="2" style="font-weight: bold;">Empresa</p:column>  
-                <p:column colspan="4" style="font-weight: bold;">#{panelDocsBean.proyecto.empresa.razonSocial}</p:column>  
-            </p:row> 
-
             <f:facet name="footer">  
                 <p:row>  
                     <p:column  colspan="1" style="text-align: left">  
@@ -128,14 +123,8 @@
                         #{panelDocsBean.proyecto.empleado.nombre} 
                     </p:column>  
                 </p:row>    
-            </f:facet>  
-        </p:panelGrid>  
-
-
-    </ui:define> 
-
-    <ui:define name="sitio">
-        <h3> #{panelDocsBean.emplSesion.nombre}, Usted está en #{panelDocsBean.ENTIDAD} </h3>
+            </f:facet> 
+        </p:panelGrid>                
     </ui:define>
     <ui:define name="cuerpo">
 
@@ -190,7 +179,7 @@
                     <f:convertDateTime pattern="dd/MM/yyyy" />
                 </h:outputLabel>
             </p:column>
-            
+
             <p:column headerText="Descargar" style="width: 80px">  
                 <p:commandLink ajax="false">
                     <p:graphicImage value="/images/download.png" height="16px" width="16px"/>

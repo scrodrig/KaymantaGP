@@ -13,6 +13,7 @@ import ec.kaymanta.gestproy.servicio.RiesgoServicio;
 import ec.kaymanta.gestproy.servicio.UsuarioServicio;
 import ec.kaymanta.gestproy.web.util.MensajesGenericos;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,9 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import org.apache.commons.beanutils.BeanUtils;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.primefaces.model.chart.MeterGaugeChartModel;
 import org.primefaces.model.chart.PieChartModel;
 
 /**
@@ -53,20 +57,17 @@ public class PanelRiesgosBean extends BotonesBean implements Serializable{
     private Proyecto proyecto;
     private String codProyecto;
     //ELEMENTO DE VISTA
-    private PieChartModel pieModel;
-    
+    private MeterGaugeChartModel meterGaugeChartModel;
+    //ELEMENTO DE VISTA
+    private MeterGaugeChartModel meterGaugeChartModelSalud;
     
     @PostConstruct
     @Override
     public void postConstructor() {
 
         super.sinSeleccion();
-
-        System.out.println("PROYECTO: " + codProyecto);
         this.usrSesion = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario");
-        System.out.println("USUARIO: " + usrSesion);
         this.emplSesion = (Empleado) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Empleado");
-
         FacesContext context = FacesContext.getCurrentInstance();
         Map<String, String> parametros = context.getExternalContext().getRequestParameterMap();
         if (this.proyecto == null) {
@@ -75,14 +76,65 @@ public class PanelRiesgosBean extends BotonesBean implements Serializable{
         }
         System.out.println("PROYECTO: " + proyecto.getNombreProyecto());
         this.riesgos = this.riesgoServicio.findByProyecto(proyecto);
-        createPieModel();
+        createMeterGaugeChart();
+        createMeterGaugeChartSalubridad();
         this.riesgo = new Riesgo();
     }
     
-    private void createPieModel() {
-        pieModel = new PieChartModel();
-        pieModel.set("Avance", proyecto.getAvance().floatValue());
-        pieModel.set("Restante", 100 - proyecto.getAvance().floatValue());
+    private void createMeterGaugeChart() {
+        meterGaugeChartModel = new MeterGaugeChartModel();
+        List<Number> intervals = new ArrayList<Number>() {
+            {
+                add(25);
+                add(50);
+                add(75);
+                add(100);
+            }
+        };
+        meterGaugeChartModel = new MeterGaugeChartModel(proyecto.getAvance(), intervals);
+    }
+
+    private void createMeterGaugeChartSalubridad() {
+        List<Number> intervals = new ArrayList<Number>() {
+            {
+                add(-10);
+                add(0);
+                add(10);
+                add(100);
+            }
+        };
+
+        meterGaugeChartModelSalud = new MeterGaugeChartModel(numeroDias(proyecto.getFestimada()), intervals);
+    }
+
+    public int numeroDias(Date d2) {
+        try {
+            Date d1 = new Date();
+            if (d1.before(d2)) {
+                DateTime dt1 = new DateTime(d1);
+                DateTime dt2 = new DateTime(d2);
+                Days daysBetween = Days.daysBetween(dt1, dt2);
+                return -daysBetween.getDays();
+            } else if (d1.after(d2)) {
+                DateTime dt1 = new DateTime(d2);
+                DateTime dt2 = new DateTime(d1);
+                Days daysBetween = Days.daysBetween(dt1, dt2);
+                return daysBetween.getDays();
+            } else if (d1.compareTo(d2) == 0) {
+                return 0;
+            }
+        } catch (Exception e) {
+            return 0;
+        }
+        return 0;
+    }
+
+    public boolean holgura(int dias) {
+        if (dias <= 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public String getEstado(String estado) {
@@ -136,9 +188,7 @@ public class PanelRiesgosBean extends BotonesBean implements Serializable{
             try {
                 this.riesgo = new Riesgo();
                 this.riesgo = (Riesgo) BeanUtils.cloneBean(this.riesgoSeleccionado);
-                System.out.println("ESTOY AQUI Y SI SELECCIONE EL RIESGO");
             } catch (Exception e) {
-                System.out.println("Error en Riesgo");
             }
         } else {
             super.sinSeleccion();
@@ -269,15 +319,19 @@ public class PanelRiesgosBean extends BotonesBean implements Serializable{
         this.codProyecto = codProyecto;
     }
 
-    public PieChartModel getPieModel() {
-        return pieModel;
+    public MeterGaugeChartModel getMeterGaugeChartModel() {
+        return meterGaugeChartModel;
     }
 
-    public void setPieModel(PieChartModel pieModel) {
-        this.pieModel = pieModel;
+    public void setMeterGaugeChartModel(MeterGaugeChartModel meterGaugeChartModel) {
+        this.meterGaugeChartModel = meterGaugeChartModel;
     }
 
-    
-    
-    
+    public MeterGaugeChartModel getMeterGaugeChartModelSalud() {
+        return meterGaugeChartModelSalud;
+    }
+
+    public void setMeterGaugeChartModelSalud(MeterGaugeChartModel meterGaugeChartModelSalud) {
+        this.meterGaugeChartModelSalud = meterGaugeChartModelSalud;
+    }     
 }

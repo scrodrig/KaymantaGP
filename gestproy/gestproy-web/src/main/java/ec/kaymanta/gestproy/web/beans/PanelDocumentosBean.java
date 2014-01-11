@@ -23,6 +23,7 @@ import ec.kaymanta.gestproy.web.util.MensajesGenericos;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -36,10 +37,13 @@ import javax.faces.event.ActionEvent;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.ArrayUtils;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
+import org.primefaces.model.chart.MeterGaugeChartModel;
 import org.primefaces.model.chart.PieChartModel;
 
 /**
@@ -82,7 +86,9 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
     private String codProyecto;
     private UploadedFile file;
     //ELEMENTO DE VISTA
-    private PieChartModel pieModel;
+    private MeterGaugeChartModel meterGaugeChartModel;
+    //ELEMENTO DE VISTA
+    private MeterGaugeChartModel meterGaugeChartModelSalud;
     private String instControl;
     private String tipoDoc;
 
@@ -107,7 +113,8 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
         this.documentos = this.documentoServicio.findByProyecto(proyecto);
         this.institucionesControl = this.institucionControlServicio.obtener();
         this.tipoDocumento = this.tipoDocumentoServicio.obtener();
-        createPieModel();
+        createMeterGaugeChart();
+        createMeterGaugeChartSalubridad();
         this.documento = new Documento();
     }
 
@@ -118,10 +125,60 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
         return file;
     }
 
-    private void createPieModel() {
-        pieModel = new PieChartModel();
-        pieModel.set("Avance", proyecto.getAvance().floatValue());
-        pieModel.set("Restante", 100 - proyecto.getAvance().floatValue());
+    private void createMeterGaugeChart() {
+        meterGaugeChartModel = new MeterGaugeChartModel();
+        List<Number> intervals = new ArrayList<Number>() {
+            {
+                add(25);
+                add(50);
+                add(75);
+                add(100);
+            }
+        };
+        meterGaugeChartModel = new MeterGaugeChartModel(proyecto.getAvance(), intervals);
+    }
+
+    private void createMeterGaugeChartSalubridad() {
+        List<Number> intervals = new ArrayList<Number>() {
+            {
+                add(-10);
+                add(0);
+                add(10);
+                add(100);
+            }
+        };
+
+        meterGaugeChartModelSalud = new MeterGaugeChartModel(numeroDias(proyecto.getFestimada()), intervals);
+    }
+
+    public int numeroDias(Date d2) {
+        try {
+            Date d1 = new Date();
+            if (d1.before(d2)) {
+                DateTime dt1 = new DateTime(d1);
+                DateTime dt2 = new DateTime(d2);
+                Days daysBetween = Days.daysBetween(dt1, dt2);
+                return -daysBetween.getDays();
+            } else if (d1.after(d2)) {
+                DateTime dt1 = new DateTime(d2);
+                DateTime dt2 = new DateTime(d1);
+                Days daysBetween = Days.daysBetween(dt1, dt2);
+                return daysBetween.getDays();
+            } else if (d1.compareTo(d2) == 0) {
+                return 0;
+            }
+        } catch (Exception e) {
+            return 0;
+        }
+        return 0;
+    }
+
+    public boolean holgura(int dias) {
+        if (dias <= 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public String getUsrAuditoria(String usr) {
@@ -179,7 +236,6 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
             super.setDisableCargaDocumentos(Boolean.FALSE);
             System.out.println(super.getDisableCargaDocumentos());
             FacesMessage msg = new FacesMessage(name + " documento cargado. ");
-            System.out.println("Carga: " + msg.getSummary() + " - " + event.getComponent().getClientId());
         } catch (Exception e) {
             e.printStackTrace();
             FacesMessage msg1 = new FacesMessage("Error", event.getFile().getFileName() + " no se cargo. " + resultado);
@@ -219,7 +275,6 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
                     this.documento.setInstitucionControl(institucionControlServicio.findByID(Long.parseLong(instControl)));
                     this.documento.setCodInstitucionControl(Long.parseLong(instControl));
                 }
-                System.out.println("INST CONTROL: " + instControl);
                 this.documento.setTipoDocumento(tipoDocumentoServicio.findByID(Long.parseLong(tipoDoc)));
                 this.documento.setCodTipoDocumento(Long.parseLong(tipoDoc));
                 this.documento.setUsrCreacion(usrSesion.getCodigo());
@@ -227,8 +282,6 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
                 this.documentoServicio.crear(documento);
                 this.documentos.add(documento);
                 //CREACIÖN TABLA DOCUMENTOS PROYECTO
-                System.out.println("EL PROYECTO ES: " + proyecto.getNombreProyecto() + " Y EK DOCUMENTO ES: " + documento.getNombreDocumento());
-                System.out.println("EL PROYECTO ES: " + proyecto.getCodigo() + " Y EK DOCUMENTO ES: " + documento.getCodigo());
                 this.documentosProyecto = new DocumentosProyecto();
                 this.documentosProyecto.getPk().setDocumento(documento.getCodigo());
                 this.documentosProyecto.getPk().setProyecto(proyecto.getCodigo());
@@ -244,7 +297,6 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
                 this.instControl = new String();
                 this.tipoDoc = new String();
             } else if (super.getEnEdicion()) {
-                System.out.println("EN EDICIÓN DE DOCUMENTO");
                 int i = this.documentos.indexOf(this.documento);
                 if (instControl != null || !"".equals(instControl) || !"0".equals(instControl)) {
                     this.documento.setInstitucionControl(institucionControlServicio.findByID(Long.parseLong(instControl)));
@@ -254,12 +306,7 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
                 this.documento.setCodTipoDocumento(Long.parseLong(tipoDoc));
                 this.documento.setUsrModificacion(usrSesion.getCodigo());
                 this.documento.setFmodificacion(new Date());
-                System.out.println("Código documento en guardar la actualizacion documento modificado " + documento.getCodigo());
                 this.documentoServicio.actualizar(documento);
-                System.out.println("El valor de I es:" + documentos.get(i).getNombreDocumento());
-                System.out.println("EL PROYECTO ES: " + proyecto.getNombreProyecto() + " Y EK DOCUMENTO ES: " + documento.getNombreDocumento());
-                System.out.println("EL PROYECTO ES: " + proyecto.getCodigo() + " Y EK DOCUMENTO ES: " + documento.getCodigo());
-
                 //CREACION DE HISTORIAL DE DOCUMENTO
                 this.historialDocumento = new HistorialDocumento();
                 this.historialDocumento.getPk().setDocumento(documentoAnt.getCodigo());
@@ -269,7 +316,6 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
                 this.historialDocumento.setRespaldoDocumento(documentoAnt.getDocumento());
                 this.historialDocumento.setUsrCreacion(usrSesion.getCodigo());
                 this.historialDocumento.setFcreacion(new Date());
-                System.out.println("Codigo documento en guardar la actualizacion documento modificado " + historialDocumento.getPk().getCodigoHistorialDocumento() + "," + historialDocumento.getPk().getDocumento());
                 this.historialDocumentoServicio.crear(historialDocumento);
                 documentos.set(i, this.documento);
                 ////CREACION DE HISTORIAL DE DOCUMENTO
@@ -421,12 +467,20 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
         this.file = file;
     }
 
-    public PieChartModel getPieModel() {
-        return pieModel;
+    public MeterGaugeChartModel getMeterGaugeChartModel() {
+        return meterGaugeChartModel;
     }
 
-    public void setPieModel(PieChartModel pieModel) {
-        this.pieModel = pieModel;
+    public void setMeterGaugeChartModel(MeterGaugeChartModel meterGaugeChartModel) {
+        this.meterGaugeChartModel = meterGaugeChartModel;
+    }
+
+    public MeterGaugeChartModel getMeterGaugeChartModelSalud() {
+        return meterGaugeChartModelSalud;
+    }
+
+    public void setMeterGaugeChartModelSalud(MeterGaugeChartModel meterGaugeChartModelSalud) {
+        this.meterGaugeChartModelSalud = meterGaugeChartModelSalud;
     }
 
     public String getInstControl() {
