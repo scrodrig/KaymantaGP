@@ -56,15 +56,22 @@ public class BuscadorDocumentosBean extends BotonesBean implements Serializable 
     private String ENTIDAD = "Buscador de Documentos";
     private Usuario usrSesion;
     private Empleado emplSesion;
+    private String parametro;
+    private String valor;
+    private String criterio;
 
     @PostConstruct
     @Override
     public void postConstructor() {
 
         super.sinSeleccion();
-        documentos = documentoServicio.obtener();
+        //documentos = documentoServicio.obtener();
         this.usrSesion = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario");
+    }
 
+    public void buscar(ActionEvent evento) {
+        documentos = documentoServicio.getDocumentos(parametro, valor, criterio);
+        super.modificar();
     }
 
     public void filaSeleccionadaDocumento(ActionEvent evento) {
@@ -94,8 +101,6 @@ public class BuscadorDocumentosBean extends BotonesBean implements Serializable 
             super.sinSeleccion();
         }
     }
-    
-    
 
     public StreamedContent download(Long codigo) {
         Documento archivo = this.documentoServicio.findByID(codigo);
@@ -103,12 +108,11 @@ public class BuscadorDocumentosBean extends BotonesBean implements Serializable 
         StreamedContent file = new DefaultStreamedContent(stream, "application/octet-stream", archivo.getNombreDocumento());
         return file;
     }
-    
-    
+
     public StreamedContent downloadHistorial(Byte[] codigo, String nombre) {
-       
+
         InputStream stream = new ByteArrayInputStream(ArrayUtils.toPrimitive(codigo));
-        StreamedContent file = new DefaultStreamedContent(stream, "application/octet-stream", "Versión previa de"+ nombre);
+        StreamedContent file = new DefaultStreamedContent(stream, "application/octet-stream", "Versión previa de" + nombre);
         return file;
     }
 
@@ -244,4 +248,29 @@ public class BuscadorDocumentosBean extends BotonesBean implements Serializable 
     public void setHistorialDocumentos(List<HistorialDocumento> historialDocumentos) {
         this.historialDocumentos = historialDocumentos;
     }
+
+    public String getParametro() {
+        return parametro;
+    }
+
+    public void setParametro(String parametro) {
+        this.parametro = parametro;
+    }
+
+    public String getValor() {
+        return valor;
+    }
+
+    public void setValor(String valor) {
+        this.valor = valor;
+    }
+
+    public String getCriterio() {
+        return criterio;
+    }
+
+    public void setCriterio(String criterio) {
+        this.criterio = criterio;
+    }
+    
 }

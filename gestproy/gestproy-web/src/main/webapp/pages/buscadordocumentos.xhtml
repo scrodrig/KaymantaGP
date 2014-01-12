@@ -12,6 +12,31 @@
     <ui:define name="cuerpo">
 
 
+        <p:panel id="panelBusqueda" header="Buscar" style="width: 800px"
+                 rendered="#{not(buscadorDocumentosBean.enRegistro or buscadorDocumentosBean.enEdicion or buscadorDocumentosBean.enAuditoria)}"> 
+            <p:focus context="panelBusqueda"/> 
+            <h:panelGrid columns="2" >
+                <p:outputLabel for="parametro" value="Buscar por: " />  
+                <p:selectOneMenu id="parametro" value="#{buscadorDocumentosBean.parametro}" label="Buscar por :" >
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItem itemValue="codigo" itemLabel="Código"/>
+                    <f:selectItem itemValue="institucionControl.nombre" itemLabel="Institución de Control"/>
+                    <f:selectItem itemValue="tipoDocumento.nombre" itemLabel="Tipo de Documento"/>
+                    <f:selectItem itemValue="nombreDocumento" itemLabel="Nombre del Documento"/>
+                </p:selectOneMenu>
+                <p:outputLabel for="criterio" value="Criterio: " />  
+                <p:selectOneMenu id="criterio" value="#{buscadorDocumentosBean.criterio}" label="Buscar por :"  required="true">
+                    <f:selectItem itemValue="LIKE" itemLabel="Parecido a"/>
+                    <f:selectItem itemValue="=" itemLabel="Exactamente"/>
+                </p:selectOneMenu>
+                <p:outputLabel for="valor" value="Valor: " />  
+                <p:inputText id="valor" value="#{buscadorDocumentosBean.valor}"/> 
+                <p:commandButton  value="Buscar" update="@form" actionListener="#{buscadorDocumentosBean.buscar(evento)}" />  
+            </h:panelGrid>
+        </p:panel>
+
+
+
         <!--
         DOCUMENTOS
         -->
@@ -20,9 +45,7 @@
                      rowKey="#{documento.codigo}" style="width: 750px" 
                      paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                     emptyMessage="No se ha registrado ningún Documento" rendered="#{not(buscadorDocumentosBean.enRegistro or 
-                                                                                     buscadorDocumentosBean.enEdicion or 
-                                                                                     buscadorDocumentosBean.enAuditoria )}" >
+                     emptyMessage="No se ha registrado ningún Documento" rendered="#{buscadorDocumentosBean.enEdicion}" >
 
             <p:ajax event="rowSelect" listener="#{buscadorDocumentosBean.filaSeleccionadaDocumento(evento)}" update="documentos"/>
             <p:ajax event="rowUnselect" listener="#{buscadorDocumentosBean.filaSeleccionadaDocumento(evento)}" update="documentos"/>
@@ -38,18 +61,18 @@
                         </p:commandButton>
                     </p:toolbarGroup>  
                     <p:toolbarGroup align="right">             
-                        <p:commandButton action="panelproyectos?faces-redirect=true" ajax="false" icon="ui-icon-back" value="Volver" immediate="true"/>                
+                        <p:commandButton actionListener="#{buscadorDocumentosBean.cancelar()}" value="Volver" update="@form" icon="ui-icon-back"/>
                     </p:toolbarGroup>  
                 </p:toolbar> 
 
             </f:facet>
-            <p:column headerText="Documento" style="width: 200px" sortBy="#{documento.nombreDocumento}" filterBy="#{documento.nombreDocumento}">
+            <p:column headerText="Documento" style="width: 200px">
                 #{documento.nombreDocumento}
             </p:column>
-            <p:column headerText="Inst. Control" style="width: 150px" sortBy="#{documento.institucionControl.nombre}" filterBy="#{documento.institucionControl.nombre}">                      
+            <p:column headerText="Inst. Control" style="width: 150px" >                      
                 #{documento.institucionControl.nombre}
             </p:column>
-            <p:column headerText="Tipo" style="width: 100px" sortBy="#{documento.tipoDocumento.nombre}" filterBy="#{documento.tipoDocumento.nombre}">
+            <p:column headerText="Tipo" style="width: 100px">
                 #{documento.tipoDocumento.nombre}
             </p:column>                          
             <p:column headerText="F. Carga" style="width: 80px" rendered="false">

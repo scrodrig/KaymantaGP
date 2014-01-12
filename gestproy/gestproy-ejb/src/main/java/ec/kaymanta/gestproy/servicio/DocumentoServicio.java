@@ -51,6 +51,16 @@ public class DocumentoServicio {
     public Documento findByID(Long codigo) {
         return this.documentoDAO.findById(codigo, false);
     }
+    
+    /**
+     * Función para obtener el registro de un empleado
+     *
+     * @param codigo
+     * @return
+     */
+    public List<Documento> getDocumentos(String parametro, String valor, String criterio) {
+        return this.documentoDAO.getDocumentos(parametro, valor, criterio);
+    }
 
     /**
      * Función para obtener el registro de un empleado

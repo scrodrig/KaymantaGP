@@ -14,8 +14,10 @@ package ec.kaymanta.gestproy.dao;
 
 import com.persist.common.dao.DefaultGenericDAOImple;
 import ec.kaymanta.gestproy.modelo.Documento;
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 
 /**
  * La Clase DocumentoDAO especifica e implementa las operaciones de acceso a
@@ -31,5 +33,28 @@ public class DocumentoDAO extends DefaultGenericDAOImple<Documento, Long> {
     public DocumentoDAO() {
         super(Documento.class);
 
+    }
+
+    public List<Documento> getDocumentos(String parametro, String valor, String criterio) {
+        String sql = "SELECT obj FROM Documento obj WHERE obj." + parametro + " "+ criterio +"?1";
+
+        Query qry = this.getEntityManager().createQuery(sql);
+        if ("LIKE".equals(criterio)) {
+            if ("codigo".equals(parametro)) {
+                qry.setParameter(1, "%" + Long.valueOf(valor) + "%");
+
+            } else {
+                qry.setParameter(1, "%" + valor + "%");
+            }
+        } else if("=".equals(criterio)){
+            if ("codigo".equals(parametro)) {
+                qry.setParameter(1,Long.valueOf(valor));
+
+            } else {
+                qry.setParameter(1, valor);
+            }
+        }
+
+        return qry.getResultList();
     }
 }
