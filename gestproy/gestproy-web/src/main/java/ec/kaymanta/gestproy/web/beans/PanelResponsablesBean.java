@@ -98,10 +98,7 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
     public void postConstructor() {
 
         super.sinSeleccion();
-
-        System.out.println("PROYECTO: " + codProyecto);
         this.usrSesion = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario");
-        System.out.println("USUARIO: " + usrSesion);
         this.emplSesion = (Empleado) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Empleado");
         this.fechasNoLaborables = this.fechasNoLaborablesServicio.obtener();
         this.empleados = this.empleadoServicio.obtener();
@@ -116,7 +113,6 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
             this.actividad = this.actividadServicio.findByID(Long.parseLong(codActividad));
             this.subActividad = this.actividadServicio.findByID(Long.parseLong(codSubActividad));
         }
-        System.out.println("PROYECTO: " + proyecto.getNombreProyecto() + " ACTIVIDAD " + actividad.getNombreActividad());
         this.actividadEmpleados = this.actividadEmpleadoServicio.findBySubActividad(subActividad);
         this.fechasActividadRespaldo=this.fechasActividadServicio.findLastByActividad(subActividad);
         createMeterGaugeChart();
@@ -200,7 +196,6 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
         if (estado == null || "".equals(estado)) {
             return "";
         } else {
-            System.out.println(estado);
             if (estado.equals("S")) {
                 return "Si";
             } else if (estado.equals("N")) {
@@ -215,8 +210,6 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
         if (usr == null || "".equals(usr)) {
             return "";
         } else {
-            System.out.println(usr);
-            System.out.println(usuarioServicio.findByID(usr));
             try {
                 usuarioServicio.findByID(usr);
                 return usuarioServicio.findByID(usr).getUsuario();
@@ -271,7 +264,6 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
                 this.actividadEmpleado.settTotalReal(0L);
                 this.actividadEmpleado.sethTrabEst(BigDecimal.valueOf(actividadEmpleado.gethDiaEst()));
                 days = numeroDias(actividadEmpleado.getFinicio(), actividadEmpleado.getFfin());
-                System.out.println("HTRABEST" + actividadEmpleado.gethTrabEst() + "DIAS: " + days);
                 this.actividadEmpleado.settTotalEst((days * actividadEmpleado.gethDiaEst()));
                 this.actividadEmpleadoServicio.crear(actividadEmpleado);
 
@@ -284,11 +276,8 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
                 this.actividadEmpleado.setFmodificacion(new Date());
                 //this.actividadEmpleado.sethTrabReal(BigDecimal.valueOf(this.actividadEmpleado.gettTotalReal()*days));
                 //this.actividadEmpleado.sethTrabEst(BigDecimal.valueOf(actividadEmpleado.gethDiaEst()));
-                System.out.println("HORAS ANTERIOR= " + horasAnterior);
-                System.out.println("HORAS ANTERIOR suma= " + (horasAnterior + this.actividadEmpleado.gettTotalReal()));
                 this.actividadEmpleado.settTotalReal(horasAnterior + this.actividadEmpleado.gettTotalReal());
                 days = numeroDias(actividadEmpleado.getFinicio(), new Date());
-                System.out.println("Valor de los dias" + days);
                 this.actividadEmpleado.sethDiaReal(this.actividadEmpleado.gettTotalReal() / days);
                 this.actividadEmpleado.sethTrabReal(BigDecimal.valueOf(this.actividadEmpleado.gettTotalReal()));
                 this.actividadEmpleadoServicio.actualizar(actividadEmpleado);
@@ -334,9 +323,7 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
             try {
                 this.actividadEmpleado = new ActividadEmpleado();
                 this.actividadEmpleado = (ActividadEmpleado) BeanUtils.cloneBean(this.actividadEmpleadoSeleccionado);
-                System.out.println("ESTOY AQUI Y SI SELECCIONE EL RESPONSABLE");
             } catch (Exception e) {
-                System.out.println("Error en Responsable");
             }
         } else {
             super.sinSeleccion();
@@ -370,24 +357,16 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
         for (int i = 0; i < this.fechasNoLaborables.size(); i++) {
             if (d1.before(this.fechasNoLaborables.get(i).getFecha()) || d1.equals(this.fechasNoLaborables.get(i).getFecha())) {
                 li = i - 1;
-                System.out.println(d1 + "COMPARADO CON" + this.fechasNoLaborables.get(i).getFecha());
                 break;
             }
         }
         for (int i = 0; i < this.fechasNoLaborables.size(); i++) {
             if (d2.before(this.fechasNoLaborables.get(i).getFecha()) || d2.equals(this.fechasNoLaborables.get(i).getFecha())) {
                 lf = i - 1;
-                System.out.println(d2 + "COMPARADO CON" + this.fechasNoLaborables.get(i).getFecha());
                 break;
             }
 
         }
-        if (li != 0 && lf != 0) {
-            System.out.println("li: " + li + "lf: " + lf);
-
-        }
-
-
         return dias - (lf - li);
     }
 
@@ -397,7 +376,6 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
         fechasActividad = this.fechasActividadServicio.findLastByActividad(subActividad);
         BigDecimal totalDias = BigDecimal.valueOf(numeroDias(fechasActividad.getFinicio(), fechasActividad.getFfin()));
         BigDecimal diasResp;
-        System.out.println("NUMERO DIAS SUBACT: " + totalDias);
         BigDecimal suma = BigDecimal.ZERO;
         BigDecimal dividendo = BigDecimal.ZERO;
         BigDecimal resultado = BigDecimal.ZERO;
@@ -406,7 +384,6 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
             suma = actividadEmpleados.get(j).getAvance();
             if (totalDias.compareTo(BigDecimal.ZERO) >= 0) {
                 dividendo = diasResp.divide(totalDias, 2, RoundingMode.HALF_UP);
-                System.out.println("NUMERO DIAS dividendo: " + dividendo);
                 resultado = resultado.add(suma.multiply(dividendo));
             } else {
                 resultado = BigDecimal.ZERO;
@@ -414,10 +391,6 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
         }
 
         resultado = resultado.divide(BigDecimal.ONE, 2, RoundingMode.UP);
-
-        System.out.println("NUMERO DIAS SUBACT: " + totalDias);
-        System.out.println("AVANCE SA" + resultado);
-        System.out.println("SUBACTIVIDAD " + subActividad.getNombreActividad());
         if (resultado.compareTo(BigDecimal.valueOf(100)) <= 0) {
             subActividad.setAvance(resultado);
         } else {
@@ -430,60 +403,42 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
             hDiariasSA += actividadEmpleados.get(j).gethDiaEst();
         }
         subActividad.sethDiaEst(Long.parseLong(String.valueOf(hDiariasSA / (actividadEmpleados.size()))));
-        System.out.println("HORAS ESTIMADAS SA" + subActividad.gethDiaEst());
         //HORAS REAL//
         int hDiariasREAL = 0;
         for (int j = 0; j < actividadEmpleados.size(); j++) {
             hDiariasREAL += actividadEmpleados.get(j).gethDiaReal();
         }
         subActividad.sethDiaReal(Long.parseLong(String.valueOf(hDiariasREAL / (actividadEmpleados.size()))));
-        System.out.println("HORAS REALES SA" + subActividad.gethDiaReal());
         //HORAS TRABAJO ESTIMADO
         BigDecimal hTrabEst = BigDecimal.ZERO;
         for (int j = 0; j < actividadEmpleados.size(); j++) {
             hTrabEst = hTrabEst.add(actividadEmpleados.get(j).gethTrabEst());
         }
         subActividad.sethTrabEst(hTrabEst);
-        System.out.println("HORAS TRABAJO ESTIMADO SA" + hTrabEst);
         //HORAS TRABAJO REAL
         BigDecimal hTrabReal = BigDecimal.ZERO;
         for (int j = 0; j < actividadEmpleados.size(); j++) {
             hTrabReal = hTrabReal.add(actividadEmpleados.get(j).gethTrabReal());
         }
         subActividad.sethTrabReal(hTrabReal);
-        System.out.println("HORAS TRABAJO REAL SA" + hTrabReal);
-
         //TIEMPO TOTAL ESTIMADO
         Long tTotEst = 0L;
         for (int j = 0; j < actividadEmpleados.size(); j++) {
             tTotEst += actividadEmpleados.get(j).gettTotalEst();
-            System.out.println("DESPUES DE LA SUMA SA " + tTotEst);
         }
         subActividad.settTotalEst(tTotEst);
-        System.out.println("TIEMPO TOTAL ESTIMADO SA" + tTotEst);
-
-
         //TIEMPO TOTAL REAL
         Long tTotReal = 0L;
         for (int j = 0; j < actividadEmpleados.size(); j++) {
             tTotReal += actividadEmpleados.get(j).gettTotalReal();
-            System.out.println("DESPUES DE LA SUMA SA " + tTotReal);
-
         }
         subActividad.settTotalReal(tTotReal);
-        System.out.println("TIEMPO TOTAL REAL SA" + tTotReal);
-
         this.actividadServicio.actualizar(subActividad);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
-    public void actualizarActividad(Actividad actividad) {
-        ///////////////////////////////////////PARA SUBACTIVIDADES////////////////////////////////////////////////////////
-                /*AVANCE*/
-//        fechasActividad = this.fechasActividadServicio.findLastByActividad(subActividad);
-//        Date dateInicioActividad=new Date();
-//        Date dateFinActividad= new Date();        
+    public void actualizarActividad(Actividad actividad) {     
         subActividades = actividadServicio.findByProyectoAndActividad(actividad.getProyecto(), actividad);
         int index = subActividades.size() - 1;
         FechasActividad fa1 = this.fechasActividadServicio.findLastByActividad(subActividades.get(0));
@@ -491,7 +446,6 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
 
         BigDecimal totalDias = BigDecimal.valueOf(numeroDias(fa1.getFinicio(), fa2.getFfin()));
         BigDecimal diasResp;
-        System.out.println("NUMERO DIAS ACT: " + totalDias);
         BigDecimal suma = BigDecimal.ZERO;
         BigDecimal dividendo = BigDecimal.ZERO;
         BigDecimal resultado = BigDecimal.ZERO;
@@ -500,9 +454,7 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
             diasResp = BigDecimal.valueOf(numeroDias(fechasActividad.getFinicio(), fechasActividad.getFfin()));
             suma = subActividades.get(j).getAvance();
             if (totalDias.compareTo(BigDecimal.ZERO) >= 0) {
-
                 dividendo = diasResp.divide(totalDias, 2, RoundingMode.HALF_UP);
-                System.out.println("NUMERO DIAS dividendo: " + dividendo);
                 resultado = resultado.add(suma.multiply(dividendo));
             } else {
                 resultado = BigDecimal.ZERO;
@@ -510,14 +462,7 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
 
 
         }
-
         resultado = resultado.divide(BigDecimal.ONE, 2, RoundingMode.UP);
-
-
-        System.out.println("NUMERO DIAS ACT: " + totalDias);
-        System.out.println("AVANCE A" + resultado.multiply(BigDecimal.valueOf(100)));
-        System.out.println("ACTIVIDAD " + actividad.getNombreActividad());
-
         if (resultado.compareTo(BigDecimal.valueOf(100)) <= 0) {
             actividad.setAvance(resultado);
         } else {
@@ -530,50 +475,36 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
             hDiariasSA += subActividades.get(j).gethDiaEst();
         }
         actividad.sethDiaEst(Long.parseLong(String.valueOf(hDiariasSA / (subActividades.size()))));
-        System.out.println("HORAS ESTIMADAS ACTIVIDAD" + actividad.gethDiaEst());
         //HORAS REAL//
         int hDiariasREAL = 0;
         for (int j = 0; j < subActividades.size(); j++) {
             hDiariasREAL += subActividades.get(j).gethDiaReal();
         }
         actividad.sethDiaReal(Long.parseLong(String.valueOf(hDiariasREAL / (subActividades.size()))));
-        System.out.println("HORAS REALES ACTIVIDAD" + actividad.gethDiaReal());
         //HORAS TRABAJO ESTIMADO
         BigDecimal hTrabEst = BigDecimal.ZERO;
         for (int j = 0; j < subActividades.size(); j++) {
             hTrabEst = hTrabEst.add(subActividades.get(j).gethTrabEst());
-            System.out.println("DESPUES DE LA SUMA Act " + hTrabEst);
-
         }
         actividad.sethTrabEst(hTrabEst);
-        System.out.println("HORAS TRABAJO ESTIMADO ACTIVIDAD" + hTrabEst);
         //HORAS TRABAJO REAL
         BigDecimal hTrabReal = BigDecimal.ZERO;
         for (int j = 0; j < subActividades.size(); j++) {
             hTrabReal = hTrabReal.add(subActividades.get(j).gethTrabReal());
-            System.out.println("DESPUES DE LA SUMA Act " + hTrabReal);
-
         }
         actividad.sethTrabReal(hTrabReal);
-        System.out.println("HORAS TRABAJO REAL ACTIVIDAD" + hTrabReal);
-
         //TIEMPO TOTAL ESTIMADO
         Long tTotEst = 0L;
         for (int j = 0; j < subActividades.size(); j++) {
             tTotEst += subActividades.get(j).gettTotalEst();
         }
         actividad.settTotalEst(tTotEst);
-        System.out.println("TIEMPO TOTAL ESTIMADO ACTIVIDAD" + tTotEst);
-
-
         //TIEMPO TOTAL REAL
         Long tTotReal = 0L;
         for (int j = 0; j < subActividades.size(); j++) {
             tTotReal += subActividades.get(j).gettTotalReal();
         }
         actividad.settTotalReal(tTotReal);
-        System.out.println("TIEMPO TOTAL REAL ACTIVIDAD" + tTotReal);
-
         this.actividadServicio.actualizar(actividad);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
@@ -592,94 +523,67 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
         BigDecimal resultado = BigDecimal.ZERO;
         diasResp = BigDecimal.ZERO;
         totalDias = BigDecimal.valueOf(numeroDias(proyecto.getFinicio(), proyecto.getFfin()));
-        System.out.println("DIAS TOTAL PROYECTO: " + diasResp);
         for (int j = 0; j < actividades.size(); j++) {
-
             subAct = this.actividadServicio.findByProyectoAndActividad(proyecto, actividades.get(j));
             for (int k = 0; k < subAct.size(); k++) {
                 index = subAct.size() - 1;
                 FechasActividad f1 = this.fechasActividadServicio.findLastByActividad(subAct.get(0));
                 FechasActividad f2 = this.fechasActividadServicio.findLastByActividad(subAct.get(index));
                 diasResp = diasResp.add(BigDecimal.valueOf(numeroDias(f1.getFinicio(), f2.getFfin())));
-                System.out.println("dias Actividades PROYECTO: " + diasResp);
             }
 
             suma = actividades.get(j).getAvance();
             if (totalDias.compareTo(BigDecimal.ZERO) >= 0) {
                 dividendo = diasResp.divide(totalDias, 2, RoundingMode.HALF_UP);
-                System.out.println("NUMERO DIAS dividendo PROYECTO: " + dividendo);
                 resultado = resultado.add(suma.multiply(dividendo));
             } else {
                 resultado = BigDecimal.ZERO;
             }
 
         }
-
-
         resultado = resultado.divide(BigDecimal.ONE, 2, RoundingMode.UP);
-
-        System.out.println("NUMERO DIAS PROY: " + totalDias);
-        System.out.println("AVANCE P" + resultado);
-        System.out.println("ACTIVIDAD PROYECTO" + actividad.getNombreActividad());
-
         if (resultado.compareTo(BigDecimal.valueOf(100)) <= 0) {
             proyecto.setAvance(resultado);
         } else {
             proyecto.setAvance(BigDecimal.valueOf(100));
         }
-        /**/
         /*HORAS ESTIMADAS*/
         int hDiariasSA = 0;
         for (int j = 0; j < actividades.size(); j++) {
             hDiariasSA += actividades.get(j).gethDiaEst();
         }
         proyecto.sethDiaEst(Long.parseLong(String.valueOf(hDiariasSA / (actividades.size()))));
-        System.out.println("HORAS ESTIMADAS PROYECTO" + proyecto.gethDiaEst());
         //HORAS REAL//
         int hDiariasREAL = 0;
         for (int j = 0; j < actividades.size(); j++) {
             hDiariasREAL += actividades.get(j).gethDiaReal();
         }
         proyecto.sethDiaReal(Long.parseLong(String.valueOf(hDiariasREAL / (actividades.size()))));
-        System.out.println("HORAS REALES PROYECTO" + proyecto.gethDiaReal());
         //HORAS TRABAJO ESTIMADO
         BigDecimal hTrabEst = BigDecimal.ZERO;
         for (int j = 0; j < actividades.size(); j++) {
             hTrabEst = hTrabEst.add(actividades.get(j).gethTrabEst());
         }
         proyecto.sethTrabEst(hTrabEst);
-        System.out.println("HORAS TRABAJO ESTIMADO PROYECTO" + hTrabEst);
         //HORAS TRABAJO REAL
         BigDecimal hTrabReal = BigDecimal.ZERO;
         for (int j = 0; j < actividades.size(); j++) {
             hTrabReal = hTrabReal.add(actividades.get(j).gethTrabReal());
         }
         proyecto.sethTrabReal(hTrabReal);
-        System.out.println("HORAS TRABAJO REAL PROYECTO" + hTrabReal);
-
         //TIEMPO TOTAL ESTIMADO
         Long tTotEst = 0L;
         for (int j = 0; j < actividades.size(); j++) {
             tTotEst += actividades.get(j).gettTotalEst();
-            System.out.println("DESPUES DE LA SUMA PROY tTotEst" + tTotEst);
-
         }
         proyecto.settTotalEst(tTotEst);
-        System.out.println("TIEMPO TOTAL ESTIMADO PROYECTO" + tTotEst);
-
-
         //TIEMPO TOTAL REAL
         Long tTotReal = 0L;
         for (int j = 0; j < actividades.size(); j++) {
             tTotReal += actividades.get(j).gettTotalReal();
-            System.out.println("DESPUES DE LA SUMA PROY tTotEst" + tTotReal);
-
         }
         proyecto.settTotalReal(tTotReal);
-        System.out.println("TIEMPO TOTAL REAL PROYECTO" + tTotReal);
-
         this.proyectoServicio.actualizar(proyecto);
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
     public ActividadEmpleado getActividadEmpleado() {

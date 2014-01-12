@@ -20,9 +20,9 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 /**
- * La Clase UsuarioDAO especifica e implementa las operaciones de 
- * acceso a datos relacionadas con la entidad Usuario.
- * 
+ * La Clase UsuarioDAO especifica e implementa las operaciones de acceso a datos
+ * relacionadas con la entidad Usuario.
+ *
  * @author JPA Generator
  * @version 1.0
  */
@@ -30,27 +30,19 @@ import javax.persistence.Query;
 @LocalBean
 public class UsuarioDAO extends DefaultGenericDAOImple<Usuario, String> {
 
-    
-    public UsuarioDAO()
-    {
+    public UsuarioDAO() {
         super(Usuario.class);
-    
+
     }
-    
-    public Usuario findByName(String nombreUsuario)
-    {
+
+    public Usuario findByName(String nombreUsuario) {
         try {
-            System.out.println(nombreUsuario);
             String sql = "SELECT obj FROM Usuario obj WHERE obj.usuario=?1";
-            System.out.println("HOLA ESTOY EN USUARIO DAO");
             Query qry = this.getEntityManager().createQuery(sql);
             qry.setParameter(1, nombreUsuario);
-            System.out.println(qry.toString());
             return (Usuario) qry.getSingleResult();
-        }catch(NoResultException e)
-        {
+        } catch (NoResultException e) {
             return null;
         }
     }
-    
 }

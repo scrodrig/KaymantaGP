@@ -104,8 +104,6 @@ public class InteresadosBean extends BotonesBean implements Serializable {
         if (usr == null || "".equals(usr)) {
             return "";
         } else {
-            System.out.println(usr);
-            System.out.println(usuarioServicio.findByID(usr));
             try {
                 usuarioServicio.findByID(usr);
                 return usuarioServicio.findByID(usr).getUsuario();
@@ -145,7 +143,6 @@ public class InteresadosBean extends BotonesBean implements Serializable {
             //Invariable Objetos de Auditoria            
             this.interesado.setUsrModificacion(usrSesion.getCodigo());
             this.interesado.setFmodificacion(new Date());
-            System.out.println(interesado.getCodEmpresa());
             this.interesado.setEmpresa(this.empresaServicio.findByID(interesado.getCodEmpresa()));
             super.modificar();
         } catch (Exception ex) {
@@ -154,9 +151,7 @@ public class InteresadosBean extends BotonesBean implements Serializable {
     }
 
     public void eliminar(ActionEvent evento) {
-        System.out.println(this.interesadoSeleccionado);
         this.interesadoServicio.eliminar(this.interesadoSeleccionado);
-        //this.interesadoServicio.actualizar(interesadoSeleccionado);
         this.interesados.remove(this.interesadoSeleccionado);
         MensajesGenericos.infoEliminar("Interesado", this.interesado.getCodigo().toString().concat(" - ").concat(this.interesado.getNombre()), Boolean.TRUE);
         super.sinSeleccion();

@@ -22,7 +22,6 @@ public class AutentificacionServicio {
     public Usuario usuarioAutentificar(String nombreUsuario, String clave) {
 
         Usuario usuario = this.usuarioDAO.findByName(nombreUsuario);
-        System.out.println("ESTOY EN AutentificacionServicio");
         if (usuario != null) {
             if (usuario.getClave().equals(clave)) {
                 return usuario;

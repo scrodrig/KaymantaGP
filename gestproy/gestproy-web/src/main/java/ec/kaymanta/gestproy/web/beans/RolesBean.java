@@ -116,7 +116,6 @@ public class RolesBean extends BotonesBean implements Serializable{
     }
 
     public void eliminar(ActionEvent evento) {
-        System.out.println(this.rolSeleccionado);
         this.rolServicio.eliminar(this.rolSeleccionado);        
         this.roles.remove(this.rolSeleccionado);
         MensajesGenericos.infoEliminar("Rol", this.rol.getCodigo().toString().concat(" - ").concat(this.rol.getNombre()), Boolean.TRUE);

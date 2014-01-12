@@ -22,23 +22,20 @@ public class FechasNoLaborablesDAO extends DefaultGenericDAOImple<FechasNoLabora
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
-    
     public FechasNoLaborablesDAO() {
         super(FechasNoLaborables.class);
 
     }
-    
-    public FechasNoLaborables findLastByActividad(Date d){
+
+    public FechasNoLaborables findLastByActividad(Date d) {
 
         try {
             String sql = "SELECT obj FROM FechasNoLaborables obj WHERE obj.fecha=?1";
             Query qry = this.getEntityManager().createQuery(sql);
             qry.setParameter(1, d);
-            System.out.println(qry.toString());
-             return (FechasNoLaborables) qry.getSingleResult();            
+            return (FechasNoLaborables) qry.getSingleResult();
         } catch (NoResultException e) {
             return null;
         }
     }
-
 }

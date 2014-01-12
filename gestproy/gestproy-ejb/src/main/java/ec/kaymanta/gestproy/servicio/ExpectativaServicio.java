@@ -62,7 +62,6 @@ public class ExpectativaServicio {
      * @param expectativa
      */
     public void crear(Expectativa expectativa) {
-        System.out.println("En crear " + expectativa);
         //empleado.getFechaUltAcceso(new Date());
         this.expectativaDAO.insert(expectativa);
     }
@@ -73,7 +72,6 @@ public class ExpectativaServicio {
      * @param expectativa
      */
     public void actualizar(Expectativa expectativa) {
-        System.out.println("En actualizar " + expectativa);
         //empleado.setFechaUltAcceso(new Date());
         this.expectativaDAO.update(expectativa);
     }
@@ -84,7 +82,6 @@ public class ExpectativaServicio {
      * @param expectativa
      */
     public void eliminar(Expectativa expectativa) {
-        System.out.println("En eliminar " + expectativa);
         Expectativa empresaTmp = this.expectativaDAO.findById(expectativa.getPk(), false);
         this.expectativaDAO.remove(empresaTmp);
     }

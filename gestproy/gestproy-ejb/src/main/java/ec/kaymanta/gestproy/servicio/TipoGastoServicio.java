@@ -49,8 +49,6 @@ public class TipoGastoServicio {
      * @param tipoGasto
      */
     public void crear(TipoGasto tipoGasto) {
-        System.out.println("En crear " + tipoGasto.getNombre());
-        //empleado.getFechaUltAcceso(new Date());
         this.tipoGastoDAO.insert(tipoGasto);
     }
 
@@ -60,8 +58,6 @@ public class TipoGastoServicio {
      * @param tipoGasto
      */
     public void actualizar(TipoGasto tipoGasto) {
-        System.out.println("En actualizar " + tipoGasto.getNombre());
-        //empleado.setFechaUltAcceso(new Date());
         this.tipoGastoDAO.update(tipoGasto);
     }
 
@@ -71,7 +67,6 @@ public class TipoGastoServicio {
      * @param tipoGasto
      */
     public void eliminar(TipoGasto tipoGasto) {
-        System.out.println("En eliminar " + tipoGasto.getNombre());
         TipoGasto tipoGastoTmp = this.tipoGastoDAO.findById(tipoGasto.getCodigo(), false);
         this.tipoGastoDAO.remove(tipoGastoTmp);
     }

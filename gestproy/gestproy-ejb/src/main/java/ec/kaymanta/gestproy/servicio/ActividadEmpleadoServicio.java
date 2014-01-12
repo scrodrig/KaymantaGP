@@ -56,7 +56,6 @@ public class ActividadEmpleadoServicio {
      * @param actividadEmpleado
      */
     public void crear(ActividadEmpleado actividadEmpleado) {
-        System.out.println("En crear " + actividadEmpleado.getEsResponsable());
         //actividadEmpleado.getFechaUltAcceso(new Date());
         this.actividadEmpleadoDAO.insert(actividadEmpleado);
     }
@@ -67,7 +66,6 @@ public class ActividadEmpleadoServicio {
      * @param actividadEmpleado
      */
     public void actualizar(ActividadEmpleado actividadEmpleado) {
-        System.out.println("En actualizar " + actividadEmpleado.getEsResponsable());
         //actividadEmpleado.setFechaUltAcceso(new Date());
         this.actividadEmpleadoDAO.update(actividadEmpleado);
     }
@@ -88,7 +86,6 @@ public class ActividadEmpleadoServicio {
      * @param actividadEmpleado
      */
     public void eliminar(ActividadEmpleado actividadEmpleado) {
-        System.out.println("En eliminar " + actividadEmpleado.getEsResponsable());
         ActividadEmpleado proyectoTmp = this.actividadEmpleadoDAO.findById(actividadEmpleado.getPk(), false);
         this.actividadEmpleadoDAO.remove(proyectoTmp);
     }

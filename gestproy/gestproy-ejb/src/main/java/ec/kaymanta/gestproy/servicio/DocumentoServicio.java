@@ -59,15 +59,12 @@ public class DocumentoServicio {
      * @return
      */
     public List<Documento> findByProyecto(Proyecto proyecto) {
-        System.out.println("PROYECTO: "+proyecto.getNombreProyecto());
         List<DocumentosProyecto> documentosProyectos = new ArrayList<DocumentosProyecto>();
         List<Documento> documentos = new ArrayList<Documento>();
         documentosProyectos = this.documentosProyectoServicio.findByProyecto(proyecto);
-        System.out.println("La dimension del arreglo 1 es de: "+documentosProyectos.size());
         for (int i = 0; i < documentosProyectos.size(); i++) {
             documentos.add(documentosProyectos.get(i).getDocumento());
         }
-        System.out.println("La dimension del arreglo 2 es de: "+documentos.size());
         return documentos;
     }
     
@@ -78,15 +75,12 @@ public class DocumentoServicio {
      * @return
      */
     public List<Documento> findBySubActividad(ActividadEntregable actividadEntregable) {
-        System.out.println("PROYECTO: "+actividadEntregable.getNombreEntregable());
         List<EntregableDocumento> entregableDocumentos = new ArrayList<EntregableDocumento>();
         List<Documento> documentos = new ArrayList<Documento>();
         entregableDocumentos = this.entregableDocumentoServicio.findBySubActividad(actividadEntregable);
-        System.out.println("La dimension del arreglo 1 es de: "+entregableDocumentos.size());
         for (int i = 0; i < entregableDocumentos.size(); i++) {
             documentos.add(entregableDocumentos.get(i).getDocumento());
         }
-        System.out.println("La dimension del arreglo 2 es de: "+documentos.size());
         return documentos;
     }
 
@@ -96,7 +90,6 @@ public class DocumentoServicio {
      * @param documento
      */
     public void crear(Documento documento) {
-        System.out.println("En crear " + documento.getCodigo());
         //empleado.getFechaUltAcceso(new Date());
         this.documentoDAO.insert(documento);
     }
@@ -107,7 +100,6 @@ public class DocumentoServicio {
      * @param documento
      */
     public void actualizar(Documento documento) {
-        System.out.println("En actualizar " + documento.getCodigo());
         //empleado.setFechaUltAcceso(new Date());
         this.documentoDAO.update(documento);
     }
@@ -118,7 +110,6 @@ public class DocumentoServicio {
      * @param documento
      */
     public void eliminar(Documento documento) {
-        System.out.println("En eliminar " + documento.getCodigo());
         Documento documentoTmp = this.documentoDAO.findById(documento.getCodigo(), false);
         this.documentoDAO.remove(documentoTmp);
     }

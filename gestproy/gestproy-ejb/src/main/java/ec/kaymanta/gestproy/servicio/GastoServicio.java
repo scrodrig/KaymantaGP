@@ -62,7 +62,6 @@ public class GastoServicio {
      * @param gasto
      */
     public void crear(Gasto gasto) {
-        System.out.println("En crear " + gasto);
         //empleado.getFechaUltAcceso(new Date());
         this.gastoDAO.insert(gasto);
     }
@@ -73,7 +72,6 @@ public class GastoServicio {
      * @param gasto
      */
     public void actualizar(Gasto gasto) {
-        System.out.println("En actualizar " + gasto);
         //empleado.setFechaUltAcceso(new Date());
         this.gastoDAO.update(gasto);
     }
@@ -84,7 +82,6 @@ public class GastoServicio {
      * @param gasto
      */
     public void eliminar(Gasto gasto) {
-        System.out.println("En eliminar " + gasto);
         Gasto empresaTmp = this.gastoDAO.findById(gasto.getPk(), false);
         this.gastoDAO.remove(empresaTmp);
     }

@@ -44,7 +44,6 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 import org.primefaces.model.chart.MeterGaugeChartModel;
-import org.primefaces.model.chart.PieChartModel;
 
 /**
  *
@@ -97,19 +96,14 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
     public void postConstructor() {
 
         super.sinSeleccion();
-
-        System.out.println("PROYECTO: " + codProyecto);
         this.usrSesion = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario");
-        System.out.println("USUARIO: " + usrSesion);
         this.emplSesion = (Empleado) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Empleado");
-
         FacesContext context = FacesContext.getCurrentInstance();
         Map<String, String> parametros = context.getExternalContext().getRequestParameterMap();
         if (this.proyecto == null) {
             this.codProyecto = parametros.get("codProyecto");
             this.proyecto = this.proyectoServicio.findByID(Long.parseLong(codProyecto));
         }
-        System.out.println("PROYECTO: " + proyecto.getNombreProyecto());
         this.documentos = this.documentoServicio.findByProyecto(proyecto);
         this.institucionesControl = this.institucionControlServicio.obtener();
         this.tipoDocumento = this.tipoDocumentoServicio.obtener();
@@ -185,8 +179,6 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
         if (usr == null || "".equals(usr)) {
             return "";
         } else {
-            System.out.println(usr);
-            System.out.println(usuarioServicio.findByID(usr));
             try {
                 usuarioServicio.findByID(usr);
                 return usuarioServicio.findByID(usr).getUsuario();
@@ -225,7 +217,6 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
 
     public void subirDocumento(FileUploadEvent event) {
         this.documento = new Documento();
-        System.out.println("Inicar carga: ");
         String resultado = "";
         try {
             String name = event.getFile().getFileName();
@@ -234,7 +225,6 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
             this.documento.setNombreDocumento(name);
             /////////////
             super.setDisableCargaDocumentos(Boolean.FALSE);
-            System.out.println(super.getDisableCargaDocumentos());
             FacesMessage msg = new FacesMessage(name + " documento cargado. ");
         } catch (Exception e) {
             e.printStackTrace();
@@ -244,23 +234,15 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
     }
 
     public void subirDocumentoModificado(FileUploadEvent event) {
-        System.out.println("Inicar carga de documento modificado: ");
-        //GUARDAR DOCUMENTO EN SESIÓN
-        //DOCUMENTO ANTERIOR
         documentoAnt = new Documento();
         String resultado = "";
         try {
             documentoAnt = (Documento) BeanUtils.cloneBean(this.documento);
             String name = event.getFile().getFileName();
             this.documento.setDocumento(ArrayUtils.toObject(IOUtils.toByteArray(event.getFile().getInputstream())));
-            //this.documento.setDocumento(IOUtils);
             this.documento.setNombreDocumento(name);
-            /////////////
-            System.out.println("Codigo documento en subir documento modificado " + documento.getCodigo());
             super.setDisableCargaDocumentos(Boolean.FALSE);
-            System.out.println(super.getDisableCargaDocumentos());
             FacesMessage msg = new FacesMessage(name + " documento cargado. ");
-            System.out.println("Carga: " + msg.getSummary() + " - " + event.getComponent().getClientId());
         } catch (Exception e) {
             e.printStackTrace();
             FacesMessage msg1 = new FacesMessage("Error", event.getFile().getFileName() + " no ha sido cargo. " + resultado);
@@ -336,14 +318,11 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
                 super.seleccionadoUno();
                 documento = new Documento();
                 documento = (Documento) BeanUtils.cloneBean(this.documentoSeleccionado);
-
-                System.out.println("ESTOY AQUI Y SI SELECCIONE");
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {
             super.sinSeleccion();
-            System.out.println("ESTOY ACA Y NO SELECCIONE");
         }
     }
 

@@ -49,8 +49,6 @@ public class InstitucionControlServicio {
      * @param institucionControl
      */
     public void crear(InstitucionControl institucionControl) {
-        System.out.println("En crear " + institucionControl.getNombre());
-        //empleado.getFechaUltAcceso(new Date());
         this.institucionControlDAO.insert(institucionControl);
     }
 
@@ -60,8 +58,6 @@ public class InstitucionControlServicio {
      * @param institucionControl
      */
     public void actualizar(InstitucionControl institucionControl) {
-        System.out.println("En actualizar " + institucionControl.getNombre());
-        //empleado.setFechaUltAcceso(new Date());
         this.institucionControlDAO.update(institucionControl);
     }
 
@@ -71,7 +67,6 @@ public class InstitucionControlServicio {
      * @param empresa
      */
     public void eliminar(InstitucionControl institucionControl) {
-        System.out.println("En eliminar " + institucionControl.getNombre());
         InstitucionControl institucionControlTmp = this.institucionControlDAO.findById(institucionControl.getCodigo(), false);
         this.institucionControlDAO.remove(institucionControlTmp);
     }

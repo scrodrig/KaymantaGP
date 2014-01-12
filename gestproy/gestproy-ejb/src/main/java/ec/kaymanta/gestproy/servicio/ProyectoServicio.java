@@ -50,8 +50,6 @@ public class ProyectoServicio {
      * @param proyecto
      */
     public void crear(Proyecto proyecto) {
-        System.out.println("En crear " + proyecto.getNombreProyecto());
-        //proyecto.getFechaUltAcceso(new Date());
         this.proyectoDAO.insert(proyecto);
     }
 
@@ -61,8 +59,6 @@ public class ProyectoServicio {
      * @param proyecto
      */
     public void actualizar(Proyecto proyecto) {
-        System.out.println("En actualizar " + proyecto.getNombreProyecto());
-        //proyecto.setFechaUltAcceso(new Date());
         this.proyectoDAO.update(proyecto);
     }
 
@@ -72,7 +68,6 @@ public class ProyectoServicio {
      * @param proyecto
      */
     public void eliminar(Proyecto proyecto) {
-        System.out.println("En eliminar " + proyecto.getNombreProyecto());
         Proyecto proyectoTmp = this.proyectoDAO.findById(proyecto.getCodigo(), false);
         this.proyectoDAO.remove(proyectoTmp);
     }

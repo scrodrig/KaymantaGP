@@ -38,16 +38,12 @@ public class DocumentosProyectoDAO extends DefaultGenericDAOImple<DocumentosProy
     }
 
     public List<DocumentosProyecto> findByProyecto(Long proyecto) {
-        System.out.println("ESTOY EN DAO y EL PROYECTO ES "+ proyecto);
-
         try {
             String sql = "SELECT obj FROM DocumentosProyecto obj WHERE obj.pk.proyecto=?1";
             Query qry = this.getEntityManager().createQuery(sql);
             qry.setParameter(1, proyecto);
-            System.out.println(qry.toString());
-             System.out.println("La dimensión del arreglo 0 es: "+qry.getResultList().size());
             return qry.getResultList();
-            
+
         } catch (NoResultException e) {
             return null;
         }

@@ -57,7 +57,6 @@ public class UsuarioServicio {
      * @param usuario
      */
     public void crear(Usuario usuario) {
-        System.out.println("En crear "+usuario.getUsuario());
         usuario.setFechaUltAcceso(new Date());
         this.usuarioDAO.insert(usuario);
     }
@@ -67,7 +66,6 @@ public class UsuarioServicio {
      * @param usuario
      */
     public void actualizar(Usuario usuario) {
-        System.out.println("En actualizar "+usuario.getUsuario());
         this.usuarioDAO.update(usuario);
     }
             
@@ -77,7 +75,6 @@ public class UsuarioServicio {
      */
     
     public void eliminar(Usuario usuario) {
-        System.out.println("En eliminar "+usuario.getUsuario());
         Usuario usuarioTmp = this.usuarioDAO.findById(usuario.getCodigo(), false);
         this.usuarioDAO.remove(usuarioTmp);
     }

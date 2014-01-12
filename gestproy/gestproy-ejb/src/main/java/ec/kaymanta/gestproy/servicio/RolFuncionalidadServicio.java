@@ -51,8 +51,6 @@ public class RolFuncionalidadServicio {
      * @param rolFuncionalidad
      */
     public void crear(RolFuncionalidad rolFuncionalidad) {
-        System.out.println("En crear " + rolFuncionalidad.getPk());
-        //empleado.getFechaUltAcceso(new Date());
         this.rolFuncionalidadDAO.insert(rolFuncionalidad);
     }
 
@@ -62,8 +60,6 @@ public class RolFuncionalidadServicio {
      * @param rolFuncionalidad
      */
     public void actualizar(RolFuncionalidad rolFuncionalidad) {
-        System.out.println("En actualizar " + rolFuncionalidad.getPk());
-        //empleado.setFechaUltAcceso(new Date());
         this.rolFuncionalidadDAO.update(rolFuncionalidad);
     }
 
@@ -73,7 +69,6 @@ public class RolFuncionalidadServicio {
      * @param rolFuncionalidad
      */
     public void eliminar(RolFuncionalidad rolFuncionalidad) {
-        System.out.println("En eliminar " + rolFuncionalidad.getPk().getRol());
         RolFuncionalidad rolFuncionalidadTmp = this.rolFuncionalidadDAO.findById(rolFuncionalidad.getPk(), false);
         this.rolFuncionalidadDAO.remove(rolFuncionalidadTmp);
     }

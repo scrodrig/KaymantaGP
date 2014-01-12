@@ -119,12 +119,8 @@ public class PanelDocsBean extends BotonesBean implements Serializable {
     public void postConstructor() {
 
         super.sinSeleccion();
-
-        System.out.println("PROYECTO: " + codProyecto);
         this.usrSesion = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario");
-        System.out.println("USUARIO: " + usrSesion);
         this.emplSesion = (Empleado) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Empleado");
-
         FacesContext context = FacesContext.getCurrentInstance();
         Map<String, String> parametros = context.getExternalContext().getRequestParameterMap();
         if (this.proyecto == null) {
@@ -138,7 +134,6 @@ public class PanelDocsBean extends BotonesBean implements Serializable {
             this.actividadEntregable = this.actividadEntregableServicio.findBySubActividadAndEntregable(subActividad, Long.parseLong(codActividadEntregable));
 
         }
-        System.out.println("PROYECTO: " + proyecto.getNombreProyecto() + " ACTIVIDAD " + actividad.getNombreActividad());
         this.documentos = this.documentoServicio.findBySubActividad(actividadEntregable);
         this.institucionesControl = this.institucionControlServicio.obtener();
         this.tipoDocumento = this.tipoDocumentoServicio.obtener();
@@ -216,7 +211,6 @@ public class PanelDocsBean extends BotonesBean implements Serializable {
         if (estado == null || "".equals(estado)) {
             return "";
         } else {
-            System.out.println(estado);
             if (estado.equals("I")) {
                 return "Inicial";
             } else if (estado.equals("P")) {
@@ -233,7 +227,6 @@ public class PanelDocsBean extends BotonesBean implements Serializable {
 
     public void subirDocumento(FileUploadEvent event) {
         this.documento = new Documento();
-        System.out.println("Inicar carga: ");
         String resultado = "";
         try {
             String name = event.getFile().getFileName();
@@ -242,9 +235,7 @@ public class PanelDocsBean extends BotonesBean implements Serializable {
             this.documento.setNombreDocumento(name);
             /////////////
             super.setDisableCargaDocumentos(Boolean.FALSE);
-            System.out.println(super.getDisableCargaDocumentos());
             FacesMessage msg = new FacesMessage(name + " documento cargado. ");
-            System.out.println("Carga: " + msg.getSummary() + " - " + event.getComponent().getClientId());
         } catch (Exception e) {
             e.printStackTrace();
             FacesMessage msg1 = new FacesMessage("Error", event.getFile().getFileName() + " no se cargo. " + resultado);
@@ -253,23 +244,15 @@ public class PanelDocsBean extends BotonesBean implements Serializable {
     }
 
     public void subirDocumentoModificado(FileUploadEvent event) {
-        System.out.println("Inicar carga de documento modificado: ");
-        //GUARDAR DOCUMENTO EN SESIÓN
-        //DOCUMENTO ANTERIOR
         documentoAnt = new Documento();
         String resultado = "";
         try {
             documentoAnt = (Documento) BeanUtils.cloneBean(this.documento);
             String name = event.getFile().getFileName();
             this.documento.setDocumento(ArrayUtils.toObject(IOUtils.toByteArray(event.getFile().getInputstream())));
-            //this.documento.setDocumento(IOUtils);
             this.documento.setNombreDocumento(name);
-            /////////////
-            System.out.println("Codigo documento en subir documento modificado " + documento.getCodigo());
             super.setDisableCargaDocumentos(Boolean.FALSE);
-            System.out.println(super.getDisableCargaDocumentos());
             FacesMessage msg = new FacesMessage(name + " documento cargado. ");
-            System.out.println("Carga: " + msg.getSummary() + " - " + event.getComponent().getClientId());
         } catch (Exception e) {
             e.printStackTrace();
             FacesMessage msg1 = new FacesMessage("Error", event.getFile().getFileName() + " no se cargo. " + resultado);
@@ -281,8 +264,6 @@ public class PanelDocsBean extends BotonesBean implements Serializable {
         if (usr == null || "".equals(usr)) {
             return "";
         } else {
-            System.out.println(usr);
-            System.out.println(usuarioServicio.findByID(usr));
             try {
                 usuarioServicio.findByID(usr);
                 return usuarioServicio.findByID(usr).getUsuario();
@@ -345,7 +326,6 @@ public class PanelDocsBean extends BotonesBean implements Serializable {
                 this.entregableDocumentoServicio.crear(entregableDocumento);
                 MensajesGenericos.infoCargado("Se ha cargado el archivo " + documento.getNombreDocumento());
             } else if (super.getEnEdicion()) {
-                System.out.println("EN EDICIÓN DE DOCUMENTO");
                 int i = this.documentos.indexOf(this.documento);
                 if (instControl != null || !"".equals(instControl) || !"0".equals(instControl)) {
                     this.documento.setInstitucionControl(institucionControlServicio.findByID(Long.parseLong(instControl)));
@@ -365,7 +345,6 @@ public class PanelDocsBean extends BotonesBean implements Serializable {
                 this.historialDocumento.setRespaldoDocumento(documentoAnt.getDocumento());
                 this.historialDocumento.setUsrCreacion(usrSesion.getCodigo());
                 this.historialDocumento.setFcreacion(new Date());
-                System.out.println("Codigo documento en guardar la actualizacion documento modificado " + historialDocumento.getPk().getCodigoHistorialDocumento() + "," + historialDocumento.getPk().getDocumento());
                 this.historialDocumentoServicio.crear(historialDocumento);
                 documentos.set(i, this.documento);
                 MensajesGenericos.infoCargado("Se ha cargado el archivo " + documento.getNombreDocumento());
@@ -380,11 +359,8 @@ public class PanelDocsBean extends BotonesBean implements Serializable {
     public void filaSeleccionadaDoc(ActionEvent evento) {
         if (documentoSeleccionado instanceof Documento) {
             super.seleccionadoUno();
-            System.out.println("ESTOY AQUI Y SI SELECCIONE, LA ACTIVIDAD ES: " + subActividad.getNombreActividad());
-
         } else {
             super.sinSeleccion();
-            System.out.println("ESTOY ACA Y NO SELECCIONE");
         }
     }
 

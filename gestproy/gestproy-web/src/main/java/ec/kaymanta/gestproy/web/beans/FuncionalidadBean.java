@@ -95,11 +95,8 @@ public class FuncionalidadBean extends BotonesBean implements Serializable {
             if (super.getEnRegistro()) {
                 this.modulo = new Modulo();
                 this.modulo = moduloServicio.findByID(Long.parseLong(codigoModulo));
-                System.out.println(modulo.getNombre());
-
                 this.funcionalidad.setModulo(modulo);
-                this.funcionalidad.setCodModulo(modulo.getCodigo());
-                
+                this.funcionalidad.setCodModulo(modulo.getCodigo());               
                 this.funcionalidadServicio.crear(this.funcionalidad);
                 this.funcionalidades.add(this.funcionalidad);
                 MensajesGenericos.infoCrear("Funcionalidad", this.funcionalidad.getCodigo().toString().concat(" - ").concat(this.funcionalidad.getNombre()), Boolean.TRUE);
@@ -130,7 +127,6 @@ public class FuncionalidadBean extends BotonesBean implements Serializable {
     }
 
     public void eliminar(ActionEvent evento) {
-        System.out.println(this.funcionalidadSeleccionado);
         this.funcionalidadServicio.eliminar(this.funcionalidadSeleccionado);
         this.funcionalidades.remove(this.funcionalidadSeleccionado);
         MensajesGenericos.infoEliminar("Funcionalidad", this.funcionalidad.getCodigo().toString().concat(" - ").concat(this.funcionalidad.getNombre()), Boolean.TRUE);

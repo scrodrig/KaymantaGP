@@ -68,19 +68,14 @@ public class PanelInteresadosBean extends BotonesBean implements Serializable {
     public void postConstructor() {
 
         super.sinSeleccion();
-
-        System.out.println("PROYECTO: " + codProyecto);
         this.usrSesion = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario");
-        System.out.println("USUARIO: " + usrSesion);
         this.emplSesion = (Empleado) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Empleado");
-
         FacesContext context = FacesContext.getCurrentInstance();
         Map<String, String> parametros = context.getExternalContext().getRequestParameterMap();
         if (this.proyecto == null) {
             this.codProyecto = parametros.get("codProyecto");
             this.proyecto = this.proyectoServicio.findByID(Long.parseLong(codProyecto));
         }
-        System.out.println("PROYECTO: " + proyecto.getNombreProyecto());
         this.interesados = this.interesadoServicio.obtenerByProyecto(proyecto.getEmpresa(), proyecto.getCodigo());
         createMeterGaugeChart();
         createMeterGaugeChartSalubridad();
@@ -147,8 +142,6 @@ public class PanelInteresadosBean extends BotonesBean implements Serializable {
         if (usr == null || "".equals(usr)) {
             return "";
         } else {
-            System.out.println(usr);
-            System.out.println(usuarioServicio.findByID(usr));
             try {
                 usuarioServicio.findByID(usr);
                 return usuarioServicio.findByID(usr).getUsuario();

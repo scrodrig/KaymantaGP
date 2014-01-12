@@ -23,9 +23,9 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 /**
- * La Clase UsuarioRolDAO especifica e implementa las operaciones de 
- * acceso a datos relacionadas con la entidad UsuarioRol.
- * 
+ * La Clase UsuarioRolDAO especifica e implementa las operaciones de acceso a
+ * datos relacionadas con la entidad UsuarioRol.
+ *
  * @author JPA Generator
  * @version 1.0
  */
@@ -33,23 +33,19 @@ import javax.persistence.Query;
 @LocalBean
 public class UsuarioRolDAO extends DefaultGenericDAOImple<UsuarioRol, UsuarioRolPK> {
 
-    public UsuarioRolDAO()
-    {
+    public UsuarioRolDAO() {
         super(UsuarioRol.class);
-    
+
     }
-    
-    public List<UsuarioRol> findByUser(Usuario usuario)
-    {
+
+    public List<UsuarioRol> findByUser(Usuario usuario) {
         try {
-            System.out.println(usuario.getUsuario());
             String sql = "SELECT obj FROM UsuarioRol obj WHERE obj.usuario=?1";
             Query qry = this.getEntityManager().createQuery(sql);
             qry.setParameter(1, usuario);
-            System.out.println(qry.toString());
             return qry.getResultList();
         } catch (NoResultException e) {
             return null;
         }
-    }        
+    }
 }

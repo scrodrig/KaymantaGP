@@ -27,7 +27,6 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.primefaces.model.chart.MeterGaugeChartModel;
-import org.primefaces.model.chart.PieChartModel;
 
 /**
  *
@@ -74,7 +73,6 @@ public class PanelRiesgosBean extends BotonesBean implements Serializable{
             this.codProyecto = parametros.get("codProyecto");
             this.proyecto = this.proyectoServicio.findByID(Long.parseLong(codProyecto));
         }
-        System.out.println("PROYECTO: " + proyecto.getNombreProyecto());
         this.riesgos = this.riesgoServicio.findByProyecto(proyecto);
         createMeterGaugeChart();
         createMeterGaugeChartSalubridad();
@@ -141,7 +139,6 @@ public class PanelRiesgosBean extends BotonesBean implements Serializable{
         if (estado == null || "".equals(estado)) {
                 return "";
             } else {
-                System.out.println(estado);
                 if (estado.equals("I")) {
                     return "Pendiente";
                 } else if (estado.equals("M")) {
@@ -155,7 +152,6 @@ public class PanelRiesgosBean extends BotonesBean implements Serializable{
         if (impacto == null || "".equals(impacto)) {
             return "";
         } else {
-            System.out.println(impacto);
             if (impacto.equals("A")) {
                 return "Alto";
             } else if (impacto.equals("M")) {
@@ -171,8 +167,6 @@ public class PanelRiesgosBean extends BotonesBean implements Serializable{
         if (usr == null || "".equals(usr)) {
             return "";
         } else {
-            System.out.println(usr);
-            System.out.println(usuarioServicio.findByID(usr));
             try {
                 usuarioServicio.findByID(usr);
                 return usuarioServicio.findByID(usr).getUsuario();
@@ -227,7 +221,6 @@ public class PanelRiesgosBean extends BotonesBean implements Serializable{
         this.riesgo = new Riesgo();
         try {
             this.riesgo = (Riesgo) BeanUtils.cloneBean(this.riesgoSeleccionado);
-            System.out.println("RIESGO " + riesgo.getNombre());
         } catch (Exception e) {
         }
         super.modificar();

@@ -264,14 +264,9 @@ public class ProyectosBean extends BotonesBeanProyecto implements Serializable {
     }
 
     public void pruebaReportJasper(ActionEvent evento) throws JRException, IOException {
-        System.out.println("PROYECTOS= "+ proyectos.size());
         JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(proyectos);
         JasperPrint jasperPrint = JasperFillManager.fillReport("/Users/schubert_david/reports/proyectos.jasper", new HashMap(), beanCollectionDataSource);
-        //HttpServletResponse httpServletResponse=(HttpServletResponse)FacesContext.getCurrentInstance().getExternalContext().getResponse();
-        //httpServletResponse.setHeader("Content-disposition", "attachment; filename=report.pdf");
-        //ServletOutputStream servletOutputStream= httpServletResponse.getOutputStream();
-        JasperExportManager.exportReportToPdfFile(jasperPrint, "report.pdf"); 
-        
+        JasperExportManager.exportReportToPdfFile(jasperPrint, "report.pdf");         
     }
     
     public void nuevo(ActionEvent evento) {

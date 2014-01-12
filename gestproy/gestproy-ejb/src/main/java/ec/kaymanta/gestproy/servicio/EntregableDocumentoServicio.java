@@ -84,7 +84,6 @@ public class EntregableDocumentoServicio {
      * @return Listado de parroquias.
      */
     public List<EntregableDocumento> findBySubActividad(ActividadEntregable entregable) {
-        System.out.println("ESTOY EN DAO y EL PROYECTO ES "+ entregable.getNombreEntregable() + entregable.getActividad().getNombreActividad());
         return this.entregableDocumentoDAO.findBySubActividad(entregable);
     }
 

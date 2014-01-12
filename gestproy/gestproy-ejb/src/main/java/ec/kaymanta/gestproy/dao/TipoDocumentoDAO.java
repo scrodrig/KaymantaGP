@@ -18,9 +18,9 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 /**
- * La Clase TipoDocumentoDAO especifica e implementa las operaciones de 
- * acceso a datos relacionadas con la entidad TipoDocumento.
- * 
+ * La Clase TipoDocumentoDAO especifica e implementa las operaciones de acceso a
+ * datos relacionadas con la entidad TipoDocumento.
+ *
  * @author JPA Generator
  * @version 1.0
  */
@@ -28,9 +28,8 @@ import javax.ejb.Stateless;
 @LocalBean
 public class TipoDocumentoDAO extends DefaultGenericDAOImple<TipoDocumento, Long> {
 
-     public TipoDocumentoDAO()
-    {
+    public TipoDocumentoDAO() {
         super(TipoDocumento.class);
-    
+
     }
 }

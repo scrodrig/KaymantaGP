@@ -57,11 +57,11 @@ public class PanelLeccionesBean extends BotonesBean implements Serializable {
     private List<LeccionesAprendidas> leccionesAprendidasList;
     private Proyecto proyecto;
     private String codProyecto;
-     //ELEMENTO DE VISTA
+    //ELEMENTO DE VISTA
     private MeterGaugeChartModel meterGaugeChartModel;
     //ELEMENTO DE VISTA
     private MeterGaugeChartModel meterGaugeChartModelSalud;
-    
+
     @PostConstruct
     @Override
     public void postConstructor() {
@@ -69,22 +69,18 @@ public class PanelLeccionesBean extends BotonesBean implements Serializable {
         super.sinSeleccion();
         this.usrSesion = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario");
         this.emplSesion = (Empleado) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Empleado");
-
         FacesContext context = FacesContext.getCurrentInstance();
         Map<String, String> parametros = context.getExternalContext().getRequestParameterMap();
         if (this.proyecto == null) {
             this.codProyecto = parametros.get("codProyecto");
             this.proyecto = this.proyectoServicio.findByID(Long.parseLong(codProyecto));
         }
-        System.out.println("PROYECTO: " + proyecto.getNombreProyecto());
         this.leccionesAprendidasList = this.leccionesAprendidasServicio.findByProyecto(proyecto);
         createMeterGaugeChart();
         createMeterGaugeChartSalubridad();
         this.leccionesAprendidas = new LeccionesAprendidas();
     }
 
-    
-    
     private void createMeterGaugeChart() {
         meterGaugeChartModel = new MeterGaugeChartModel();
         List<Number> intervals = new ArrayList<Number>() {
@@ -140,14 +136,11 @@ public class PanelLeccionesBean extends BotonesBean implements Serializable {
             return false;
         }
     }
-    
-    
-     public String getUsrAuditoria(String usr) {
+
+    public String getUsrAuditoria(String usr) {
         if (usr == null || "".equals(usr)) {
             return "";
         } else {
-            System.out.println(usr);
-            System.out.println(usuarioServicio.findByID(usr));
             try {
                 usuarioServicio.findByID(usr);
                 return usuarioServicio.findByID(usr).getUsuario();
@@ -161,7 +154,6 @@ public class PanelLeccionesBean extends BotonesBean implements Serializable {
         if (estado == null || "".equals(estado)) {
             return "";
         } else {
-            System.out.println(estado);
             if (estado.equals("P")) {
                 return "Pendiente";
             } else if (estado.equals("C")) {
@@ -170,24 +162,22 @@ public class PanelLeccionesBean extends BotonesBean implements Serializable {
             return "Desconocido";
         }
     }
-    
+
     public void nuevaLeccion(ActionEvent evento) {
         super.crear();
         this.leccionesAprendidas = new LeccionesAprendidas();
     }
-    
+
     public void modificarLeccion(ActionEvent evento) {
         this.leccionesAprendidas = new LeccionesAprendidas();
         try {
             this.leccionesAprendidas = (LeccionesAprendidas) BeanUtils.cloneBean(this.leccionesAprendidasSeleccionada);
-            System.out.println("LECCIONES APRENDIDAS " + leccionesAprendidas.getProblema());
-
         } catch (Exception e) {
             e.printStackTrace();
         }
         super.modificar();
     }
-    
+
     public void guardarLeccion(ActionEvent evento) {
 
         try {
@@ -216,22 +206,20 @@ public class PanelLeccionesBean extends BotonesBean implements Serializable {
         }
 
     }
-    
+
     public void filaSeleccionadaLeccion(ActionEvent evento) {
         if (leccionesAprendidasSeleccionada instanceof LeccionesAprendidas) {
             super.seleccionadoUno();
             try {
                 this.leccionesAprendidas = new LeccionesAprendidas();
                 this.leccionesAprendidas = (LeccionesAprendidas) BeanUtils.cloneBean(this.leccionesAprendidasSeleccionada);
-                System.out.println("ESTOY AQUI Y SI SELECCIONE LA LECCION APRENDIDA");
             } catch (Exception e) {
-                System.out.println("Error en Lección");
             }
         } else {
             super.sinSeleccion();
         }
     }
-    
+
     public void verAuditoriaLeccion(ActionEvent evento) throws IllegalAccessException {
         try {
             super.verAuditoria();

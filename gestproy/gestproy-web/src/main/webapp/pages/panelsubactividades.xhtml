@@ -47,8 +47,8 @@
 
             <p:row>  
                 <p:column colspan="2" style="font-weight: bold;">Salubridad</p:column>  
-                <p:column colspan="4" style="font-weight: bold;" rendered="#{panelSubActividadesBean.holgura(panelSubActividadesBean.numeroDias(panelSubActividadesBean.proyecto.festimada))}"> #{-panelSubActividadesBean.numeroDias(panelSubActividadesBean.proyecto.festimada)} día(s) de Holgura</p:column>  
-                <p:column colspan="4" style="font-weight: bold;" rendered="#{!panelSubActividadesBean.holgura(panelSubActividadesBean.numeroDias(panelSubActividadesBean.proyecto.festimada))}"> #{panelSubActividadesBean.numeroDias(panelSubActividadesBean.proyecto.festimada)} día(s) de Retraso</p:column>  
+                <p:column colspan="4" style="font-weight: bold;text-align: right" rendered="#{panelSubActividadesBean.holgura(panelSubActividadesBean.numeroDias(panelSubActividadesBean.proyecto.festimada))}"> #{-panelSubActividadesBean.numeroDias(panelSubActividadesBean.proyecto.festimada)} día(s) de Holgura</p:column>  
+                <p:column colspan="4" style="font-weight: bold;text-align: right" rendered="#{!panelSubActividadesBean.holgura(panelSubActividadesBean.numeroDias(panelSubActividadesBean.proyecto.festimada))}"> #{panelSubActividadesBean.numeroDias(panelSubActividadesBean.proyecto.festimada)} día(s) de Retraso</p:column>  
 
             </p:row> 
 
@@ -84,7 +84,7 @@
             </f:facet>  
             <p:row>  
                 <p:column colspan="2" style="font-weight: bold;">Fecha Inicio</p:column>  
-                <p:column colspan="4" style="font-weight: bold;">
+                <p:column colspan="4" style="font-weight: bold;text-align: right">
                     <h:outputLabel value="#{panelSubActividadesBean.proyecto.finicio}">
                         <f:convertDateTime pattern="dd/MM/yyyy" />
                     </h:outputLabel>
@@ -93,7 +93,7 @@
 
             <p:row>  
                 <p:column colspan="2" style="font-weight: bold;">Fecha Estimada</p:column>  
-                <p:column colspan="4" style="font-weight: bold;">
+                <p:column colspan="4" style="font-weight: bold;text-align: right">
                     <h:outputLabel value="#{panelSubActividadesBean.proyecto.festimada}">
                         <f:convertDateTime pattern="dd/MM/yyyy" />
                     </h:outputLabel>
@@ -102,7 +102,7 @@
 
             <p:row>  
                 <p:column colspan="2" style="font-weight: bold;">Fecha Fin</p:column>  
-                <p:column colspan="4" style="font-weight: bold;">
+                <p:column colspan="4" style="font-weight: bold;text-align: right">
                     <h:outputLabel value="#{panelSubActividadesBean.proyecto.ffin}">
                         <f:convertDateTime pattern="dd/MM/yyyy" />
                     </h:outputLabel>
@@ -221,16 +221,16 @@
             <p:column headerText="Sub-Actividad" style="width: 120px">
                 #{subActividad.nombreActividad}
             </p:column>
-            <p:column headerText="Avance" style="width: 70px">
+            <p:column headerText="Avance" style="width: 70px;text-align: right">
                 <h:outputLabel value="#{subActividad.avance} %" style="color: #{panelSubActividadesBean.getColor(subActividad.avance)}"/>
             </p:column>
-            <p:column headerText="H. Estimadas" style="width: 100px">
+            <p:column headerText="H. Estimadas" style="width: 100px;text-align: right">
                 #{subActividad.gethDiaEst()}
             </p:column>
-            <p:column headerText="H/Trab Real" style="width: 100px">
+            <p:column headerText="H/Trab Real" style="width: 100px;text-align: right">
                 #{subActividad.gethTrabReal()}
             </p:column>            
-            <p:column headerText="F.Inicio" style="width: 80px">
+            <p:column headerText="F.Inicio" style="width: 80px;text-align: right">
                 <h:outputLabel value="#{subActividad.fcreacion}">
                     <f:convertDateTime pattern="dd/MM/yyyy" />
                 </h:outputLabel>

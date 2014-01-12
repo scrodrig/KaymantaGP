@@ -103,8 +103,6 @@ public class InstitucionesControlBean extends BotonesBean implements Serializabl
         if (usr == null || "".equals(usr)) {
             return "";
         } else {
-            System.out.println(usr);
-            System.out.println(usuarioServicio.findByID(usr));
             try {
                  usuarioServicio.findByID(usr);
                  return usuarioServicio.findByID(usr).getUsuario();
@@ -150,7 +148,6 @@ public class InstitucionesControlBean extends BotonesBean implements Serializabl
     }
 
     public void eliminar(ActionEvent evento) {
-        System.out.println(this.institucionSeleccionado);
         this.institucionControlServicio.eliminar(this.institucionSeleccionado);        
         //this.empresaServicio.actualizar(empresaSeleccionado);
         this.instituciones.remove(this.institucionSeleccionado);

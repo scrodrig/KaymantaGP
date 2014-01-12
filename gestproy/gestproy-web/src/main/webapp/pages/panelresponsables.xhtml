@@ -52,8 +52,8 @@
 
             <p:row>  
                 <p:column colspan="2" style="font-weight: bold;">Salubridad</p:column>  
-                <p:column colspan="4" style="font-weight: bold;" rendered="#{panelResponsablesBean.holgura(panelResponsablesBean.numeroDias(panelResponsablesBean.fechasActividadRespaldo.festimada))}"> #{-panelResponsablesBean.numeroDias(panelResponsablesBean.fechasActividadRespaldo.festimada)} día(s) de Holgura</p:column>  
-                <p:column colspan="4" style="font-weight: bold;" rendered="#{!panelResponsablesBean.holgura(panelResponsablesBean.numeroDias(panelResponsablesBean.fechasActividadRespaldo.festimada))}"> #{panelResponsablesBean.numeroDias(panelResponsablesBean.fechasActividadRespaldo.festimada)} día(s) de Retraso</p:column>  
+                <p:column colspan="4" style="font-weight: bold;text-align: right" rendered="#{panelResponsablesBean.holgura(panelResponsablesBean.numeroDias(panelResponsablesBean.fechasActividadRespaldo.festimada))}"> #{-panelResponsablesBean.numeroDias(panelResponsablesBean.fechasActividadRespaldo.festimada)} día(s) de Holgura</p:column>  
+                <p:column colspan="4" style="font-weight: bold;text-align: right" rendered="#{!panelResponsablesBean.holgura(panelResponsablesBean.numeroDias(panelResponsablesBean.fechasActividadRespaldo.festimada))}"> #{panelResponsablesBean.numeroDias(panelResponsablesBean.fechasActividadRespaldo.festimada)} día(s) de Retraso</p:column>  
 
             </p:row> 
 
@@ -89,7 +89,7 @@
             </f:facet>  
             <p:row>  
                 <p:column colspan="2" style="font-weight: bold;">Fecha Inicio</p:column>  
-                <p:column colspan="4" style="font-weight: bold;">
+                <p:column colspan="4" style="font-weight: bold;;text-align: right">
                     <h:outputLabel value="#{panelResponsablesBean.proyecto.finicio}">
                         <f:convertDateTime pattern="dd/MM/yyyy" />
                     </h:outputLabel>
@@ -98,7 +98,7 @@
 
             <p:row>  
                 <p:column colspan="2" style="font-weight: bold;">Fecha Estimada</p:column>  
-                <p:column colspan="4" style="font-weight: bold;">
+                <p:column colspan="4" style="font-weight: bold;;text-align: right">
                     <h:outputLabel value="#{panelResponsablesBean.proyecto.festimada}">
                         <f:convertDateTime pattern="dd/MM/yyyy" />
                     </h:outputLabel>
@@ -107,7 +107,7 @@
 
             <p:row>  
                 <p:column colspan="2" style="font-weight: bold;">Fecha Fin</p:column>  
-                <p:column colspan="4" style="font-weight: bold;">
+                <p:column colspan="4" style="font-weight: bold;text-align: right">
                     <h:outputLabel value="#{panelResponsablesBean.proyecto.ffin}">
                         <f:convertDateTime pattern="dd/MM/yyyy" />
                     </h:outputLabel>
@@ -171,18 +171,18 @@
             <p:column headerText="Responsable" style="width: 40px">
                 #{panelResponsablesBean.getEstado(responsable.esResponsable)}
             </p:column>
-            <p:column headerText="Hor/Día Estimado" style="width: 50px">
+            <p:column headerText="Hor/Día Estimado" style="width: 50px;text-align: right">
                 #{responsable.gethDiaEst()}
             </p:column>
-            <p:column headerText="Avance" style="width: 50px">
+            <p:column headerText="Avance" style="width: 50px;text-align: right">
                 <h:outputLabel value="#{responsable.avance} %" style="color: #{panelResponsablesBean.getColor(responsable.avance)}"/>
             </p:column>
-            <p:column headerText="Fecha Inicio" style="width: 80px">
+            <p:column headerText="Fecha Inicio" style="width: 80px;text-align: right">
                 <h:outputLabel value="#{responsable.finicio}">
                     <f:convertDateTime pattern="dd/MM/yyyy" />
                 </h:outputLabel>
             </p:column>
-            <p:column headerText="Fecha Fin" style="width: 80px">
+            <p:column headerText="Fecha Fin" style="width: 80px;text-align: right">
                 <h:outputLabel value="#{responsable.ffin}">
                     <f:convertDateTime pattern="dd/MM/yyyy" />
                 </h:outputLabel>

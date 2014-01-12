@@ -110,7 +110,6 @@ public class FechasNoLaborablesBean extends BotonesBean implements Serializable 
         try {
             this.respaldo = (FechasNoLaborables) BeanUtils.cloneBean(this.fechaNoLaborableSeleccionada);
             this.fechaNoLaborable = (FechasNoLaborables) BeanUtils.cloneBean(this.fechaNoLaborableSeleccionada);
-            System.out.println("FECHA:::::" + respaldo.getFecha());
             super.modificar();
         } catch (Exception ex) {
             super.sinSeleccion();
@@ -120,7 +119,6 @@ public class FechasNoLaborablesBean extends BotonesBean implements Serializable 
 
     public void eliminar(ActionEvent evento) {
         try {
-            System.out.println(this.fechaNoLaborableSeleccionada);
             this.fechasNoLaborablesServicio.eliminar(this.fechaNoLaborableSeleccionada);
             this.fechasNoLaborables.remove(this.fechaNoLaborableSeleccionada);
             MensajesGenericos.infoEliminar("FechasNoLaborables", this.fechaNoLaborable.getFecha().toString(), Boolean.TRUE);

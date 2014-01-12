@@ -73,14 +73,11 @@ public class BuscadorDocumentosBean extends BotonesBean implements Serializable 
                 super.seleccionadoUno();
                 documento = new Documento();
                 documento = (Documento) BeanUtils.cloneBean(this.documentoSeleccionado);
-
-                System.out.println("ESTOY AQUI Y SI SELECCIONE");
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {
             super.sinSeleccion();
-            System.out.println("ESTOY ACA Y NO SELECCIONE");
         }
     }
 
@@ -90,14 +87,11 @@ public class BuscadorDocumentosBean extends BotonesBean implements Serializable 
                 super.seleccionadoUno();
                 historialDocumento = new HistorialDocumento();
                 historialDocumento = (HistorialDocumento) BeanUtils.cloneBean(this.historialDocumentoSeleccionado);
-
-                System.out.println("ESTOY AQUI Y SI SELECCIONE");
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {
             super.sinSeleccion();
-            System.out.println("ESTOY ACA Y NO SELECCIONE");
         }
     }
     
@@ -114,8 +108,6 @@ public class BuscadorDocumentosBean extends BotonesBean implements Serializable 
     public StreamedContent downloadHistorial(Byte[] codigo, String nombre) {
        
         InputStream stream = new ByteArrayInputStream(ArrayUtils.toPrimitive(codigo));
-        System.out.println("Stream: "+stream);
-        System.out.println("Nombre: "+nombre);
         StreamedContent file = new DefaultStreamedContent(stream, "application/octet-stream", "Versión previa de"+ nombre);
         return file;
     }
@@ -124,8 +116,6 @@ public class BuscadorDocumentosBean extends BotonesBean implements Serializable 
         if (usr == null || "".equals(usr)) {
             return "";
         } else {
-            System.out.println(usr);
-            System.out.println(usuarioServicio.findByID(usr));
             try {
                 usuarioServicio.findByID(usr);
                 return usuarioServicio.findByID(usr).getUsuario();
@@ -159,7 +149,6 @@ public class BuscadorDocumentosBean extends BotonesBean implements Serializable 
 
     public void subirDocumento(FileUploadEvent event) {
         this.documento = new Documento();
-        System.out.println("Inicar carga: ");
         String resultado = "";
         try {
             String name = event.getFile().getFileName();
@@ -168,9 +157,7 @@ public class BuscadorDocumentosBean extends BotonesBean implements Serializable 
             this.documento.setNombreDocumento(name);
             /////////////
             super.setDisableCargaDocumentos(Boolean.FALSE);
-            System.out.println(super.getDisableCargaDocumentos());
             FacesMessage msg = new FacesMessage(name + " documento cargado. ");
-            System.out.println("Carga: " + msg.getSummary() + " - " + event.getComponent().getClientId());
         } catch (Exception e) {
             e.printStackTrace();
             FacesMessage msg1 = new FacesMessage("Error", event.getFile().getFileName() + " no se cargo. " + resultado);

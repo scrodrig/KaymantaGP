@@ -71,7 +71,6 @@ public class ActividadSeguimientoServicio {
      * @param actividadSeguimiento
      */
     public void crear(ActividadSegumiento actividadSeguimiento) {
-        System.out.println("En crear " + actividadSeguimiento.getPk());
         //empleado.getFechaUltAcceso(new Date());
         this.actividadSeguimientoDAO.insert(actividadSeguimiento);
     }
@@ -82,7 +81,6 @@ public class ActividadSeguimientoServicio {
      * @param actividadSeguimiento
      */
     public void actualizar(ActividadSegumiento actividadSeguimiento) {
-        System.out.println("En actualizar " + actividadSeguimiento.getPk());
         //empleado.setFechaUltAcceso(new Date());
         this.actividadSeguimientoDAO.update(actividadSeguimiento);
     }
@@ -93,7 +91,6 @@ public class ActividadSeguimientoServicio {
      * @param actividadSeguimiento
      */
     public void eliminar(ActividadSegumiento actividadSeguimiento) {
-        System.out.println("En eliminar " + actividadSeguimiento.getPk().getActividad());
         ActividadSegumiento rolFuncionalidadTmp = this.actividadSeguimientoDAO.findById(actividadSeguimiento.getPk(), false);
         this.actividadSeguimientoDAO.remove(rolFuncionalidadTmp);
     }

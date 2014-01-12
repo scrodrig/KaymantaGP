@@ -14,8 +14,6 @@ package ec.kaymanta.gestproy.dao;
 
 import com.persist.common.dao.DefaultGenericDAOImple;
 import ec.kaymanta.gestproy.modelo.Rol;
-import ec.kaymanta.gestproy.modelo.Usuario;
-import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
@@ -39,11 +37,9 @@ public class RolDAO extends DefaultGenericDAOImple<Rol, Long> {
 
     public Rol findByName(String nombreUsuario) {
         try {
-            System.out.println(nombreUsuario);
             String sql = "SELECT obj FROM Rol obj WHERE obj.nombre=?1";
             Query qry = this.getEntityManager().createQuery(sql);
             qry.setParameter(1, nombreUsuario);
-            System.out.println(qry.toString());
             return (Rol) qry.getSingleResult();
         } catch (NoResultException e) {
             return null;

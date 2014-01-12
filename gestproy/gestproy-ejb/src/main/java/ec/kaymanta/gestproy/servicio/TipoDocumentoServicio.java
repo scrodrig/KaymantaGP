@@ -49,7 +49,6 @@ public class TipoDocumentoServicio {
      * @param tipoDocumento
      */
     public void crear(TipoDocumento tipoDocumento) {
-        System.out.println("En crear " + tipoDocumento.getNombre());
         //empleado.getFechaUltAcceso(new Date());
         this.tipoDocumentoDAO.insert(tipoDocumento);
     }
@@ -60,7 +59,6 @@ public class TipoDocumentoServicio {
      * @param tipoDocumento
      */
     public void actualizar(TipoDocumento tipoDocumento) {
-        System.out.println("En actualizar " + tipoDocumento.getNombre());
         //empleado.setFechaUltAcceso(new Date());
         this.tipoDocumentoDAO.update(tipoDocumento);
     }
@@ -71,7 +69,6 @@ public class TipoDocumentoServicio {
      * @param tipoDocumento
      */
     public void eliminar(TipoDocumento tipoDocumento) {
-        System.out.println("En eliminar " + tipoDocumento.getNombre());
         TipoDocumento tipoDocumentoTmp = this.tipoDocumentoDAO.findById(tipoDocumento.getCodigo(), false);
         this.tipoDocumentoDAO.remove(tipoDocumentoTmp);
     }

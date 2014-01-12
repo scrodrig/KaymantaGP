@@ -187,7 +187,6 @@ public class PanelGastosBean extends BotonesBean implements Serializable {
     }
 
     public void eliminar(ActionEvent evento) {
-        System.out.println(this.gastoSeleccionado);
         this.gastoServicio.eliminar(this.gastoSeleccionado);
         this.gastos.remove(this.gastoSeleccionado);
         MensajesGenericos.infoEliminar("Gasto", this.gasto.getActividad().getNombreActividad().toString().concat(" - ").concat(this.gasto.getCodTipoGasto().toString()), Boolean.TRUE);
@@ -198,8 +197,6 @@ public class PanelGastosBean extends BotonesBean implements Serializable {
         if (usr == null || "".equals(usr)) {
             return "";
         } else {
-            System.out.println(usr);
-            System.out.println(usuarioServicio.findByID(usr));
             try {
                 usuarioServicio.findByID(usr);
                 return usuarioServicio.findByID(usr).getUsuario();
@@ -220,7 +217,6 @@ public class PanelGastosBean extends BotonesBean implements Serializable {
                 this.gasto.setUsrCreacion(usrSesion.getCodigo());
                 this.gasto.setFcreacion(new Date());
                 this.gasto.setValorReal(BigDecimal.ZERO);
-
                 this.gastoServicio.crear(gasto);
                 this.gastos.add(gasto);
                 MensajesGenericos.infoCrear("Gasto", this.gasto.getPk().toString().concat(" - ").concat(this.gasto.getValorPlan().toString()), Boolean.TRUE);
@@ -250,9 +246,7 @@ public class PanelGastosBean extends BotonesBean implements Serializable {
             try {
                 this.gasto = new Gasto();
                 this.gasto = (Gasto) BeanUtils.cloneBean(this.gastoSeleccionado);
-                System.out.println("ESTOY AQUI Y SI SELECCIONE, EL GASTO ES: " + gasto.getPk());
             } catch (Exception e) {
-                System.out.println("Error en Gasto");
             }
         } else {
             super.sinSeleccion();

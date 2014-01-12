@@ -170,8 +170,6 @@ public class PanelSubActividadesBean extends BotonesBean implements Serializable
         if (usr == null || "".equals(usr)) {
             return "";
         } else {
-            System.out.println(usr);
-            System.out.println(usuarioServicio.findByID(usr));
             try {
                 usuarioServicio.findByID(usr);
                 return usuarioServicio.findByID(usr).getUsuario();
@@ -241,18 +239,12 @@ public class PanelSubActividadesBean extends BotonesBean implements Serializable
 
 
             } else if (super.getEnEdicion()) {
-
-                System.out.println("SubActividad: " + subActividad);
                 int i = this.subActividades.indexOf(this.subActividad);
-
                 this.subActividad.setUsrModificacion(usrSesion.getCodigo());
                 this.subActividad.setFmodificacion(new Date());
                 this.actividadServicio.actualizar(subActividad);
                 this.subActividades.set(i, this.subActividad);
-
                 MensajesGenericos.infoModificar("SubActividad", this.subActividad.getCodigo().toString().concat(" - ").concat(this.subActividad.getNombreActividad()), Boolean.TRUE);
-
-
                 if (fechasActividad.getFinicio().compareTo(fechasActividadRespaldo.getFinicio()) == 0
                         && fechasActividad.getFestimada().compareTo(fechasActividadRespaldo.getFestimada()) == 0) {
                 } else {

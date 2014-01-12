@@ -60,8 +60,6 @@ public class InteresadoServicio {
      * @param interesado
      */
     public void crear(Interesado interesado) {
-        System.out.println("En crear " + interesado.getNombre());
-        //empleado.getFechaUltAcceso(new Date());
         this.interesadoDAO.insert(interesado);
     }
 
@@ -71,8 +69,6 @@ public class InteresadoServicio {
      * @param interesado
      */
     public void actualizar(Interesado interesado) {
-        System.out.println("En actualizar " + interesado.getNombre());
-        //empleado.setFechaUltAcceso(new Date());
         this.interesadoDAO.update(interesado);
     }
 
@@ -82,7 +78,6 @@ public class InteresadoServicio {
      * @param interesado
      */
     public void eliminar(Interesado interesado) {
-        System.out.println("En eliminar " + interesado.getNombre());
         Interesado interesadoTmp = this.interesadoDAO.findById(interesado.getCodigo(), false);
         this.interesadoDAO.remove(interesadoTmp);
     }

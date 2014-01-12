@@ -27,7 +27,6 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.primefaces.model.chart.MeterGaugeChartModel;
-import org.primefaces.model.chart.PieChartModel;
 
 /**
  *
@@ -65,10 +64,7 @@ public class PanelExpectativasBean extends BotonesBean implements Serializable {
     public void postConstructor() {
 
         super.sinSeleccion();
-
-        System.out.println("PROYECTO: " + codProyecto);
         this.usrSesion = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario");
-        System.out.println("USUARIO: " + usrSesion);
         this.emplSesion = (Empleado) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Empleado");
 
         FacesContext context = FacesContext.getCurrentInstance();
@@ -77,7 +73,6 @@ public class PanelExpectativasBean extends BotonesBean implements Serializable {
             this.codProyecto = parametros.get("codProyecto");
             this.proyecto = this.proyectoServicio.findByID(Long.parseLong(codProyecto));
         }
-        System.out.println("PROYECTO: " + proyecto.getNombreProyecto());
         this.expectativas = this.expectativaServicio.findByProyecto(proyecto);
         createMeterGaugeChart();
         createMeterGaugeChartSalubridad();
@@ -144,7 +139,6 @@ public class PanelExpectativasBean extends BotonesBean implements Serializable {
         if (estado == null || "".equals(estado)) {
             return "";
         } else {
-            System.out.println(estado);
             if (estado.equals("P")) {
                 return "Pendiente";
             } else if (estado.equals("C")) {
@@ -160,9 +154,7 @@ public class PanelExpectativasBean extends BotonesBean implements Serializable {
             try {
                 this.expectativa = new Expectativa();
                 this.expectativa = (Expectativa) BeanUtils.cloneBean(this.expectativaSeleccionado);
-                System.out.println("ESTOY AQUI Y SI SELECCIONE LA EXPECTATIVA");
             } catch (Exception e) {
-                System.out.println("Error en Expectativa");
             }
         } else {
             super.sinSeleccion();
@@ -201,8 +193,6 @@ public class PanelExpectativasBean extends BotonesBean implements Serializable {
         if (usr == null || "".equals(usr)) {
             return "";
         } else {
-            System.out.println(usr);
-            System.out.println(usuarioServicio.findByID(usr));
             try {
                 usuarioServicio.findByID(usr);
                 return usuarioServicio.findByID(usr).getUsuario();
@@ -216,7 +206,6 @@ public class PanelExpectativasBean extends BotonesBean implements Serializable {
         this.expectativa = new Expectativa();
         try {
             this.expectativa = (Expectativa) BeanUtils.cloneBean(this.expectativaSeleccionado);
-            System.out.println("EXPECTATIVA " + expectativa.getRequerimiento());
         } catch (Exception e) {
         }
         super.modificar();

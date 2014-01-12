@@ -42,8 +42,8 @@
 
             <p:row>  
                 <p:column colspan="2" style="font-weight: bold;">Salubridad</p:column>  
-                <p:column colspan="4" style="font-weight: bold;" rendered="#{panelActividadesBean.holgura(panelActividadesBean.numeroDias(panelActividadesBean.proyecto.festimada))}"> #{-panelActividadesBean.numeroDias(panelActividadesBean.proyecto.festimada)} día(s) de Holgura</p:column>  
-                <p:column colspan="4" style="font-weight: bold;" rendered="#{!panelActividadesBean.holgura(panelActividadesBean.numeroDias(panelActividadesBean.proyecto.festimada))}"> #{panelActividadesBean.numeroDias(panelActividadesBean.proyecto.festimada)} día(s) de Retraso</p:column>  
+                <p:column colspan="4" style="font-weight: bold;text-align: right" rendered="#{panelActividadesBean.holgura(panelActividadesBean.numeroDias(panelActividadesBean.proyecto.festimada))}"> #{-panelActividadesBean.numeroDias(panelActividadesBean.proyecto.festimada)} día(s) de Holgura</p:column>  
+                <p:column colspan="4" style="font-weight: bold;text-align: right" rendered="#{!panelActividadesBean.holgura(panelActividadesBean.numeroDias(panelActividadesBean.proyecto.festimada))}"> #{panelActividadesBean.numeroDias(panelActividadesBean.proyecto.festimada)} día(s) de Retraso</p:column>  
 
             </p:row> 
 
@@ -79,7 +79,7 @@
             </f:facet>  
             <p:row>  
                 <p:column colspan="2" style="font-weight: bold;">Fecha Inicio</p:column>  
-                <p:column colspan="4" style="font-weight: bold;">
+                <p:column colspan="4" style="font-weight: bold;text-align: right">
                     <h:outputLabel value="#{panelActividadesBean.proyecto.finicio}">
                         <f:convertDateTime pattern="dd/MM/yyyy" />
                     </h:outputLabel>
@@ -88,7 +88,7 @@
 
             <p:row>  
                 <p:column colspan="2" style="font-weight: bold;">Fecha Estimada</p:column>  
-                <p:column colspan="4" style="font-weight: bold;">
+                <p:column colspan="4" style="font-weight: bold;text-align: right">
                     <h:outputLabel value="#{panelActividadesBean.proyecto.festimada}">
                         <f:convertDateTime pattern="dd/MM/yyyy" />
                     </h:outputLabel>
@@ -97,8 +97,8 @@
 
             <p:row>  
                 <p:column colspan="2" style="font-weight: bold;">Fecha Fin</p:column>  
-                <p:column colspan="4" style="font-weight: bold;">
-                    <h:outputLabel value="#{panelActividadesBean.proyecto.ffin}">
+                <p:column colspan="4" style="font-weight: bold;;text-align: right">
+                    <h:outputLabel value="#{panelActividadesBean.proyecto.ffin}" style="text-align: right">
                         <f:convertDateTime pattern="dd/MM/yyyy" />
                     </h:outputLabel>
                 </p:column>             
@@ -201,19 +201,19 @@
             <p:column headerText="Actividad" style="width: 100px; font-size: 8pt">
                 #{actividad.nombreActividad}
             </p:column>                  
-            <p:column headerText="Avance" style="width:50px; font-size: 8pt">
+            <p:column headerText="Avance" style="width:50px; font-size: 8pt;text-align: right">
                 <h:outputLabel value="#{actividad.avance} %" style="color: #{panelActividadesBean.getColor(actividad.avance)}"/>
             </p:column>
-            <p:column headerText="Hor. Estimadas" style="width: 70px; font-size: 8pt">
+            <p:column headerText="Hor. Estimadas" style="width: 70px; font-size: 8pt;text-align: right">
                 #{actividad.gethDiaEst()}
             </p:column>
-            <p:column headerText="H/Trab Real" style="width: 70px; font-size: 8pt">
+            <p:column headerText="H/Trab Real" style="width: 70px; font-size: 8pt;text-align: right">
                 #{actividad.gethTrabReal()}
             </p:column>
-            <p:column headerText="Tra. Total" style="width: 70px; font-size: 8pt">
+            <p:column headerText="Tra. Total" style="width: 70px; font-size: 8pt;text-align: right">
                 #{actividad.gettTotalReal()}
             </p:column>
-            <p:column headerText="F.Creación" style="width: 80px; font-size: 8pt">
+            <p:column headerText="F.Creación" style="width: 80px; font-size: 8pt;text-align: right">
                 <h:outputLabel value="#{actividad.fcreacion}">
                     <f:convertDateTime pattern="dd/MM/yyyy" />
                 </h:outputLabel>

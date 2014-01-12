@@ -116,7 +116,6 @@ public class ModulosBean extends BotonesBean implements Serializable{
     }
 
     public void eliminar(ActionEvent evento) {
-        System.out.println(this.moduloSeleccionado);
         this.moduloServicio.eliminar(this.moduloSeleccionado);        
         this.modulos.remove(this.moduloSeleccionado);
         MensajesGenericos.infoEliminar("Modulo", this.modulo.getCodigo().toString().concat(" - ").concat(this.modulo.getNombre()), Boolean.TRUE);

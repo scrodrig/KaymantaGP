@@ -36,18 +36,14 @@ public class HistorialDocumentoDAO extends DefaultGenericDAOImple<HistorialDocum
         super(HistorialDocumento.class);
 
     }
-    
-    public List<HistorialDocumento> findByDocumento(Long documento) {
-        System.out.println("ESTOY EN DAO y EL DOCUMENTO ES "+ documento);
 
+    public List<HistorialDocumento> findByDocumento(Long documento) {
         try {
             String sql = "SELECT obj FROM HistorialDocumento obj WHERE obj.pk.documento=?1";
             Query qry = this.getEntityManager().createQuery(sql);
             qry.setParameter(1, documento);
-            System.out.println(qry.toString());
-             System.out.println("La dimensión del arreglo 0 es: "+qry.getResultList().size());
             return qry.getResultList();
-            
+
         } catch (NoResultException e) {
             return null;
         }

@@ -90,16 +90,16 @@
                 #{proyecto.parroquia.nombre}
             </p:column>
 
-            <p:column headerText="Avance" style="width: 50px" sortBy="#{proyecto.avance}">
+            <p:column headerText="Avance" style="width: 50px;text-align: right" sortBy="#{proyecto.avance}">
                 <h:outputLabel value="#{proyecto.avance} %" style="color: #{panelProyectosBean.getColor(proyecto.avance)}"/>
             </p:column>
 
-            <p:column headerText="F. Inicio" style="width: 60px" sortBy="#{proyecto.finicio}">
+            <p:column headerText="F. Inicio" style="width: 60px;text-align: right" sortBy="#{proyecto.finicio}">
                 <h:outputLabel value="#{proyecto.finicio}">
                     <f:convertDateTime pattern="dd/MM/yyyy" />
                 </h:outputLabel>
             </p:column>
-            <p:column headerText="F. Fin" style="width: 60px" sortBy="#{proyecto.ffin}">
+            <p:column headerText="F. Fin" style="width: 60px;text-align: right" sortBy="#{proyecto.ffin}">
                 <h:outputLabel value="#{proyecto.ffin}" style="color: #{panelProyectosBean.getColorFecha(proyecto.ffin)}">
                     <f:convertDateTime pattern="dd/MM/yyyy" />
                 </h:outputLabel>
@@ -114,7 +114,7 @@
                 <p:panelGrid columns="2" rendered="#{panelProyectosBean.enAuditoria}">
 
                     <p:outputLabel for="a_codigo" value="Código:"/>
-                    <p:outputLabel id="a_codigo" value="#{panelProyectosBean.proyecto.codigo}" />
+                    <p:outputLabel id="a_codigo" value="#{panelProyectosBean.proyecto.codigo}"/>
 
                     <p:outputLabel for="a_empresa" value="Nombre de Empresa"/>                
                     <p:outputLabel id="a_empresa" value="#{panelProyectosBean.proyecto.nombreProyecto}"/>              

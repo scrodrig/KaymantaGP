@@ -61,8 +61,6 @@ public class HistorialDocumentoServicio {
      * @param historialDocumento
      */
     public void crear(HistorialDocumento historialDocumento) {
-        System.out.println("En crear " + historialDocumento.getNombre());
-        //historialDocumento.getFechaUltAcceso(new Date());
         this.historialDocumentoDAO.insert(historialDocumento);
     }
 
@@ -72,8 +70,6 @@ public class HistorialDocumentoServicio {
      * @param historialDocumento
      */
     public void actualizar(HistorialDocumento historialDocumento) {
-        System.out.println("En actualizar " + historialDocumento.getNombre());
-        //historialDocumento.setFechaUltAcceso(new Date());
         this.historialDocumentoDAO.update(historialDocumento);
     }
 
@@ -83,7 +79,6 @@ public class HistorialDocumentoServicio {
      * @param historialDocumento
      */
     public void eliminar(HistorialDocumento historialDocumento) {
-        System.out.println("En eliminar " + historialDocumento.getNombre());
         HistorialDocumento proyectoTmp = this.historialDocumentoDAO.findById(historialDocumento.getPk(), false);
         this.historialDocumentoDAO.remove(proyectoTmp);
     }

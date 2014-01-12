@@ -60,8 +60,6 @@ public class FechasNoLaborablesServicio {
      * @param fechasNoLaborables
      */
     public void crear(FechasNoLaborables fechasNoLaborables) {
-        System.out.println("En crear " + fechasNoLaborables);
-        //empleado.getFechaUltAcceso(new Date());
         this.fechasNoLaborablesDAO.insert(fechasNoLaborables);
     }
 
@@ -71,8 +69,6 @@ public class FechasNoLaborablesServicio {
      * @param fechasNoLaborables
      */
     public void actualizar(FechasNoLaborables fechasNoLaborables) {
-        System.out.println("En actualizar " + fechasNoLaborables);
-        //empleado.setFechaUltAcceso(new Date());
         this.fechasNoLaborablesDAO.update(fechasNoLaborables);
     }
 
@@ -82,9 +78,7 @@ public class FechasNoLaborablesServicio {
      * @param fechasNoLaborables
      */
     public void eliminar(FechasNoLaborables fechasNoLaborables) {
-        System.out.println("En eliminar"+fechasNoLaborables.getFecha());
         FechasNoLaborables rolTmp = this.fechasNoLaborablesDAO.findById(fechasNoLaborables.getFecha(), false);
-        System.out.println("En eliminar"+rolTmp.getFecha());
         this.fechasNoLaborablesDAO.remove(rolTmp);
     }
 

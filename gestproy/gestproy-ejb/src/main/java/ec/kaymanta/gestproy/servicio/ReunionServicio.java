@@ -65,8 +65,6 @@ public class ReunionServicio {
      * @param reunion
      */
     public void crear(Reunion reunion) {
-        System.out.println("En crear " + reunion);
-        //empleado.getFechaUltAcceso(new Date());
         this.reunionDAO.insert(reunion);
     }
 
@@ -76,8 +74,6 @@ public class ReunionServicio {
      * @param reunion
      */
     public void actualizar(Reunion reunion) {
-        System.out.println("En actualizar " + reunion);
-        //empleado.setFechaUltAcceso(new Date());
         this.reunionDAO.update(reunion);
     }
 
@@ -87,7 +83,6 @@ public class ReunionServicio {
      * @param reunion
      */
     public void eliminar(Reunion reunion) {
-        System.out.println("En eliminar " + reunion);
         Reunion empresaTmp = this.reunionDAO.findById(reunion.getPk(), false);
         this.reunionDAO.remove(empresaTmp);
     }

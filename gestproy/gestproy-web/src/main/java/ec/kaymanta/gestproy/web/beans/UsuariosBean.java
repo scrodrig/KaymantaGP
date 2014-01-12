@@ -84,7 +84,6 @@ public class UsuariosBean extends BotonesBean implements Serializable {
         this.rolesFuenteString = this.getListStringRol(rolesFuente);
         this.rolesDestinoString = new ArrayList<String>();
         this.usuariosRoles = new ArrayList<UsuarioRol>();
-        System.out.println("Fuente: " + rolesFuenteString.size());
         roles = new DualListModel<String>(rolesFuenteString, rolesDestinoString);
 
     }
@@ -150,8 +149,6 @@ public class UsuariosBean extends BotonesBean implements Serializable {
         if (usr == null || "".equals(usr)) {
             return "";
         } else {
-            System.out.println(usr);
-            System.out.println(usuarioServicio.findByID(usr));
             try {
                 usuarioServicio.findByID(usr);
                 return usuarioServicio.findByID(usr).getUsuario();
@@ -180,7 +177,6 @@ public class UsuariosBean extends BotonesBean implements Serializable {
                     this.usuarioRol.setRol(rolesSeleccionados.get(i));
                     this.usuarioRol.setFecha(new Date());
                     this.usuarioRolServicio.crear(usuarioRol);
-                    System.out.println(usuarioRol);
                 }
                 MensajesGenericos.infoCrear("Usuario", this.usuario.getCodigo().toString().concat(" - ").concat(this.usuario.getUsuario()), Boolean.TRUE);
                 this.rolesDestinoString = new ArrayList<String>();
@@ -197,7 +193,6 @@ public class UsuariosBean extends BotonesBean implements Serializable {
                         this.usuarioRol = new UsuarioRol();
                         this.usuarioRol = this.usuarioRolServicio.findByID(new UsuarioRolPK(usuario.getCodigo(), rolesEliminar.get(j).getCodigo()));
                         this.usuarioRolServicio.eliminar(usuarioRol);
-                        System.out.println("Eliminado:" + usuarioRol);
                     }
                 }
                 if (!this.rolesAIngresar.isEmpty()) {
@@ -211,7 +206,6 @@ public class UsuariosBean extends BotonesBean implements Serializable {
                         this.usuarioRol.setRol(rolesIngresar.get(k));
                         this.usuarioRol.setFecha(new Date());
                         this.usuarioRolServicio.crear(usuarioRol);
-                        System.out.println("Creado:" + usuarioRol);
                     }
                 }
                 //ENCERAR
@@ -249,7 +243,6 @@ public class UsuariosBean extends BotonesBean implements Serializable {
                 }
                 this.rolesDestinoString = new ArrayList<String>();
                 this.rolesDestinoString = this.getListStringRol(rolesSeleccionados);
-                System.out.println("TAMAÑO STRING: " + rolesDestinoString.size());
                 //ROLES FUENTE
                 this.rolesFuente = new ArrayList<Rol>();
                 this.rolesFuenteString = new ArrayList<String>();
@@ -259,7 +252,6 @@ public class UsuariosBean extends BotonesBean implements Serializable {
                 for (int i = 0; i < rolesFuenteString.size(); i++) {
                     for (int j = 0; j < rolesDestinoString.size(); j++) {
                         if (rolesFuenteString.get(i).equals(rolesDestinoString.get(j))) {
-                            System.out.println(rolesFuenteString.get(i) + "   " + rolesDestinoString.get(j));
                             rolesFuenteString.remove(rolesDestinoString.get(j));
                         }
                     }
@@ -282,7 +274,6 @@ public class UsuariosBean extends BotonesBean implements Serializable {
     }
 
     public void eliminar(ActionEvent evento) {
-        System.out.println(this.usuarioSeleccionado);
         this.usuarioServicio.eliminar(this.usuarioSeleccionado);
         this.usuarios.remove(this.usuarioSeleccionado);
         MensajesGenericos.infoEliminar("Usuario", this.usuario.getCodigo().toString().concat(" - ").concat(this.usuario.getUsuario()), Boolean.TRUE);
@@ -430,10 +421,7 @@ public class UsuariosBean extends BotonesBean implements Serializable {
         //COMPROBACION
         for (int i = 0; i < rolesDestinoString.size(); i++) {
             if (rolesDestinoString.get(i) != null) {
-                System.out.println("ITEMS A INGRESAR" + rolesAIngresar.size());
-                System.out.println("ITEMS A ELIMINAR" + rolesAEliminar.size());
             } else {
-                System.out.println("NULL (No existen datos)");
             }
         }
     }

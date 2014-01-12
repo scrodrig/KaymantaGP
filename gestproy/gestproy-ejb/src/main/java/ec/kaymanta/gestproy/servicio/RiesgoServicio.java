@@ -62,8 +62,6 @@ public class RiesgoServicio {
      * @param riesgo
      */
     public void crear(Riesgo riesgo) {
-        System.out.println("En crear " + riesgo);
-        //empleado.getFechaUltAcceso(new Date());
         this.riesgoDAO.insert(riesgo);
     }
 
@@ -73,8 +71,6 @@ public class RiesgoServicio {
      * @param riesgo
      */
     public void actualizar(Riesgo riesgo) {
-        System.out.println("En actualizar " + riesgo);
-        //empleado.setFechaUltAcceso(new Date());
         this.riesgoDAO.update(riesgo);
     }
 
@@ -84,7 +80,6 @@ public class RiesgoServicio {
      * @param riesgo
      */
     public void eliminar(Riesgo riesgo) {
-        System.out.println("En eliminar " + riesgo);
         Riesgo empresaTmp = this.riesgoDAO.findById(riesgo.getPk(), false);
         this.riesgoDAO.remove(empresaTmp);
     }

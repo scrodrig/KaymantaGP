@@ -14,7 +14,6 @@ package ec.kaymanta.gestproy.dao;
 
 import com.persist.common.dao.DefaultGenericDAOImple;
 import ec.kaymanta.gestproy.modelo.Documento;
-import ec.kaymanta.gestproy.modelo.Proyecto;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 

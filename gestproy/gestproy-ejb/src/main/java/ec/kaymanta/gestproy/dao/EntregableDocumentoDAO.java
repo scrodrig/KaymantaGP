@@ -40,16 +40,11 @@ public class EntregableDocumentoDAO extends DefaultGenericDAOImple<EntregableDoc
     }
       
        public List<EntregableDocumento> findBySubActividad(ActividadEntregable entregable) {
-        System.out.println("ESTOY EN DAO y EL ENTREGABLE ES "+ entregable+" Actividad "+entregable.getActividad().getNombreActividad());
-
         try {
             String sql = "SELECT obj FROM EntregableDocumento obj WHERE obj.actividadEntregable=?1";
             Query qry = this.getEntityManager().createQuery(sql);
             qry.setParameter(1, entregable);
-            System.out.println(qry.toString());
-             System.out.println("La dimensión del arreglo 0 es: "+qry.getResultList().size());
-            return qry.getResultList();
-            
+            return qry.getResultList();            
         } catch (NoResultException e) {
             return null;
         }

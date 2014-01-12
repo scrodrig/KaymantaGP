@@ -56,8 +56,6 @@ public class RolServicio {
      * @param rol
      */
     public void crear(Rol rol) {
-        System.out.println("En crear " + rol.getNombre());
-        //empleado.getFechaUltAcceso(new Date());
         this.rolDAO.insert(rol);
     }
 
@@ -67,8 +65,6 @@ public class RolServicio {
      * @param rol
      */
     public void actualizar(Rol rol) {
-        System.out.println("En actualizar " + rol.getNombre());
-        //empleado.setFechaUltAcceso(new Date());
         this.rolDAO.update(rol);
     }
 
@@ -78,7 +74,6 @@ public class RolServicio {
      * @param rol
      */
     public void eliminar(Rol rol) {
-        System.out.println("En eliminar " + rol.getNombre());
         Rol rolTmp = this.rolDAO.findById(rol.getCodigo(), false);
         this.rolDAO.remove(rolTmp);
     }

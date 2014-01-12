@@ -116,7 +116,6 @@ public class ProvinciasBean extends BotonesBean implements Serializable{
     }
 
     public void eliminar(ActionEvent evento) {
-        System.out.println(this.provinciaSeleccionado);
         this.provinciaServicio.eliminar(this.provinciaSeleccionado);        
         this.provincias.remove(this.provinciaSeleccionado);
         MensajesGenericos.infoEliminar("Provincia", this.provincia.getCodigo().toString().concat(" - ").concat(this.provincia.getNombre()), Boolean.TRUE);

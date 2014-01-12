@@ -52,8 +52,8 @@
 
             <p:row>  
                 <p:column colspan="2" style="font-weight: bold;">Salubridad</p:column>  
-                <p:column colspan="4" style="font-weight: bold;" rendered="#{panelDocsBean.holgura(panelDocsBean.numeroDias(panelDocsBean.fechasActividad.festimada))}"> #{-panelDocsBean.numeroDias(panelDocsBean.fechasActividad.festimada)} día(s) de Holgura</p:column>  
-                <p:column colspan="4" style="font-weight: bold;" rendered="#{!panelDocsBean.holgura(panelDocsBean.numeroDias(panelDocsBean.fechasActividad.festimada))}"> #{panelDocsBean.numeroDias(panelDocsBean.fechasActividad.festimada)} día(s) de Retraso</p:column>  
+                <p:column colspan="4" style="font-weight: bold;text-align: right" rendered="#{panelDocsBean.holgura(panelDocsBean.numeroDias(panelDocsBean.fechasActividad.festimada))}"> #{-panelDocsBean.numeroDias(panelDocsBean.fechasActividad.festimada)} día(s) de Holgura</p:column>  
+                <p:column colspan="4" style="font-weight: bold;text-align: right" rendered="#{!panelDocsBean.holgura(panelDocsBean.numeroDias(panelDocsBean.fechasActividad.festimada))}"> #{panelDocsBean.numeroDias(panelDocsBean.fechasActividad.festimada)} día(s) de Retraso</p:column>  
 
             </p:row> 
 
@@ -89,7 +89,7 @@
             </f:facet>  
             <p:row>  
                 <p:column colspan="2" style="font-weight: bold;">Fecha Inicio</p:column>  
-                <p:column colspan="4" style="font-weight: bold;">
+                <p:column colspan="4" style="font-weight: bold;text-align: right">
                     <h:outputLabel value="#{panelDocsBean.proyecto.finicio}">
                         <f:convertDateTime pattern="dd/MM/yyyy" />
                     </h:outputLabel>
@@ -98,7 +98,7 @@
 
             <p:row>  
                 <p:column colspan="2" style="font-weight: bold;">Fecha Estimada</p:column>  
-                <p:column colspan="4" style="font-weight: bold;">
+                <p:column colspan="4" style="font-weight: bold;text-align: right">
                     <h:outputLabel value="#{panelDocsBean.proyecto.festimada}">
                         <f:convertDateTime pattern="dd/MM/yyyy" />
                     </h:outputLabel>
@@ -107,7 +107,7 @@
 
             <p:row>  
                 <p:column colspan="2" style="font-weight: bold;">Fecha Fin</p:column>  
-                <p:column colspan="4" style="font-weight: bold;">
+                <p:column colspan="4" style="font-weight: bold;text-align: right">
                     <h:outputLabel value="#{panelDocsBean.proyecto.ffin}">
                         <f:convertDateTime pattern="dd/MM/yyyy" />
                     </h:outputLabel>
@@ -191,7 +191,7 @@
         </p:dataTable>
         <!--//PANEL-->
         <!--NUEVO DOC-->
-        <p:panel id="nuevoDoc" header="Registro de Documentos" style="width: 800px"
+        <p:panel id="nuevoDoc" header="Registro de Documentos" style="width: 500px"
                  rendered="#{panelDocsBean.enRegistro}"> 
             <p:focus context="nuevoDoc"/> 
             <p:panelGrid columns="3" >  

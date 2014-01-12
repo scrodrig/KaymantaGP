@@ -49,7 +49,6 @@ public class EmpleadoServicio {
      * @param empleado
      */
     public void crear(Empleado empleado) {
-        System.out.println("En crear " + empleado.getNombre());
         //empleado.getFechaUltAcceso(new Date());
         this.empleadoDAO.insert(empleado);
     }
@@ -60,7 +59,6 @@ public class EmpleadoServicio {
      * @param empleado
      */
     public void actualizar(Empleado empleado) {
-        System.out.println("En actualizar " + empleado.getNombre());
         //empleado.setFechaUltAcceso(new Date());
         this.empleadoDAO.update(empleado);
     }
@@ -71,7 +69,6 @@ public class EmpleadoServicio {
      * @param empleado
      */
     public void eliminar(Empleado empleado) {
-        System.out.println("En eliminar " + empleado.getNombre());
         Empleado empleadoTmp = this.empleadoDAO.findById(empleado.getCodigo(), false);
         this.empleadoDAO.remove(empleadoTmp);
     }

@@ -83,7 +83,6 @@ public class DocumentosProyectoServicio {
      * @return Listado de parroquias.
      */
     public List<DocumentosProyecto> findByProyecto(Proyecto proyecto) {
-        System.out.println("ESTOY EN DAO y EL PROYECTO ES "+ proyecto.getNombreProyecto());
         return this.documentosProyectoDAO.findByProyecto(proyecto.getCodigo());
     }
 }

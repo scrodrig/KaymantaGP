@@ -39,8 +39,6 @@ public class ActividadDAO extends DefaultGenericDAOImple<Actividad, Long> {
     }
 
     public List<Actividad> findByProyecto(Proyecto proyecto) {
-        System.out.println("ESTOY EN DAO y EL PROYECTO ES " + proyecto);
-
         try {
             List<Actividad> actividades = new ArrayList<Actividad>();
             List<Actividad> retorno = new ArrayList<Actividad>();
@@ -48,8 +46,6 @@ public class ActividadDAO extends DefaultGenericDAOImple<Actividad, Long> {
             String sql = "SELECT obj FROM Actividad obj WHERE obj.proyecto=?1";
             Query qry = this.getEntityManager().createQuery(sql);
             qry.setParameter(1, proyecto);
-            System.out.println(qry.toString());
-            System.out.println("La dimensión del arreglo 0 es: " + qry.getResultList().size());
             actividades = qry.getResultList();
             for (int i = 0; i < actividades.size(); i++) {
                 if (actividades.get(i).getActividad() == null) {
@@ -64,15 +60,11 @@ public class ActividadDAO extends DefaultGenericDAOImple<Actividad, Long> {
     }
 
     public List<Actividad> findByProyectoAndActividad(Proyecto proyecto, Actividad actividad) {
-        System.out.println("ESTOY EN DAO y EL PROYECTO ES " + proyecto + "ESTOY EN DAO y LA ACTIVIDAD ES " + actividad);
-
         try {
             String sql = "SELECT obj FROM Actividad obj WHERE obj.proyecto=?1 AND obj.actividad=?2";
             Query qry = this.getEntityManager().createQuery(sql);
             qry.setParameter(1, proyecto);
             qry.setParameter(2, actividad);
-            System.out.println(qry.toString());
-            System.out.println("La dimensión del arreglo 0 es: " + qry.getResultList().size());
             return qry.getResultList();
 
         } catch (NoResultException e) {

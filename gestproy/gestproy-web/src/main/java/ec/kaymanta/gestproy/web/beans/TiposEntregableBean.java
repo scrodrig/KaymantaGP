@@ -110,7 +110,6 @@ public class TiposEntregableBean extends BotonesBean implements Serializable{
     }
 
     public void eliminar(ActionEvent evento) {
-        System.out.println(this.tipoEntregableSeleccionado);
         this.tipoEntregableServicio.eliminar(this.tipoEntregableSeleccionado);
         this.tipos.remove(this.tipoEntregableSeleccionado);
         MensajesGenericos.infoEliminar("TipoEntregable", this.tipoEntregable.getCodigo().toString().concat(" - ").concat(this.tipoEntregable.getNombre()), Boolean.TRUE);

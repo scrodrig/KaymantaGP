@@ -52,8 +52,6 @@ public class TipoEntregableServicio {
      * @param tipoEntregable
      */
     public void crear(TipoEntregable tipoEntregable) {
-        System.out.println("En crear " + tipoEntregable.getNombre());
-        //empleado.getFechaUltAcceso(new Date());
         this.tipoEntregableDAO.insert(tipoEntregable);
     }
 
@@ -63,8 +61,6 @@ public class TipoEntregableServicio {
      * @param tipoEntregable
      */
     public void actualizar(TipoEntregable tipoEntregable) {
-        System.out.println("En actualizar " + tipoEntregable.getNombre());
-        //empleado.setFechaUltAcceso(new Date());
         this.tipoEntregableDAO.update(tipoEntregable);
     }
 
@@ -74,7 +70,6 @@ public class TipoEntregableServicio {
      * @param tipoEntregable
      */
     public void eliminar(TipoEntregable tipoEntregable) {
-        System.out.println("En eliminar " + tipoEntregable.getNombre());
         TipoEntregable tipoEntregableTmp = this.tipoEntregableDAO.findById(tipoEntregable.getCodigo(), false);
         this.tipoEntregableDAO.remove(tipoEntregableTmp);
     }

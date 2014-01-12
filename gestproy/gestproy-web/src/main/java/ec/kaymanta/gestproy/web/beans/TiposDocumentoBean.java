@@ -113,7 +113,6 @@ public class TiposDocumentoBean extends BotonesBean implements Serializable{
     }
 
     public void eliminar(ActionEvent evento) {
-        System.out.println(this.tipoDocumentoSeleccionado);
         this.tipoDocumentoServicio.eliminar(this.tipoDocumentoSeleccionado);
         this.tipos.remove(this.tipoDocumentoSeleccionado);
         MensajesGenericos.infoEliminar("TipoDocumento", this.tipoDocumento.getCodigo().toString().concat(" - ").concat(this.tipoDocumento.getNombre()), Boolean.TRUE);

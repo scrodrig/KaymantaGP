@@ -50,8 +50,6 @@ public class ModuloServicio {
      * @param modulo
      */
     public void crear(Modulo modulo) {
-        System.out.println("En crear " + modulo.getNombre());
-        //empleado.getFechaUltAcceso(new Date());
         this.moduloDAO.insert(modulo);
     }
 
@@ -61,8 +59,6 @@ public class ModuloServicio {
      * @param modulo
      */
     public void actualizar(Modulo modulo) {
-        System.out.println("En actualizar " + modulo.getNombre());
-        //empleado.setFechaUltAcceso(new Date());
         this.moduloDAO.update(modulo);
     }
 
@@ -72,7 +68,6 @@ public class ModuloServicio {
      * @param modulo
      */
     public void eliminar(Modulo modulo) {
-        System.out.println("En eliminar " + modulo.getNombre());
         Modulo moduloTmp = this.moduloDAO.findById(modulo.getCodigo(), false);
         this.moduloDAO.remove(moduloTmp);
     }

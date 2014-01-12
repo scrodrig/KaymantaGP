@@ -95,26 +95,15 @@ public class ParroquiaBean extends BotonesBean implements Serializable {
      * @param evento Evento relacionado con el botón nuevo.
      */
     public void nuevo(ActionEvent evento) {
-//        this.parroquia = new Parroquia();
         CantonPK cantonPK = new CantonPK(Long.parseLong(this.canton), Long.parseLong(this.provincia));
-        System.out.println(cantonPK.getCodigoCanton() + "  " + cantonPK.getProvincia());
         Canton cantonTmp = this.cantonServicio.obtenerPorId(cantonPK);
-        System.out.println(cantonTmp.toString());
-//        if (cantonTmp.getProvincia()==null) {
-//        Provincia provinciaTmp = this.provinciaServicio.findByID(Long.parseLong(this.provincia));
-//            cantonTmp.setProvincia(provinciaTmp);
-//        }
-//        this.parroquia.setCanton(cantonTmp);
-//        super.crear();
         this.parroquia = new Parroquia();
         ParroquiaPK parroquiaPK = new ParroquiaPK();
         parroquiaPK.setCanton(Long.parseLong(this.canton));
         parroquiaPK.setProvincia(Long.parseLong(this.provincia));
-        System.out.println(parroquia.getPk().getCodigoParroquia());
         this.parroquia.setPk(parroquiaPK);
         this.parroquia.setCanton(cantonTmp);
         super.crear();
-
     }
 
     /**

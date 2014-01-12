@@ -52,7 +52,6 @@ public class UsuarioRolServicio {
      * @param usuarioRol
      */
     public void crear(UsuarioRol usuarioRol) {
-        System.out.println("En crear "+usuarioRol.getUsuario());
         usuarioRol.setFecha(new Date());
         this.usuarioRolDAO.insert(usuarioRol);
     }
@@ -62,8 +61,6 @@ public class UsuarioRolServicio {
      * @param usuarioRol
      */
     public void actualizar(UsuarioRol usuarioRol) {
-        System.out.println("En actualizar "+usuarioRol.getUsuario());
-        //UsuarioRol ur =this.usuarioRolDAO.findById(usuarioRol.getPk(), false);
         this.usuarioRolDAO.update(usuarioRol);
     }
             
@@ -73,7 +70,6 @@ public class UsuarioRolServicio {
      */
     
     public void eliminar(UsuarioRol usuarioRol) {
-        System.out.println("En eliminar "+usuarioRol.getUsuario());
         UsuarioRol usuarioTmp = this.usuarioRolDAO.findById(usuarioRol.getPk(), false);
         this.usuarioRolDAO.remove(usuarioTmp);
     }

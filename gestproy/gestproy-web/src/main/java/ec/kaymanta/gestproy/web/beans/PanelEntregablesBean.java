@@ -167,8 +167,6 @@ public class PanelEntregablesBean extends BotonesBean implements Serializable {
         if (usr == null || "".equals(usr)) {
             return "";
         } else {
-            System.out.println(usr);
-            System.out.println(usuarioServicio.findByID(usr));
             try {
                 usuarioServicio.findByID(usr);
                 return usuarioServicio.findByID(usr).getUsuario();
@@ -237,7 +235,6 @@ public class PanelEntregablesBean extends BotonesBean implements Serializable {
         if (estado == null || "".equals(estado)) {
             return "";
         } else {
-            System.out.println(estado);
             if (estado.equals("I")) {
                 return "Inicial";
             } else if (estado.equals("P")) {
@@ -269,9 +266,7 @@ public class PanelEntregablesBean extends BotonesBean implements Serializable {
             try {
                 this.actividadEntregable = new ActividadEntregable();
                 this.actividadEntregable = (ActividadEntregable) BeanUtils.cloneBean(this.actividadEntregableSeleccionado);
-                System.out.println("ESTOY AQUI Y SI SELECCIONE, EL ENTREGABLE ES: " + actividadEntregable.getPk());
             } catch (Exception e) {
-                System.out.println("Error en Gasto");
             }
         } else {
             super.sinSeleccion();

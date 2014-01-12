@@ -65,8 +65,6 @@ public class LeccionesAprendidasServicio {
      * @param leccionesAprendidas
      */
     public void crear(LeccionesAprendidas leccionesAprendidas) {
-        System.out.println("En crear " + leccionesAprendidas);
-        //empleado.getFechaUltAcceso(new Date());
         this.leccionesAprendidasDAO.insert(leccionesAprendidas);
     }
 
@@ -76,8 +74,6 @@ public class LeccionesAprendidasServicio {
      * @param leccionesAprendidas
      */
     public void actualizar(LeccionesAprendidas leccionesAprendidas) {
-        System.out.println("En actualizar " + leccionesAprendidas);
-        //empleado.setFechaUltAcceso(new Date());
         this.leccionesAprendidasDAO.update(leccionesAprendidas);
     }
 
@@ -87,7 +83,6 @@ public class LeccionesAprendidasServicio {
      * @param leccionesAprendidas
      */
     public void eliminar(LeccionesAprendidas leccionesAprendidas) {
-        System.out.println("En eliminar " + leccionesAprendidas);
         LeccionesAprendidas empresaTmp = this.leccionesAprendidasDAO.findById(leccionesAprendidas.getPk(), false);
         this.leccionesAprendidasDAO.remove(empresaTmp);
     }

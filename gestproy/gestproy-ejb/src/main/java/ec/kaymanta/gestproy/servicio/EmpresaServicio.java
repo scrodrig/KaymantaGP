@@ -50,7 +50,6 @@ public class EmpresaServicio {
      * @param empresa
      */
     public void crear(Empresa empresa) {
-        System.out.println("En crear " + empresa.getRazonSocial());
         //empleado.getFechaUltAcceso(new Date());
         this.empresaDAO.insert(empresa);
     }
@@ -61,7 +60,6 @@ public class EmpresaServicio {
      * @param empresa
      */
     public void actualizar(Empresa empresa) {
-        System.out.println("En actualizar " + empresa.getRazonSocial());
         //empleado.setFechaUltAcceso(new Date());
         this.empresaDAO.update(empresa);
     }
@@ -72,7 +70,6 @@ public class EmpresaServicio {
      * @param empresa
      */
     public void eliminar(Empresa empresa) {
-        System.out.println("En eliminar " + empresa.getRazonSocial());
         Empresa empresaTmp = this.empresaDAO.findById(empresa.getCodigo(), false);
         this.empresaDAO.remove(empresaTmp);
     }

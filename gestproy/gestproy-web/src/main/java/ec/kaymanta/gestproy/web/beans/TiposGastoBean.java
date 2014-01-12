@@ -113,7 +113,6 @@ public class TiposGastoBean extends BotonesBean implements Serializable {
     }
 
     public void eliminar(ActionEvent evento) {
-        System.out.println(this.tipoGastoSeleccionado);
         this.tipoGastoServicio.eliminar(this.tipoGastoSeleccionado);
         this.tipos.remove(this.tipoGastoSeleccionado);
         MensajesGenericos.infoEliminar("TipoGasto", this.tipoGasto.getCodigo().toString().concat(" - ").concat(this.tipoGasto.getNombre()), Boolean.TRUE);

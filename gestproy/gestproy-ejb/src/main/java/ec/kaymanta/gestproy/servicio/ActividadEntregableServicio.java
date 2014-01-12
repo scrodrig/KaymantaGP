@@ -67,7 +67,6 @@ public class ActividadEntregableServicio {
      * @param actividadEntregable
      */
     public void crear(ActividadEntregable actividadEntregable) {
-        System.out.println("En crear " + actividadEntregable.getPk());
         //empleado.getFechaUltAcceso(new Date());
         this.actividadEntregableDAO.insert(actividadEntregable);
     }
@@ -78,7 +77,6 @@ public class ActividadEntregableServicio {
      * @param actividadEntregable
      */
     public void actualizar(ActividadEntregable actividadEntregable) {
-        System.out.println("En actualizar " + actividadEntregable.getPk());
         //empleado.setFechaUltAcceso(new Date());
         this.actividadEntregableDAO.update(actividadEntregable);
     }
@@ -89,7 +87,6 @@ public class ActividadEntregableServicio {
      * @param actividadEntregable
      */
     public void eliminar(ActividadEntregable actividadEntregable) {
-        System.out.println("En eliminar " + actividadEntregable.getPk().getActividad());
         ActividadEntregable rolFuncionalidadTmp = this.actividadEntregableDAO.findById(actividadEntregable.getPk(), false);
         this.actividadEntregableDAO.remove(rolFuncionalidadTmp);
     }

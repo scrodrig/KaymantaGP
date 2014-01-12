@@ -69,7 +69,6 @@ public class ActividadServicio {
      * @param actividad
      */
     public void crear(Actividad actividad) {
-        System.out.println("En crear " + actividad.getNombreActividad());
         //actividad.getFechaUltAcceso(new Date());
         this.actividadDAO.insert(actividad);
     }
@@ -80,7 +79,6 @@ public class ActividadServicio {
      * @param actividad
      */
     public void actualizar(Actividad actividad) {
-        System.out.println("En actualizar " + actividad.getNombreActividad());
         //actividad.setFechaUltAcceso(new Date());
         this.actividadDAO.update(actividad);
     }
@@ -91,7 +89,6 @@ public class ActividadServicio {
      * @param actividad
      */
     public void eliminar(Actividad actividad) {
-        System.out.println("En eliminar " + actividad.getNombreActividad());
         Actividad proyectoTmp = this.actividadDAO.findById(actividad.getCodigo(), false);
         this.actividadDAO.remove(proyectoTmp);
     }

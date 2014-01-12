@@ -246,8 +246,6 @@ public class PanelProyectosBean extends BotonesBean implements Serializable {
         if (usr == null || "".equals(usr)) {
             return "";
         } else {
-            System.out.println(usr);
-            System.out.println(usuarioServicio.findByID(usr));
             try {
                 usuarioServicio.findByID(usr);
                 return usuarioServicio.findByID(usr).getUsuario();
@@ -272,8 +270,6 @@ public class PanelProyectosBean extends BotonesBean implements Serializable {
 
     public String getColorFecha(Date d1) {
         Date d2 = new Date();
-        System.out.println(d1);
-        System.out.println(d2);
         if (d1.before(d2)) {
             return "red";
         } else {
@@ -286,9 +282,7 @@ public class PanelProyectosBean extends BotonesBean implements Serializable {
             super.seleccionadoUno();
             try {
                 this.proyecto = (Proyecto) BeanUtils.cloneBean(this.proyectoSeleccionado);
-                System.out.println("Proyecto: " + proyecto.getNombreProyecto());
             } catch (Exception e) {
-                System.out.println("Error en Proyecto");
             }
         } else {
             super.sinSeleccion();

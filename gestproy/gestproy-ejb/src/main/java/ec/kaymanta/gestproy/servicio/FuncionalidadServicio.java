@@ -47,8 +47,6 @@ public class FuncionalidadServicio {
      * @param funcionalidad
      */
     public void crear(Funcionalidad funcionalidad) {
-        System.out.println("En crear " + funcionalidad.getNombre());
-        //empleado.getFechaUltAcceso(new Date());
         this.moduloDAO.insert(funcionalidad);
     }
 
@@ -58,8 +56,6 @@ public class FuncionalidadServicio {
      * @param funcionalidad
      */
     public void actualizar(Funcionalidad funcionalidad) {
-        System.out.println("En actualizar " + funcionalidad.getNombre());
-        //empleado.setFechaUltAcceso(new Date());
         this.moduloDAO.update(funcionalidad);
     }
 
@@ -69,7 +65,6 @@ public class FuncionalidadServicio {
      * @param funcionalidad
      */
     public void eliminar(Funcionalidad funcionalidad) {
-        System.out.println("En eliminar " + funcionalidad.getNombre());
         Funcionalidad funcionalidadTmp = this.moduloDAO.findById(funcionalidad.getCodigo(), false);
         this.moduloDAO.remove(funcionalidadTmp);
     }

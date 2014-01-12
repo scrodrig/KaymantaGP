@@ -26,8 +26,6 @@ public class MenuBean implements Serializable {
 
     @PostConstruct
     public void postConstructor() {
-        //super.sinSeleccion();
-        //this.usuarios = this.usuarioServicio.obtenerUsuarios();
         this.empleado= (Empleado) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Empleado");
     }
 

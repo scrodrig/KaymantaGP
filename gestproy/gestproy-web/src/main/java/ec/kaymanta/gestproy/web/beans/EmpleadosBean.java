@@ -105,8 +105,6 @@ public class EmpleadosBean extends BotonesBean implements Serializable {
         if (usr == null || "".equals(usr)) {
             return "";
         } else {
-            System.out.println(usr);
-            System.out.println(usuarioServicio.findByID(usr));
             try {
                  usuarioServicio.findByID(usr);
                  return usuarioServicio.findByID(usr).getUsuario();
@@ -154,7 +152,6 @@ public class EmpleadosBean extends BotonesBean implements Serializable {
     }
 
     public void eliminar(ActionEvent evento) {
-        System.out.println(this.empleadoSeleccionado);
         //this.empleadoServicio.eliminar(this.empleadoSeleccionado);
         this.empleadoSeleccionado.setEstado("I");
         this.empleadoServicio.actualizar(empleadoSeleccionado);

@@ -50,8 +50,6 @@ public class ProvinciaServicio {
      * @param provincia
      */
     public void crear(Provincia provincia) {
-        System.out.println("En crear " + provincia.getNombre());
-        //empleado.getFechaUltAcceso(new Date());
         this.provinciaDAO.insert(provincia);
     }
 
@@ -61,8 +59,6 @@ public class ProvinciaServicio {
      * @param provincia
      */
     public void actualizar(Provincia provincia) {
-        System.out.println("En actualizar " + provincia.getNombre());
-        //empleado.setFechaUltAcceso(new Date());
         this.provinciaDAO.update(provincia);
     }
 
@@ -72,7 +68,6 @@ public class ProvinciaServicio {
      * @param provincia
      */
     public void eliminar(Provincia provincia) {
-        System.out.println("En eliminar " + provincia.getNombre());
         Provincia moduloTmp = this.provinciaDAO.findById(provincia.getCodigo(), false);
         this.provinciaDAO.remove(moduloTmp);
     }

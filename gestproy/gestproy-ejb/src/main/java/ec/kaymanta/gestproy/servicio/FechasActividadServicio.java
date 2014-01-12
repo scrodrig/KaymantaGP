@@ -61,7 +61,6 @@ public class FechasActividadServicio {
      * @param fechasActividad
      */
     public void crear(FechasActividad fechasActividad) {
-        System.out.println("En crear " + fechasActividad.getPk());
         //empleado.getFechaUltAcceso(new Date());
         this.fechasActividadDAO.insert(fechasActividad);
     }
@@ -72,7 +71,6 @@ public class FechasActividadServicio {
      * @param fechasActividad
      */
     public void actualizar(FechasActividad fechasActividad) {
-        System.out.println("En actualizar " + fechasActividad.getPk());
         //empleado.setFechaUltAcceso(new Date());
         this.fechasActividadDAO.update(fechasActividad);
     }
@@ -83,7 +81,6 @@ public class FechasActividadServicio {
      * @param fechasActividad
      */
     public void eliminar(FechasActividad fechasActividad) {
-        System.out.println("En eliminar " + fechasActividad.getPk().getActividad());
         FechasActividad rolFuncionalidadTmp = this.fechasActividadDAO.findById(fechasActividad.getPk(), false);
         this.fechasActividadDAO.remove(rolFuncionalidadTmp);
     }

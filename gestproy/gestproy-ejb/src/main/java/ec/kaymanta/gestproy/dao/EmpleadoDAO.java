@@ -40,11 +40,9 @@ public class EmpleadoDAO extends DefaultGenericDAOImple<Empleado, String> {
     {
         {
         try {
-            System.out.println(cedula);
             String sql = "SELECT obj FROM Empleado obj WHERE obj.codigo=?1";
             Query qry = this.getEntityManager().createQuery(sql);
             qry.setParameter(1, cedula);
-            System.out.println(qry.toString());
             return (Empleado) qry.getSingleResult();
         }catch(NoResultException e)
         {

@@ -142,8 +142,6 @@ public class PanelActividadesBean extends BotonesBean implements Serializable {
         if (usr == null || "".equals(usr)) {
             return "";
         } else {
-            System.out.println(usr);
-            System.out.println(usuarioServicio.findByID(usr));
             try {
                 usuarioServicio.findByID(usr);
                 return usuarioServicio.findByID(usr).getUsuario();
@@ -207,8 +205,6 @@ public class PanelActividadesBean extends BotonesBean implements Serializable {
                 this.actividad.sethTrabReal(BigDecimal.ZERO);
                 this.actividad.settTotalEst(0L);
                 this.actividad.settTotalReal(0L);
-
-                System.out.println("Actividad: " + actividad.getNombreActividad());
                 this.actividadServicio.crear(actividad);
                 //--CREAR ACTIVIDAD
                 this.actividades.add(this.actividad);
@@ -218,7 +214,6 @@ public class PanelActividadesBean extends BotonesBean implements Serializable {
                 this.actividad.setUsrModificacion(usrSesion.getCodigo());
                 this.actividad.setFmodificacion(new Date());
                 this.actividadServicio.actualizar(actividad);
-                System.out.println("Actividad: " + actividad.getNombreActividad());
                 this.actividadServicio.actualizar(actividad);
                 this.actividades.set(i, this.actividad);
                 MensajesGenericos.infoModificar("Actividad", this.actividad.getCodigo().toString().concat(" - ").concat(this.actividad.getNombreActividad()), Boolean.TRUE);
@@ -237,14 +232,10 @@ public class PanelActividadesBean extends BotonesBean implements Serializable {
             try {
                 this.actividad = new Actividad();
                 this.actividad = (Actividad) BeanUtils.cloneBean(this.actividadSeleccionada);
-                System.out.println("ESTOY AQUI Y SI SELECCIONE, LA ACTIVIDAD ES: " + actividad.getNombreActividad());
-
             } catch (Exception e) {
-                System.out.println("Error en Actividad");
             }
         } else {
             super.sinSeleccion();
-            System.out.println("ESTOY ACA Y NO SELECCIONE");
         }
     }
 
