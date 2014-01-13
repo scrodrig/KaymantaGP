@@ -196,7 +196,7 @@
                             <f:param value="#{panelSubActividadesBean.proyecto.codigo}" name="codProyecto"/>
                             <f:param value="#{panelSubActividadesBean.actividad.codigo}" name="codActividad"/> 
                         </p:commandButton>
-                        <p:menuButton value="Más.." disabled="#{panelSubActividadesBean.disableAuditoria}" rendered="#{not empty panelSubActividadesBean.subActividades}" >  
+                        <p:menuButton value="Opciones" disabled="#{panelSubActividadesBean.disableAuditoria}" rendered="#{not empty panelSubActividadesBean.subActividades}" >  
                             <p:menuitem value="Gastos" outcome="panelgastos">
                                 <f:param value="#{panelSubActividadesBean.proyecto.codigo}" name="codProyecto"/>
                                 <f:param value="#{panelSubActividadesBean.actividad.codigo}" name="codActividad"/>

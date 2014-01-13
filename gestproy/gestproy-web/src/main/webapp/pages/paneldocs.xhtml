@@ -128,6 +128,51 @@
     </ui:define>
     <ui:define name="cuerpo">
 
+        <!--VERSIONES ANTERIORES DE DOCUMENTO-->
+
+
+        <p:dataTable id="historiales"  value="#{panelDocsBean.historialDocumentos}" var="historial"  scrollable="true" 
+                     rowKey="#{historial.pk}" style="width: 650px"
+                     paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
+                     paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     emptyMessage="No existen versiones previas del documento" rendered="#{panelDocsBean.soloLectura}" >
+
+
+            <f:facet name="header">
+                Versiones Previas de Documentos
+                <p:toolbar>
+                    <p:toolbarGroup align="left">                          
+                        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">  
+                            <p:printer target="historiales" />  
+                        </p:commandButton>
+                    </p:toolbarGroup>  
+                    <p:toolbarGroup align="right">             
+                        <p:commandButton actionListener="#{panelDocsBean.cancelar()}" ajax="false" icon="ui-icon-back" value="Volver" immediate="true"/>                
+                    </p:toolbarGroup>  
+                </p:toolbar> 
+
+            </f:facet>
+            <p:column headerText="Documento" style="width: 200px" >
+                #{historial.nombre}
+            </p:column>
+            <p:column headerText="Inst. Control" style="width: 150px">
+                #{historial.documento.institucionControl.nombre}
+            </p:column>
+            <p:column headerText="Tipo" style="width: 100px" >
+                #{historial.documento.tipoDocumento.nombre}
+            </p:column>                          
+            <p:column headerText="F. Carga" style="width: 80px" rendered="false">
+                <h:outputLabel value="#{historial.fcreacion}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputLabel>
+            </p:column>
+            <p:column headerText="Descargar" style="width: 60px">  
+                <p:commandLink ajax="false" immediate="true">
+                    <p:graphicImage value="/images/download.png" height="16px" width="16px"/>  
+                    <p:fileDownload value="#{panelDocsBean.downloadHistorial(historial.respaldoDocumento,historial.nombre)}" />  
+                </p:commandLink>                 
+            </p:column>
+        </p:dataTable>
         <!--DOCUMENTOS-->
         <!--PANEL-->
         <p:dataTable id="docs"  value="#{panelDocsBean.documentos}" var="documento" selection="#{panelDocsBean.documentoSeleccionado}" selectionMode="single" scrollable="true" 
@@ -136,7 +181,8 @@
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                      emptyMessage="No se ha registrado ningún Documento" rendered="#{not(panelDocsBean.enRegistro or 
                                                                                      panelDocsBean.enEdicion or 
-                                                                                     panelDocsBean.enAuditoria )}" >
+                                                                                     panelDocsBean.enAuditoria or 
+                                                                                     panelDocsBean.soloLectura)}" >
 
             <p:ajax event="rowSelect" listener="#{panelDocsBean.filaSeleccionadaDoc(evento)}" update="docs"/>
             <p:ajax event="rowUnselect" listener="#{panelDocsBean.filaSeleccionadaDoc(evento)}" update="docs"/>
@@ -154,6 +200,8 @@
                         <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">  
                             <p:printer target="docs" />  
                         </p:commandButton>
+                        <p:commandButton  value="Versiones Previas" update="@form" actionListener="#{panelDocsBean.versionesPrevias(evento)}" disabled="#{panelDocsBean.disableAuditoria}" icon="ui-icon-document"/>
+
                     </p:toolbarGroup>  
                     <p:toolbarGroup align="right">             
                         <p:commandButton value="Volver" action="panelsubactividades?faces-redirect=true&amp;includeViewParams=true" icon="ui-icon-back" >  

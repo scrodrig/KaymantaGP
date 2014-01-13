@@ -12,20 +12,21 @@
     <ui:define name="cuerpo">
 
 
-        <p:panel id="panelBusqueda" header="Buscar" style="width: 800px"
-                 rendered="#{not(buscadorDocumentosBean.enRegistro or buscadorDocumentosBean.enEdicion or buscadorDocumentosBean.enAuditoria)}"> 
+        <p:panel id="panelBusqueda" header="Buscar" style="width: 750px"
+                 rendered="#{not(buscadorDocumentosBean.enRegistro or 
+                             buscadorDocumentosBean.enEdicion or 
+                             buscadorDocumentosBean.enAuditoria)}"> 
             <p:focus context="panelBusqueda"/> 
-            <h:panelGrid columns="2" >
+            <h:panelGrid columns="7" >
                 <p:outputLabel for="parametro" value="Buscar por: " />  
                 <p:selectOneMenu id="parametro" value="#{buscadorDocumentosBean.parametro}" label="Buscar por :" >
-                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
                     <f:selectItem itemValue="codigo" itemLabel="Código"/>
                     <f:selectItem itemValue="institucionControl.nombre" itemLabel="Institución de Control"/>
                     <f:selectItem itemValue="tipoDocumento.nombre" itemLabel="Tipo de Documento"/>
                     <f:selectItem itemValue="nombreDocumento" itemLabel="Nombre del Documento"/>
                 </p:selectOneMenu>
                 <p:outputLabel for="criterio" value="Criterio: " />  
-                <p:selectOneMenu id="criterio" value="#{buscadorDocumentosBean.criterio}" label="Buscar por :"  required="true">
+                <p:selectOneMenu id="criterio" value="#{buscadorDocumentosBean.criterio}" label="Buscar por :">
                     <f:selectItem itemValue="LIKE" itemLabel="Parecido a"/>
                     <f:selectItem itemValue="=" itemLabel="Exactamente"/>
                 </p:selectOneMenu>
@@ -34,18 +35,15 @@
                 <p:commandButton  value="Buscar" update="@form" actionListener="#{buscadorDocumentosBean.buscar(evento)}" />  
             </h:panelGrid>
         </p:panel>
-
-
-
-        <!--
-        DOCUMENTOS
-        -->
-
+        <br/>
+        <br/>
         <p:dataTable id="documentos"  value="#{buscadorDocumentosBean.documentos}" var="documento" selection="#{buscadorDocumentosBean.documentoSeleccionado}" selectionMode="single" scrollable="true" 
                      rowKey="#{documento.codigo}" style="width: 750px" 
                      paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                     emptyMessage="No se ha registrado ningún Documento" rendered="#{buscadorDocumentosBean.enEdicion}" >
+                     emptyMessage="No se ha registrado ningún Documento" rendered="#{not(buscadorDocumentosBean.enRegistro or 
+                                                                                     buscadorDocumentosBean.enEdicion or 
+                                                                                     buscadorDocumentosBean.enAuditoria)}" >
 
             <p:ajax event="rowSelect" listener="#{buscadorDocumentosBean.filaSeleccionadaDocumento(evento)}" update="documentos"/>
             <p:ajax event="rowUnselect" listener="#{buscadorDocumentosBean.filaSeleccionadaDocumento(evento)}" update="documentos"/>
@@ -54,7 +52,7 @@
                 Búsqueda de Documentos
                 <p:toolbar>
                     <p:toolbarGroup align="left">  
-                        <p:commandButton  value="Versiones Previas" update="@form" actionListener="#{buscadorDocumentosBean.nuevoDocumento(evento)}" disabled="#{buscadorDocumentosBean.disabledModificar}" icon="ui-icon-document"/>  
+                        <p:commandButton value="Versiones Previas" update="@form" actionListener="#{buscadorDocumentosBean.nuevoDocumento(evento)}" disabled="#{buscadorDocumentosBean.disabledModificar}" icon="ui-icon-document"/>  
                         <p:separator />  
                         <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">  
                             <p:printer target="documentos" />  
@@ -91,15 +89,13 @@
         <!--VERSIONES ANTERIORES DE DOCUMENTO-->
 
 
-        <p:dataTable id="historiales"  value="#{buscadorDocumentosBean.historialDocumentos}" var="historial" selection="#{buscadorDocumentosBean.historialDocumentoSeleccionado}" selectionMode="single" scrollable="true" 
+        <p:dataTable id="historiales"  value="#{buscadorDocumentosBean.historialDocumentos}" var="historial"  scrollable="true" 
                      rowKey="#{documento.codigo}" style="width: 750px"
                      paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                      emptyMessage="No existen versiones previas del documento" rendered="#{buscadorDocumentosBean.enRegistro}" >
 
-            <p:ajax event="rowSelect" listener="#{buscadorDocumentosBean.filaSeleccionadaHistorial(evento)}" update="historiales"/>
-            <p:ajax event="rowUnselect" listener="#{buscadorDocumentosBean.filaSeleccionadaHistorial(evento)}" update="historiales"/>
-
+        
             <f:facet name="header">
                 Busqueda Versiones Previas de Documentos
                 <p:toolbar>
@@ -129,7 +125,7 @@
                 </h:outputLabel>
             </p:column>
             <p:column headerText="Descargar" style="width: 60px">  
-                <p:commandLink ajax="false">
+                <p:commandLink ajax="false" immediate="true">
                     <p:graphicImage value="/images/download.png" height="16px" width="16px"/>  
                     <p:fileDownload value="#{buscadorDocumentosBean.downloadHistorial(historial.respaldoDocumento,historial.nombre)}" />  
                 </p:commandLink>                 

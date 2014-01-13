@@ -81,6 +81,10 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
     private Documento documentoAnt;
     private DocumentosProyecto documentosProyecto;
     private HistorialDocumento historialDocumento;
+    
+    private HistorialDocumento historialDocumentoRespaldo;
+    private List<HistorialDocumento> historialDocumentos;
+    
     private Proyecto proyecto;
     private String codProyecto;
     private UploadedFile file;
@@ -117,6 +121,19 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
         InputStream stream = new ByteArrayInputStream(ArrayUtils.toPrimitive(archivo.getDocumento()));
         StreamedContent file = new DefaultStreamedContent(stream, "application/octet-stream", archivo.getNombreDocumento());
         return file;
+    }
+    
+    public StreamedContent downloadHistorial(Byte[] codigo, String nombre) {
+
+        InputStream stream = new ByteArrayInputStream(ArrayUtils.toPrimitive(codigo));
+        StreamedContent file = new DefaultStreamedContent(stream, "application/octet-stream", "Versión previa de " + nombre);
+        return file;
+    }
+    
+    public void versionesPrevias(ActionEvent evento) {
+        historialDocumentos = this.historialDocumentoServicio.findByDocumento(documento.getCodigo());
+        super.verDetalles();
+        
     }
 
     private void createMeterGaugeChart() {
@@ -477,4 +494,30 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
     public void setTipoDoc(String tipoDoc) {
         this.tipoDoc = tipoDoc;
     }
+
+    public HistorialDocumentoServicio getHistorialDocumentoServicio() {
+        return historialDocumentoServicio;
+    }
+
+    public void setHistorialDocumentoServicio(HistorialDocumentoServicio historialDocumentoServicio) {
+        this.historialDocumentoServicio = historialDocumentoServicio;
+    }
+
+    public HistorialDocumento getHistorialDocumentoRespaldo() {
+        return historialDocumentoRespaldo;
+    }
+
+    public void setHistorialDocumentoRespaldo(HistorialDocumento historialDocumentoRespaldo) {
+        this.historialDocumentoRespaldo = historialDocumentoRespaldo;
+    }
+
+    public List<HistorialDocumento> getHistorialDocumentos() {
+        return historialDocumentos;
+    }
+
+    public void setHistorialDocumentos(List<HistorialDocumento> historialDocumentos) {
+        this.historialDocumentos = historialDocumentos;
+    }
+    
+    
 }

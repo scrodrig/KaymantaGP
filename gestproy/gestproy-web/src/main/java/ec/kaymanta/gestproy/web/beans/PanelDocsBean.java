@@ -96,6 +96,8 @@ public class PanelDocsBean extends BotonesBean implements Serializable {
     private FechasActividad fechasActividad;
     private DocumentosProyecto documentosProyecto;
     private HistorialDocumento historialDocumento;
+    private HistorialDocumento historialDocumentoRespaldo;
+    private List<HistorialDocumento> historialDocumentos;
     private Proyecto proyecto;
     private Actividad actividad;
     private Actividad subActividad;
@@ -197,6 +199,19 @@ public class PanelDocsBean extends BotonesBean implements Serializable {
         } else {
             return false;
         }
+    }
+
+    public StreamedContent downloadHistorial(Byte[] codigo, String nombre) {
+
+        InputStream stream = new ByteArrayInputStream(ArrayUtils.toPrimitive(codigo));
+        StreamedContent file = new DefaultStreamedContent(stream, "application/octet-stream", "Versión previa de " + nombre);
+        return file;
+    }
+
+    public void versionesPrevias(ActionEvent evento) {
+        historialDocumentos = this.historialDocumentoServicio.findByDocumento(documento.getCodigo());
+        super.verDetalles();
+
     }
 
     public StreamedContent download(Long codigo) {
@@ -603,4 +618,20 @@ public class PanelDocsBean extends BotonesBean implements Serializable {
     public void setTipoDoc(String tipoDoc) {
         this.tipoDoc = tipoDoc;
     }
+
+    public HistorialDocumento getHistorialDocumentoRespaldo() {
+        return historialDocumentoRespaldo;
+    }
+
+    public void setHistorialDocumentoRespaldo(HistorialDocumento historialDocumentoRespaldo) {
+        this.historialDocumentoRespaldo = historialDocumentoRespaldo;
+    }
+
+    public List<HistorialDocumento> getHistorialDocumentos() {
+        return historialDocumentos;
+    }
+
+    public void setHistorialDocumentos(List<HistorialDocumento> historialDocumentos) {
+        this.historialDocumentos = historialDocumentos;
+    }        
 }

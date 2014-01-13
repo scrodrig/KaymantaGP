@@ -59,6 +59,7 @@ public class BuscadorDocumentosBean extends BotonesBean implements Serializable 
     private String parametro;
     private String valor;
     private String criterio;
+    private boolean flag;
 
     @PostConstruct
     @Override
@@ -66,12 +67,13 @@ public class BuscadorDocumentosBean extends BotonesBean implements Serializable 
 
         super.sinSeleccion();
         //documentos = documentoServicio.obtener();
+        flag=true;
         this.usrSesion = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario");
     }
 
     public void buscar(ActionEvent evento) {
         documentos = documentoServicio.getDocumentos(parametro, valor, criterio);
-        super.modificar();
+        //super.modificar();
     }
 
     public void filaSeleccionadaDocumento(ActionEvent evento) {
@@ -79,7 +81,7 @@ public class BuscadorDocumentosBean extends BotonesBean implements Serializable 
             try {
                 super.seleccionadoUno();
                 documento = new Documento();
-                documento = (Documento) BeanUtils.cloneBean(this.documentoSeleccionado);
+                documento = (Documento) BeanUtils.cloneBean(this.documentoSeleccionado);                
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -91,7 +93,7 @@ public class BuscadorDocumentosBean extends BotonesBean implements Serializable 
     public void filaSeleccionadaHistorial(ActionEvent evento) {
         if (historialDocumentoSeleccionado instanceof HistorialDocumento) {
             try {
-                super.seleccionadoUno();
+                //super.seleccionadoUno();
                 historialDocumento = new HistorialDocumento();
                 historialDocumento = (HistorialDocumento) BeanUtils.cloneBean(this.historialDocumentoSeleccionado);
             } catch (Exception e) {
@@ -112,7 +114,7 @@ public class BuscadorDocumentosBean extends BotonesBean implements Serializable 
     public StreamedContent downloadHistorial(Byte[] codigo, String nombre) {
 
         InputStream stream = new ByteArrayInputStream(ArrayUtils.toPrimitive(codigo));
-        StreamedContent file = new DefaultStreamedContent(stream, "application/octet-stream", "Versión previa de" + nombre);
+        StreamedContent file = new DefaultStreamedContent(stream, "application/octet-stream", "Versión previa de " + nombre);
         return file;
     }
 
@@ -130,9 +132,9 @@ public class BuscadorDocumentosBean extends BotonesBean implements Serializable 
     }
 
     public void nuevoDocumento(ActionEvent evento) {
-
         historialDocumentos = this.historialDocumentoServicio.findByDocumento(documento.getCodigo());
         super.crear();
+        
     }
 
     public void modificarDocumento(ActionEvent evento) {
@@ -272,5 +274,14 @@ public class BuscadorDocumentosBean extends BotonesBean implements Serializable 
     public void setCriterio(String criterio) {
         this.criterio = criterio;
     }
+
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
+
     
 }
