@@ -59,7 +59,7 @@ public class Documento implements Serializable {
     /**
      * Llave foránea que referencia a la institución de control del documento..
      * Representa a la columna INSTITUCION_CONTROL.
-     */    
+     */
     @Column(name = "INSTITUCION_CONTROL", nullable = true)
     private Long codInstitucionControl;
     /**
@@ -67,6 +67,11 @@ public class Documento implements Serializable {
      */
     @Column(name = "NOMBRE_DOCUMENTO", nullable = false, length = 100)
     private String nombreDocumento;
+    /**
+     * Tematica o Tag del documento.. Representa a la columna TEMATICA.
+     */
+    @Column(name = "TEMATICA", length = 50)
+    private String tematica;
     /**
      * Respaldo digital del documento.. Representa a la columna DOCUMENTO.
      */
@@ -209,6 +214,20 @@ public class Documento implements Serializable {
      */
     public void setNombreDocumento(String nombreDocumento) {
         this.nombreDocumento = nombreDocumento;
+    }
+
+    /**
+     * Asigna un valor a la propiedad tematica, relacionado con la columna
+     * TEMATICA.
+     *
+     * @param tematica el valor a ser asignado a la propiedad tematica
+     */
+    public String getTematica() {
+        return tematica;
+    }
+
+    public void setTematica(String tematica) {
+        this.tematica = tematica;
     }
 
     /**

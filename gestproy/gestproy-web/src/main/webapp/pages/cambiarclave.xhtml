@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/templateMantenimiento.xhtml">
+
+    <ui:define name="titulo">Adminsitración de Empleados de Kaymanta</ui:define>
+    <ui:define name="cuerpo">
+        <p:panel id="panel" header="Cambio de Clave" style="width: 600px"> 
+            <p:focus context="panel"/>  
+            <h:panelGrid columns="3" rendered="#{cambiarClaveBean.salir}">
+                <p:graphicImage  value="/images/yes.png" width="200px" height="200px" rendered="#{cambiarClaveBean.exito}"/>
+                <p:graphicImage  value="/images/no.png" width="200px" height="200px" rendered="#{!cambiarClaveBean.exito}"/>
+                <p:outputLabel value="#{cambiarClaveBean.mensaje}" style="font-size: 14pt; text-align: center"/>
+            </h:panelGrid>
+            <h:panelGrid columns="3" rendered="#{!cambiarClaveBean.salir}">  
+                <h:outputLabel for="claveActual" value="Clave Actual: *" />  
+                <p:password id="claveActual" value="#{cambiarClaveBean.claveActual}" label="Clave Actual" required="true"
+                            style="width: 200px">  
+                    <f:validateLength maximum="50"/>  
+                </p:password>  
+                <p:message for="claveActual" />  
+                <h:outputLabel for="nuevaClave" value="Nueva Clave: *" />  
+                <p:password id="nuevaClave" value="#{cambiarClaveBean.nuevaClave}" label="Nueva Clave" required="true"
+                            style="width: 200px">  
+                    <f:validateLength maximum="50" minimum="5"/>  
+                </p:password>  
+                <p:message for="nuevaClave" />
+                <h:outputLabel for="nuevaClave1" value="Confirme Su Clave: *" />  
+                <p:password id="nuevaClave1" value="#{cambiarClaveBean.confirmaNuevaClave}" label="Confirme Nueva Clave" required="true"
+                            style="width: 200px">  
+                    <f:validateLength maximum="50" minimum="5"/>  
+                </p:password>  
+                <p:message for="nuevaClave1" />
+            </h:panelGrid>
+            <h:panelGrid columns="2" cellspacing="5px">
+                <p:commandButton value="Guardar" update="@form"
+                                 actionListener="#{cambiarClaveBean.guardar(evento)}" rendered="#{!cambiarClaveBean.salir}"> 
+                    <f:setPropertyActionListener value="#{true}"   
+                                                 target="#{cambiarClaveBean.salir}" /> 
+                </p:commandButton>
+                <p:commandButton value="Cancelar" update="@form" action="menu?faces-redirect=true" rendered="#{!cambiarClaveBean.salir}"
+                                 actionListener="#{cambiarClaveBean.cancelar(evento)}" immediate="true"/>
+                <p:commandButton id="salida" value="Volver" update="@form" immediate="true" action="menu?faces-redirect=true" 
+                                 rendered="#{cambiarClaveBean.salir}"/>
+
+            </h:panelGrid>  
+        </p:panel>  
+    </ui:define>
+</ui:composition>

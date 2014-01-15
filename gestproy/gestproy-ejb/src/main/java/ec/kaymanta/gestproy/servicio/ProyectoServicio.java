@@ -33,6 +33,15 @@ public class ProyectoServicio {
     public List<Proyecto> obtener() {
         return this.proyectoDAO.findAll();
     }
+    
+    /**
+     * Función para obtener todos los registros activos existentes
+     *
+     * @return
+     */
+    public List<Proyecto> getProyectos() {
+        return this.proyectoDAO.getProyectos();
+    }
 
     /**
      * Función para obtener el registro de un proyecto

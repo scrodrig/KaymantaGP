@@ -46,12 +46,12 @@
             <p:menuitem value="Proyectos" url="proyectos.jsf" icon="ui-icon-document" rendered="false" />  
 
             <p:menuitem value="Proyectos" url="panelproyectos.jsf" icon="ui-icon-document" />
-            
+
             <p:button outcome="inicio" value="Bookmark" icon="ui-icon-star">  
                 <f:param name="proyectoId" value="#{panelProyectosBean.proyecto.codigo}" />  
             </p:button> 
 
-            
+
             <p:menuitem value="Buscador de Documentos" url="buscadordocumentos.jsf" icon="ui-icon-search" />
 
 
@@ -67,6 +67,10 @@
                     </p:submenu>  
                 </p:column>
             </p:submenu> 
+
+
+            <p:menuitem value="Cambiar Contraseña" url="cambiarclave.jsf" icon="ui-icon-locked"/>  
+
             <p:menuitem value="Cerrar Sesión" url="inicio.jsf" action="#{cabeceraBean.logout()}" icon="ui-icon-extlink" />  
         </p:menubar>
 

@@ -106,53 +106,46 @@ public class Proyecto implements Serializable {
     @Column(name = "FFIN", nullable = false)
     private Date ffin;
     /**
+     * Valor del progreso del proyecto.. Representa a la columna ESTADO.
+     */
+    @Column(name = "ESTADO", length = 20)
+    private String estado;
+    /**
      * Avance porcentual del avance del proyecto.. Representa a la columna
      * AVANCE.
      */
     @Column(name = "AVANCE", nullable = false)
     private BigDecimal avance;
     /**
-     * Horas Diarias Estimadas.. Representa
-     * a la columna HORAS_DIA_EST.
+     * Horas Diarias Estimadas.. Representa a la columna HORAS_DIA_EST.
      */
     @Column(name = "HORAS_DIA_EST", nullable = false)
     private Long hDiaEst;
-    
     /**
-     * Horas Diarias Reales.. Representa
-     * a la columna HORAS_DIA_EST.
+     * Horas Diarias Reales.. Representa a la columna HORAS_DIA_EST.
      */
     @Column(name = "HORAS_DIA_REAL", nullable = false)
     private Long hDiaReal;
-    
     /**
-     * Horas Trabajadas Estimadas.. Representa
-     * a la columna HORAS_DIA_EST.
+     * Horas Trabajadas Estimadas.. Representa a la columna HORAS_DIA_EST.
      */
     @Column(name = "HORAS_TRAB_EST", nullable = false)
     private BigDecimal hTrabEst;
-    
     /**
-     * Horas Trabajadas Real.. Representa
-     * a la columna HORAS_DIA_EST.
+     * Horas Trabajadas Real.. Representa a la columna HORAS_DIA_EST.
      */
     @Column(name = "HORAS_TRAB_REAL", nullable = false)
     private BigDecimal hTrabReal;
-    
     /**
-     * Trabajo total Estimadas.. Representa
-     * a la columna HORAS_DIA_EST.
+     * Trabajo total Estimadas.. Representa a la columna HORAS_DIA_EST.
      */
     @Column(name = "TRABAJO_TOTAL_EST", nullable = false)
     private Long tTotalEst;
-    
     /**
-     * Trabajo Total Estimadas.. Representa
-     * a la columna HORAS_DIA_EST.
+     * Trabajo Total Estimadas.. Representa a la columna HORAS_DIA_EST.
      */
     @Column(name = "TRABAJO_TOTAL_REAL", nullable = false)
     private Long tTotalReal;
-    
     /**
      * Usuario que crea el registro.. Representa a la columna USR_CREACION.
      */
@@ -427,6 +420,20 @@ public class Proyecto implements Serializable {
     }
 
     /**
+     * Obtiene el valor de la propiedad estado relacionado con la columna
+     * ESTADO.
+     *
+     * @return el valor asignado a la propiedad estado
+     */
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    /**
      * Obtiene el valor de la propiedad avance relacionado con la columna
      * AVANCE.
      *
@@ -491,7 +498,8 @@ public class Proyecto implements Serializable {
 
     public void settTotalReal(Long tTotalReal) {
         this.tTotalReal = tTotalReal;
-    }     
+    }
+
     /**
      * Obtiene el valor de la propiedad usrCreacion relacionado con la columna
      * USR_CREACION.

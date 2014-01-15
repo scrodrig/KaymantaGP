@@ -81,10 +81,8 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
     private Documento documentoAnt;
     private DocumentosProyecto documentosProyecto;
     private HistorialDocumento historialDocumento;
-    
     private HistorialDocumento historialDocumentoRespaldo;
     private List<HistorialDocumento> historialDocumentos;
-    
     private Proyecto proyecto;
     private String codProyecto;
     private UploadedFile file;
@@ -122,18 +120,18 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
         StreamedContent file = new DefaultStreamedContent(stream, "application/octet-stream", archivo.getNombreDocumento());
         return file;
     }
-    
+
     public StreamedContent downloadHistorial(Byte[] codigo, String nombre) {
 
         InputStream stream = new ByteArrayInputStream(ArrayUtils.toPrimitive(codigo));
         StreamedContent file = new DefaultStreamedContent(stream, "application/octet-stream", "Versión previa de " + nombre);
         return file;
     }
-    
+
     public void versionesPrevias(ActionEvent evento) {
         historialDocumentos = this.historialDocumentoServicio.findByDocumento(documento.getCodigo());
         super.verDetalles();
-        
+
     }
 
     private void createMeterGaugeChart() {
@@ -158,8 +156,11 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
                 add(100);
             }
         };
-
-        meterGaugeChartModelSalud = new MeterGaugeChartModel(numeroDias(proyecto.getFestimada()), intervals);
+        if (!this.proyecto.getEstado().equals("F")) {
+            meterGaugeChartModelSalud = new MeterGaugeChartModel(numeroDias(proyecto.getFestimada()), intervals);
+        } else {
+            meterGaugeChartModelSalud = new MeterGaugeChartModel(0, intervals);
+        }
     }
 
     public int numeroDias(Date d2) {
@@ -518,6 +519,4 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
     public void setHistorialDocumentos(List<HistorialDocumento> historialDocumentos) {
         this.historialDocumentos = historialDocumentos;
     }
-    
-    
 }

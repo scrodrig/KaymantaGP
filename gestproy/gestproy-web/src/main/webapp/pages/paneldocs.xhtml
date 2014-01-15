@@ -271,6 +271,10 @@
                 </p:selectOneMenu>
                 <p:message for="doc_tipoDocumento"/>
 
+                <p:outputLabel for="tematica" value="Temática/Tag:"/>
+                <p:inputText id="tematica" value="#{panelDocsBean.documento.tematica}" size="40" required="true"/>
+                <p:message for="tematica"/>
+
                 <p:outputLabel for="doc_archivoUP" value="Archivo:"/>
                 <p:column>
                     <p:fileUpload id="doc_archivoUP" multiple="false" invalidFileMessage="Este archivo no esta soportado para este documento" invalidSizeMessage="El tamaño del documento ha exedido los límites" fileUploadListener="#{panelDocsBean.subirDocumento}"       
@@ -361,6 +365,10 @@
                 <p:outputLabel for="m_doc_nom_documento" value="Documento Cargado: "/>
                 <p:outputLabel id="m_doc_nom_documento" value="#{panelDocsBean.documento.nombreDocumento}"/>
                 <p:message for="m_doc_nom_documento"/>
+
+                <p:outputLabel for="m_tematica" value="Temática/Tag:"/>
+                <p:inputText id="m_tematica" value="#{panelDocsBean.documento.tematica}" size="40" required="true"/>
+                <p:message for="m_tematica"/>
 
                 <p:outputLabel for="m_doc_archivoUP" value="Nueva Versión Documento:"/>
                 <p:column>

@@ -105,7 +105,11 @@ public class PanelInteresadosBean extends BotonesBean implements Serializable {
             }
         };
 
-        meterGaugeChartModelSalud = new MeterGaugeChartModel(numeroDias(proyecto.getFestimada()), intervals);
+        if (!this.proyecto.getEstado().equals("F")) {
+            meterGaugeChartModelSalud = new MeterGaugeChartModel(numeroDias(proyecto.getFestimada()), intervals);
+        } else {
+            meterGaugeChartModelSalud = new MeterGaugeChartModel(0, intervals);
+        }
     }
 
     public int numeroDias(Date d2) {

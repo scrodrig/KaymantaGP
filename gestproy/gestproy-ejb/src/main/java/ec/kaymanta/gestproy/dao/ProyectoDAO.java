@@ -14,13 +14,15 @@ package ec.kaymanta.gestproy.dao;
 
 import com.persist.common.dao.DefaultGenericDAOImple;
 import ec.kaymanta.gestproy.modelo.Proyecto;
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 
 /**
- * La Clase ProyectoDAO especifica e implementa las operaciones de 
- * acceso a datos relacionadas con la entidad Proyecto.
- * 
+ * La Clase ProyectoDAO especifica e implementa las operaciones de acceso a
+ * datos relacionadas con la entidad Proyecto.
+ *
  * @author JPA Generator
  * @version 1.0
  */
@@ -28,9 +30,15 @@ import javax.ejb.Stateless;
 @LocalBean
 public class ProyectoDAO extends DefaultGenericDAOImple<Proyecto, Long> {
 
-      public ProyectoDAO()
-    {
+    public ProyectoDAO() {
         super(Proyecto.class);
-    
+
+    }
+
+    public List<Proyecto> getProyectos() {
+        String sql = "SELECT obj FROM Proyecto obj WHERE obj.estado=?1";
+        Query qry = this.getEntityManager().createQuery(sql);
+        qry.setParameter(1, "P");
+        return qry.getResultList();
     }
 }

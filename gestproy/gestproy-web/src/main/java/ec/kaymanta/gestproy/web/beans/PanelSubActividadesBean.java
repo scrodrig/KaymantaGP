@@ -69,7 +69,6 @@ public class PanelSubActividadesBean extends BotonesBean implements Serializable
     private MeterGaugeChartModel meterGaugeChartModel;
     //ELEMENTO DE VISTA
     private MeterGaugeChartModel meterGaugeChartModelSalud;
-   
 
     @PostConstruct
     @Override
@@ -92,7 +91,7 @@ public class PanelSubActividadesBean extends BotonesBean implements Serializable
         this.subActividad = new Actividad();
     }
 
-  private void createMeterGaugeChart() {
+    private void createMeterGaugeChart() {
         meterGaugeChartModel = new MeterGaugeChartModel();
         List<Number> intervals = new ArrayList<Number>() {
             {
@@ -115,7 +114,11 @@ public class PanelSubActividadesBean extends BotonesBean implements Serializable
             }
         };
 
-        meterGaugeChartModelSalud = new MeterGaugeChartModel(numeroDias(proyecto.getFestimada()), intervals);
+        if (!this.proyecto.getEstado().equals("F")) {
+            meterGaugeChartModelSalud = new MeterGaugeChartModel(numeroDias(proyecto.getFestimada()), intervals);
+        } else {
+            meterGaugeChartModelSalud = new MeterGaugeChartModel(0, intervals);
+        }
     }
 
     public int numeroDias(Date d2) {
@@ -147,8 +150,7 @@ public class PanelSubActividadesBean extends BotonesBean implements Serializable
             return false;
         }
     }
-    
-   
+
     public void nuevoSubActividad(ActionEvent evento) {
         super.crear();
         this.subActividad = new Actividad();
@@ -178,8 +180,8 @@ public class PanelSubActividadesBean extends BotonesBean implements Serializable
             }
         }
     }
-    
-     public String getColor(BigDecimal avance) {
+
+    public String getColor(BigDecimal avance) {
         if (avance.compareTo(BigDecimal.valueOf(100)) < 0 && avance.compareTo(BigDecimal.valueOf(60)) > 0) {
             return "darkgreen";
         } else if (avance.compareTo(BigDecimal.valueOf(60)) < 0 && avance.compareTo(BigDecimal.valueOf(10)) > 0) {

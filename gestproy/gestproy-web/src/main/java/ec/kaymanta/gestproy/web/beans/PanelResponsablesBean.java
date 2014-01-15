@@ -114,13 +114,13 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
             this.subActividad = this.actividadServicio.findByID(Long.parseLong(codSubActividad));
         }
         this.actividadEmpleados = this.actividadEmpleadoServicio.findBySubActividad(subActividad);
-        this.fechasActividadRespaldo=this.fechasActividadServicio.findLastByActividad(subActividad);
+        this.fechasActividadRespaldo = this.fechasActividadServicio.findLastByActividad(subActividad);
         createMeterGaugeChart();
         createMeterGaugeChartSalubridad();
         this.actividadEmpleado = new ActividadEmpleado();
     }
 
-     private void createMeterGaugeChart() {
+    private void createMeterGaugeChart() {
         meterGaugeChartModel = new MeterGaugeChartModel();
         List<Number> intervals = new ArrayList<Number>() {
             {
@@ -142,8 +142,11 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
                 add(100);
             }
         };
-
-        meterGaugeChartModelSalud = new MeterGaugeChartModel(numeroDias(fechasActividadRespaldo.getFestimada()), intervals);
+        if (!this.proyecto.getEstado().equals("F")) {
+            meterGaugeChartModelSalud = new MeterGaugeChartModel(numeroDias(fechasActividad.getFestimada()), intervals);
+        } else {
+            meterGaugeChartModelSalud = new MeterGaugeChartModel(0, intervals);
+        }
     }
 
     public int numeroDias(Date d2) {
@@ -288,7 +291,7 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
                 //PARA INGRESAR SEGUIMIENTO
                 //CADA VEZ QUE SE MODIFICA SE REGISTRA UNA ACTIVIDAD CORRESPONDIENTE A SER REALIZADA
                 //POR DEFECTO EL SUPERVISOR SERA EL RESPONSABLE DEL PROYECTO
-                
+
                 this.actividadSegumiento.getPk().setCodigoActividadSeguimiento(Long.parseLong(String.valueOf(this.actividadSeguimientoServicio.obtener().size())) + 1);
                 this.actividadSegumiento.getPk().setActividad(this.actividadEmpleado.getActividad().getCodigo());
                 this.actividadSegumiento.setActividad(this.actividadEmpleado.getActividad());
@@ -438,7 +441,7 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
-    public void actualizarActividad(Actividad actividad) {     
+    public void actualizarActividad(Actividad actividad) {
         subActividades = actividadServicio.findByProyectoAndActividad(actividad.getProyecto(), actividad);
         int index = subActividades.size() - 1;
         FechasActividad fa1 = this.fechasActividadServicio.findLastByActividad(subActividades.get(0));
@@ -583,6 +586,9 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
             tTotReal += actividades.get(j).gettTotalReal();
         }
         proyecto.settTotalReal(tTotReal);
+        if (proyecto.getAvance().compareTo(BigDecimal.valueOf(100)) == 0) {
+            proyecto.setEstado("F");
+        }
         this.proyectoServicio.actualizar(proyecto);
     }
 
@@ -738,7 +744,6 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
         this.meterGaugeChartModelSalud = meterGaugeChartModelSalud;
     }
 
-   
     public Long getHorasAnterior() {
         return horasAnterior;
     }
@@ -762,6 +767,4 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
     public void setActividadSegumiento(ActividadSegumiento actividadSegumiento) {
         this.actividadSegumiento = actividadSegumiento;
     }
-    
-    
 }

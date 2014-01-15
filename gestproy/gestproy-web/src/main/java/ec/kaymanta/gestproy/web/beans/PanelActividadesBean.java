@@ -94,7 +94,7 @@ public class PanelActividadesBean extends BotonesBean implements Serializable {
         };
         meterGaugeChartModel = new MeterGaugeChartModel(proyecto.getAvance(), intervals);
     }
-
+    
     private void createMeterGaugeChartSalubridad() {
         List<Number> intervals = new ArrayList<Number>() {
             {
@@ -104,9 +104,13 @@ public class PanelActividadesBean extends BotonesBean implements Serializable {
                 add(100);
             }
         };
-
-        meterGaugeChartModelSalud = new MeterGaugeChartModel(numeroDias(proyecto.getFestimada()), intervals);
+        if (!this.proyecto.getEstado().equals("F")) {
+            meterGaugeChartModelSalud = new MeterGaugeChartModel(numeroDias(proyecto.getFestimada()), intervals);
+        } else {
+            meterGaugeChartModelSalud = new MeterGaugeChartModel(0, intervals);
+        }
     }
+    
 
     public int numeroDias(Date d2) {
         try {

@@ -34,12 +34,11 @@ import org.primefaces.model.chart.MeterGaugeChartModel;
  */
 @ManagedBean
 @ViewScoped
-public class PanelRiesgosBean extends BotonesBean implements Serializable{
+public class PanelRiesgosBean extends BotonesBean implements Serializable {
 
     /**
      * Creates a new instance of PanelRiesgosBean
      */
-  
     @EJB
     private RiesgoServicio riesgoServicio;
     @EJB
@@ -59,7 +58,7 @@ public class PanelRiesgosBean extends BotonesBean implements Serializable{
     private MeterGaugeChartModel meterGaugeChartModel;
     //ELEMENTO DE VISTA
     private MeterGaugeChartModel meterGaugeChartModelSalud;
-    
+
     @PostConstruct
     @Override
     public void postConstructor() {
@@ -78,7 +77,7 @@ public class PanelRiesgosBean extends BotonesBean implements Serializable{
         createMeterGaugeChartSalubridad();
         this.riesgo = new Riesgo();
     }
-    
+
     private void createMeterGaugeChart() {
         meterGaugeChartModel = new MeterGaugeChartModel();
         List<Number> intervals = new ArrayList<Number>() {
@@ -102,7 +101,11 @@ public class PanelRiesgosBean extends BotonesBean implements Serializable{
             }
         };
 
-        meterGaugeChartModelSalud = new MeterGaugeChartModel(numeroDias(proyecto.getFestimada()), intervals);
+        if (!this.proyecto.getEstado().equals("F")) {
+            meterGaugeChartModelSalud = new MeterGaugeChartModel(numeroDias(proyecto.getFestimada()), intervals);
+        } else {
+            meterGaugeChartModelSalud = new MeterGaugeChartModel(0, intervals);
+        }
     }
 
     public int numeroDias(Date d2) {
@@ -137,17 +140,17 @@ public class PanelRiesgosBean extends BotonesBean implements Serializable{
 
     public String getEstado(String estado) {
         if (estado == null || "".equals(estado)) {
-                return "";
-            } else {
-                if (estado.equals("I")) {
-                    return "Pendiente";
-                } else if (estado.equals("M")) {
-                    return "Mitigado";
-                }
-                return "Desconocido";
+            return "";
+        } else {
+            if (estado.equals("I")) {
+                return "Pendiente";
+            } else if (estado.equals("M")) {
+                return "Mitigado";
             }
+            return "Desconocido";
+        }
     }
-    
+
     public String getImpacto(String impacto) {
         if (impacto == null || "".equals(impacto)) {
             return "";
@@ -162,7 +165,7 @@ public class PanelRiesgosBean extends BotonesBean implements Serializable{
             return "";
         }
     }
-    
+
     public String getUsrAuditoria(String usr) {
         if (usr == null || "".equals(usr)) {
             return "";
@@ -175,7 +178,7 @@ public class PanelRiesgosBean extends BotonesBean implements Serializable{
             }
         }
     }
-    
+
     public void filaSeleccionadaRiesgo(ActionEvent evento) {
         if (riesgoSeleccionado instanceof Riesgo) {
             super.seleccionadoUno();
@@ -188,7 +191,7 @@ public class PanelRiesgosBean extends BotonesBean implements Serializable{
             super.sinSeleccion();
         }
     }
-    
+
     public void guardarRiesgo(ActionEvent evento) {
         try {
             if (super.getEnRegistro()) {
@@ -216,7 +219,7 @@ public class PanelRiesgosBean extends BotonesBean implements Serializable{
         }
 
     }
-    
+
     public void modificarRiesgo(ActionEvent evento) {
         this.riesgo = new Riesgo();
         try {
@@ -225,12 +228,12 @@ public class PanelRiesgosBean extends BotonesBean implements Serializable{
         }
         super.modificar();
     }
-    
+
     public void nuevaRiesgo(ActionEvent evento) {
         super.crear();
         this.riesgo = new Riesgo();
     }
-    
+
     public void verAuditoriaRiesgo(ActionEvent evento) throws IllegalAccessException {
         try {
             super.verAuditoria();
@@ -326,5 +329,5 @@ public class PanelRiesgosBean extends BotonesBean implements Serializable{
 
     public void setMeterGaugeChartModelSalud(MeterGaugeChartModel meterGaugeChartModelSalud) {
         this.meterGaugeChartModelSalud = meterGaugeChartModelSalud;
-    }     
+    }
 }

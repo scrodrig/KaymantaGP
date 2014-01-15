@@ -207,7 +207,7 @@
             </p:column>
             <p:column headerText="Tipo" style="width: 100px">
                 #{documento.tipoDocumento.nombre}
-            </p:column>  
+            </p:column>              
             <p:column headerText="F. Carga" style="width: 80px" rendered="false">
                 <h:outputLabel value="#{documento.fcreacion}">
                     <f:convertDateTime pattern="dd/MM/yyyy" />
@@ -242,6 +242,11 @@
                     <f:selectItems value="#{panelDocumentosBean.tipoDocumento}" var="td" itemValue="#{td.codigo}" itemLabel="#{td.nombre}"/>
                 </p:selectOneMenu>
                 <p:message for="tipoDocumento"/>
+
+                <p:outputLabel for="tematica" value="Temática/Tag:"/>
+                <p:inputText id="tematica" value="#{panelDocumentosBean.documento.tematica}" size="40" required="true"/>
+                <p:message for="tematica"/>
+
 
                 <p:outputLabel for="archivoUP" value="Archivo:"/>
                 <p:column>
@@ -284,6 +289,10 @@
                 <p:outputLabel for="m_nom_documento" value="Documento Cargado: "/>
                 <p:outputLabel id="m_nom_documento" value="#{panelDocumentosBean.documento.nombreDocumento}"/>
                 <p:message for="m_nom_documento"/>
+                
+                <p:outputLabel for="m_tematica" value="Temática/Tag:"/>
+                <p:inputText id="m_tematica" value="#{panelDocumentosBean.documento.tematica}" size="40" required="true"/>
+                <p:message for="m_tematica"/>
 
                 <p:outputLabel for="m_archivoUP" value="Nueva Versión Documento:"/>
                 <p:column>

@@ -24,6 +24,7 @@
                     <f:selectItem itemValue="institucionControl.nombre" itemLabel="Institución de Control"/>
                     <f:selectItem itemValue="tipoDocumento.nombre" itemLabel="Tipo de Documento"/>
                     <f:selectItem itemValue="nombreDocumento" itemLabel="Nombre del Documento"/>
+                    <f:selectItem itemValue="tematica" itemLabel="Temática del Documento"/>
                 </p:selectOneMenu>
                 <p:outputLabel for="criterio" value="Criterio: " />  
                 <p:selectOneMenu id="criterio" value="#{buscadorDocumentosBean.criterio}" label="Buscar por :">
@@ -41,9 +42,10 @@
                      rowKey="#{documento.codigo}" style="width: 750px" 
                      paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                     emptyMessage="No se ha registrado ningún Documento" rendered="#{not(buscadorDocumentosBean.enRegistro or 
-                                                                                     buscadorDocumentosBean.enEdicion or 
-                                                                                     buscadorDocumentosBean.enAuditoria)}" >
+                     emptyMessage="No se ha registrado ningún Documento con ese criterio de busqueda" 
+                     rendered="#{not(buscadorDocumentosBean.enRegistro or 
+                                 buscadorDocumentosBean.enEdicion or 
+                                 buscadorDocumentosBean.enAuditoria)}" >
 
             <p:ajax event="rowSelect" listener="#{buscadorDocumentosBean.filaSeleccionadaDocumento(evento)}" update="documentos"/>
             <p:ajax event="rowUnselect" listener="#{buscadorDocumentosBean.filaSeleccionadaDocumento(evento)}" update="documentos"/>
@@ -73,6 +75,9 @@
             <p:column headerText="Tipo" style="width: 100px">
                 #{documento.tipoDocumento.nombre}
             </p:column>                          
+            <p:column headerText="Tag" style="width: 100px">
+                #{documento.tematica}
+            </p:column>
             <p:column headerText="F. Carga" style="width: 80px" rendered="false">
                 <h:outputLabel value="#{documento.fcreacion}">
                     <f:convertDateTime pattern="dd/MM/yyyy" />
@@ -95,7 +100,7 @@
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                      emptyMessage="No existen versiones previas del documento" rendered="#{buscadorDocumentosBean.enRegistro}" >
 
-        
+
             <f:facet name="header">
                 Busqueda Versiones Previas de Documentos
                 <p:toolbar>
