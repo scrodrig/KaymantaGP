@@ -8,6 +8,7 @@ import ec.kaymanta.gestproy.dao.ActividadEmpleadoDAO;
 import ec.kaymanta.gestproy.modelo.Actividad;
 import ec.kaymanta.gestproy.modelo.ActividadEmpleado;
 import ec.kaymanta.gestproy.modelo.ActividadEmpleadoPK;
+import ec.kaymanta.gestproy.modelo.Empleado;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -40,6 +41,8 @@ public class ActividadEmpleadoServicio {
     }
     
 
+    
+    
     /**
      * Función para obtener el registro de un actividadEmpleado
      *
@@ -78,6 +81,15 @@ public class ActividadEmpleadoServicio {
      */
     public List<ActividadEmpleado> findBySubActividad(Actividad actividad) {
         return this.actividadEmpleadoDAO.findBySubActividad(actividad);
+    }
+    
+    /**
+     * Función para obtener todos los registros existentes
+     *
+     * @return
+     */
+    public List<ActividadEmpleado> findBySubActividadAndEmpleado(Actividad actividad, Empleado empleado) {
+        return this.actividadEmpleadoDAO.findBySubActividadAndEmpleado(actividad,empleado);
     }
 
     /**

@@ -16,6 +16,7 @@ import com.persist.common.dao.DefaultGenericDAOImple;
 import ec.kaymanta.gestproy.modelo.Actividad;
 import ec.kaymanta.gestproy.modelo.ActividadEmpleado;
 import ec.kaymanta.gestproy.modelo.ActividadEmpleadoPK;
+import ec.kaymanta.gestproy.modelo.Empleado;
 import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -41,6 +42,14 @@ public class ActividadEmpleadoDAO extends DefaultGenericDAOImple<ActividadEmplea
         String sql = "SELECT obj FROM ActividadEmpleado obj WHERE obj.actividad=?1";
         Query qry = this.getEntityManager().createQuery(sql);
         qry.setParameter(1, subActividad);
+        return qry.getResultList();
+    }
+    
+    public List<ActividadEmpleado> findBySubActividadAndEmpleado(Actividad subActividad, Empleado empleado) {
+        String sql = "SELECT obj FROM ActividadEmpleado obj WHERE obj.actividad=?1 AND obj.empleado=?2";
+        Query qry = this.getEntityManager().createQuery(sql);
+        qry.setParameter(1, subActividad);
+        qry.setParameter(2, empleado);
         return qry.getResultList();
     }
 }

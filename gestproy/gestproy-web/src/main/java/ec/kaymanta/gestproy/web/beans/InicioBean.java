@@ -74,11 +74,23 @@ public class InicioBean implements Serializable {
         }
     }
 
-    public boolean verSubMenu(String modulo) {
-        if (modulo.equals("Administración") || modulo.equals("Seguridades")) {
-            return true;
+    public String verSubMenu(String modulo) {
+        if (modulo.equals("Administración")) {
+            return "ui-icon-document";
+        } else if (modulo.equals("Reportes")) {
+            return "ui-icon-document";
+        } else if (modulo.equals("Seguridades")) {
+            return "ui-icon-locked";
+        } else if (modulo.equals("Proyectos")) {
+            return "ui-icon-pencil";
+        } else if (modulo.equals("Buscador de Documentos")) {
+            return "ui-icon-search";
+        } else if (modulo.equals("Seguimiento")) {
+            return "ui-icon-gear";
         }
-        return false;
+
+        return "ui-icon-document";
+
     }
 
     public String getClave() {
@@ -128,5 +140,4 @@ public class InicioBean implements Serializable {
     public void setPermiteVista(Boolean permiteVista) {
         this.permiteVista = permiteVista;
     }
-        
 }

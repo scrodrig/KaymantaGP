@@ -68,7 +68,6 @@ public class SeleccionRolBean implements Serializable {
                 userSessionBean.setPermiteVista(Boolean.FALSE);
             }
             userSessionBean.setModulos(modulos);            
-            System.out.println("MODULOS " + modulos.size());
             return "menu?faces-redirect=true";
         } catch (Exception e) {
             return "inicio";

@@ -9,16 +9,17 @@
 
     <h:form>
 
-        <p:menubar  style="width: 1024px"> 
+        <p:menubar  style="width: 1024px; font-size: 15pt"> 
             
             
             <p:menuitem value="Inicio" url="menu.jsf" icon="ui-icon-home" />    
             <c:forEach items="#{inicioBean.modulos}" var="modulo">
-                <p:submenu label="#{modulo.nombre}" icon="ui-icon-pencil"> 
+                <p:submenu label="#{modulo.nombre}" icon="#{inicioBean.verSubMenu(modulo.nombre)}"> 
                     <c:forEach items="#{modulo.funcionalidades}" var="funcionalidad"> 
-                        <p:menuitem value="#{funcionalidad.nombre}" url="#{funcionalidad.descripcion}.jsf" ajax="false" >
+                        <p:menuitem value="#{funcionalidad.nombre}" url="#{funcionalidad.descripcion}.jsf" ajax="false">
                             <f:setPropertyActionListener value="#{funcionalidad.nombre}" target="#{cabeceraBean.nombreFuncionalidad}"/>
                         </p:menuitem>
+                        
                     </c:forEach>    
                 </p:submenu>
             </c:forEach>

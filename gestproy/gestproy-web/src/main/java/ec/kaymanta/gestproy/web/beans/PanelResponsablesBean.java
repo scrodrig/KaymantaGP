@@ -112,7 +112,7 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
             this.actividad = this.actividadServicio.findByID(Long.parseLong(codActividad));
             this.subActividad = this.actividadServicio.findByID(Long.parseLong(codSubActividad));
         }
-        this.actividadEmpleados = this.actividadEmpleadoServicio.findBySubActividad(subActividad);
+        this.actividadEmpleados = this.actividadEmpleadoServicio.findBySubActividadAndEmpleado(subActividad,emplSesion);
         this.fechasActividadRespaldo = this.fechasActividadServicio.findLastByActividad(subActividad);
         createMeterGaugeChart();
         createMeterGaugeChartSalubridad();
