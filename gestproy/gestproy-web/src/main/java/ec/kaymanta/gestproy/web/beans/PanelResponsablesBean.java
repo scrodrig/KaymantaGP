@@ -38,7 +38,6 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.primefaces.model.chart.MeterGaugeChartModel;
-import org.primefaces.model.chart.PieChartModel;
 
 /**
  *
@@ -298,6 +297,7 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
                 this.actividadSegumiento.setAvance(this.actividadEmpleado.getAvance());
                 this.actividadSegumiento.setResponsable(actividadEmpleado.getEmpleado().getCodigo());
                 this.actividadSegumiento.setEmpleado(proyecto.getEmpleado());
+                this.actividadSegumiento.setSupervisor(proyecto.getEmpleado().getCodigo());
                 this.actividadSegumiento.setEstado("P");
                 this.actividadSegumiento.setUsrCreacion(usrSesion.getCodigo());
                 this.actividadSegumiento.setFcreacion(new Date());

@@ -64,6 +64,10 @@ public class ActividadSeguimientoServicio {
     public List<ActividadSegumiento> findByResponsable(String responsable) {
         return this.actividadSeguimientoDAO.findByResponsable(responsable);
     }
+    
+    public List<ActividadSegumiento> findBySupervisor(String supervisor) {
+        return this.actividadSeguimientoDAO.findBySupervisor(supervisor);
+    }
 
     /**
      * Función para crear nuevos registros

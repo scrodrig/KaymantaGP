@@ -59,4 +59,11 @@ public class ActividadSegumientoDAO extends DefaultGenericDAOImple<ActividadSegu
         return qry.getResultList();
     }
     
+    public List<ActividadSegumiento> findBySupervisor(String supervisor) {
+        String sql = "SELECT obj FROM ActividadSegumiento obj WHERE obj.supervisor=?1";
+        Query qry = this.getEntityManager().createQuery(sql);
+        qry.setParameter(1, supervisor);
+        return qry.getResultList();
+    }
+    
 }

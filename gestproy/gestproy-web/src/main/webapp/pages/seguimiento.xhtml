@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/templateMantenimiento.xhtml">
+
+    <ui:define name="titulo">Proyectos</ui:define> 
+
+    <ui:define name="cuerpo">
+
+
+        <p:dataTable id="seguimientos"  value="#{seguimientoBean.actividadesSeguimiento}" var="seguimiento" selection="#{seguimientoBean.actividadSeguimientoSeleccionado}" selectionMode="single" scrollable="true" 
+                     rowKey="#{seguimiento.pk}" style="width: 800px" 
+                     paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
+                     paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     emptyMessage="No tiene ninguna Actividad por Revisar" rendered="#{not(seguimientoBean.enRegistro or 
+                                                                                       seguimientoBean.enEdicion or 
+                                                                                       seguimientoBean.enAuditoria )}" >
+
+            <p:ajax event="rowSelect" listener="#{seguimientoBean.filaSeleccionada(evento)}" update="seguimientos"/>
+            <p:ajax event="rowUnselect" listener="#{seguimientoBean.filaSeleccionada(evento)}" update="seguimientos"/>
+
+            <f:facet name="header">
+
+                Seguimiento de Actividades
+                <p:toolbar>  
+                    <p:toolbarGroup align="left">  
+                        <p:commandButton  value="Revisar" update="@form" actionListener="#{seguimientoBean.revisar(evento)}" disabled="#{seguimientoBean.disabledModificar}" icon="ui-icon-document"/>  
+                        <p:commandButton  value="Auditoría" update=":form:mensaje" onsuccess="dlg.show()" actionListener="#{seguimientoBean.verAuditoria(evento)}" disabled="#{seguimientoBean.disableAuditoria}" icon="ui-icon-document"/>  
+                        <p:separator />  
+                        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">  
+                            <p:printer target="seguimientos" />  
+                        </p:commandButton>                                                
+                    </p:toolbarGroup>                        
+                </p:toolbar>  
+
+            </f:facet>
+
+            <p:column headerText="Proyecto" style="width: 130px">
+                <h:outputText value="#{seguimiento.actividad.proyecto.nombreProyecto}" />
+            </p:column>
+            <p:column headerText="Responsable" style="width: 100px">
+                #{seguimiento.responsable}
+            </p:column>
+            <p:column headerText="Responsable" style="width: 100px">
+                #{seguimientoBean.getEstado(seguimiento.estado)}
+            </p:column>
+            <p:column headerText="Avance" style="width: 100px" >
+                #{seguimiento.avance}
+            </p:column>
+            <p:column headerText="Fecha de Avance" style="width: 180px">
+                #{seguimiento.fcreacion}                
+            </p:column>
+        </p:dataTable>
+
+
+        
+        <p:dialog id="picture" widgetVar="dlg"  
+                  resizable="false" header="Auditoría de Seguimiento" modal="true" closable="false" showEffect="clip" hideEffect="clip" style="width: 600px">  
+            <p:panelGrid id="mensaje"  columns="2">  
+                <p:graphicImage value="/images/footer.png"/>                    
+                <p:panelGrid columns="2" rendered="#{seguimientoBean.enAuditoria}">
+
+                    <p:outputLabel for="a_codigo" value="Código:"/>
+                    <p:outputLabel id="a_codigo" value="#{seguimientoBean.actividadSeguimiento.pk.codigoActividadSeguimiento}"/>
+
+                    <p:outputLabel for="a_empresa" value="Nombre de Empresa"/>                
+                    <p:outputLabel id="a_empresa" value="#{seguimientoBean.actividadSeguimiento.actividad.proyecto.nombreProyecto}"/>              
+
+                    <p:outputLabel for="usrcre" value="Usuario creación"/>                
+                    <p:outputLabel id="usrcre" value="#{seguimientoBean.getUsrAuditoria(seguimientoBean.actividadSeguimiento.usrCreacion)}" />              
+
+                    <p:outputLabel for="usrcref" value="Fecha creación:"/>                
+                    <h:outputLabel id="usrcref" value="#{seguimientoBean.actividadSeguimiento.fcreacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+
+                    <p:outputLabel for="usrmod" value="Usuario modificación:"/>                
+                    <p:outputLabel id="usrmod" value="#{seguimientoBean.getUsrAuditoria(seguimientoBean.actividadSeguimiento.usrModificacion)}"/>              
+
+                    <p:outputLabel for="usrmodf" value="Fecha modificación:"/>                
+                    <h:outputLabel id="usrmodf" value="#{seguimientoBean.actividadSeguimiento.fmodificacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputLabel>
+
+                </p:panelGrid> 
+            </p:panelGrid>
+            <p:separator/>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{seguimientoBean.cancelar()}" value="Volver" update="@form" icon="ui-icon-back"/>
+            </f:facet>
+        </p:dialog>
+
+
+
+        <p:panel id="panelSeleccion" header="Registro de Proyectos" style="width: 600px"
+                 rendered="#{seguimientoBean.enRegistro}"> 
+            <p:focus context="panelSeleccion"/> 
+            <p:panelGrid columns="3" >
+
+                <p:outputLabel for="r_proyecto" value="Proyecto:"/>
+                <p:inputText id="r_proyecto" value="#{seguimientoBean.actividadSeguimiento.actividad.proyecto.nombreProyecto}" readonly="true"/>
+                <p:message for="r_proyecto"/>
+                
+                <p:outputLabel for="r_actividad" value="Actividad:"/>
+                <p:inputText id="r_actividad" value="#{seguimientoBean.actividadSeguimiento.actividad.actividad.nombreActividad}" readonly="true"/>
+                <p:message for="r_actividad"/>
+                
+                <p:outputLabel for="r_subactividad" value="Sub-Actividad:"/>
+                <p:inputText id="r_subactividad" value="#{seguimientoBean.actividadSeguimiento.actividad.nombreActividad}" readonly="true"/>
+                <p:message for="r_subactividad"/>
+
+                <p:outputLabel for="r_responsable" value="Responsable:"/>
+                <p:inputText id="r_responsable" value="#{seguimientoBean.actividadSeguimiento.responsable}" readonly="true"/>
+                <p:message for="r_responsable"/>
+
+                <p:outputLabel for="r_avance" value="Avance"/>
+                <p:inputText id="r_avance" value="#{seguimientoBean.actividadSeguimiento.avance}" readonly="true"/>
+                <p:message for="r_avance"/>
+
+                <p:outputLabel for="r_descripcion" value="Descripción:"/>
+                <p:inputTextarea id="r_descripcion" rows="8" cols="40" autoResize="false" value="#{seguimientoBean.actividadSeguimiento.descripcion}" readonly="true"/>
+                <p:message for="r_descripcion"/>
+
+
+                <p:outputLabel for="m_estado" value="Estado: "/>
+                <p:selectOneMenu id="m_estado" value="#{seguimientoBean.actividadSeguimiento.estado}" label="Estado" required="true" >
+                    <f:selectItem itemValue="P" itemLabel="En Proceso"/>
+                    <f:selectItem itemValue="R" itemLabel="Revisado"/>
+                </p:selectOneMenu>
+                <p:message for="m_estado"/>
+                               
+
+            </p:panelGrid>
+            <f:facet name="footer"> 
+                <p:commandButton actionListener="#{seguimientoBean.guardar(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{seguimientoBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
+            </f:facet>
+        </p:panel>
+
+
+    </ui:define>
+
+</ui:composition>
