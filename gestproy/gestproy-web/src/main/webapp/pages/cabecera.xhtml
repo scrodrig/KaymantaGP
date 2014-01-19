@@ -4,78 +4,30 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
 
     <h:form>
 
-        <p:menubar>  
-
-            <p:menuitem value="Inicio" url="menu.jsf" icon="ui-icon-home" />                    
-
-            <p:submenu label="Administración" icon="ui-icon-pencil">  
-                <p:submenu label="Personas">  
-                    <p:menuitem value="Empleados" url="empleados.jsf" />  
-                </p:submenu>   
-                <p:submenu label="Instituciones">  
-                    <p:menuitem value="Empresas" url="empresas.jsf" />
-                    <p:menuitem value="Instituciones Control" url="instituciones_control.jsf" />  
-                </p:submenu>                       
-                <p:submenu label="Geográfico">  
-                    <p:menuitem value="Provincias" url="provincias.jsf" />
-                    <p:menuitem value="Cantones" url="cantones.jsf" />  
-                    <p:menuitem value="Parroquias" url="parroquias.jsf" />  
-                </p:submenu>   
-                <p:submenu label="Tipos">  
-                    <p:menuitem value="Tipos de Gastos" url="tipos_gastos.jsf" /> 
-                    <p:menuitem value="Tipos de Documentos" url="tipos_documentos.jsf" /> 
-                    <p:menuitem value="Tipos de Entregables" url="tipos_entregables.jsf" /> 
-                </p:submenu>  
-                <p:submenu label="Misc">  
-                    <p:menuitem value="Días No Laborables" url="fechasNoLaborables.jsf" />  
+        <p:menubar  style="width: 1024px"> 
+            
+            
+            <p:menuitem value="Inicio" url="menu.jsf" icon="ui-icon-home" />    
+            <c:forEach items="#{inicioBean.modulos}" var="modulo">
+                <p:submenu label="#{modulo.nombre}" icon="ui-icon-pencil"> 
+                    <c:forEach items="#{modulo.funcionalidades}" var="funcionalidad"> 
+                        <p:menuitem value="#{funcionalidad.nombre}" url="#{funcionalidad.descripcion}.jsf" ajax="false" >
+                            <f:setPropertyActionListener value="#{funcionalidad.nombre}" target="#{cabeceraBean.nombreFuncionalidad}"/>
+                        </p:menuitem>
+                    </c:forEach>    
                 </p:submenu>
+            </c:forEach>
+
+            <p:submenu label="#{inicioBean.nombreEmpleado}" style="text-align: right">  
+                <p:menuitem value="Cambiar Contraseña" url="cambiarclave.jsf" icon="ui-icon-locked"/>   
+                <p:menuitem value="Cerrar Sesión" action="#{cabeceraBean.logout()}" icon="ui-icon-close" />
             </p:submenu>  
-
-            <p:submenu label="Seguridades">  
-                <p:menuitem value="Usuarios" url="usuarios.jsf" />    
-                <p:menuitem value="Módulos" url="modulos.jsf" />   
-                <p:menuitem value="Funcionalidades" url="funcionalidades.jsf" />  
-                <p:menuitem value="Roles" url="roles.jsf" /> 
-                <p:menuitem value="Roles Funcionalidades" url="rolesfuncionalidades.jsf" />
-            </p:submenu> 
-
-            <p:menuitem value="Proyectos" url="proyectos.jsf" icon="ui-icon-document" rendered="false" />  
-
-            <p:menuitem value="Proyectos" url="panelproyectos.jsf" icon="ui-icon-document" />
-
-            <p:button outcome="inicio" value="Bookmark" icon="ui-icon-star">  
-                <f:param name="proyectoId" value="#{panelProyectosBean.proyecto.codigo}" />  
-            </p:button> 
-
-
-            <p:menuitem value="Buscador de Documentos" url="buscadordocumentos.jsf" icon="ui-icon-search" />
-
-
-
-            <p:submenu label="Reportes" icon="ui-icon-pencil">  
-
-                <p:column>  
-                    <p:submenu label="REPORTE ANOTACIONES">  
-                        <p:menuitem value="Reporte Anotaciones" url="reportesMaximoPartido.jsf" />   
-                    </p:submenu>  
-                    <p:submenu label="REPORTE DETALLADO POR JUGADOR">  
-                        <p:menuitem value="Reporte de Novedades" url="reportesNovedades.jsf" />  
-                    </p:submenu>  
-                </p:column>
-            </p:submenu> 
-
-            <p:menuitem value="Seguimiento" url="seguimiento.jsf" icon="ui-icon-document"/>
-
-            <p:menuitem value="Cambiar Contraseña" url="cambiarclave.jsf" icon="ui-icon-locked"/>  
-
-            <p:menuitem value="Cerrar Sesión" url="inicio.jsf" action="#{cabeceraBean.logout()}" icon="ui-icon-extlink" />  
-        </p:menubar>
-
-
+        </p:menubar> 
     </h:form>
 </ui:composition>
 

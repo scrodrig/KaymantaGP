@@ -83,7 +83,6 @@ public class UsuarioRolServicio {
     @Transient
     public List<UsuarioRol> getByUser(Usuario usuario)
     {
-        System.out.println("En consultar "+usuario.getUsuario());
         return this.usuarioRolDAO.findByUser(usuario);
     }
 

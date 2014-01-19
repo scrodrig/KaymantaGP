@@ -5,8 +5,10 @@
 package ec.kaymanta.gestproy.web.beans;
 
 import ec.kaymanta.gestproy.modelo.ActividadSegumiento;
+import ec.kaymanta.gestproy.modelo.Empleado;
 import ec.kaymanta.gestproy.modelo.Usuario;
 import ec.kaymanta.gestproy.servicio.ActividadSeguimientoServicio;
+import ec.kaymanta.gestproy.servicio.EmpleadoServicio;
 import ec.kaymanta.gestproy.servicio.UsuarioServicio;
 import ec.kaymanta.gestproy.web.util.MensajesGenericos;
 import java.io.Serializable;
@@ -35,6 +37,8 @@ public class SeguimientoBean extends BotonesBean implements Serializable {
     private ActividadSeguimientoServicio actividadSeguimientoServicio;
     @EJB
     private UsuarioServicio usuarioServicio;
+    @EJB
+    private EmpleadoServicio empleadoServicio;    
     private ActividadSegumiento actividadSeguimiento;
     private List<ActividadSegumiento> actividadesSeguimiento;
     private ActividadSegumiento actividadSeguimientoSeleccionado;
@@ -52,6 +56,11 @@ public class SeguimientoBean extends BotonesBean implements Serializable {
     public void revisar(ActionEvent evento)
     {
         super.crear();        
+    }
+    
+    public Empleado getEmpleado(String codigo)
+    {
+         return this.empleadoServicio.findByID(codigo);
     }
     
     public void filaSeleccionada(ActionEvent evento) {

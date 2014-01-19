@@ -4,6 +4,7 @@
  */
 package ec.kaymanta.gestproy.web.beans;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -17,14 +18,32 @@ import javax.servlet.http.HttpSession;
 @SessionScoped
 public class CabeceraBean {
 
-    /**
-     * Creates a new instance of CabeceraBean
-     */
-    public CabeceraBean() {
+    private Long modulo;
+    private String nombreFuncionalidad;
+
+    @PostConstruct
+    public void postConstructor() {
+        this.modulo = 2l;
     }
-    
+
     public String logout() {
         ((HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true)).invalidate();
         return "inicio";
+    }
+
+    public Long getModulo() {
+        return modulo;
+    }
+
+    public void setModulo(Long modulo) {
+        this.modulo = modulo;
+    }
+
+    public String getNombreFuncionalidad() {
+        return nombreFuncionalidad;
+    }
+
+    public void setNombreFuncionalidad(String nombreFuncionalidad) {
+        this.nombreFuncionalidad = nombreFuncionalidad;
     }
 }

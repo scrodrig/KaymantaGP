@@ -13,12 +13,14 @@
 package ec.kaymanta.gestproy.modelo;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * La Clase Modulo representa a la tabla gpk_modulo. Principales divisiones del
@@ -49,6 +51,9 @@ public class Modulo implements Serializable {
     @Column(name = "NOMBRE", nullable = false, length = 30)
     private String nombre;
 
+    
+    @Transient
+    private List<Funcionalidad> funcionalidades;
     /**
      * Crea una nueva instancia de la entidad Modulo.
      */
@@ -103,6 +108,14 @@ public class Modulo implements Serializable {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
+    public List<Funcionalidad> getFuncionalidades() {
+        return funcionalidades;
+    }
+
+    public void setFuncionalidades(List<Funcionalidad> funcionalidades) {
+        this.funcionalidades = funcionalidades;
+    }        
 
     /**
      * {@inheritDoc}

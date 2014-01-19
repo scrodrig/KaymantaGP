@@ -182,8 +182,8 @@
 
                 <p:toolbar>  
                     <p:toolbarGroup align="left">  
-                        <p:commandButton  value="Nuevo" update="@form" actionListener="#{panelSubActividadesBean.nuevoSubActividad(evento)}" disabled="#{panelSubActividadesBean.disabledNuevo}" icon="ui-icon-document"/>  
-                        <p:commandButton value="Modificar" update="@form" actionListener="#{panelSubActividadesBean.modificarSubActividad(evento)}" disabled="#{panelSubActividadesBean.disabledModificar}" icon="ui-icon-pencil"/>
+                        <p:commandButton  value="Nuevo" update="@form" actionListener="#{panelSubActividadesBean.nuevoSubActividad(evento)}" disabled="#{panelSubActividadesBean.disabledNuevo}" icon="ui-icon-document" rendered="#{inicioBean.permiteVista}"/>  
+                        <p:commandButton value="Modificar" update="@form" actionListener="#{panelSubActividadesBean.modificarSubActividad(evento)}" disabled="#{panelSubActividadesBean.disabledModificar}" icon="ui-icon-pencil" rendered="#{inicioBean.permiteVista}"/>
                         <p:commandButton  value="Auditoría" update=":form:sact_mensaje" onsuccess="dlg3.show()" actionListener="#{panelSubActividadesBean.verAuditoriaSubActividad(evento)}" disabled="#{panelSubActividadesBean.disableAuditoria}" icon="ui-icon-document"/>
                         <p:separator />  
                         <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">  

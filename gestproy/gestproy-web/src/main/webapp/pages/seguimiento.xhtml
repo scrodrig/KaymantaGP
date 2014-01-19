@@ -7,7 +7,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/templates/templateMantenimiento.xhtml">
 
-    <ui:define name="titulo">Proyectos</ui:define> 
+    <ui:define name="titulo">Seguimiento</ui:define> 
 
     <ui:define name="cuerpo">
 
@@ -42,17 +42,19 @@
             <p:column headerText="Proyecto" style="width: 130px">
                 <h:outputText value="#{seguimiento.actividad.proyecto.nombreProyecto}" />
             </p:column>
-            <p:column headerText="Responsable" style="width: 100px">
-                #{seguimiento.responsable}
+            <p:column headerText="Responsable" style="width: 180px">
+                #{seguimientoBean.getEmpleado(seguimiento.responsable).nombre}
             </p:column>
-            <p:column headerText="Responsable" style="width: 100px">
+            <p:column headerText="Estado" style="width: 100px">
                 #{seguimientoBean.getEstado(seguimiento.estado)}
             </p:column>
             <p:column headerText="Avance" style="width: 100px" >
-                #{seguimiento.avance}
+                <h:outputLabel value="#{seguimiento.avance}%" style="text-align: right"/>
             </p:column>
-            <p:column headerText="Fecha de Avance" style="width: 180px">
-                #{seguimiento.fcreacion}                
+            <p:column headerText="Fecha de Avance" style="width: 100px">
+                <h:outputLabel value="#{seguimiento.fcreacion}" style="text-align: right">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputLabel>                                
             </p:column>
         </p:dataTable>
 

@@ -179,9 +179,9 @@
 
                 <p:toolbar>
                     <p:toolbarGroup align="left">  
-                        <p:commandButton  value="Nuevo" update="@form" actionListener="#{panelActividadesBean.nuevoActividad(evento)}" disabled="#{panelActividadesBean.disabledNuevo}" icon="ui-icon-document"/>  
-                        <p:commandButton value="Modificar" update="@form" actionListener="#{panelActividadesBean.modificarActividad(evento)}" disabled="#{panelActividadesBean.disabledModificar}" icon="ui-icon-pencil"/>
-                        <p:commandButton  value="Auditoría" update=":form:act_mensaje" onsuccess="dlg2.show()" actionListener="#{panelActividadesBean.verAuditoriaActividad(evento)}" disabled="#{panelActividadesBean.disableAuditoria}" icon="ui-icon-document"/>
+                        <p:commandButton  value="Nuevo" update="@form" actionListener="#{panelActividadesBean.nuevoActividad(evento)}" disabled="#{panelActividadesBean.disabledNuevo}" icon="ui-icon-document" rendered="#{inicioBean.permiteVista}"/>  
+                        <p:commandButton value="Modificar" update="@form" actionListener="#{panelActividadesBean.modificarActividad(evento)}" disabled="#{panelActividadesBean.disabledModificar}" icon="ui-icon-pencil" rendered="#{inicioBean.permiteVista}"/>
+                        <p:commandButton  value="Auditoría" update=":form:act_mensaje" onsuccess="dlg2.show()" actionListener="#{panelActividadesBean.verAuditoriaActividad(evento)}" disabled="#{panelActividadesBean.disableAuditoria}" icon="ui-icon-document" rendered="#{inicioBean.permiteVista}"/>
 
                         <p:separator />  
                         <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">  

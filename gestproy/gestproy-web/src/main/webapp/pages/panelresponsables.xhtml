@@ -146,9 +146,11 @@
 
                 <p:toolbar>
                     <p:toolbarGroup align="left">  
-                        <p:commandButton  value="Nuevo" update="@form" actionListener="#{panelResponsablesBean.nuevoResponsable(evento)}" icon="ui-icon-document"/>  
-                        <p:commandButton value="Modificar" update="@form" actionListener="#{panelResponsablesBean.modificarResponsable(evento)}" disabled="#{panelResponsablesBean.disabledModificar}" icon="ui-icon-pencil"/>
+                        <p:commandButton  value="Nuevo" update="@form" actionListener="#{panelResponsablesBean.nuevoResponsable(evento)}" icon="ui-icon-document" rendered="#{inicioBean.permiteVista}"/>  
+                        <p:commandButton value="Modificar" update="@form" actionListener="#{panelResponsablesBean.modificarResponsable(evento)}" disabled="#{panelResponsablesBean.disabledModificar}" icon="ui-icon-pencil" rendered="#{inicioBean.permiteVista}"/>
+                        <p:commandButton value="Registrar Avance" update="@form" actionListener="#{panelResponsablesBean.modificarResponsable(evento)}" disabled="#{panelResponsablesBean.disabledModificar}" icon="ui-icon-pencil" rendered="#{!inicioBean.permiteVista}"/>
                         <p:commandButton  value="Auditoría" update=":form:resp_mensaje" onsuccess="dlg11.show()" actionListener="#{panelResponsablesBean.verAuditoriaResponsable(evento)}" disabled="#{panelResponsablesBean.disableAuditoria}" icon="ui-icon-document"/>  
+
 
                         <p:separator />  
                         <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">  

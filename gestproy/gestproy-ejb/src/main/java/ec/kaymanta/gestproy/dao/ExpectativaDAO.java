@@ -22,9 +22,9 @@ import javax.ejb.Stateless;
 import javax.persistence.Query;
 
 /**
- * La Clase ExpectativaDAO especifica e implementa las operaciones de 
- * acceso a datos relacionadas con la entidad Expectativa.
- * 
+ * La Clase ExpectativaDAO especifica e implementa las operaciones de acceso a
+ * datos relacionadas con la entidad Expectativa.
+ *
  * @author JPA Generator
  * @version 1.0
  */
@@ -32,17 +32,15 @@ import javax.persistence.Query;
 @LocalBean
 public class ExpectativaDAO extends DefaultGenericDAOImple<Expectativa, ExpectativaPK> {
 
-      public ExpectativaDAO()
-    {
+    public ExpectativaDAO() {
         super(Expectativa.class);
-    
+
     }
-      
-      public List<Expectativa> getByProyecto(Proyecto proyecto)
-    {
-        String sql="SELECT obj FROM Expectativa obj WHERE obj.proyecto=?1";
-        Query qry= this.getEntityManager().createQuery(sql);
+
+    public List<Expectativa> getByProyecto(Proyecto proyecto) {
+        String sql = "SELECT obj FROM Expectativa obj WHERE obj.proyecto=?1";
+        Query qry = this.getEntityManager().createQuery(sql);
         qry.setParameter(1, proyecto);
-        return qry.getResultList();    
+        return qry.getResultList();
     }
 }

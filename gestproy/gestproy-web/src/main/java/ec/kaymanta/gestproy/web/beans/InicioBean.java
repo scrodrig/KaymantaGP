@@ -5,15 +5,19 @@
 package ec.kaymanta.gestproy.web.beans;
 
 import ec.kaymanta.gestproy.modelo.Empleado;
+import ec.kaymanta.gestproy.modelo.Modulo;
+import ec.kaymanta.gestproy.modelo.Rol;
 import ec.kaymanta.gestproy.modelo.Usuario;
 import ec.kaymanta.gestproy.servicio.AutentificacionServicio;
 import ec.kaymanta.gestproy.servicio.EmpleadoServicio;
 import ec.kaymanta.gestproy.servicio.UsuarioServicio;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
@@ -22,20 +26,24 @@ import javax.faces.context.FacesContext;
  * @author schubert_david
  */
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class InicioBean implements Serializable {
 
     /**
      * Creates a new instance of IncioBean
      */
-    private String nombreUsuario;
-    private String clave;
     @EJB
     private AutentificacionServicio autentificacionServicio;
     @EJB
     private EmpleadoServicio empleadoServicio;
     @EJB
     private UsuarioServicio usuarioServicio;
+    private String nombreUsuario;
+    private String nombreEmpleado;
+    private String clave;
+    private List<Modulo> modulos;
+    private Rol rol;
+    private Boolean permiteVista;
 
     public String validarUsuario() {
         nombreUsuario = nombreUsuario.toLowerCase();
@@ -47,9 +55,10 @@ public class InicioBean implements Serializable {
                     usuario.setFechaUltAcceso(new Date());
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Usuario", usuario);
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Empleado", empleado);
+                    nombreEmpleado = empleado.getNombre();
                     usuario.setFechaUltAcceso(new Date());
                     usuarioServicio.actualizar(usuario);
-                    return "menu";
+                    return "seleccionrol";
                 } else {
                     return "inicio";
                 }
@@ -63,6 +72,13 @@ public class InicioBean implements Serializable {
                     null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Login Incorrecto", "No coincide la información"));
             return "inicio";
         }
+    }
+
+    public boolean verSubMenu(String modulo) {
+        if (modulo.equals("Administración") || modulo.equals("Seguridades")) {
+            return true;
+        }
+        return false;
     }
 
     public String getClave() {
@@ -80,4 +96,37 @@ public class InicioBean implements Serializable {
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
     }
+
+    public List<Modulo> getModulos() {
+        return modulos;
+    }
+
+    public void setModulos(List<Modulo> modulos) {
+        this.modulos = modulos;
+    }
+
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
+
+    public String getNombreEmpleado() {
+        return nombreEmpleado;
+    }
+
+    public void setNombreEmpleado(String nombreEmpleado) {
+        this.nombreEmpleado = nombreEmpleado;
+    }
+
+    public Boolean getPermiteVista() {
+        return permiteVista;
+    }
+
+    public void setPermiteVista(Boolean permiteVista) {
+        this.permiteVista = permiteVista;
+    }
+        
 }

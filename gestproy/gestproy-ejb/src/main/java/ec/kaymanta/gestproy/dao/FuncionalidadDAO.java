@@ -14,13 +14,16 @@ package ec.kaymanta.gestproy.dao;
 
 import com.persist.common.dao.DefaultGenericDAOImple;
 import ec.kaymanta.gestproy.modelo.Funcionalidad;
+import ec.kaymanta.gestproy.modelo.Modulo;
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 
 /**
- * La Clase FuncionalidadDAO especifica e implementa las operaciones de 
- * acceso a datos relacionadas con la entidad Funcionalidad.
- * 
+ * La Clase FuncionalidadDAO especifica e implementa las operaciones de acceso a
+ * datos relacionadas con la entidad Funcionalidad.
+ *
  * @author JPA Generator
  * @version 1.0
  */
@@ -28,9 +31,15 @@ import javax.ejb.Stateless;
 @LocalBean
 public class FuncionalidadDAO extends DefaultGenericDAOImple<Funcionalidad, Long> {
 
-      public FuncionalidadDAO()
-    {
+    public FuncionalidadDAO() {
         super(Funcionalidad.class);
+
+    }
     
+    public List<Funcionalidad> getByModulo(Modulo modulo) {
+        String sql = "SELECT obj FROM Funcionalidad obj WHERE obj.modulo=?1";
+        Query qry = this.getEntityManager().createQuery(sql);
+        qry.setParameter(1, modulo);
+        return qry.getResultList();
     }
 }
