@@ -45,7 +45,6 @@ public class CantonBean extends BotonesBean implements Serializable {
     private Canton cantonSeleccionado;
     private Canton respaldo;
     private Canton canton;
-    
     private String provincia;
     private List<Provincia> provinciasB;
 
@@ -60,7 +59,7 @@ public class CantonBean extends BotonesBean implements Serializable {
         super.sinSeleccion();
         this.provinciasB = this.provinciaServicio.obtener();
     }
-    
+
     public void cargarTabla(ActionEvent evento) {
         this.cantons = this.cantonServicio.obtenerPorProvincia(this.provincia);
     }
@@ -127,6 +126,7 @@ public class CantonBean extends BotonesBean implements Serializable {
     public void guardar(ActionEvent evento) {
         try {
             if (super.getEnRegistro()) {
+                this.canton.getPk().setCodigoCanton(Long.parseLong(String.valueOf(this.cantonServicio.obtenerPorProvincia(provincia).size())) + 1);
                 this.cantonServicio.crear(this.canton);
                 this.cantons.add(this.canton);
                 MensajesGenericos.infoCrear(ENTIDAD, this.canton.getPk().toString().concat(" - ").concat(this.canton.getNombre()), Boolean.TRUE);
@@ -212,8 +212,4 @@ public class CantonBean extends BotonesBean implements Serializable {
     public List<Provincia> getProvinciasB() {
         return provinciasB;
     }
-
-   
-    
-    
 }

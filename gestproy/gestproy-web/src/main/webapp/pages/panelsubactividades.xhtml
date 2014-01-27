@@ -14,7 +14,7 @@
 
     <ui:define name="titulo">Sub-Actividades</ui:define>
 
-    <ui:define name="arbol">#{panelSubActividadesBean.emplSesion.nombre} &#8594; #{panelSubActividadesBean.proyecto.nombreProyecto} &#8594; #{panelSubActividadesBean.actividad.nombreActividad} &#8594; #{panelSubActividadesBean.ENTIDAD} </ui:define> 
+    <ui:define name="arbol">#{panelSubActividadesBean.emplSesion.nombre} &#8594; Proyectos &#8594; Actividades &#8594; #{panelSubActividadesBean.ENTIDAD} </ui:define> 
     <!--EXPECTATIVA-->
 
     <ui:define name="tabla">
@@ -26,12 +26,12 @@
             </f:facet>  
 
             <p:row>  
-                <p:column colspan="2" style="font-weight: bold;">Av. Proyecto</p:column>  
-                <p:column colspan="4" style="font-weight: bold; text-align: right">#{panelSubActividadesBean.proyecto.avance}%</p:column>  
+                <p:column colspan="3" style="font-weight: bold;font-size: 8pt">Av.Proyecto</p:column>  
+                <p:column colspan="3" style="font-weight: bold; text-align: right">#{panelSubActividadesBean.proyecto.avance}%</p:column>  
             </p:row>  
             <p:row>  
-                <p:column colspan="2" style="font-weight: bold;">Avance</p:column>  
-                <p:column colspan="4" style="font-weight: bold; text-align: right">#{panelSubActividadesBean.actividad.avance}%</p:column>  
+                <p:column colspan="3" style="font-weight: bold;">Avance</p:column>  
+                <p:column colspan="3" style="font-weight: bold; text-align: right">#{panelSubActividadesBean.actividad.avance}%</p:column>  
             </p:row>  
             <p:row>  
                 <p:column colspan="6" style="font-weight: bold;">
@@ -117,7 +117,15 @@
                     <p:column  colspan="5">  
                         #{panelSubActividadesBean.proyecto.empleado.nombre} 
                     </p:column>  
-                </p:row>    
+                </p:row> 
+                <p:row>  
+                    <p:column  colspan="1" style="text-align: left">  
+                        Actividad 
+                    </p:column>  
+                    <p:column  colspan="5">  
+                        #{panelSubActividadesBean.actividad.nombreActividad} 
+                    </p:column>  
+                </p:row> 
             </f:facet> 
         </p:panelGrid>                
     </ui:define>
@@ -218,19 +226,16 @@
                 </p:toolbar>
 
             </f:facet>            
-            <p:column headerText="Sub-Actividad" style="width: 120px">
+            <p:column headerText="Sub-Actividad" style="width: 170px;font-size: 8pt">
                 #{subActividad.nombreActividad}
             </p:column>
-            <p:column headerText="Avance" style="width: 70px;text-align: right">
+            <p:column headerText="Avance" style="width: 70px;text-align: right;font-size: 8pt">
                 <h:outputLabel value="#{subActividad.avance} %" style="color: #{panelSubActividadesBean.getColor(subActividad.avance)}"/>
             </p:column>
-            <p:column headerText="H. Estimadas" style="width: 100px;text-align: right">
-                #{subActividad.gethDiaEst()}
-            </p:column>
-            <p:column headerText="H/Trab Real" style="width: 100px;text-align: right">
-                #{subActividad.gethTrabReal()}
-            </p:column>            
-            <p:column headerText="F.Inicio" style="width: 80px;text-align: right">
+            <p:column headerText="H. Estimadas" style="width: 100px;text-align: right;font-size: 8pt">
+                #{subActividad.gettTotalEst()}
+            </p:column>                       
+            <p:column headerText="F.Inicio" style="width: 80px;text-align: right;font-size: 8pt">
                 <h:outputLabel value="#{subActividad.fcreacion}">
                     <f:convertDateTime pattern="dd/MM/yyyy" />
                 </h:outputLabel>

@@ -10,12 +10,12 @@
     <f:metadata>  
         <f:viewParam id="codProyecto" name="codProyecto" value="#{panelEntregablesBean.codProyecto}" />
         <f:viewParam id="codActividad" name="codActividad" value="#{panelEntregablesBean.codActividad}" />
-        <f:viewParam id="codSubActividad" name="codActividad" value="#{panelEntregablesBean.codSubActividad}" />
+        <f:viewParam id="codSubActividad" name="codSubActividad" value="#{panelEntregablesBean.codSubActividad}" />
     </f:metadata>
 
     <ui:define name="titulo">Entregables</ui:define>
 
-    <ui:define name="arbol">#{panelEntregablesBean.emplSesion.nombre} &#8594; #{panelEntregablesBean.proyecto.nombreProyecto} &#8594; #{panelEntregablesBean.actividad.nombreActividad} &#8594; #{panelEntregablesBean.subActividad.nombreActividad} &#8594; #{panelEntregablesBean.ENTIDAD} </ui:define> 
+    <ui:define name="arbol">#{panelEntregablesBean.emplSesion.nombre} &#8594; Proyectos &#8594; Actividades &#8594; Sub-Actividades &#8594; #{panelEntregablesBean.ENTIDAD} </ui:define> 
     <!--EXPECTATIVA-->
 
     <ui:define name="tabla">
@@ -27,16 +27,16 @@
             </f:facet>  
 
             <p:row>  
-                <p:column colspan="2" style="font-weight: bold;">Av. Proyecto</p:column>  
-                <p:column colspan="4" style="font-weight: bold; text-align: right">#{panelEntregablesBean.proyecto.avance}%</p:column>  
+                <p:column colspan="3" style="font-weight: bold;font-size: 8pt">Av.Proyecto</p:column>  
+                <p:column colspan="3" style="font-weight: bold; text-align: right">#{panelEntregablesBean.proyecto.avance}%</p:column>  
             </p:row>  
             <p:row>  
-                <p:column colspan="2" style="font-weight: bold;">Av. Actividad</p:column>  
-                <p:column colspan="4" style="font-weight: bold; text-align: right">#{panelEntregablesBean.actividad.avance}%</p:column>  
+                <p:column colspan="3" style="font-weight: bold;font-size: 8pt">Av.Actividad</p:column>  
+                <p:column colspan="3" style="font-weight: bold; text-align: right">#{panelEntregablesBean.actividad.avance}%</p:column>  
             </p:row> 
             <p:row>  
-                <p:column colspan="2" style="font-weight: bold;">Avance</p:column>  
-                <p:column colspan="4" style="font-weight: bold; text-align: right">#{panelEntregablesBean.subActividad.avance}%</p:column>  
+                <p:column colspan="3" style="font-weight: bold;">Avance</p:column>  
+                <p:column colspan="3" style="font-weight: bold; text-align: right">#{panelEntregablesBean.subActividad.avance}%</p:column>  
             </p:row> 
             <p:row>  
                 <p:column colspan="6" style="font-weight: bold;">
@@ -122,7 +122,23 @@
                     <p:column  colspan="5">  
                         #{panelEntregablesBean.proyecto.empleado.nombre} 
                     </p:column>  
-                </p:row>    
+                </p:row>   
+                 <p:row>  
+                    <p:column  colspan="1" style="text-align: left">  
+                        Sub-Actividad 
+                    </p:column>  
+                    <p:column  colspan="5">  
+                        #{panelEntregablesBean.actividad.nombreActividad} 
+                    </p:column>  
+                </p:row>
+                <p:row>  
+                    <p:column  colspan="1" style="text-align: left">  
+                        Sub-Actividad 
+                    </p:column>  
+                    <p:column  colspan="5">  
+                        #{panelEntregablesBean.subActividad.nombreActividad} 
+                    </p:column>  
+                </p:row>
             </f:facet> 
         </p:panelGrid>                
     </ui:define>

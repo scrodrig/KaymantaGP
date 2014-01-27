@@ -77,7 +77,7 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
     private ActividadSegumiento actividadSegumiento;
     private FechasActividad fechasActividad;
     private FechasActividad fechasActividadRespaldo;
-    private String ENTIDAD = "Panel de Responsables";
+    private String ENTIDAD = "Responsables";
     private Usuario usrSesion;
     private Empleado emplSesion;
     private Proyecto proyecto;
@@ -91,6 +91,8 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
     //ELEMENTO DE VISTA
     private MeterGaugeChartModel meterGaugeChartModelSalud;
     private Long horasAnterior;
+    private int plazo;
+    private boolean habilitaGuardar;
 
     @PostConstruct
     @Override
@@ -112,7 +114,7 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
             this.actividad = this.actividadServicio.findByID(Long.parseLong(codActividad));
             this.subActividad = this.actividadServicio.findByID(Long.parseLong(codSubActividad));
         }
-        this.actividadEmpleados = this.actividadEmpleadoServicio.findBySubActividadAndEmpleado(subActividad,emplSesion);
+        this.actividadEmpleados = this.actividadEmpleadoServicio.findBySubActividad(subActividad);
         this.fechasActividadRespaldo = this.fechasActividadServicio.findLastByActividad(subActividad);
         createMeterGaugeChart();
         createMeterGaugeChartSalubridad();
@@ -178,9 +180,28 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
         }
     }
 
+    public void eliminar(ActionEvent evento) {
+        if (this.actividadEmpleadoSeleccionado.getAvance().compareTo(new BigDecimal(0)) == 0) {
+            this.actividadEmpleadoServicio.eliminar(this.actividadEmpleadoSeleccionado);
+            this.actividadEmpleados.remove(this.actividadEmpleadoSeleccionado);
+            MensajesGenericos.infoEliminar("Responsable", this.actividadEmpleadoSeleccionado.getEmpleado().getNombre().toString(), Boolean.TRUE);
+
+            this.actualizarSubActividad(subActividad);
+            this.actualizarActividad(actividad);
+            this.actualizarProyecto(proyecto);
+
+        } else {
+            MensajesGenericos.infoError("Error, el usuario ".concat(this.actividadEmpleadoSeleccionado.getEmpleado().getNombre()).concat(" ya registra Avance"));
+
+        }
+        super.sinSeleccion();
+    }
+
     public void nuevoResponsable(ActionEvent evento) {
         super.crear();
+        this.plazo = 0;
         this.actividadEmpleado = new ActividadEmpleado();
+        this.actividadEmpleado.setFinicio(this.fechasActividadRespaldo.getFinicio());
     }
 
     public void verAuditoriaResponsable(ActionEvent evento) throws IllegalAccessException {
@@ -235,6 +256,14 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
 
     }
 
+    public boolean compararResponsable(ActividadEmpleado ae) {
+        if (usrSesion.getCodigo().equals(ae.getPk().getResponsable())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public void modificarResponsable(ActionEvent evento) {
         this.actividadEmpleado = new ActividadEmpleado();
         try {
@@ -243,6 +272,9 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
             this.actividadEmpleado.settTotalReal(0L);
             //Invariable Objetos de Auditoria
             this.actividadSegumiento = new ActividadSegumiento();
+            this.actividadSegumiento.setFtrabajo(new Date());
+            this.plazo = this.numeroDias(this.actividadEmpleado.getFinicio(), this.actividadEmpleado.getFfin());
+            habilitaGuardar=compararResponsable(actividadEmpleado);
             super.modificar();
         } catch (Exception ex) {
             MensajesGenericos.errorCopyProperties();
@@ -259,6 +291,10 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
                 this.actividadEmpleado.setEmpleado(this.empleadoServicio.findByID(this.actividadEmpleado.getPk().getResponsable()));
                 this.actividadEmpleado.setUsrCreacion(usrSesion.getCodigo());
                 this.actividadEmpleado.setFcreacion(new Date());
+                DateTime dt1 = new DateTime(this.actividadEmpleado.getFinicio());
+                DateTime dt2 = new DateTime();
+                dt2 = dt1.plusDays(plazo);
+                this.actividadEmpleado.setFfin(dt2.toDate());
                 //MEANWHILE                
                 this.actividadEmpleado.setAvance(BigDecimal.ZERO);
                 this.actividadEmpleado.sethDiaReal(0L);
@@ -266,11 +302,15 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
                 this.actividadEmpleado.settTotalReal(0L);
                 this.actividadEmpleado.sethTrabEst(BigDecimal.valueOf(actividadEmpleado.gethDiaEst()));
                 days = numeroDias(actividadEmpleado.getFinicio(), actividadEmpleado.getFfin());
-                this.actividadEmpleado.settTotalEst((days * actividadEmpleado.gethDiaEst()));
+                this.actividadEmpleado.settTotalEst((this.plazo * actividadEmpleado.gethDiaEst()));
                 this.actividadEmpleadoServicio.crear(actividadEmpleado);
-
                 this.actividadEmpleados.add(this.actividadEmpleado);
-                MensajesGenericos.infoCrear("Responsable", this.actividadEmpleado.getPk().toString(), Boolean.TRUE);
+                MensajesGenericos.infoCrear("Responsable", this.actividadEmpleado.getEmpleado().getNombre().toString() + " ha sido Registrado", Boolean.TRUE);
+
+                this.actualizarSubActividad(subActividad);
+                this.actualizarActividad(actividad);
+                this.actualizarProyecto(proyecto);
+
                 super.sinSeleccion();
             } else if (super.getEnEdicion()) {
                 int i = this.actividadEmpleados.indexOf(this.actividadEmpleado);
@@ -284,7 +324,7 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
                 this.actividadEmpleado.sethTrabReal(BigDecimal.valueOf(this.actividadEmpleado.gettTotalReal()));
                 this.actividadEmpleadoServicio.actualizar(actividadEmpleado);
                 this.actividadEmpleados.set(i, this.actividadEmpleado);
-                MensajesGenericos.infoModificar("Responsable", this.actividadEmpleado.getPk().toString(), Boolean.TRUE);
+                MensajesGenericos.infoModificar("Responsable", this.actividadEmpleado.getEmpleado().getNombre().toString() + " ha sido Registrado", Boolean.TRUE);
                 super.sinSeleccion();
 
                 //PARA INGRESAR SEGUIMIENTO
@@ -378,7 +418,7 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
                 /*AVANCE*/
         fechasActividad = this.fechasActividadServicio.findLastByActividad(subActividad);
         BigDecimal totalDias = BigDecimal.valueOf(numeroDias(fechasActividad.getFinicio(), fechasActividad.getFfin()));
-        BigDecimal diasResp;
+        BigDecimal diasResp = BigDecimal.ONE;
         BigDecimal suma = BigDecimal.ZERO;
         BigDecimal dividendo = BigDecimal.ZERO;
         BigDecimal resultado = BigDecimal.ZERO;
@@ -588,6 +628,7 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
         proyecto.settTotalReal(tTotReal);
         if (proyecto.getAvance().compareTo(BigDecimal.valueOf(100)) == 0) {
             proyecto.setEstado("F");
+            proyecto.setFfin(new Date());
         }
         this.proyectoServicio.actualizar(proyecto);
     }
@@ -767,4 +808,22 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
     public void setActividadSegumiento(ActividadSegumiento actividadSegumiento) {
         this.actividadSegumiento = actividadSegumiento;
     }
+
+    public int getPlazo() {
+        return plazo;
+    }
+
+    public void setPlazo(int plazo) {
+        this.plazo = plazo;
+    }
+
+    public boolean isHabilitaGuardar() {
+        return habilitaGuardar;
+    }
+
+    public void setHabilitaGuardar(boolean habilitaGuardar) {
+        this.habilitaGuardar = habilitaGuardar;
+    }
+    
+    
 }

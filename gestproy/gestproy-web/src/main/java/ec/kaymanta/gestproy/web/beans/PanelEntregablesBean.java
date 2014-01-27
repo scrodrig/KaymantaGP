@@ -65,7 +65,7 @@ public class PanelEntregablesBean extends BotonesBean implements Serializable {
     private ActividadEntregable actividadEntregable;
     private ActividadEntregable actividadEntregableSeleccionado;
     private String tipoEntregable;
-    private String ENTIDAD = "Panel de Entregables del Proyecto";
+    private String ENTIDAD = "Entregables";
     private Usuario usrSesion;
     private Empleado emplSesion;
     private Proyecto proyecto;

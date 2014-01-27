@@ -9,7 +9,7 @@
 
     <ui:define name="titulo">Administración de Cantones</ui:define>
     <ui:define name="cuerpo">
-        <p:panel id="panelSeleccion" header="Buscar" style="width: 800px"
+        <p:panel id="panelSeleccion" header="Buscar" style="width: 500px"
                  rendered="#{not(cantonBean.enRegistro or cantonBean.enEdicion)}"> 
             <p:focus context="panelSeleccion"/> 
             <h:panelGrid columns="3" >
@@ -24,7 +24,7 @@
         <p:spacer height="10"/>
         <p:dataTable id="tabla" var="canton" value="#{cantonBean.cantons}" rowKey="#{canton.pk}"  
                      selection="#{cantonBean.cantonSeleccionado}" selectionMode="single" scrollWidth="false" 
-                     scrollable="true" scrollHeight="200" paginatorPosition="bottom" style="width: 800px" emptyMessage="No se ha registrado ningún Cantón"
+                     scrollable="true" scrollHeight="200" paginatorPosition="bottom" style="width: 500px" emptyMessage="No se ha registrado ningún Cantón"
                      rendered="#{not(cantonBean.enRegistro or cantonBean.enEdicion)}" >
             <p:ajax event="rowSelect" listener="#{cantonBean.filaSeleccionada(evento)}" update="tabla"/>
             <p:ajax event="rowUnselect" listener="#{cantonBean.filaSeleccionada(evento)}" update="tabla"/>
@@ -34,7 +34,7 @@
             <p:column headerText="Código" width="100">  
                 #{canton.pk.codigoCanton}  
             </p:column>
-            <p:column headerText="Nombre" width="300">  
+            <p:column headerText="Nombre" width="200">  
                 #{canton.nombre}  
             </p:column>  
             <f:facet name="footer">  
@@ -44,7 +44,7 @@
             </f:facet>
         </p:dataTable>  
         <p:spacer height="10"/>
-        <p:panel id="panelEdicion" header="Edición de Cantón" style="width: 800px"
+        <p:panel id="panelEdicion" header="Edición de Cantón" style="width: 500px"
                  rendered="#{cantonBean.enRegistro or cantonBean.enEdicion}"> 
             <p:focus context="panelEdicion"/> 
             <h:panelGrid columns="3" >  
@@ -53,12 +53,12 @@
                              style="width: 200px" readonly="true">  
                 </p:inputText>  
                 <p:message for="provincia" />
-                <h:outputLabel for="codigo" value="Código: *" />  
+                <h:outputLabel for="codigo" value="Código: *" rendered="#{cantonBean.enEdicion}" />  
                 <p:inputText id="codigo" value="#{cantonBean.canton.pk.codigoCanton}" label="Código" required="true"
-                             style="width: 100px" disabled="#{cantonBean.enEdicion}">   
+                             style="width: 100px" disabled="#{cantonBean.enEdicion}" rendered="#{cantonBean.enEdicion}">   
                     <f:convertNumber integerOnly="true" maxIntegerDigits="2"/> 
                 </p:inputText>  
-                <p:message for="codigo" />
+                <p:message for="codigo" rendered="#{cantonBean.enEdicion}"/>
 
                 <h:outputLabel for="nombre" value="Nombre: *" />  
                 <p:inputText id="nombre" value="#{cantonBean.canton.nombre}" label="Nombre" required="true"

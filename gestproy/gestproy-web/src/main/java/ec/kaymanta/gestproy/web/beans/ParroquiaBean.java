@@ -142,19 +142,21 @@ public class ParroquiaBean extends BotonesBean implements Serializable {
     public void guardar(ActionEvent evento) {
         try {
             if (super.getEnRegistro()) {
+                this.parroquia.getPk().setCodigoParroquia(Long.parseLong(String.valueOf(this.parroquiaServicio.obtenerPorProvinciaCanton(provincia, canton).size()))+1);                
                 this.parroquiaServicio.crear(this.parroquia);
                 this.parroquias.add(this.parroquia);
+                
                 MensajesGenericos.infoCrear(ENTIDAD, this.parroquia.getPk().toString().concat(" - ").concat(this.parroquia.getNombre()), Boolean.TRUE);
                 super.sinSeleccion();
-                this.canton = new String();
-                this.provincia = new String();
+                //this.canton = new String();
+                //this.provincia = new String();
             } else {
                 this.parroquiaServicio.actualizar(this.parroquia);
                 BeanUtils.copyProperties(this.respaldo, this.parroquia);
                 MensajesGenericos.infoModificar(ENTIDAD, this.parroquia.getPk().toString().concat(" - ").concat(this.parroquia.getNombre()), Boolean.TRUE);
                 super.seleccionadoUno();
-                this.canton = new String();
-                this.provincia = new String();
+                //this.canton = new String();
+                //this.provincia = new String();
             }
         } catch (Exception e) {
             MensajesGenericos.errorGuardar();

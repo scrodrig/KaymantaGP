@@ -70,6 +70,14 @@ public class ActividadSegumiento implements Serializable {
     private BigDecimal avance;
     
     /**
+     * Fecha en la que el registro es creado.. Representa a la columna
+     * FCREACION.
+     */
+    @Temporal(TemporalType.DATE)
+    @Column(name = "FTRABAJO")
+    private Date ftrabajo;
+    
+    /**
      * Campo para describir lo que se hizo en el avance.. Representa a la columna AVANCE.
      */
     @Column(name = "DESCRIPCION", nullable = false, length = 500)
@@ -343,6 +351,14 @@ public class ActividadSegumiento implements Serializable {
     public void setActividad(Actividad actividad) {
         this.actividad = actividad;
     }
+
+    public Date getFtrabajo() {
+        return ftrabajo;
+    }
+
+    public void setFtrabajo(Date ftrabajo) {
+        this.ftrabajo = ftrabajo;
+    }        
 
     /**
      * {@inheritDoc}

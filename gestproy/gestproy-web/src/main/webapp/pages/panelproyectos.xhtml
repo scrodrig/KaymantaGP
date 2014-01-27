@@ -14,7 +14,7 @@
 
 
         <p:dataTable id="proyectos"  value="#{panelProyectosBean.proyectos}" var="proyecto" selection="#{panelProyectosBean.proyectoSeleccionado}" selectionMode="single" scrollable="true" 
-                     rowKey="#{proyecto.codigo}" style="width: 1000px" 
+                     rowKey="#{proyecto.codigo}" style="width: 1024px" 
                      paginator="true" rows="10"  scrollWidth="false"  paginatorPosition="bottom"
                      paginatorTemplate="  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                      emptyMessage="No se ha registrado ningún Proyecto" rendered="#{not(panelProyectosBean.enRegistro or 
@@ -73,16 +73,16 @@
                 </p:toolbar>  
 
             </f:facet>
-            <p:column headerText="Proyecto" style="width: 130px" sortBy="#{proyecto.nombreProyecto}" filterBy="#{proyecto.nombreProyecto}">
+            <p:column headerText="Proyecto" style="width: 130px;font-size: 8pt " sortBy="#{proyecto.nombreProyecto}" filterBy="#{proyecto.nombreProyecto}">
                 <h:outputText value="#{proyecto.nombreProyecto}" />
             </p:column>
-            <p:column headerText="Responsable" style="width: 100px" sortBy="#{proyecto.empleado.nombre}" filterBy="#{proyecto.empleado.nombre}">
+            <p:column headerText="Jefe de Proyecto" style="width: 100px;font-size: 8pt" sortBy="#{proyecto.empleado.nombre}" filterBy="#{proyecto.empleado.nombre}">
                 #{proyecto.empleado.nombre}
             </p:column>
-            <p:column headerText="Empresa" style="width: 100px" sortBy="#{proyecto.empresa.razonSocial}" filterBy="#{proyecto.empresa.razonSocial}">
+            <p:column headerText="Empresa" style="width: 100px;font-size: 8pt" sortBy="#{proyecto.empresa.razonSocial}" filterBy="#{proyecto.empresa.razonSocial}">
                 #{proyecto.empresa.razonSocial}
             </p:column>
-            <p:column headerText="Ubicación Geográfica" style="width: 180px">
+            <p:column headerText="Ubicación Geográfica" style="width: 180px;font-size: 8pt">
                 #{proyecto.parroquia.canton.provincia.nombre}
                 -
                 #{proyecto.parroquia.canton.nombre}
@@ -90,16 +90,16 @@
                 #{proyecto.parroquia.nombre}
             </p:column>
 
-            <p:column headerText="Avance" style="width: 50px;text-align: right" sortBy="#{proyecto.avance}">
+            <p:column headerText="Avance" style="width: 50px;text-align: right;font-size: 8pt" sortBy="#{proyecto.avance}">
                 <h:outputLabel value="#{proyecto.avance} %" style="color: #{panelProyectosBean.getColor(proyecto.avance)}"/>
             </p:column>
 
-            <p:column headerText="F. Inicio" style="width: 60px;text-align: right" sortBy="#{proyecto.finicio}">
+            <p:column headerText="F. Inicio" style="width: 60px;text-align: right;font-size: 8pt" sortBy="#{proyecto.finicio}">
                 <h:outputLabel value="#{proyecto.finicio}">
                     <f:convertDateTime pattern="dd/MM/yyyy" />
                 </h:outputLabel>
             </p:column>
-            <p:column headerText="F. Fin" style="width: 60px;text-align: right" sortBy="#{proyecto.ffin}">
+            <p:column headerText="F. Fin" style="width: 60px;text-align: right;font-size: 8pt" sortBy="#{proyecto.ffin}">
                 <h:outputLabel value="#{proyecto.ffin}" style="color: #{panelProyectosBean.getColorFecha(proyecto.ffin)}">
                     <f:convertDateTime pattern="dd/MM/yyyy" />
                 </h:outputLabel>
@@ -150,7 +150,7 @@
             <p:panelGrid columns="3" >
 
                 <p:outputLabel for="nombre" value="Proyecto: "/>
-                <p:inputText id="nombre" value="#{panelProyectosBean.proyecto.nombreProyecto}" required="true"/>
+                <p:inputText id="nombre" value="#{panelProyectosBean.proyecto.nombreProyecto}" size="40" required="true"/>
                 <p:message for="nombre"/>
 
                 <p:outputLabel for="provinciaB" value="Provincia: " />  
@@ -185,8 +185,8 @@
                 </p:selectOneMenu>
                 <p:message for="empresa"/>
 
-                <p:outputLabel for="empleado" value="Empleado: "/>
-                <p:selectOneMenu id="empleado" value="#{panelProyectosBean.empleado}" label="Empleado" required="true">
+                <p:outputLabel for="empleado" value="Jefe de Proyecto: "/>
+                <p:selectOneMenu id="empleado" value="#{panelProyectosBean.empleado}" label="Jefe de Proyecto" required="true">
                     <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
                     <f:selectItems value="#{panelProyectosBean.empleados}" var="empleado" itemValue="#{empleado.codigo}" itemLabel="#{empleado.nombre}"/>
                 </p:selectOneMenu>
@@ -200,14 +200,8 @@
 
                 <p:outputLabel for="festimada" value="Fecha de Estimada de Finalización: "/>
                 <p:calendar id="festimada" value="#{panelProyectosBean.proyecto.festimada}" label="Fecha de Estimada de Finalización " showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode" required="true">
-                    <f:attribute name="fromDate" value="#{from.value}" />
-                    <f:validator validatorId="validator.dateRangeValidator" />
                 </p:calendar>
                 <p:message for="festimada"/>
-
-                <p:outputLabel for="fcreacion" value="Fecha de Finalización: "/>
-                <p:calendar id="fcreacion" value="#{panelProyectosBean.proyecto.ffin}" label="Fecha de Finalización: " showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode" required="true"/>
-                <p:message for="fcreacion"/>
 
             </p:panelGrid>
             <f:facet name="footer"> 
@@ -226,7 +220,7 @@
             <p:panelGrid columns="3">
 
                 <p:outputLabel for="m_nombre" value="Nombre Proyecto: "/>
-                <p:inputText id="m_nombre" value="#{panelProyectosBean.proyecto.nombreProyecto}" required="true"/>
+                <p:inputText id="m_nombre" value="#{panelProyectosBean.proyecto.nombreProyecto}" size="50" required="true"/>
                 <p:message for="m_nombre"/>
 
                 <p:outputLabel for="m_provinciaB" value="Provincia: " />  
@@ -261,8 +255,8 @@
                 </p:selectOneMenu>
                 <p:message for="m_empresa" rendered="false"/>
 
-                <p:outputLabel for="m_empleado" value="Empleado: "/>
-                <p:selectOneMenu id="m_empleado" value="#{panelProyectosBean.empleado}" label="Empleado" required="true">
+                <p:outputLabel for="m_empleado" value="Jefe de Proyecto: "/>
+                <p:selectOneMenu id="m_empleado" value="#{panelProyectosBean.empleado}" label="Jefe de Proyecto" required="true">
                     <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
                     <f:selectItems value="#{panelProyectosBean.empleados}" var="empleado" itemValue="#{empleado.codigo}" itemLabel="#{empleado.nombre}"/>
                 </p:selectOneMenu>                                

@@ -48,7 +48,7 @@ public class PanelLeccionesBean extends BotonesBean implements Serializable {
     private UsuarioServicio usuarioServicio;
     @EJB
     private ProyectoServicio proyectoServicio;
-    private String ENTIDAD = "Panel de Base del Conocimiento";
+    private String ENTIDAD = "Base del Conocimiento";
     private Usuario usrSesion;
     private Empleado emplSesion;
     private LeccionesAprendidas leccionesAprendidas;

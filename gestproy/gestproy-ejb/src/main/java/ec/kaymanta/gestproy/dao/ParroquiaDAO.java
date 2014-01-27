@@ -14,10 +14,13 @@ package ec.kaymanta.gestproy.dao;
 
 import com.persist.common.dao.DefaultGenericDAOImple;
 import com.persist.common.dao.ResultadoBusqueda;
+import ec.kaymanta.gestproy.modelo.Canton;
 import ec.kaymanta.gestproy.modelo.Parroquia;
 import ec.kaymanta.gestproy.modelo.ParroquiaPK;
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 
 /**
  * La Clase ParroquiaDAO especifica e implementa las operaciones de acceso a
@@ -38,5 +41,13 @@ public class ParroquiaDAO extends DefaultGenericDAOImple<Parroquia, ParroquiaPK>
     public ResultadoBusqueda<Parroquia> find(Parroquia parroquia, ResultadoBusqueda<Parroquia> resultado, String[] order) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
+    }
+    
+    public List<Parroquia> findByCantonAndProvincia(Long provincia,Long canton) {
+        String sql = "SELECT obj FROM Parroquia obj WHERE obj.pk.canton=?1 AND obj.pk.provincia=?2 ORDER BY obj.nombre ASC";
+        Query qry = this.getEntityManager().createQuery(sql);
+        qry.setParameter(1, canton);
+        qry.setParameter(2, provincia);
+        return qry.getResultList();
     }
 }

@@ -10,12 +10,12 @@
     <f:metadata>  
         <f:viewParam id="codProyecto" name="codProyecto" value="#{panelGastosBean.codProyecto}" />
         <f:viewParam id="codActividad" name="codActividad" value="#{panelGastosBean.codActividad}" />
-        <f:viewParam id="codSubActividad" name="codActividad" value="#{panelGastosBean.codSubActividad}" />
+        <f:viewParam id="codSubActividad" name="codSubActividad" value="#{panelGastosBean.codSubActividad}" />
     </f:metadata>
 
     <ui:define name="titulo">Gastos</ui:define>
 
-    <ui:define name="arbol">#{panelGastosBean.emplSesion.nombre} &#8594; #{panelGastosBean.proyecto.nombreProyecto} &#8594; #{panelGastosBean.actividad.nombreActividad} &#8594; #{panelGastosBean.subActividad.nombreActividad} &#8594; #{panelGastosBean.ENTIDAD} </ui:define> 
+    <ui:define name="arbol">#{panelGastosBean.emplSesion.nombre} &#8594; Proyectos &#8594; Actividades &#8594; Sub-Actividades &#8594; #{panelGastosBean.ENTIDAD} </ui:define> 
     <!--EXPECTATIVA-->
 
     <ui:define name="tabla">
@@ -27,16 +27,16 @@
             </f:facet>  
 
             <p:row>  
-                <p:column colspan="2" style="font-weight: bold;">Av. Proyecto</p:column>  
-                <p:column colspan="4" style="font-weight: bold; text-align: right">#{panelGastosBean.proyecto.avance}%</p:column>  
+                <p:column colspan="3" style="font-weight: bold;font-size: 8pt">Av.Proyecto</p:column>  
+                <p:column colspan="3" style="font-weight: bold; text-align: right">#{panelGastosBean.proyecto.avance}%</p:column>  
             </p:row>  
             <p:row>  
-                <p:column colspan="2" style="font-weight: bold;">Av. Actividad</p:column>  
-                <p:column colspan="4" style="font-weight: bold; text-align: right">#{panelGastosBean.actividad.avance}%</p:column>  
+                <p:column colspan="3" style="font-weight: bold;font-size: 8pt">Av.Actividad</p:column>  
+                <p:column colspan="3" style="font-weight: bold; text-align: right">#{panelGastosBean.actividad.avance}%</p:column>  
             </p:row> 
             <p:row>  
-                <p:column colspan="2" style="font-weight: bold;">Avance</p:column>  
-                <p:column colspan="4" style="font-weight: bold; text-align: right">#{panelGastosBean.subActividad.avance}%</p:column>  
+                <p:column colspan="3" style="font-weight: bold;">Avance</p:column>  
+                <p:column colspan="3" style="font-weight: bold; text-align: right">#{panelGastosBean.subActividad.avance}%</p:column>  
             </p:row> 
             <p:row>  
                 <p:column colspan="6" style="font-weight: bold;">
@@ -123,6 +123,22 @@
                         #{panelGastosBean.proyecto.empleado.nombre} 
                     </p:column>  
                 </p:row>    
+                 <p:row>  
+                    <p:column  colspan="1" style="text-align: left">  
+                        Sub-Actividad 
+                    </p:column>  
+                    <p:column  colspan="5">  
+                        #{panelGastosBean.actividad.nombreActividad} 
+                    </p:column>  
+                </p:row>
+                <p:row>  
+                    <p:column  colspan="1" style="text-align: left">  
+                        Sub-Actividad 
+                    </p:column>  
+                    <p:column  colspan="5">  
+                        #{panelGastosBean.subActividad.nombreActividad} 
+                    </p:column>  
+                </p:row>
             </f:facet> 
         </p:panelGrid>                
     </ui:define>

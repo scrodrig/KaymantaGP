@@ -36,9 +36,8 @@ public class ProyectoDAO extends DefaultGenericDAOImple<Proyecto, Long> {
     }
 
     public List<Proyecto> getProyectos() {
-        String sql = "SELECT obj FROM Proyecto obj WHERE obj.estado=?1";
+        String sql = "SELECT obj FROM Proyecto obj ORDER BY obj.avance ASC";
         Query qry = this.getEntityManager().createQuery(sql);
-        qry.setParameter(1, "P");
         return qry.getResultList();
     }
 }

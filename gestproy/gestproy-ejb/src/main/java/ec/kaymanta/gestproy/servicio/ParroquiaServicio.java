@@ -14,6 +14,7 @@ package ec.kaymanta.gestproy.servicio;
 
 import com.persist.common.dao.ResultadoBusqueda;
 import ec.kaymanta.gestproy.dao.ParroquiaDAO;
+import ec.kaymanta.gestproy.modelo.Canton;
 import ec.kaymanta.gestproy.modelo.Parroquia;
 import ec.kaymanta.gestproy.modelo.ParroquiaPK;
 import java.util.List;
@@ -107,5 +108,14 @@ public class ParroquiaServicio {
         pk.setCanton(Long.parseLong(canton));
         Parroquia parroquiaB = new Parroquia(pk);
         return this.parroquiaDAO.find(parroquiaB);
+    }
+    
+    /**
+     * Obtiene todas las parroquias de acuerdo a una provincia y a un canton.
+     * @param canton C�digo del cant�n.
+     * @return Listado de parroquias.
+     */
+    public List<Parroquia> findByCantonAndProvincia(Long canton, Long provincia) {
+        return this.parroquiaDAO.findByCantonAndProvincia(provincia, canton);
     }
 }

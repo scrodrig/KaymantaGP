@@ -50,7 +50,7 @@ public class PanelSubActividadesBean extends BotonesBean implements Serializable
     private ActividadServicio actividadServicio;
     @EJB
     private FechasActividadServicio fechasActividadServicio;
-    private String ENTIDAD = "Panel de Sub-Actividades";
+    private String ENTIDAD = "Sub-Actividades";
     private Usuario usrSesion;
     private Empleado emplSesion;
     private Proyecto proyecto;

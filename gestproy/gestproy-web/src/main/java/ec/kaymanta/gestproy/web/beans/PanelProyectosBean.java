@@ -42,7 +42,7 @@ import org.apache.commons.beanutils.BeanUtils;
 @ManagedBean
 @ViewScoped
 public class PanelProyectosBean extends BotonesBean implements Serializable {
-    
+
     @EJB
     private ProyectoServicio proyectoServicio;
     @EJB
@@ -83,11 +83,11 @@ public class PanelProyectosBean extends BotonesBean implements Serializable {
     private Usuario usrSesion;
     private Usuario usrAuditoria;
     private String codigoUsuario;
-    
+
     @PostConstruct
     @Override
     public void postConstructor() {
-        
+
         super.sinSeleccion();
         this.proyectos = this.proyectoServicio.getProyectos();
         this.empresas = this.empresaServicio.obtener();
@@ -96,12 +96,12 @@ public class PanelProyectosBean extends BotonesBean implements Serializable {
         this.provinciasB = this.provinciaServicio.obtener();
         this.institucionesControl = this.institucionControlServicio.obtener();
     }
-    
+
     public void nuevo(ActionEvent evento) {
         super.crear();
         this.proyecto = new Proyecto();
     }
-    
+
     public void modificar(ActionEvent evento) {
         this.proyecto = new Proyecto();
         try {
@@ -114,16 +114,17 @@ public class PanelProyectosBean extends BotonesBean implements Serializable {
             /*CARGA DE LISTAS*/
             this.provinciasB = this.provinciaServicio.obtener();
             this.cantonesB = this.cantonServicio.obtenerPorProvincia(this.provincia);
-            this.parroquiasB = this.parroquiaServicio.obtenerPorProvinciaCanton(this.provincia, this.canton);
+            //this.parroquiasB = this.parroquiaServicio.obtenerPorProvinciaCanton(this.provincia, this.canton);
+            this.parroquiasB = this.parroquiaServicio.findByCantonAndProvincia(Long.valueOf(this.canton), Long.valueOf(this.provincia));
             /*FINAL DE CARGA DE LISTAS*/
             this.empleado = this.proyecto.getResponsable().toString();
             this.empresa = this.proyecto.getCodEmpresa().toString();
-            
+
         } catch (Exception e) {
         }
         super.modificar();
     }
-    
+
     public void guardar(ActionEvent evento) {
         try {
             if (super.getEnRegistro()) {
@@ -149,26 +150,28 @@ public class PanelProyectosBean extends BotonesBean implements Serializable {
                 this.proyecto.sethTrabReal(BigDecimal.ZERO);
                 this.proyecto.settTotalEst(0L);
                 this.proyecto.settTotalReal(0L);
-                
+
                 this.proyecto.setUsrCreacion(usrSesion.getCodigo());
                 this.proyecto.setFcreacion(new Date());
+
+                this.proyecto.setFfin(this.proyecto.getFestimada());
                 
                 this.proyectoServicio.crear(this.proyecto);
                 this.proyectos.add(this.proyecto);
-                
+
                 this.provincia = new String();
                 this.canton = new String();
                 this.codParroquia = new String();
                 this.empleado = new String();
                 this.empresa = new String();
                 this.parroquia = new Parroquia();
-                
-                
+
+
                 MensajesGenericos.infoCrear("Proyecto", this.proyecto.getCodigo().toString().concat(" - ").concat(this.proyecto.getNombreProyecto()), Boolean.TRUE);
                 super.sinSeleccion();
             } else if (super.getEnEdicion()) {
                 int i = this.proyectos.indexOf(this.proyecto);
-                
+
                 this.proyecto.setEmpresa(this.empresaServicio.findByID(empresa));
                 this.proyecto.setEmpleado(this.empleadoServicio.findByID(empleado));
                 CantonPK cantonPK = new CantonPK(Long.parseLong(this.canton), Long.parseLong(this.provincia));
@@ -185,7 +188,7 @@ public class PanelProyectosBean extends BotonesBean implements Serializable {
                 this.proyecto.setFmodificacion(new Date());
                 if (this.proyecto.getAvance().compareTo(BigDecimal.valueOf(100)) == 0) {
                     this.proyecto.setEstado("F");
-                }                
+                }
                 this.proyectoServicio.actualizar(this.proyecto);
                 proyectos.set(i, this.proyecto);
                 MensajesGenericos.infoModificar("Proyecto", this.proyecto.getCodigo().toString().concat(" - ").concat(this.proyecto.getNombreProyecto()), Boolean.TRUE);
@@ -196,25 +199,29 @@ public class PanelProyectosBean extends BotonesBean implements Serializable {
                 this.empleado = new String();
                 this.empresa = new String();
                 this.parroquia = new Parroquia();
-                
+
             }
         } catch (Exception e) {
             MensajesGenericos.errorGuardar();
         }
     }
-    
+
     public void actualizaCantonesB(ActionEvent evento) {
         this.cantonesB = this.cantonServicio.obtenerPorProvincia(this.provincia);
     }
-    
+
     public void actualizaParroquiasB(ActionEvent evento) {
-        this.parroquiasB = this.parroquiaServicio.obtenerPorProvinciaCanton(this.provincia, this.canton);
+        //this.parroquiasB = this.parroquiaServicio.obtenerPorProvinciaCanton(this.provincia, this.canton);
+        this.parroquiasB = this.parroquiaServicio.findByCantonAndProvincia(Long.valueOf(this.canton), Long.valueOf(this.provincia));
+
     }
-    
+
     public void cargarTabla(ActionEvent evento) {
-        this.parroquiasB = this.parroquiaServicio.obtenerPorProvinciaCanton(this.provincia, this.canton);
+        //this.parroquiasB = this.parroquiaServicio.obtenerPorProvinciaCanton(this.provincia, this.canton);
+        this.parroquiasB = this.parroquiaServicio.findByCantonAndProvincia(Long.valueOf(this.canton), Long.valueOf(this.provincia));
+
     }
-    
+
     public void cancelar(ActionEvent evento) {
         if (super.getEnRegistro() || super.getEnEdicion() || super.getEnCargaDocumentos()) {
             super.sinSeleccion();
@@ -224,7 +231,7 @@ public class PanelProyectosBean extends BotonesBean implements Serializable {
         this.proyecto = new Proyecto();
         MensajesGenericos.infoCancelar();
     }
-    
+
     public void volver(ActionEvent evento) {
         if (super.getEnRegistro()) {
             super.sinSeleccion();
@@ -233,7 +240,7 @@ public class PanelProyectosBean extends BotonesBean implements Serializable {
         }
         this.proyecto = new Proyecto();
     }
-    
+
     public void verAuditoria(ActionEvent evento) throws IllegalAccessException {
         try {
             this.proyecto = new Proyecto();
@@ -242,9 +249,9 @@ public class PanelProyectosBean extends BotonesBean implements Serializable {
         } catch (Exception ex) {
             MensajesGenericos.errorCopyProperties();
         }
-        
+
     }
-    
+
     public String getUsrAuditoria(String usr) {
         if (usr == null || "".equals(usr)) {
             return "";
@@ -257,7 +264,7 @@ public class PanelProyectosBean extends BotonesBean implements Serializable {
             }
         }
     }
-    
+
     public String getColor(BigDecimal avance) {
         if (avance.compareTo(BigDecimal.valueOf(100)) < 0 && avance.compareTo(BigDecimal.valueOf(60)) > 0) {
             return "darkgreen";
@@ -267,10 +274,10 @@ public class PanelProyectosBean extends BotonesBean implements Serializable {
             return "red";
         }
         return "navy";
-        
-        
+
+
     }
-    
+
     public String getColorFecha(Date d1) {
         Date d2 = new Date();
         if (d1.before(d2)) {
@@ -279,7 +286,7 @@ public class PanelProyectosBean extends BotonesBean implements Serializable {
             return "green";
         }
     }
-    
+
     public void filaSeleccionada(ActionEvent evento) {
         if (proyectoSeleccionado instanceof Proyecto) {
             super.seleccionadoUno();
@@ -291,179 +298,179 @@ public class PanelProyectosBean extends BotonesBean implements Serializable {
             super.sinSeleccion();
         }
     }
-    
+
     public List<Proyecto> getProyectos() {
         return proyectos;
     }
-    
+
     public void setProyectos(List<Proyecto> proyectos) {
         this.proyectos = proyectos;
     }
-    
+
     public Proyecto getProyecto() {
         return proyecto;
     }
-    
+
     public void setProyecto(Proyecto proyecto) {
         this.proyecto = proyecto;
     }
-    
+
     public Proyecto getProyectoSeleccionado() {
         return proyectoSeleccionado;
     }
-    
+
     public void setProyectoSeleccionado(Proyecto proyectoSeleccionado) {
         this.proyectoSeleccionado = proyectoSeleccionado;
     }
-    
+
     public Proyecto getRespaldo() {
         return respaldo;
     }
-    
+
     public void setRespaldo(Proyecto respaldo) {
         this.respaldo = respaldo;
     }
-    
+
     public List<Empresa> getEmpresas() {
         return empresas;
     }
-    
+
     public void setEmpresas(List<Empresa> empresas) {
         this.empresas = empresas;
     }
-    
+
     public List<Empleado> getEmpleados() {
         return empleados;
     }
-    
+
     public void setEmpleados(List<Empleado> empleados) {
         this.empleados = empleados;
     }
-    
+
     public List<Parroquia> getParroquiasB() {
         return parroquiasB;
     }
-    
+
     public void setParroquiasB(List<Parroquia> parroquiasB) {
         this.parroquiasB = parroquiasB;
     }
-    
+
     public List<Provincia> getProvinciasB() {
         return provinciasB;
     }
-    
+
     public void setProvinciasB(List<Provincia> provinciasB) {
         this.provinciasB = provinciasB;
     }
-    
+
     public List<Canton> getCantonesB() {
         return cantonesB;
     }
-    
+
     public void setCantonesB(List<Canton> cantonesB) {
         this.cantonesB = cantonesB;
     }
-    
+
     public List<InstitucionControl> getInstitucionesControl() {
         return institucionesControl;
     }
-    
+
     public void setInstitucionesControl(List<InstitucionControl> institucionesControl) {
         this.institucionesControl = institucionesControl;
     }
-    
+
     public String getEmpresa() {
         return empresa;
     }
-    
+
     public void setEmpresa(String empresa) {
         this.empresa = empresa;
     }
-    
+
     public String getEmpleado() {
         return empleado;
     }
-    
+
     public void setEmpleado(String empleado) {
         this.empleado = empleado;
     }
-    
+
     public Parroquia getParroquia() {
         return parroquia;
     }
-    
+
     public void setParroquia(Parroquia parroquia) {
         this.parroquia = parroquia;
     }
-    
+
     public String getProvincia() {
         return provincia;
     }
-    
+
     public void setProvincia(String provincia) {
         this.provincia = provincia;
     }
-    
+
     public String getCanton() {
         return canton;
     }
-    
+
     public void setCanton(String canton) {
         this.canton = canton;
     }
-    
+
     public String getCodParroquia() {
         return codParroquia;
     }
-    
+
     public void setCodParroquia(String codParroquia) {
         this.codParroquia = codParroquia;
     }
-    
+
     public String getInstControl() {
         return instControl;
     }
-    
+
     public void setInstControl(String instControl) {
         this.instControl = instControl;
     }
-    
+
     public String getTipoDoc() {
         return tipoDoc;
     }
-    
+
     public void setTipoDoc(String tipoDoc) {
         this.tipoDoc = tipoDoc;
     }
-    
+
     public String getTipoGasto() {
         return tipoGasto;
     }
-    
+
     public void setTipoGasto(String tipoGasto) {
         this.tipoGasto = tipoGasto;
     }
-    
+
     public Usuario getUsrSesion() {
         return usrSesion;
     }
-    
+
     public void setUsrSesion(Usuario usrSesion) {
         this.usrSesion = usrSesion;
     }
-    
+
     public Usuario getUsrAuditoria() {
         return usrAuditoria;
     }
-    
+
     public void setUsrAuditoria(Usuario usrAuditoria) {
         this.usrAuditoria = usrAuditoria;
     }
-    
+
     public String getCodigoUsuario() {
         return codigoUsuario;
     }
-    
+
     public void setCodigoUsuario(String codigoUsuario) {
         this.codigoUsuario = codigoUsuario;
     }

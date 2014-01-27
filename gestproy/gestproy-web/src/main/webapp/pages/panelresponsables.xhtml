@@ -10,12 +10,12 @@
     <f:metadata>  
         <f:viewParam id="codProyecto" name="codProyecto" value="#{panelResponsablesBean.codProyecto}" />
         <f:viewParam id="codActividad" name="codActividad" value="#{panelResponsablesBean.codActividad}" />
-        <f:viewParam id="codSubActividad" name="codActividad" value="#{panelResponsablesBean.codSubActividad}" />
+        <f:viewParam id="codSubActividad" name="codSubActividad" value="#{panelResponsablesBean.codSubActividad}" />
     </f:metadata>
 
     <ui:define name="titulo">Responsables</ui:define>
 
-    <ui:define name="arbol">#{panelResponsablesBean.emplSesion.nombre} &#8594; #{panelResponsablesBean.proyecto.nombreProyecto} &#8594; #{panelResponsablesBean.actividad.nombreActividad} &#8594; #{panelResponsablesBean.subActividad.nombreActividad} &#8594; #{panelResponsablesBean.ENTIDAD} </ui:define> 
+    <ui:define name="arbol">#{panelResponsablesBean.emplSesion.nombre} &#8594; Proyectos &#8594; Actividades &#8594; Sub-Actividades &#8594; #{panelResponsablesBean.ENTIDAD} </ui:define> 
     <!--EXPECTATIVA-->
 
     <ui:define name="tabla">
@@ -27,16 +27,16 @@
             </f:facet>  
 
             <p:row>  
-                <p:column colspan="2" style="font-weight: bold;">Av. Proyecto</p:column>  
-                <p:column colspan="4" style="font-weight: bold; text-align: right">#{panelResponsablesBean.proyecto.avance}%</p:column>  
+                <p:column colspan="3" style="font-weight: bold;font-size: 8pt">Av.Proyecto</p:column>  
+                <p:column colspan="3" style="font-weight: bold; text-align: right">#{panelResponsablesBean.proyecto.avance}%</p:column>  
             </p:row>  
             <p:row>  
-                <p:column colspan="2" style="font-weight: bold;">Av. Actividad</p:column>  
-                <p:column colspan="4" style="font-weight: bold; text-align: right">#{panelResponsablesBean.actividad.avance}%</p:column>  
+                <p:column colspan="3" style="font-weight: bold;font-size: 8pt">Av.Actividad</p:column>  
+                <p:column colspan="3" style="font-weight: bold; text-align: right">#{panelResponsablesBean.actividad.avance}%</p:column>  
             </p:row> 
             <p:row>  
-                <p:column colspan="2" style="font-weight: bold;">Avance</p:column>  
-                <p:column colspan="4" style="font-weight: bold; text-align: right">#{panelResponsablesBean.subActividad.avance}%</p:column>  
+                <p:column colspan="3" style="font-weight: bold;">Avance</p:column>  
+                <p:column colspan="3" style="font-weight: bold; text-align: right">#{panelResponsablesBean.subActividad.avance}%</p:column>  
             </p:row> 
             <p:row>  
                 <p:column colspan="6" style="font-weight: bold;">
@@ -122,11 +122,35 @@
                     <p:column  colspan="5">  
                         #{panelResponsablesBean.proyecto.empleado.nombre} 
                     </p:column>  
-                </p:row>    
+                </p:row>
+                <p:row>  
+                    <p:column  colspan="1" style="text-align: left">  
+                        Sub-Actividad 
+                    </p:column>  
+                    <p:column  colspan="5">  
+                        #{panelResponsablesBean.actividad.nombreActividad} 
+                    </p:column>  
+                </p:row>
+                <p:row>  
+                    <p:column  colspan="1" style="text-align: left">  
+                        Sub-Actividad 
+                    </p:column>  
+                    <p:column  colspan="5">  
+                        #{panelResponsablesBean.subActividad.nombreActividad} 
+                    </p:column>  
+                </p:row>
             </f:facet> 
         </p:panelGrid>                
     </ui:define>
     <ui:define name="cuerpo">
+
+        <p:confirmDialog id="confirmDialog" message="¿Seguro desea eliminar?"  
+                         header="Eliminación" severity="alert" widgetVar="confirmation">  
+            <p:commandButton id="confirm" value="Si, seguro" update="@form " oncomplete="confirmation.hide()"  
+                             actionListener="#{panelResponsablesBean.eliminar(evento)}"  />  
+            <p:commandButton id="decline" value="No" onclick="confirmation.hide();" type="button" />   
+
+        </p:confirmDialog> 
 
         <!--RESPONSABLES-->
         <!--PANEL-->
@@ -150,6 +174,7 @@
                         <p:commandButton value="Modificar" update="@form" actionListener="#{panelResponsablesBean.modificarResponsable(evento)}" disabled="#{panelResponsablesBean.disabledModificar}" icon="ui-icon-pencil" rendered="#{inicioBean.permiteVista}"/>
                         <p:commandButton value="Registrar Avance" update="@form" actionListener="#{panelResponsablesBean.modificarResponsable(evento)}" disabled="#{panelResponsablesBean.disabledModificar}" icon="ui-icon-pencil" rendered="#{!inicioBean.permiteVista}"/>
                         <p:commandButton  value="Auditoría" update=":form:resp_mensaje" onsuccess="dlg11.show()" actionListener="#{panelResponsablesBean.verAuditoriaResponsable(evento)}" disabled="#{panelResponsablesBean.disableAuditoria}" icon="ui-icon-document"/>  
+                        <p:commandButton value="Eliminar" onclick="confirmation.show();" disabled="#{panelResponsablesBean.disabledEliminar}" icon="ui-icon-close"/>
 
 
                         <p:separator />  
@@ -167,24 +192,24 @@
                 </p:toolbar>
 
             </f:facet>           
-            <p:column headerText="Empleado" style="width: 100px">
+            <p:column headerText="Empleado" style="width: 100px;font-size: 8pt">
                 #{responsable.empleado.nombre}
             </p:column>
-            <p:column headerText="Responsable" style="width: 40px">
+            <p:column headerText="Responsable" style="width: 40px;font-size: 8pt">
                 #{panelResponsablesBean.getEstado(responsable.esResponsable)}
             </p:column>
-            <p:column headerText="Hor/Día Estimado" style="width: 50px;text-align: right">
+            <p:column headerText="Hor/Día Estimado" style="width: 50px;text-align: right;font-size: 8pt">
                 #{responsable.gethDiaEst()}
             </p:column>
-            <p:column headerText="Avance" style="width: 50px;text-align: right">
+            <p:column headerText="Avance" style="width: 50px;text-align: right;font-size: 8pt">
                 <h:outputLabel value="#{responsable.avance} %" style="color: #{panelResponsablesBean.getColor(responsable.avance)}"/>
             </p:column>
-            <p:column headerText="Fecha Inicio" style="width: 80px;text-align: right">
+            <p:column headerText="Fecha Inicio" style="width: 80px;text-align: right;font-size: 8pt">
                 <h:outputLabel value="#{responsable.finicio}">
                     <f:convertDateTime pattern="dd/MM/yyyy" />
                 </h:outputLabel>
             </p:column>
-            <p:column headerText="Fecha Fin" style="width: 80px;text-align: right">
+            <p:column headerText="Fecha Fin" style="width: 80px;text-align: right;font-size: 8pt">
                 <h:outputLabel value="#{responsable.ffin}">
                     <f:convertDateTime pattern="dd/MM/yyyy" />
                 </h:outputLabel>
@@ -233,8 +258,9 @@
                 <p:calendar id="resp_finicio" value="#{panelResponsablesBean.actividadEmpleado.finicio}" label="Fecha de Inicio" showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode" required="true"/>
                 <p:message for="resp_finicio"/>
 
-                <p:outputLabel for="resp_ffin" value="Fecha de Finalización "/>
-                <p:calendar id="resp_ffin" value="#{panelResponsablesBean.actividadEmpleado.ffin}" label="Fecha de Finalización " showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode" required="true"/>
+
+                <p:outputLabel for="resp_ffin" value="Días de Plazo"/>
+                <p:inputText id="resp_ffin" value="#{panelResponsablesBean.plazo}" label="Días de Plazo " required="true"/>
                 <p:message for="resp_ffin"/>
 
             </p:panelGrid>
@@ -299,18 +325,21 @@
                 </p:selectOneMenu>               
                 <p:message for="m_resp_ttr"/>
 
+                <p:outputLabel for="m_resp_ftrabajo" value="Fecha de trabajo:"/>
+                <p:calendar id="m_resp_ftrabajo" value="#{panelResponsablesBean.actividadSegumiento.ftrabajo}" label="Fecha de Trabajo" showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode" required="true"/>
+                <p:message for="m_resp_ftrabajo"/>
 
                 <p:outputLabel for="m_resp_finicio" value="Fecha de Inicio: "/>
-                <p:calendar id="m_resp_finicio" value="#{panelResponsablesBean.actividadEmpleado.finicio}" label="Fecha de Inicio" showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode" required="true"/>
+                <p:calendar id="m_resp_finicio" value="#{panelResponsablesBean.actividadEmpleado.finicio}" label="Fecha de Inicio" showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode" required="true" readonly="${inicioBean.permiteVista}"/>
                 <p:message for="m_resp_finicio"/>
 
-                <p:outputLabel for="m_resp_ffin" value="Fecha de Finalización: "/>
-                <p:calendar id="m_resp_ffin" value="#{panelResponsablesBean.actividadEmpleado.ffin}" label="Fecha de Finalización " showButtonPanel="true" pattern="dd/MM/yyyy" effect="explode" required="true"/>
+                <p:outputLabel for="m_resp_ffin" value="Días de Plazo: "/>
+                <p:inputText id="m_resp_ffin" value="#{panelResponsablesBean.plazo}" label="Días de Plazo " required="true" readonly="${inicioBean.permiteVista}"/>
                 <p:message for="m_resp_ffin"/>
 
             </p:panelGrid>
             <f:facet name="footer"> 
-                <p:commandButton actionListener="#{panelResponsablesBean.guardarResponsable(evento)}" value="Guardar" update="@form" icon="ui-icon-disk"/>
+                <p:commandButton actionListener="#{panelResponsablesBean.guardarResponsable(evento)}" value="Guardar" update="@form" icon="ui-icon-disk" disabled="#{!panelResponsablesBean.habilitaGuardar}"/>
                 <p:commandButton actionListener="#{panelResponsablesBean.cancelar()}" immediate="true" value="Cancelar" update="@form" icon="ui-icon-cancel"/>
             </f:facet>
         </p:panel>

@@ -45,7 +45,7 @@ public class PanelExpectativasBean extends BotonesBean implements Serializable {
     private UsuarioServicio usuarioServicio;
     @EJB
     private ProyectoServicio proyectoServicio;
-    private String ENTIDAD = "Panel de Expectativas";
+    private String ENTIDAD = "Expectativas";
     private Usuario usrSesion;
     private Empleado emplSesion;
     private Expectativa expectativa;

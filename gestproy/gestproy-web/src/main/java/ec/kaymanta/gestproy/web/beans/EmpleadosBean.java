@@ -52,7 +52,6 @@ public class EmpleadosBean extends BotonesBean implements Serializable {
     public void postConstructor() {
 
         super.sinSeleccion();
-        this.usuarios = this.usuarioServicio.obtenerUsuarios();
         this.empleados = this.empleadoServicio.obtener();
         this.usrSesion = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario");
 
@@ -116,8 +115,7 @@ public class EmpleadosBean extends BotonesBean implements Serializable {
 
     public void guardar(ActionEvent evento) {
         try {
-            if (super.getEnRegistro()) {
-                this.empleado.setCodigo(codigoUsuario);
+            if (super.getEnRegistro()) {               
                 this.empleado.setEstado("A");
                 this.empleado.setUsrCreacion(usrSesion.getCodigo());
                 this.empleado.setFcreacion(new Date());

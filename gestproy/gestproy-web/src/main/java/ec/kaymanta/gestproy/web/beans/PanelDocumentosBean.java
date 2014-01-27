@@ -70,7 +70,7 @@ public class PanelDocumentosBean extends BotonesBean implements Serializable {
     private InstitucionControlServicio institucionControlServicio;
     @EJB
     private TipoDocumentoServicio tipoDocumentoServicio;
-    private String ENTIDAD = "Panel de Documentos";
+    private String ENTIDAD = "Documentos";
     private Usuario usrSesion;
     private Empleado emplSesion;
     private List<InstitucionControl> institucionesControl;

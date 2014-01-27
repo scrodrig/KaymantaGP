@@ -45,7 +45,7 @@ public class PanelRiesgosBean extends BotonesBean implements Serializable {
     private UsuarioServicio usuarioServicio;
     @EJB
     private ProyectoServicio proyectoServicio;
-    private String ENTIDAD = "Panel de Riesgos";
+    private String ENTIDAD = "Riesgos";
     private Usuario usrSesion;
     private Empleado emplSesion;
     private Riesgo riesgo;

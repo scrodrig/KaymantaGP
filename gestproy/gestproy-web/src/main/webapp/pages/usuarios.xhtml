@@ -11,7 +11,7 @@
 
     <ui:define name="cuerpo">
         <p:dataTable id="usuarios"  value="#{usuariosBean.usuarios}" var="usuario" selection="#{usuariosBean.usuarioSeleccionado}" selectionMode="single" scrollable="true" 
-                     rowKey="#{usuario.codigo}" style="width: 800px"  scrollWidth="false"
+                     rowKey="#{usuario.codigo}" style="width: 600px"  scrollWidth="false"
                      paginator="true" rows="10" paginatorPosition="bottom"
                      paginatorTemplate=" {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                      emptyMessage="No se ha registrado ningún Usuario" rendered="#{not (usuariosBean.enRegistro or usuariosBean.enEdicion or usuariosBean.enAuditoria)}" >
@@ -22,13 +22,13 @@
             <f:facet name="header">
                 Usuarios Empleados
             </f:facet>
-            <p:column headerText="Código Usuario" style="width: 80px">
-                #{usuario.codigo}
+            <p:column headerText="Empleado" style="width: 80px">
+                #{usuariosBean.getNombreEmpleado(usuario.codigo)}
             </p:column>
-            <p:column headerText="Nombre Usuario" style="width: 100px">
+            <p:column headerText="Nombre Usuario" style="width: 90px">
                 #{usuario.usuario}
             </p:column>
-            <p:column headerText="Último Ingreso"  style="width: 100px">
+            <p:column headerText="Último Ingreso"  style="width: 70px;text-align: right">
                 <h:outputLabel value="#{usuario.fechaUltAcceso}">
                     <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-05:00"/>
                 </h:outputLabel>
@@ -94,12 +94,13 @@
 
 
 
-        <p:panel id="nuevoUsr" header="Registro de Usuario" rendered="#{usuariosBean.enRegistro}" style="width: 800px">
-            <p:panelGrid columns="3">
-                <p:outputLabel for="codigo" value="Cédula"/>
-                <p:inputText id="codigo" value="#{usuariosBean.usuario.codigo}" label="Cédula" required="true">
-                    <f:validateLength minimum="10" maximum="10" />                  
-                </p:inputText> 
+        <p:panel id="nuevoUsr" header="Registro de Usuario" rendered="#{usuariosBean.enRegistro}" style="width: 700px">
+            <p:panelGrid columns="3">                
+                <p:outputLabel for="codigo" value="Usuario:"/>
+                <p:selectOneMenu id="codigo" value="#{usuariosBean.codigoEmpleado}" label="Usuario" required="true">
+                    <f:selectItem itemLabel="Seleccione..." itemValue="" /> 
+                    <f:selectItems value="#{usuariosBean.empleados}" var="empleado" itemLabel="#{empleado.nombre}" itemValue="#{empleado.codigo}"/>
+                </p:selectOneMenu>
                 <p:message for="codigo" />
 
                 <p:outputLabel for="usuario" value="Nombre Usuario:"/>                
@@ -135,7 +136,7 @@
 
 
 
-        <p:panel id="modificarUsr" header="Edición de Usuario" rendered="#{usuariosBean.enEdicion}" style="width: 800px">
+        <p:panel id="modificarUsr" header="Edición de Usuario" rendered="#{usuariosBean.enEdicion}" style="width: 700px">
             <p:panelGrid columns="3">
 
                 <p:outputLabel for="m_codigo" value="Código:"/>

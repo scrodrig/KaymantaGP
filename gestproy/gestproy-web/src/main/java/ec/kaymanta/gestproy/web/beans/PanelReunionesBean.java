@@ -42,7 +42,7 @@ public class PanelReunionesBean extends BotonesBean implements Serializable {
     private UsuarioServicio usuarioServicio;
     @EJB
     private ProyectoServicio proyectoServicio;
-    private String ENTIDAD = "Panel de Reuniones";
+    private String ENTIDAD = "Reuniones";
     private Usuario usrSesion;
     private Empleado emplSesion;
     private Reunion reunion;

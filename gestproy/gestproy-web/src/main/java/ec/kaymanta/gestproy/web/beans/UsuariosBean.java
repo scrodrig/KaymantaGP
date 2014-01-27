@@ -4,10 +4,12 @@
  */
 package ec.kaymanta.gestproy.web.beans;
 
+import ec.kaymanta.gestproy.modelo.Empleado;
 import ec.kaymanta.gestproy.modelo.Rol;
 import ec.kaymanta.gestproy.modelo.Usuario;
 import ec.kaymanta.gestproy.modelo.UsuarioRol;
 import ec.kaymanta.gestproy.modelo.UsuarioRolPK;
+import ec.kaymanta.gestproy.servicio.EmpleadoServicio;
 import ec.kaymanta.gestproy.servicio.RolServicio;
 import ec.kaymanta.gestproy.servicio.UsuarioRolServicio;
 import ec.kaymanta.gestproy.servicio.UsuarioServicio;
@@ -42,8 +44,11 @@ public class UsuariosBean extends BotonesBean implements Serializable {
     @EJB
     private RolServicio rolServicio;
     @EJB
+    private EmpleadoServicio empleadoServicio;
+    @EJB
     private UsuarioRolServicio usuarioRolServicio;
     private List<Usuario> usuarios;
+    private List<Empleado> empleados;
     private Usuario usuario;
     private Usuario usuarioSeleccionado;
     private Usuario respaldo;
@@ -62,6 +67,7 @@ public class UsuariosBean extends BotonesBean implements Serializable {
     private List<String> rolesAIngresar;
     private List<Rol> rolesEliminar;
     private List<Rol> rolesIngresar;
+    private String codigoEmpleado;
 
     /**
      * PostConstructor of the function, it launchs after the constructor
@@ -72,6 +78,7 @@ public class UsuariosBean extends BotonesBean implements Serializable {
 
         super.sinSeleccion();
         this.usuarios = this.usuarioServicio.obtenerUsuarios();
+        this.empleados=this.empleadoServicio.obtener();
         this.usrSesion = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario");
     }
 
@@ -157,13 +164,28 @@ public class UsuariosBean extends BotonesBean implements Serializable {
             }
         }
     }
+    
+    public String getNombreEmpleado(String usr) {
+        if (usr == null || "".equals(usr)) {
+            return "No asignado";
+        } else {
+            try {
+                empleadoServicio.findByID(usr);
+                return empleadoServicio.findByID(usr).getNombre();
+            } catch (NullPointerException e) {
+                return "No asignado";
+            }
+        }
+    }
 
     public void guardar(ActionEvent evento) {
         try {
             if (super.getEnRegistro()) {
                 this.usuario.setUsrCreacion(usrSesion.getCodigo());
                 /*PICKLIST ROLES*/
+                //this.empleadoServicio.findByID(codigoEmpleado);
                 this.rolesSeleccionados = this.getListRolByNameString(rolesDestinoString);
+                this.usuario.setCodigo(codigoEmpleado);
                 this.usuario.setFcreacion(new Date());
                 this.usuario.setUsuario(usuario.getUsuario().toLowerCase());
                 this.usuarioServicio.crear(this.usuario);
@@ -399,6 +421,24 @@ public class UsuariosBean extends BotonesBean implements Serializable {
     public void setUsuariosRoles(List<UsuarioRol> usuariosRoles) {
         this.usuariosRoles = usuariosRoles;
     }
+
+    public String getCodigoEmpleado() {
+        return codigoEmpleado;
+    }
+
+    public void setCodigoEmpleado(String codigoEmpleado) {
+        this.codigoEmpleado = codigoEmpleado;
+    }
+
+    public List<Empleado> getEmpleados() {
+        return empleados;
+    }
+
+    public void setEmpleados(List<Empleado> empleados) {
+        this.empleados = empleados;
+    }
+    
+    
 
     public void onTransfer(TransferEvent event) {
         for (Object item : event.getItems()) {

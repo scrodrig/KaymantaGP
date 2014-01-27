@@ -58,7 +58,7 @@ public class PanelGastosBean extends BotonesBean implements Serializable {
     private GastoServicio gastoServicio;
     @EJB
     private TipoGastoServicio tipoGastoServicio;
-    private String ENTIDAD = "Panel de Gastos del Proyecto";
+    private String ENTIDAD = "Gastos";
     private Usuario usrSesion;
     private Empleado emplSesion;
     private Proyecto proyecto;

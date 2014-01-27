@@ -13,7 +13,7 @@
         <p:dataTable id="tipos"  value="#{tiposDocumentoBean.tipos}" var="tipoDocumento" selection="#{tiposDocumentoBean.tipoDocumentoSeleccionado}" selectionMode="single" scrollable="true" 
                      rowKey="#{tipoDocumento.codigo}" style="width: 500px" scrollWidth="false"
                      paginator="true" rows="10"   paginatorPosition="bottom"
-                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                       emptyMessage="No se ha registrado ninguna Región" rendered="#{not (tiposDocumentoBean.enRegistro or tiposDocumentoBean.enEdicion)}" >
 
             <p:ajax event="rowSelect" listener="#{tiposDocumentoBean.filaSeleccionada(evento)}" update="tipos"/>
@@ -57,7 +57,7 @@
                 <p:message for="nombre" />
                 
                 <p:outputLabel for="descripcion" value="Descripción:"/>
-                <p:inputTextarea id="descripcion" cols="30" rows="20" value="#{tiposDocumentoBean.tipoDocumento.descripcion}" label="Descripción" required="true" />
+                <p:inputTextarea id="descripcion" cols="20" rows="10" value="#{tiposDocumentoBean.tipoDocumento.descripcion}" label="Descripción" required="true" />
                 <p:message for="descripcion" />
 
             </p:panelGrid>
@@ -80,7 +80,7 @@
                 <p:message for="m_nombre" />
                 
                 <p:outputLabel for="m_descripcion" value="Descripción:"/>
-                <p:inputTextarea id="m_descripcion" cols="30" rows="20" value="#{tiposDocumentoBean.tipoDocumento.descripcion}" label="Descripción" required="true" />
+                <p:inputTextarea id="m_descripcion" cols="20" rows="10" value="#{tiposDocumentoBean.tipoDocumento.descripcion}" label="Descripción" required="true" />
                 <p:message for="m_descripcion" />
 
 

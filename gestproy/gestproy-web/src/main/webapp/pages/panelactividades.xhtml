@@ -13,7 +13,7 @@
 
     <ui:define name="titulo">Actividades</ui:define> 
 
-    <ui:define name="arbol">#{panelActividadesBean.emplSesion.nombre} &#8594; #{panelActividadesBean.proyecto.nombreProyecto} &#8594; #{panelActividadesBean.ENTIDAD} </ui:define> 
+    <ui:define name="arbol">#{panelActividadesBean.emplSesion.nombre} &#8594; Proyectos &#8594; #{panelActividadesBean.ENTIDAD} </ui:define> 
     <!--EXPECTATIVA-->
 
     <ui:define name="tabla">
@@ -198,19 +198,16 @@
                 </p:toolbar>
 
             </f:facet>
-            <p:column headerText="Actividad" style="width: 100px; font-size: 8pt">
+            <p:column headerText="Actividad" style="width: 150px; font-size: 8pt">
                 #{actividad.nombreActividad}
             </p:column>                  
             <p:column headerText="Avance" style="width:50px; font-size: 8pt;text-align: right">
                 <h:outputLabel value="#{actividad.avance} %" style="color: #{panelActividadesBean.getColor(actividad.avance)}"/>
             </p:column>
             <p:column headerText="Hor. Estimadas" style="width: 70px; font-size: 8pt;text-align: right">
-                #{actividad.gethDiaEst()}
-            </p:column>
-            <p:column headerText="H/Trab Real" style="width: 70px; font-size: 8pt;text-align: right">
-                #{actividad.gethTrabReal()}
-            </p:column>
-            <p:column headerText="Tra. Total" style="width: 70px; font-size: 8pt;text-align: right">
+                #{actividad.gettTotalEst()}
+            </p:column>            
+            <p:column headerText="Trab. Total" style="width: 70px; font-size: 8pt;text-align: right">
                 #{actividad.gettTotalReal()}
             </p:column>
             <p:column headerText="F.Creación" style="width: 80px; font-size: 8pt;text-align: right">

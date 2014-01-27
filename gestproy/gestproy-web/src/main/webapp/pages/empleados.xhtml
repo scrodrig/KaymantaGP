@@ -22,13 +22,13 @@
             <f:facet name="header">
                 Empleados
             </f:facet>
-            <p:column headerText="Usuario" style="width: 50px">
-                #{empleadosBean.getUsrAuditoria(empleado.codigo)}
+            <p:column headerText="Cédula" style="width: 80px">
+                #{empleado.codigo}
             </p:column>
             <p:column headerText="Nombre Empleado" style="width: 120px">
                 #{empleado.nombre}
             </p:column>
-            <p:column headerText="Fecha Nacimiento" style="width: 100px">
+            <p:column headerText="F. Nacimiento" style="width: 80px">
                 <h:outputLabel value="#{empleado.fnacimiento}">
                     <f:convertDateTime pattern="dd/MM/yyyy" />
                 </h:outputLabel>
@@ -108,11 +108,10 @@
 
         <p:panel id="nuevoUsr" header="Registro de Empleado" rendered="#{empleadosBean.enRegistro}" style="width: 800px">
             <p:panelGrid columns="3">
-                <p:outputLabel for="codigo" value="Usuario"/>
-                <p:selectOneMenu id="codigo" value="#{empleadosBean.codigoUsuario}" label="Usuario" required="true">
-                    <f:selectItem itemLabel="Seleccione..." itemValue="" /> 
-                    <f:selectItems value="#{empleadosBean.usuarios}" var="usuario" itemLabel="#{usuario.usuario}" itemValue="#{usuario.codigo}"/>
-                </p:selectOneMenu>
+                <p:outputLabel for="codigo" value="Cédula"/>
+                <p:inputText id="codigo" value="#{empleadosBean.empleado.codigo}" label="Cédula" required="true">
+                    <f:validateLength minimum="10" maximum="10" />                  
+                </p:inputText> 
                 <p:message for="codigo" />
 
                 <p:outputLabel for="empleado" value="Nombre Empleado:"/>                
