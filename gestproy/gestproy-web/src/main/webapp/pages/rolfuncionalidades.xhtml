@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/templateMantenimiento.xhtml"
+                >
+    <ui:define name="titulo">Roles Funcionalidades</ui:define> 
+
+    <ui:define name="cuerpo">
+
+        <p:panel id="panelSeleccion" header="Buscar" style="width: 500px"
+                 rendered="#{not(rolFuncionalidadBean.enRegistro or rolFuncionalidadBean.enEdicion)}"> 
+            <p:focus context="panelSeleccion"/> 
+            <h:panelGrid columns="5" >
+                <h:outputLabel for="rolB" value="Rol " />  
+                <p:selectOneMenu id="rolB" value="#{rolFuncionalidadBean.rol}" label="Rol" >
+                    <f:selectItem itemValue="0" itemLabel="Seleccione una."/>
+                    <f:selectItems value="#{rolFuncionalidadBean.rolesB}" var="i" itemValue="#{i.codigo}" itemLabel="#{i.nombre}" />
+                    <p:ajax update="moduloB"  listener="#{rolFuncionalidadBean.actualizarModulosB(evento)}" />  
+                </p:selectOneMenu>
+                <h:outputLabel for="moduloB" value="Módulo " />  
+                <p:selectOneMenu id="moduloB" value="#{rolFuncionalidadBean.modulo}" label="Módulo" >
+                    <f:selectItem itemValue="0" itemLabel="Seleccione uno."/>
+                    <f:selectItems value="#{rolFuncionalidadBean.modulosB}" var="i" itemValue="#{i.codigo}" itemLabel="#{i.nombre}" />
+                </p:selectOneMenu>
+                <p:commandButton  value="Buscar" update="@form" actionListener="#{rolFuncionalidadBean.cargarTabla(evento)}" />  
+            </h:panelGrid>
+        </p:panel> 
+
+        <p:spacer height="10"/>
+        <p:dataTable id="tabla" var="funcionalidad" value="#{rolFuncionalidadBean.funcionalidades}" rowKey="#{funcionalidad.codigo}"  
+                     selection="#{rolFuncionalidadBean.funcionalidadSeleccionado}" selectionMode="single" scrollWidth="false"  paginatorPosition="bottom"
+                     scrollable="true" scrollHeight="250" style="width: 500px" emptyMessage="No se ha registrado ninguna Funcionalidad"
+                     rendered="#{not(rolFuncionalidadBean.enRegistro or rolFuncionalidadBean.enEdicion)}" >
+            <p:ajax event="rowSelect" listener="#{rolFuncionalidadBean.filaSeleccionada(evento)}" update="tabla"/>
+            <p:ajax event="rowUnselect" listener="#{rolFuncionalidadBean.filaSeleccionada(evento)}" update="tabla"/>
+            <f:facet name="header">  
+                Administración de Funcionalidades  
+            </f:facet>
+            <p:column headerText="Código" width="80">  
+                #{funcionalidad.codigo}  
+            </p:column>            
+            <p:column headerText="Nombre" width="150">  
+                #{funcionalidad.nombre}  
+            </p:column>  
+            <f:facet name="footer">  
+                <p:commandButton  value="Nuevo" update="@form" actionListener="#{rolFuncionalidadBean.nuevo(evento)}" disabled="#{rolFuncionalidadBean.disabledNuevo}"/>  
+                <p:commandButton  value="Modificar" update="@form" actionListener="#{rolFuncionalidadBean.modificar(evento)}" disabled="#{rolFuncionalidadBean.disabledModificar}"/>  
+                <p:commandButton  value="Eliminar" onclick="confirmation.show();" actionListener="#{rolFuncionalidadBean.eliminar(evento)}" disabled="#{rolFuncionalidadBean.disabledEliminar}"/>  
+            </f:facet>
+        </p:dataTable>
+
+
+        <p:confirmDialog id="confirmDialog" message="¿Seguro desea eliminar?"  
+                         header="Eliminación" severity="alert" widgetVar="confirmation">  
+            <p:commandButton id="confirm" value="Si, seguro" update="@form " oncomplete="confirmation.hide()"  
+                             actionListener="#{rolFuncionalidadBean.eliminar(evento)}"  />  
+            <p:commandButton id="decline" value="No" onclick="confirmation.hide();" type="button" />   
+
+        </p:confirmDialog> 
+        
+        
+        <p:spacer height="10"/>
+        <p:panel id="panelEdicion" header="Edición de Funcionalidades" style="width: 500px"
+                 rendered="#{rolFuncionalidadBean.enRegistro or rolFuncionalidadBean.enEdicion}"> 
+            <p:focus context="panelEdicion"/> 
+            <h:panelGrid columns="3" >
+                <h:outputLabel for="rol" value="Rol: *" />  
+                <p:inputText id="rol" value="#{rolFuncionalidadBean.rol}" label="Rol" required="false"
+                             style="width: 200px" readonly="true">  
+                </p:inputText>  
+                <p:message for="rol" />
+                <h:outputLabel for="modulo" value="Módulo *" />  
+                <p:inputText id="modulo" value="#{rolFuncionalidadBean.funcionalidad.modulo.nombre}" label="Módulo" required="false"
+                             style="width: 200px" readonly="true">  
+                </p:inputText>  
+                <p:message for="modulo" />
+                
+                <h:outputLabel for="codigo" value="Código: *" rendered="#{rolFuncionalidadBean.enEdicion}"/>  
+                <p:inputText id="codigo" value="#{rolFuncionalidadBean.funcionalidad.codigo}" label="Código" required="true"
+                             style="width: 100px" disabled="#{rolFuncionalidadBean.enEdicion}" rendered="#{rolFuncionalidadBean.enEdicion}"> 
+                    <f:convertNumber integerOnly="true" maxIntegerDigits="3" />
+                </p:inputText>  
+                <p:message for="codigo" rendered="#{rolFuncionalidadBean.enEdicion}"/>
+
+                <h:outputLabel for="nombre" value="Nombre: *" />  
+                <p:inputText id="nombre" value="#{rolFuncionalidadBean.funcionalidad.nombre}" label="Nombre" required="true"
+                             style="width: 200px" maxlength="50" />
+                <p:message for="nombre" />
+                
+                <h:outputLabel for="url" value="Url: *" />  
+                <p:inputText id="url" value="#{rolFuncionalidadBean.funcionalidad.descripcion}" label="Url" required="true"
+                             style="width: 200px" maxlength="50" />
+                <p:message for="url" />
+
+            </h:panelGrid>
+            <h:panelGrid columns="2" cellspacing="5px">
+                <p:commandButton value="Guardar" update="@form"   
+                                 actionListener="#{rolFuncionalidadBean.guardar(evento)}" />
+                <p:commandButton value="Cancelar" update="@form"   
+                                 actionListener="#{rolFuncionalidadBean.cancelar()}" immediate="true"/>
+            </h:panelGrid>  
+        </p:panel>
+
+    </ui:define>
+
+</ui:composition>

@@ -83,6 +83,11 @@ public class ParroquiaBean extends BotonesBean implements Serializable {
      */
     public void filaSeleccionada(ActionEvent evento) {
         if (parroquiaSeleccionado instanceof Parroquia) {
+            try {
+                this.parroquia = new Parroquia();
+                this.parroquia = (Parroquia) BeanUtils.cloneBean(this.parroquiaSeleccionado);
+            } catch (Exception e) {
+            }
             super.seleccionadoUno();
         } else {
             super.sinSeleccion();

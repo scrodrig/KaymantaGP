@@ -35,7 +35,7 @@ public class FuncionalidadDAO extends DefaultGenericDAOImple<Funcionalidad, Long
         super(Funcionalidad.class);
 
     }
-    
+
     public List<Funcionalidad> getByModulo(Modulo modulo) {
         String sql = "SELECT obj FROM Funcionalidad obj WHERE obj.modulo=?1";
         Query qry = this.getEntityManager().createQuery(sql);

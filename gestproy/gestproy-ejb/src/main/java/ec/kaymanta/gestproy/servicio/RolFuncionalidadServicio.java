@@ -5,6 +5,8 @@
 package ec.kaymanta.gestproy.servicio;
 
 import ec.kaymanta.gestproy.dao.RolFuncionalidadDAO;
+import ec.kaymanta.gestproy.modelo.Funcionalidad;
+import ec.kaymanta.gestproy.modelo.Rol;
 import ec.kaymanta.gestproy.modelo.RolFuncionalidad;
 import ec.kaymanta.gestproy.modelo.RolFuncionalidadPK;
 import java.util.List;
@@ -43,6 +45,10 @@ public class RolFuncionalidadServicio {
      */
     public RolFuncionalidad findByID(RolFuncionalidadPK codigo) {
         return this.rolFuncionalidadDAO.findById(codigo, false);
+    }
+    
+    public RolFuncionalidad findByID(Rol rol,Funcionalidad funcionalidad) {
+        return this.rolFuncionalidadDAO.findByIdObj(funcionalidad, rol);
     }
 
     /**
