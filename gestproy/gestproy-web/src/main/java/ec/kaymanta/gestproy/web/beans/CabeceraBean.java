@@ -4,6 +4,7 @@
  */
 package ec.kaymanta.gestproy.web.beans;
 
+import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -16,7 +17,7 @@ import javax.servlet.http.HttpSession;
  */
 @ManagedBean
 @SessionScoped
-public class CabeceraBean {
+public class CabeceraBean implements Serializable{
 
     private Long modulo;
     private String nombreFuncionalidad;

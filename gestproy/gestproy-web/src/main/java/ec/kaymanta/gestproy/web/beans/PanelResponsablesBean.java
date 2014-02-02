@@ -27,6 +27,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -274,7 +275,7 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
             this.actividadSegumiento = new ActividadSegumiento();
             this.actividadSegumiento.setFtrabajo(new Date());
             this.plazo = this.numeroDias(this.actividadEmpleado.getFinicio(), this.actividadEmpleado.getFfin());
-            habilitaGuardar=compararResponsable(actividadEmpleado);
+            habilitaGuardar = compararResponsable(actividadEmpleado);
             super.modificar();
         } catch (Exception ex) {
             MensajesGenericos.errorCopyProperties();
@@ -294,6 +295,12 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
                 DateTime dt1 = new DateTime(this.actividadEmpleado.getFinicio());
                 DateTime dt2 = new DateTime();
                 dt2 = dt1.plusDays(plazo);
+                for (int t = 0; t < fechasNoLaborables.size(); t++) {
+                    if (fechasNoLaborables.get(t).getFecha().compareTo(dt2.toDate()) == 0) {
+                        dt2 = dt2.plusDays(1);
+                    }
+                }
+
                 this.actividadEmpleado.setFfin(dt2.toDate());
                 //MEANWHILE                
                 this.actividadEmpleado.setAvance(BigDecimal.ZERO);
@@ -316,8 +323,6 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
                 int i = this.actividadEmpleados.indexOf(this.actividadEmpleado);
                 this.actividadEmpleado.setUsrModificacion(usrSesion.getCodigo());
                 this.actividadEmpleado.setFmodificacion(new Date());
-                //this.actividadEmpleado.sethTrabReal(BigDecimal.valueOf(this.actividadEmpleado.gettTotalReal()*days));
-                //this.actividadEmpleado.sethTrabEst(BigDecimal.valueOf(actividadEmpleado.gethDiaEst()));
                 this.actividadEmpleado.settTotalReal(horasAnterior + this.actividadEmpleado.gettTotalReal());
                 days = numeroDias(actividadEmpleado.getFinicio(), new Date());
                 this.actividadEmpleado.sethDiaReal(this.actividadEmpleado.gettTotalReal() / days);
@@ -824,6 +829,4 @@ public class PanelResponsablesBean extends BotonesBean implements Serializable {
     public void setHabilitaGuardar(boolean habilitaGuardar) {
         this.habilitaGuardar = habilitaGuardar;
     }
-    
-    
 }

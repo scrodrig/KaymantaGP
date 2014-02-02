@@ -59,7 +59,7 @@ public class Usuario implements Serializable {
      * Fecha de último acceso al sistema.. Representa a la columna
      * FECHA_ULT_ACCESO.
      */
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "FECHA_ULT_ACCESO", nullable = false)
     private Date fechaUltAcceso;
     /**

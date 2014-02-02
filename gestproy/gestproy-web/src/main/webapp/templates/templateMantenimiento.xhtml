@@ -14,12 +14,14 @@
     <h:body>
         <f:view locale="es_ES">
             <div id="global">
+                
 
                 <div>
                     <img src="#{facesContext.externalContext.requestContextPath}/images/footer.png"/>
                 </div>
                 <br/>
                 <br/>
+                <ui:insert name="welcome"/>
                 <ui:include src="/pages/cabecera.xhtml"/>
 
                 <div id="cuerpo">
@@ -29,8 +31,8 @@
                             <table align="center" border="0" width="1000px">
                                 <tr align="center">
                                     <td align="center">    
-                                        <ui:insert name="cuerpo"/>
-                                    </td>
+                                <ui:insert name="cuerpo"/>
+                                </td>
                                 </tr>
                             </table>
                             <p:messages id="messages" showDetail="true"  autoUpdate="true"  severity="info,error" globalOnly="true"/>

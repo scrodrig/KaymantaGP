@@ -234,7 +234,10 @@
             </p:column>
             <p:column headerText="H. Estimadas" style="width: 100px;text-align: right;font-size: 8pt">
                 #{subActividad.gettTotalEst()}
-            </p:column>                       
+            </p:column>
+            <p:column headerText="H. Real" style="width: 50px;text-align: right;font-size: 8pt">
+                #{subActividad.gettTotalReal()}
+            </p:column>
             <p:column headerText="F.Inicio" style="width: 80px;text-align: right;font-size: 8pt">
                 <h:outputLabel value="#{subActividad.fcreacion}">
                     <f:convertDateTime pattern="dd/MM/yyyy" />
