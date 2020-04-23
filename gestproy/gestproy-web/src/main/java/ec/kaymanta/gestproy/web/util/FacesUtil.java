@@ -15,7 +15,7 @@ import javax.faces.context.FacesContext;
 
 /**
  *
- * @author  schubert_david
+ * @author  schubert_david Cynthia Escobar
  */
 public class FacesUtil {
 
@@ -35,7 +35,7 @@ public class FacesUtil {
     }
 
     /**
-     * Obtiene un componente del árbol de componentes.
+     * Obtiene un componente del ï¿½rbol de componentes.
      *
      * @param id Id del componente en la interfaz de usuario.
      * @return UIComponent
@@ -46,7 +46,7 @@ public class FacesUtil {
 
     /**
      * Obtiene la referencia a cualquier tipo de Bean (request, session o
-     * application); los beans de scope 'request' deben estar ejecutándose para
+     * application); los beans de scope 'request' deben estar ejecutï¿½ndose para
      * poder acceder a ellos, en cambio que los Beans de scope 'session' pueden
      * ser accedidos incluso si aun no han sido cargados en session.
      *
@@ -62,10 +62,10 @@ public class FacesUtil {
     }
 
     /**
-     * Permite crear una expresión de valor para asociarlo a los atributos de
+     * Permite crear una expresiï¿½n de valor para asociarlo a los atributos de
      * los componentes de JSF.
      *
-     * @param expresion EL Expresión que representa el valor que se desea
+     * @param expresion EL Expresiï¿½n que representa el valor que se desea
      * asociar.
      * @return Objeto que representa el valor asociado.
      */
@@ -77,11 +77,11 @@ public class FacesUtil {
     }
 
     /**
-     * Permite asociar un método a un atributo de los componentes de JSF.
+     * Permite asociar un mï¿½todo a un atributo de los componentes de JSF.
      *
-     * @param expresion EL Expresión que representa la referencia al método .
-     * @param argtypes Lista de argumentos del método.
-     * @return Objeto que representa el método asociado.
+     * @param expresion EL Expresiï¿½n que representa la referencia al mï¿½todo .
+     * @param argtypes Lista de argumentos del mï¿½todo.
+     * @return Objeto que representa el mï¿½todo asociado.
      */
     @SuppressWarnings("rawtypes")
     public static MethodExpression crearMethodExpression(String expresion, Class[] argtypes) {
@@ -92,12 +92,12 @@ public class FacesUtil {
     }
 
     /**
-     * Método que permite agregar un mensaje global informativo.
+     * Mï¿½todo que permite agregar un mensaje global informativo.
      *
      * @param mensaje Mensaje informativo.
      */
     public static void addMessageInfo(String mensaje) {
-        facesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Información", mensaje));
+        facesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informaciï¿½n", mensaje));
     }
 
     /**
